@@ -1,0 +1,21 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Полки — Empire</title><link rel="stylesheet" href="assets/style.css"></head><body><header><div class="container brand"><div class="eagle">♛</div><div class="logo">EMPIRE<small>Сообщество Mount &amp; Blade: Napoleonic Wars</small></div></div></header>
+<div class="container"><nav>
+<a class="" href="index.html">Главная</a>
+<div class="dropdown"><a class="active" href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="regiments.html#my">Мои полки</a></div></div>
+<div class="dropdown"><a class="" href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html">Текущие</a><a href="campaigns.html#archive">Архив</a></div></div>
+<a class="" href="ranking.html">Рейтинг</a>
+<div class="dropdown"><a class="" href="forum.html">Форум</a><div class="dropdown-menu"><a href="forum.html">Обсуждения</a><a href="forum.html#guides">Гайды</a></div></div>
+<a class="" href="alliances.html">Союзы</a>
+<a class="login" href="#" data-login>♙ &nbsp; Войти</a>
+</nav><main><section class="page-title"><h1>ПОЛКИ</h1><p>Найди своё подразделение, изучи состав и вступи в строй.</p></section>
+<div class="toolbar"><input class="input" placeholder="Поиск полка..." id="regSearch"><select class="select"><option>Все нации</option><option>Франция</option><option>Великобритания</option><option>Россия</option></select><button class="btn primary">Создать полк</button></div>
+<div class="list" id="regList">
+<div class="list-card" data-name="1st Regiment"><span class="badge">Франция</span><h2>1st Regiment</h2><p>42 бойца · Командир: Imperator · Рейтинг 1840</p></div>
+<div class="list-card" data-name="95th Rifles"><span class="badge">Великобритания</span><h2>95th Rifles</h2><p>37 бойцов · Командир: Wellington · Рейтинг 1715</p></div>
+<div class="list-card" data-name="84e Régiment"><span class="badge">Франция</span><h2>84e Régiment</h2><p>34 бойца · Командир: Marquis · Рейтинг 1630</p></div>
+<div class="list-card" data-name="Preobrazhensky"><span class="badge">Россия</span><h2>Preobrazhensky</h2><p>31 боец · Командир: Volk · Рейтинг 1590</p></div>
+</div>
+</main></div>
+<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div><div>Главная · Полки · Кампании · Рейтинг · Форум · Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
+<div class="modal-backdrop" id="loginModal"><div class="modal"><button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь для доступа к личному кабинету и функциям сообщества.</p><label>Логин или email</label><input id="loginName" placeholder="Введите логин"><label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль"><div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div></div></div><div class="toast" id="toast"></div>
+<script src="assets/app.js"></script></body></html>

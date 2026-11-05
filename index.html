@@ -1,236 +1,27 @@
-<!doctype html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EMPIRES — военно-игровое сообщество</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=EB+Garamond:wght@500;600;700&display=swap');
-
-:root {
-  --gold:#e7b94f;
-  --gold-light:#ffe18a;
-  --gold-dark:#7c4f0d;
-  --black:#0e0b08;
-  --black2:#21170e;
-  --paper:#ead3a4;
-  --paper-light:#f5e4bd;
-  --text:#f3dfad;
-}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:#111;color:var(--text)}
-body{font-family:"EB Garamond",Georgia,serif}
-button,input{font:inherit}
-a{text-decoration:none;color:inherit}
-
-.page{min-height:100vh;background:
-  linear-gradient(#21170e 0 0) top/100% 430px no-repeat,
-  linear-gradient(180deg,#c28a31 0,#ead3a4 460px,#d8b26f 100%);
-}
-
-/* ===== ONE, FULL-WIDTH HEADER ===== */
-.header{width:100%;margin:0;padding:0;background:#0d0a07;box-shadow:0 8px 25px rgba(0,0,0,.6)}
-.hero{height:340px;width:100%;position:relative;overflow:hidden;
-  background-image:url("assets/empires-header.png");
-  background-size:cover;background-position:center top;
-}
-.hero::before{content:"";position:absolute;inset:0;background:
-  linear-gradient(90deg,rgba(0,0,0,.22),transparent 22%,transparent 78%,rgba(0,0,0,.22)),
-  linear-gradient(180deg,transparent 52%,rgba(12,7,2,.65) 100%);
-}
-.hero-inner{position:absolute;inset:0;z-index:2;display:flex;justify-content:center;align-items:center}
-.logo{width:min(620px,48vw);margin-top:8px;text-align:center;padding:10px 28px 12px;
-  background:linear-gradient(180deg,rgba(12,8,4,.04),rgba(12,8,4,.75) 62%,rgba(12,8,4,.94));
-  border-radius:20px;
-}
-.eagle{font-size:64px;line-height:.7;color:#f3c75c;text-shadow:0 3px 4px #000,0 0 13px #000}
-.logo-title{font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;
-  font-size:76px;line-height:.9;letter-spacing:4px;color:#f4c75c;
-  text-shadow:0 3px 0 #3c2006,0 0 12px #000}
-.logo-sub{font-size:25px;font-weight:700;color:#f0d17c;text-shadow:0 2px 4px #000}
-.logo-motto{font-size:19px;font-style:italic;color:#f6e0ac;text-shadow:0 2px 3px #000}
-
-.factions{position:absolute;z-index:3;left:0;right:0;bottom:6px;display:grid;
-  grid-template-columns:repeat(5,1fr);gap:8px;padding:0 3.5%}
-.faction{min-height:78px;border:2px solid #9e6b18;border-radius:13px;
-  background:linear-gradient(180deg,rgba(29,19,9,.95),rgba(8,7,5,.98));
-  box-shadow:inset 0 0 0 1px #f2cc68,0 4px 12px rgba(0,0,0,.65);
-  color:#f5d995;display:flex;align-items:center;justify-content:center;gap:10px;
-  cursor:pointer;transition:.15s}
-.faction:hover,.faction.active{transform:translateY(-2px);box-shadow:inset 0 0 0 1px #fff0a2,0 6px 16px rgba(0,0,0,.75)}
-.flag{width:50px;height:31px;border:1px solid #b88a36;box-shadow:0 2px 5px #000;position:relative;flex:0 0 auto}
-.fr{background:linear-gradient(90deg,#1e3f91 0 33.33%,#fff 33.33% 66.66%,#d52d35 66.66%)}
-.ru{background:linear-gradient(#fff 0 33.33%,#2355a2 33.33% 66.66%,#cf2931 66.66%)}
-.at{background:linear-gradient(#c72832 0 33.33%,#fff 33.33% 66.66%,#c72832 66.66%)}
-.pr{background:#151515}
-.pr:after{content:"✚";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:20px}
-.gb{background:linear-gradient(25deg,#132c75 0 41%,#fff 41% 47%,#b82b35 47% 53%,#fff 53% 59%,#132c75 59%)}
-.faction b{font-size:19px;line-height:.95;text-align:left}
-
-.nav{height:72px;width:100%;display:grid;grid-template-columns:repeat(8,1fr);
-  background:linear-gradient(180deg,#302317 0,#100d09 100%);
-  border-top:2px solid #b27a22;border-bottom:2px solid #e0b84d;
-  box-shadow:0 4px 14px rgba(0,0,0,.75)}
-.nav a{position:relative;display:flex;align-items:center;justify-content:center;gap:9px;
-  color:#f2d18b;font-size:23px;font-weight:600;border-right:1px solid #73501b;
-  text-shadow:0 2px 3px #000}
-.nav a:first-child{border-left:1px solid #73501b}
-.nav a:hover,.nav a.active{color:#ffe59a;background:linear-gradient(180deg,rgba(231,185,79,.18),transparent)}
-.nav a.active:after{content:"";position:absolute;left:12%;right:12%;bottom:4px;height:3px;
-  background:#e8b94d;box-shadow:0 0 10px #e8b94d}
-
-/* ===== CONTENT ===== */
-.content{width:96%;max-width:2040px;margin:24px auto 0;display:grid;
-  grid-template-columns:1fr 2.5fr 1fr;gap:20px}
-.panel{background:linear-gradient(180deg,#21170e,#120e0a);
-  border:2px solid #a77420;border-radius:10px;
-  box-shadow:inset 0 0 0 1px #e6c56d,0 5px 18px rgba(0,0,0,.4);overflow:hidden}
-.panel-head{padding:12px 16px;border-bottom:1px solid #8c621f;
-  font-size:24px;color:#f2c85d;background:linear-gradient(#342518,#17120d);
-  text-shadow:0 2px 3px #000}
-.panel-body{padding:14px}
-.info-picture,.news-picture{height:118px;width:100%;object-fit:cover;border:1px solid #a87522;display:block}
-.stats{margin-top:8px}
-.stat{display:flex;justify-content:space-between;padding:8px 3px;border-bottom:1px solid rgba(191,145,61,.35);font-size:18px}
-.stat strong{color:#f1c65a}
-.top-title{margin:13px -14px 0;padding:8px 14px;border-top:1px solid #8b621e;
-  border-bottom:1px solid #8b621e;color:#f0c65d;font-size:21px}
-.rank{display:flex;justify-content:space-between;padding:6px 3px;font-size:17px}
-.rank span:last-child{color:#efc354}
-
-.chat{background:#ecd09a;color:#21170e}
-.chat .panel-head{background:linear-gradient(#332416,#17120d);color:#f2c85d}
-.messages{height:300px;overflow:auto;background:linear-gradient(#f6e6c0,#e7ca91);padding:4px 9px}
-.message{display:grid;grid-template-columns:54px 1fr auto;gap:10px;padding:9px 5px;
-  border-bottom:1px solid #b88a3b}
-.avatar{width:48px;height:48px;border:2px solid #9e7026;border-radius:6px;
-  display:grid;place-items:center;background:linear-gradient(135deg,#54402a,#1c140c);font-size:26px}
-.message-name{font-size:19px;font-weight:700}
-.message-text{font-size:17px;margin-top:1px}
-.message-time{font-size:14px;color:#614a2b;white-space:nowrap}
-.composer{display:flex;gap:8px;padding:10px;background:#21170e}
-.composer input{flex:1;border:2px solid #9a6b20;border-radius:6px;background:#f5e4bd;
-  padding:10px 12px;font-size:17px}
-.composer button{border:2px solid #9a6b20;border-radius:6px;padding:0 19px;
-  background:linear-gradient(#f4cb63,#986313);font-weight:700;color:#241708}
-
-.news{display:grid;grid-template-columns:115px 1fr;gap:11px;padding:11px 0;border-bottom:1px solid rgba(190,145,65,.35)}
-.news:last-child{border-bottom:0}
-.news-picture{height:82px}
-.news h3{margin:0;color:#f0c45a;font-size:19px;line-height:1.05}
-.news small{color:#e1c88e}
-.news p{margin:4px 0 0;font-size:16px;line-height:1.1}
-
-.paper{width:96%;max-width:2040px;margin:20px auto 45px;padding:17px;
-  background:linear-gradient(#ead4a7,#f2dfb7);border:2px solid #a87522;
-  box-shadow:inset 0 0 0 1px #f8e9c4,0 5px 18px rgba(0,0,0,.3);color:#26180c}
-.paper h2{margin:0 0 12px;color:#5d3b10;font-family:"Cormorant Garamond",Georgia,serif;font-size:31px}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.card{border:1px solid #b68a3e;background:rgba(255,247,222,.45);padding:12px}
-.card h3{margin:0 0 4px;color:#69440e;font-size:21px}
-.card p{margin:0;font-size:16px}
-
-@media(max-width:1050px){
-  .content{grid-template-columns:1fr 1.7fr}
-  .right{grid-column:1/-1}
-  .nav a{font-size:19px}
-  .logo-title{font-size:61px}
-}
-@media(max-width:760px){
-  .hero{height:360px}
-  .logo{width:82vw}
-  .logo-title{font-size:45px}
-  .eagle{font-size:44px}
-  .logo-sub{font-size:18px}
-  .logo-motto{font-size:14px}
-  .factions{grid-template-columns:repeat(5,120px);overflow:auto;padding:0 12px}
-  .faction{min-height:62px}
-  .faction b{font-size:13px}
-  .flag{width:38px;height:24px}
-  .nav{height:auto;grid-template-columns:repeat(4,1fr)}
-  .nav a{min-height:54px;font-size:16px}
-  .content{width:94%;grid-template-columns:1fr}
-  .right{grid-column:auto}
-  .cards{grid-template-columns:1fr}
-}
-</style>
-</head>
-<body>
-<div class="page">
-<header class="header">
-  <div class="hero" style="height:340px;background-image:url("assets/empires-header.png");background-size:cover;background-position:center top;">
-  <!-- Единственный логотип: логотип из эталонной шапки пользователя. -->
-</div>
-<nav class="nav">
-    <a class="active" href="#">⌂ Главная</a>
-    <a href="#">♛ Империи</a>
-    <a href="#">⚔ Кампании</a>
-    <a href="#">▤ Новости</a>
-    <a href="#">♟ Полки</a>
-    <a href="#">🏆 Рейтинг</a>
-    <a href="#">▣ Чат</a>
-    <a href="#">⚙ Профиль</a>
-  </nav>
-</header>
-
-<main class="content">
-  <aside class="panel">
-    <div class="panel-head">🌿 Военная информация</div>
-    <div class="panel-body">
-      <img class="info-picture" src="assets/empires-header.png" alt="">
-      <div class="stats">
-        <div class="stat"><span>🟢 Онлайн на сайте:</span><strong>124</strong></div>
-        <div class="stat"><span>♟ Игроков в игре:</span><strong>732</strong></div>
-        <div class="stat"><span>⚑ Активных полков:</span><strong>18</strong></div>
-      </div>
-      <div class="top-title">🏆 Топ полков</div>
-      <div class="rank"><span>1. 1-й Гренадерский полк</span><span>2450</span></div>
-      <div class="rank"><span>2. Лейб-гвардии</span><span>2280</span></div>
-      <div class="rank"><span>3. Имперский Легион</span><span>2105</span></div>
-    </div>
-  </aside>
-
-  <section class="panel chat">
-    <div class="panel-head">💬 Мини-чат <span style="float:right;font-size:15px;font-weight:400">Всего сообщений: 1247</span></div>
-    <div class="messages">
-      <div class="message"><div class="avatar">🎖️</div><div><div class="message-name">Император_Александр 👑</div><div class="message-text">Отличная победа сегодня! Так держать, друзья!</div></div><div class="message-time">Сегодня, 14:32</div></div>
-      <div class="message"><div class="avatar">🪖</div><div><div class="message-name">Гренадер77</div><div class="message-text">Когда следующий ивент?</div></div><div class="message-time">Сегодня, 14:28</div></div>
-      <div class="message"><div class="avatar">🎖️</div><div><div class="message-name">Maréchal ⚜️</div><div class="message-text">Франция всегда впереди! 😊</div></div><div class="message-time">Сегодня, 14:25</div></div>
-    </div>
-    <div class="composer">
-      <input placeholder="Написать сообщение..." disabled>
-      <button disabled>➤ Отправить</button>
-    </div>
-  </section>
-
-  <aside class="panel right">
-    <div class="panel-head">🪶 Последние новости <span style="float:right;font-size:14px;font-weight:400">Все новости →</span></div>
-    <div class="panel-body">
-      <article class="news">
-        <img class="news-picture" src="assets/empires-header.png" alt="">
-        <div><h3>Открытие новой кампании!</h3><small>04.11.2026</small><p>Объявляется набор участников в новую кампанию «Битва при Ватерлоо»...</p></div>
-      </article>
-      <article class="news">
-        <img class="news-picture" src="assets/empires-header.png" alt="">
-        <div><h3>Новые награды</h3><small>03.11.2026</small><p>Добавлены новые награды за участие в событиях...</p></div>
-      </article>
-    </div>
-  </aside>
-</main>
-
-<section class="paper">
-  <h2>Империи EMPIRES</h2>
-  <div class="cards">
-    <div class="card"><h3>Французская империя</h3><p>Фирменный вариант EMPIRES для полков Французской империи.</p></div>
-    <div class="card"><h3>Российская империя</h3><p>Фирменный вариант EMPIRES для полков Российской империи.</p></div>
-    <div class="card"><h3>Австрийская империя</h3><p>Фирменный вариант EMPIRES для полков Австрийской империи.</p></div>
-    <div class="card"><h3>Прусская империя</h3><p>Фирменный вариант EMPIRES для полков Прусской империи.</p></div>
-    <div class="card"><h3>Британская империя</h3><p>Фирменный вариант EMPIRES для полков Британской империи.</p></div>
-    <div class="card"><h3>Нейтральный EMPIRES</h3><p>Используется для пользователя, который пока не состоит в полку.</p></div>
-  </div>
-</section>
-</div>
-
-<script>/* Единый логотип находится в изображении шапки. */</script>
-</body>
-</html>
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Главная — Empire</title><link rel="stylesheet" href="assets/style.css"></head><body><header><div class="container brand"><div class="eagle"></div><div class="logo">EMPIRE<small>Сообщество Mount &amp; Blade: Napoleonic Wars</small></div></div></header>
+<div class="container"><nav>
+<a class="active" href="index.html">Главная</a>
+<div class="dropdown"><a class="" href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="regiments.html#my">Мои полки</a></div></div>
+<div class="dropdown"><a class="" href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html">Текущие</a><a href="campaigns.html#archive">Архив</a></div></div>
+<a class="" href="ranking.html">Рейтинг</a>
+<div class="dropdown"><a class="" href="forum.html">Форум</a><div class="dropdown-menu"><a href="forum.html">Обсуждения</a><a href="forum.html#guides">Гайды</a></div></div>
+<a class="" href="alliances.html">Союзы</a>
+<a class="login" href="#" data-login>♙ &nbsp; Войти</a>
+</nav><main>
+<section class="hero"><div class="hero-copy"><div class="kicker">Добро пожаловать в</div><h1>EMPIRE</h1><div class="tagline">Сражайся. Побеждай. Объединяйся.</div><div class="buttons"><a class="btn primary" href="#" data-login>Войти в сообщество</a><a class="btn" href="regiments.html">Найти полк</a></div><div class="stats"><div class="stat"><strong>127</strong><span>полков</span></div><div class="stat"><strong>1 842</strong><span>игрока</span></div><div class="stat"><strong>326</strong><span>боёв</span></div><div class="stat"><strong>12</strong><span>кампаний</span></div></div></div></section>
+<div class="grid">
+<section class="card chat"><div class="card-title">◉ &nbsp; Мини-чат <span style="font:10px 'Roboto Slab';color:#6db86d">● Online: 24</span></div><div class="chat-tabs"><button class="chat-tab active" data-tab="general">Общий</button><button class="chat-tab" data-tab="regiments-chat">Полки</button><button class="chat-tab" data-tab="alliances-chat">Союзы</button></div>
+<div id="general" class="chat-panel active"><div class="messages"><div class="msg"><div class="avatar">G</div><div><b>Grenadier87</b><p>Отличный бой был!</p></div><div class="time">19:42</div></div><div class="msg"><div class="avatar">M</div><div><b>Marquis</b><p>Когда следующая кампания?</p></div><div class="time">19:40</div></div><div class="msg"><div class="avatar">V</div><div><b>Volk</b><p>В субботу, следите за новостями.</p></div><div class="time">19:39</div></div></div></div>
+<div id="regiments-chat" class="chat-panel"><div class="messages"><div class="msg"><div class="avatar">1R</div><div><b>1st Regiment</b><p>Набор открыт до воскресенья.</p></div><div class="time">19:41</div></div><div class="msg"><div class="avatar">95</div><div><b>95th Rifles</b><p>Тренировка сегодня в 21:00.</p></div><div class="time">19:36</div></div></div></div>
+<div id="alliances-chat" class="chat-panel"><div class="messages"><div class="msg"><div class="avatar">A</div><div><b>Alliance</b><p>Новые переговоры завершены.</p></div><div class="time">19:32</div></div></div></div>
+<div class="chat-input"><input id="chatInput" placeholder="Написать сообщение..."><button id="sendChat">➤</button></div></section>
+<section class="card"><div class="card-title">▣ &nbsp; Новости сайта <a href="forum.html">Все новости →</a></div><article class="news-item"><div class="thumb" style="background-image:url('assets/news-battle.jpg')"></div><div><div class="date">5 ноября 2026</div><h3>Обновление правил кампаний</h3><p>Обновлены правила проведения кампаний. Ознакомьтесь с изменениями.</p></div></article><article class="news-item"><div class="thumb" style="background-image:url('assets/news-drum.jpg')"></div><div><div class="date">1 ноября 2026</div><h3>Итоги осеннего турнира</h3><p>Поздравляем 1st Regiment с победой в Empire Autumn Cup!</p></div></article><article class="news-item"><div class="thumb" style="background-image:url('assets/battlefield.jpg')"></div><div><div class="date">28 октября 2026</div><h3>Открыта новая кампания</h3><p>Полки уже могут подать заявку на участие в новом сезоне.</p></div></article></section>
+<aside class="card profile"><div class="card-title" style="margin:-18px -18px 18px">♙ &nbsp; Личный кабинет</div><div class="profile-top"><div class="crest">♛</div><div><h3>Imperator</h3><small>Маршал · 1st Regiment</small></div></div><dl><dt>Сообщений</dt><dd>124</dd><dt>Сражений</dt><dd>37</dd><dt>Рейтинг</dt><dd>1520</dd></dl><a class="btn" style="display:block;text-align:center" href="#" data-login>Перейти в профиль</a></aside></div>
+<div class="full"><section class="card"><div class="card-title">⚔ &nbsp; Предстоящие полковые сражения <a href="campaigns.html">Все сражения →</a></div><div class="battle"><div class="datebox">8<small>НОЯБРЯ<br>20:00</small></div><div><div class="team">🇫🇷 1st Regiment</div><div class="vs">VS</div><div class="team">84e Régiment</div></div><div class="datebox">⚔<small>БОЙ</small></div></div><div class="battle"><div class="datebox">10<small>НОЯБРЯ<br>21:00</small></div><div><div class="team">🇬🇧 7th Hussars</div><div class="vs">VS</div><div class="team">95th Rifles</div></div><div class="datebox">⚔<small>БОЙ</small></div></div></section>
+<section class="card ranking"><div class="card-title">♜ &nbsp; Рейтинг полков <a href="ranking.html">Полный рейтинг →</a></div><table><tr><td>#</td><td>Полк</td><td class="points">Очки</td></tr><tr class="rank-row" data-regiment="1st Regiment"><td>1.</td><td>🇫🇷 1st Regiment</td><td class="points">1840</td></tr><tr class="rank-row" data-regiment="95th Rifles"><td>2.</td><td>🇬🇧 95th Rifles</td><td class="points">1715</td></tr><tr class="rank-row" data-regiment="84e Régiment"><td>3.</td><td>🇫🇷 84e Régiment</td><td class="points">1630</td></tr><tr class="rank-row" data-regiment="Preobrazhensky"><td>4.</td><td>🇷🇺 Preobrazhensky</td><td class="points">1590</td></tr><tr class="rank-row" data-regiment="7th Hussars"><td>5.</td><td>🇬🇧 7th Hussars</td><td class="points">1565</td></tr></table></section></div>
+<section class="card" style="margin-top:14px"><div class="card-title">♜ &nbsp; Полки сообщества <a href="regiments.html">Все полки →</a></div><div class="regiment-grid"><div class="regiment-card" data-regiment="1st Regiment"><div class="crest-mini">🇫🇷</div><h4>1st Regiment</h4><p>Франция · 42 бойца · Рейтинг 1840</p></div><div class="regiment-card" data-regiment="95th Rifles"><div class="crest-mini">🇬🇧</div><h4>95th Rifles</h4><p>Великобритания · 37 бойцов · Рейтинг 1715</p></div><div class="regiment-card" data-regiment="Preobrazhensky"><div class="crest-mini">🇷🇺</div><h4>Preobrazhensky</h4><p>Россия · 31 боец · Рейтинг 1590</p></div></div></section>
+<section class="card community" style="margin-top:14px"><div class="card-title" style="padding:0 0 10px;border:0">◈ &nbsp; Статистика сообщества</div><div class="community-grid"><div><strong>127</strong><span>полков</span></div><div><strong>1 842</strong><span>игрока</span></div><div><strong>326</strong><span>боёв</span></div><div><strong>12</strong><span>кампаний</span></div></div></section>
+</main></div>
+<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div><div>Главная · Полки · Кампании · Рейтинг · Форум · Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
+<div class="modal-backdrop" id="loginModal"><div class="modal"><button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь для доступа к личному кабинету и функциям сообщества.</p><label>Логин или email</label><input id="loginName" placeholder="Введите логин"><label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль"><div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div></div></div><div class="toast" id="toast"></div>
+<script src="assets/app.js"></script></body></html>
