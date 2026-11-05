@@ -35,3 +35,6 @@ nav a[href="index.html"]:before{content:"⌂"}nav a[href="regiments.html"]:befor
 .btn.primary{box-shadow:inset 0 0 14px rgba(255,208,104,.08),0 4px 16px rgba(0,0,0,.45)}
 .btn:not(.primary){box-shadow:inset 0 0 14px rgba(255,208,104,.04)}
 footer{position:relative;background:#11100d url("../assets/footer-art.svg") center/cover no-repeat}
+
+/* Inline heraldic navigation icons */
+nav .nav-icon{width:18px;height:18px;flex:0 0 18px;color:#d2ae75;fill:none;stroke:currentColor;vertical-align:middle}nav a:hover .nav-icon,nav a.active .nav-icon{color:#f0d18d}nav a:before{content:none!important}
