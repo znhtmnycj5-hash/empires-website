@@ -38,3 +38,49 @@ footer{position:relative;background:#11100d url("../assets/footer-art.svg") cent
 
 /* Inline heraldic navigation icons */
 nav .nav-icon{width:18px;height:18px;flex:0 0 18px;color:#d2ae75;fill:none;stroke:currentColor;vertical-align:middle}nav a:hover .nav-icon,nav a.active .nav-icon{color:#f0d18d}nav a:before{content:none!important}
+
+
+/* === EMPIRE / Napoleonic editorial redesign === */
+header{min-height:150px;background-image:linear-gradient(90deg,rgba(7,6,5,.88),rgba(7,6,5,.2) 52%,rgba(7,6,5,.1)),url("../assets/header-art.svg");background-position:center 44%;background-size:cover}
+header:after{background:linear-gradient(90deg,rgba(5,4,3,.74),rgba(5,4,3,.18) 58%,rgba(5,4,3,.2))}
+.brand{padding:16px 0 12px;gap:20px}
+.brand:before{width:104px;height:104px;flex-basis:104px;filter:drop-shadow(0 2px 8px #000)}
+.logo{font-size:48px;letter-spacing:8px;text-shadow:0 2px 2px #000,0 0 18px rgba(211,170,103,.28)}
+nav{min-height:54px;background:linear-gradient(180deg,rgba(23,19,15,.98),rgba(7,7,7,.98));border:1px solid #987345;outline:1px solid rgba(190,148,83,.2);outline-offset:3px}
+nav a{padding:15px 20px;font-size:14px;text-shadow:0 1px 4px #000}
+nav a:hover,nav a.active{background:linear-gradient(180deg,#842a25,#4d1414);box-shadow:inset 0 0 16px rgba(220,177,105,.12)}
+main{padding-top:14px}
+.hero{min-height:270px;background-image:linear-gradient(90deg,rgba(3,3,3,.08),rgba(3,3,3,.14) 42%,rgba(3,3,3,.94) 73%),url("../assets/hero-art.svg");background-position:center;background-size:cover;border:1px solid #b18a50;box-shadow:0 0 0 3px rgba(42,29,17,.75),0 16px 40px #000}
+.hero-copy{width:49%;padding:30px 26px}
+.kicker{font-size:20px}
+h1{font-size:64px;letter-spacing:7px}
+.tagline{margin:2px 0 16px}
+.stats{gap:24px;margin-top:18px}
+.stat strong{font:600 20px Cinzel}
+.card{background:linear-gradient(145deg,rgba(19,18,16,.98),rgba(8,9,10,.98));border:1px solid #8c693e;box-shadow:0 0 0 2px rgba(39,27,17,.9),0 12px 28px rgba(0,0,0,.62)}
+.card-title{background:linear-gradient(90deg,rgba(169,127,69,.12),transparent 65%);padding:11px 14px;color:#f0d29a}
+.news-item{background:linear-gradient(90deg,rgba(223,197,153,.96),rgba(191,160,112,.96));color:#241b12;border-bottom:1px solid #8c7048}
+.news-item h3{color:#21180f}.news-item p{color:#3d3021}.news-item .date{color:#6e5738}
+.thumb{border-color:#9d7947;box-shadow:inset 0 0 0 1px rgba(255,226,173,.15)}
+.profile{background:linear-gradient(145deg,#101316,#080a0c)}
+.crest,.crest-mini{border-color:#b18a50;box-shadow:inset 0 0 18px rgba(210,165,89,.12)}
+.battle{background:linear-gradient(90deg,#d8c19a,#bda47c);color:#241b12;border-top:1px solid #8b6c42}
+.battle .team{color:#251b12}.battle .datebox{color:#352416}.battle .datebox small{color:#55432b}
+.community{background:linear-gradient(rgba(12,12,12,.78),rgba(12,10,8,.91)),url("../assets/battlefield.svg") center/cover;border-color:#987345}
+.page-title{border-color:#987345}
+.btn{border-color:#b28a4b;box-shadow:inset 0 0 0 1px rgba(255,219,151,.08),0 4px 14px #000}
+footer{background-image:linear-gradient(rgba(5,5,5,.86),rgba(5,5,5,.92)),url("../assets/footer-art.svg")}
+@media(min-width:1100px){
+ main.home-main{display:grid;grid-template-columns:minmax(260px,1fr) minmax(430px,1.85fr) minmax(230px,.9fr);grid-template-areas:"hero hero hero" "chat news profile" "chat battles profile" "ranking community community" "regiments regiments regiments";gap:12px 14px;align-items:stretch}
+ main.home-main>.hero{grid-area:hero}
+ main.home-main>.grid,main.home-main>.full{display:contents}
+ main.home-main .chat{grid-area:chat;min-height:0}
+ main.home-main>.grid>section:nth-child(2){grid-area:news}
+ main.home-main>.grid>.profile{grid-area:profile}
+ main.home-main>.full>section:first-child{grid-area:battles}
+ main.home-main>.full>section:nth-child(2){grid-area:ranking}
+ main.home-main>section.card[style*="margin-top:14px"]:not(.community){grid-area:regiments}
+ main.home-main>.community{grid-area:community}
+}
+@media(max-width:1099px){main.home-main{display:block}main.home-main>.grid,main.home-main>.full{display:grid}}
+@media(max-width:760px){header{min-height:126px}.brand{padding:12px 0}.brand:before{width:76px;height:76px;flex-basis:76px}.logo{font-size:31px;letter-spacing:4px}.hero{min-height:300px}.hero-copy{width:100%;background:linear-gradient(90deg,rgba(5,4,3,.42),rgba(5,4,3,.82))}.stats{gap:12px;flex-wrap:wrap}}
