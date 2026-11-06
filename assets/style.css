@@ -163,3 +163,10 @@ nav a:hover .nav-icon,nav a.active .nav-icon{color:#f1d18b}
 
 /* Centered header logo */
 header{min-height:178px} .brand{justify-content:center;padding:12px 0 10px;min-height:154px;box-sizing:border-box}.brand:before{display:none!important}.brand-image{display:flex;justify-content:center;align-items:flex-start;width:100%;height:154px}.brand-image img{display:block;width:min(410px,48vw);height:auto;max-height:145px;object-fit:contain;filter:none!important;box-shadow:none!important}
+
+/* Uploaded icon sprite: assets/IMG_2726.png */
+.nav-icon{display:inline-block;width:28px;height:28px;flex:0 0 28px;margin-right:7px;background-image:url("../assets/IMG_2726.png");background-repeat:no-repeat;background-size:600% 100%;background-position-y:center;vertical-align:middle;filter:drop-shadow(0 1px 2px rgba(0,0,0,.8))}
+.icon-home{background-position-x:0%}.icon-alliances{background-position-x:20%}.icon-campaigns{background-position-x:40%}.icon-forum{background-position-x:60%}.icon-ranking{background-position-x:80%}.icon-regiments{background-position-x:100%}
+nav a:hover .nav-icon,nav a.active .nav-icon{filter:brightness(1.1) drop-shadow(0 1px 2px rgba(0,0,0,.9))}
+@media(max-width:760px){nav a .nav-icon{width:20px;height:20px;flex-basis:20px;margin-right:5px}}
+@media(max-width:420px){nav a .nav-icon{width:18px;height:18px;flex-basis:18px}}
