@@ -312,3 +312,6 @@ img.person-avatar{object-fit:cover;padding:0;border-radius:50%;background:#17120
   .service-record.profile-spoiler .service-record-header{margin:0 -14px;padding:13px 14px}
   .service-record.profile-spoiler .service-record-content{padding:10px 0 0}
 }
+
+/* Imperator avatar in the homepage mini-profile; preserve the full source image. */
+.profile-top .crest img{width:100%;height:100%;object-fit:contain;display:block}
