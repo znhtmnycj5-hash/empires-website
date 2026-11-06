@@ -173,33 +173,6 @@ document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',(
   form?.addEventListener('submit',async e=>{e.preventDefault();if(!client)return;const {data:{session}}=await client.auth.getSession();if(!session){toast('Для создания полка войдите в аккаунт.');return}const name=document.getElementById('newRegimentName').value.trim(),faction=document.getElementById('newRegimentFaction').value;if(!name||!faction){toast('Укажите название полка и фракцию.');return}const {data,error}=await client.from('regiments').insert({name,faction,commander_id:session.user.id}).select().single();if(error){toast(error.code==='23505'?'Такой полк уже существует.':'Не удалось создать полк: '+error.message);return}const memberError=(await client.from('regiment_members').insert({regiment_id:data.id,user_id:session.user.id,member_role:'commander'})).error;if(memberError){toast('Полк создан, но не удалось добавить командира: '+memberError.message);return}form.reset();modal?.classList.remove('show');await load();toast('Полк создан и сохранён в базе данных.')});
   load();
 })();
-// Demo campaign: one standalone battle, seeded once for the campaign page preview.
-(function seedCampaignBattle(){
-  if(!document.getElementById('campaignList'))return;
-  const key='empireCampaignsDemo';
-  let items=[];try{items=JSON.parse(localStorage.getItem(key)||'[]')}catch{}
-  if(!items.some(c=>c.id==='demo-campaign-battle-01')){
-    items.unshift({
-      id:'demo-campaign-battle-01',
-      name:'Сражение при Ватерлоо',
-      start:'2026-11-15T19:00',
-      description:'Демонстрационная кампания EMPIRE: союзные войска выступают против французской армии. Задача сторон — удержать ключевые позиции и добиться победы в генеральном сражении. Это одно самостоятельное сражение продолжительностью ровно 60 минут.',
-      server:'EMPIRE — Waterloo Event Server',
-      password:'demo-hidden',
-      factions:['Французская империя','Британская Империя','Пруссия'],
-      participants:[
-        {regiment:'84e Régiment',count:45,faction:'Французская империя',arms:['Пехота','Стрелки'],attendance:'pending',ratingAwarded:false},
-        {regiment:'7th Hussars',count:24,faction:'Французская империя',arms:['Кавалерия'],attendance:'pending',ratingAwarded:false},
-        {regiment:'95th Rifles',count:32,faction:'Британская Империя',arms:['Стрелки','Пехота'],attendance:'pending',ratingAwarded:false},
-        {regiment:'Prussian Guard',count:40,faction:'Пруссия',arms:['Пехота','Артиллерия'],attendance:'pending',ratingAwarded:false}
-      ],
-      status:'registration',
-      demo:true
-    });
-    localStorage.setItem(key,JSON.stringify(items));
-  }
-})();
-
 // Campaign management and participation demo. Each campaign is one standalone battle. Production permissions and storage must be enforced by the server.
 (function initCampaigns(){
   const list=document.getElementById('campaignList');
