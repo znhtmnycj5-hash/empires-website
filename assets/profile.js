@@ -49,7 +49,7 @@
     const updates={username:name.value.trim(),display_name:name.value.trim(),motto:motto.value.trim()};
     const file=avatar.files[0];
     if(file){
-      if(file.size>2*1024*1024){setNote('Аватар должен быть не больше 2 МБ.',true);return;}
+      if(file.size>10*1024*1024){setNote('Аватар должен быть не больше 10 МБ.',true);return;}
       updates.avatar_url=await new Promise((resolve,reject)=>{
         const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);
       });
