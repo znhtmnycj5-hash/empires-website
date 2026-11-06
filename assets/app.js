@@ -75,3 +75,16 @@ document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',(
   script.async=true;
   document.head.appendChild(script);
 })();
+
+
+// Public profile badge for elevated site roles. The server must supply data-site-role.
+(function initSiteRoleBadge(){
+  const labels={moderator:'МОДЕРАТОР EMPIRE',admin:'АДМИНИСТРАТОР EMPIRE'};
+  document.querySelectorAll('[data-site-role]').forEach(el=>{
+    const role=(el.dataset.siteRole||'user').toLowerCase();
+    if(!labels[role]){el.hidden=true;return;}
+    el.textContent=role==='admin'?'♛ '+labels[role]:'⚔ '+labels[role];
+    el.classList.add('site-role-'+role);
+    el.hidden=false;
+  });
+})();
