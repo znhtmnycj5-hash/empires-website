@@ -373,3 +373,6 @@ img.person-avatar{object-fit:cover;padding:0;border-radius:50%;background:#17120
   .social-card.profile-spoiler>.card-title{min-height:56px;padding:11px 12px}
   .social-card.profile-spoiler .spoiler-body{padding:10px 12px 2px}
 }
+
+/* Center the service-status label within the profile identity column. */
+.user-identity>.user-status{display:flex;width:max-content;max-width:100%;margin:12px auto 0;justify-content:center;}
