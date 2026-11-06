@@ -1,4 +1,4 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Полки — Empire</title><link rel="stylesheet" href="assets/style.css?v=20261106j"></head><body><header><div class="container brand"><div class="brand-image"><img src="assets/IMG_2724.png" alt="EMPIRE"></div></div></header>
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Полки — Empire</title><link rel="stylesheet" href="assets/style.css?v=20261106k"></head><body><header><div class="container brand"><div class="brand-image"><img src="assets/IMG_2724.png" alt="EMPIRE"></div></div></header>
 <div class="container"><nav>
 <a class="" href="index.html">Главная</a>
 <div class="dropdown"><a class="active" href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="regiments.html#my">Мои полки</a></div></div>
@@ -12,7 +12,7 @@
 <div id="regDebug" style="margin:0 0 14px;padding:10px 12px;border:1px solid #5b4630;background:#17130f;color:#bfa77f;font-size:12px">Проверка списка полков: подключение к базе данных…</div><div class="regiment-tiles" id="regList"><div id="regEmpty" class="empty-state">Пока нет зарегистрированных полков.</div></div></main></div>
 <footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Mount &amp; Blade: Napoleonic Wars</div><div>Главная · Полки · Кампании · Рейтинг · Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
 <div class="modal-backdrop" id="loginModal"><div class="modal"><button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь для доступа к личному кабинету и функциям сайта.</p><label>Логин или email</label><input id="loginName" placeholder="Введите логин"><label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль"><div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div></div></div><div class="toast" id="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js?v=20261106j"></script><script src="assets/app.js?v=20261106j"></script><script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js?v=20261106k"></script><script src="assets/app.js?v=20261106k"></script><script>
 (async function forceLoadRegimentList(){
   const list=document.getElementById('regList');
   const empty=document.getElementById('regEmpty');
@@ -34,7 +34,7 @@
     data.forEach(r=>{
       const a=document.createElement('a');
       a.className='regiment-tile';
-      a.href='regiment.html?id='+encodeURIComponent(r.id)+'&v=20261106j';
+      a.href='regiment.html?id='+encodeURIComponent(r.id)+'&v=20261106k';
       a.dataset.name=r.name||'';
       a.dataset.nation=r.faction||'';
       a.dataset.rating=String(r.rating||0);
