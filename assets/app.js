@@ -40,8 +40,8 @@ document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',(
 
 // RU / EN language switch. Google Translate provides page-wide translation.
 (function initLanguageSwitch(){
-  const nav=document.querySelector('nav');
-  if(!nav)return;
+  const footer=document.querySelector('footer .footer-inner')||document.querySelector('footer');
+  if(!footer)return;
   const readLang=()=>document.cookie.split('; ').find(x=>x.startsWith('googtrans='))?.split('/').pop()==='en'?'en':'ru';
   const button=document.createElement('button');
   button.type='button';
@@ -58,7 +58,8 @@ document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',(
     }
     location.reload();
   });
-  nav.appendChild(button);
+  button.classList.add('footer-language-switch');
+  footer.appendChild(button);
   const host=document.createElement('div');
   host.id='google_translate_element';
   host.setAttribute('aria-hidden','true');
