@@ -24,7 +24,7 @@
    <div><span>Положение</span><b class="rank-commander">Командир полка</b></div>
    <div><span>В Empire с</span><b>12 марта 2025</b></div>
   </div>
-  <div class="profile-actions"><button class="btn primary" data-demo="Личные сообщения станут доступны после подключения системы сообщений.">Написать сообщение</button><button class="btn" data-demo="Добавление друзей станет доступно после подключения аккаунтов.">Добавить в друзья</button></div>
+  <div class="profile-actions"><button class="btn primary" data-demo="Личные сообщения станут доступны после подключения системы сообщений.">Написать сообщение</button><button class="btn" data-demo="Добавление друзей станет доступно после подключения аккаунтов.">Добавить в друзья</button><a class="btn" href="#profile-settings">Настройки профиля</a></div>
  </div>
  <aside class="user-service-card"><span class="eyebrow">СЛУЖЕБНАЯ СТАТИСТИКА</span><div><b>37</b><span>сражений</span></div><div><b>24</b><span>победы</span></div></aside>
 </section>
@@ -69,7 +69,7 @@
   </div>
  </section>
 </div>
-</main></div>
+<section class="card profile-settings" id="profile-settings"><div class="card-title">⚙ &nbsp; Настройки профиля</div><form id="profileSettingsForm"><div class="profile-settings-grid"><label>Имя пользователя<input id="profileName" maxlength="40" value="Imperator"></label><label>Статус<input id="profileStatus" maxlength="80" value="На службе"></label><label class="profile-settings-wide">Девиз<textarea id="profileMotto" maxlength="180">«За честь и Империю»</textarea></label><label class="profile-settings-wide">Аватар<input id="profileAvatar" type="file" accept="image/*"></label></div><div class="profile-settings-actions"><button class="btn primary" type="submit">Сохранить изменения</button><span id="profileSaveNote"></span></div></form></section></main></div>
 <footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Mount &amp; Blade: Napoleonic Wars</div><div>Главная · Полки · Кампании · Рейтинг · Форум · Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
 <div class="modal-backdrop" id="loginModal"><div class="modal"><button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь для доступа к личному кабинету.</p><label>Логин или email</label><input id="loginName" placeholder="Введите логин"><label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль"><div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div></div></div><div class="toast" id="toast"></div>
 <script src="assets/app.js"></script></body></html>
