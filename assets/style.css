@@ -36,10 +36,6 @@ nav a[href="index.html"]:before{content:"⌂"}nav a[href="regiments.html"]:befor
 .btn:not(.primary){box-shadow:inset 0 0 14px rgba(255,208,104,.04)}
 footer{position:relative;background:#11100d url("../assets/footer-art.svg") center/cover no-repeat}
 
-/* Inline heraldic navigation icons */
-nav .nav-icon{width:28px;height:28px;flex:0 0 28px;display:inline-block;vertical-align:middle;object-fit:contain;filter:drop-shadow(0 1px 2px rgba(0,0,0,.8))}nav a:hover .nav-icon,nav a.active .nav-icon{filter:brightness(1.12) drop-shadow(0 1px 2px rgba(0,0,0,.85))}nav a:hover .nav-icon,nav a.active .nav-icon{color:#f2d28e}nav a:hover .nav-icon,nav a.active .nav-icon{color:#f0d18d}nav a:before{content:none!important}
-
-
 /* === EMPIRE / Napoleonic editorial redesign === */
 header{min-height:150px;background-image:linear-gradient(90deg,rgba(7,6,5,.88),rgba(7,6,5,.2) 52%,rgba(7,6,5,.1)),url("../assets/header-art.svg");background-position:center 44%;background-size:cover}
 header:after{background:linear-gradient(90deg,rgba(5,4,3,.74),rgba(5,4,3,.18) 58%,rgba(5,4,3,.2))}
@@ -110,11 +106,6 @@ footer{background-image:linear-gradient(rgba(5,5,5,.86),rgba(5,5,5,.92)),url("..
     border-right:1px solid #332a20;
     border-bottom:1px solid #332a20;
   }
-  nav a .nav-icon{
-    width:17px;
-    height:17px;
-    flex:0 0 17px;
-  }
   nav .dropdown{
     min-width:0;
     width:100%;
@@ -149,12 +140,7 @@ footer{background-image:linear-gradient(rgba(5,5,5,.86),rgba(5,5,5,.92)),url("..
     min-height:48px;
     font-size:10px;
   }
-  nav a .nav-icon{
-    width:15px;
-    height:15px;
-    flex-basis:15px;
   }
-}
 
 /* Historical identity */
 .brand:before{background-size:contain;background-position:center;background-repeat:no-repeat}
@@ -163,13 +149,6 @@ nav a:hover .nav-icon,nav a.active .nav-icon{color:#f1d18b}
 
 /* Centered header logo */
 header{min-height:178px} .brand{justify-content:center;padding:12px 0 10px;min-height:154px;box-sizing:border-box}.brand:before{display:none!important}.brand-image{display:flex;justify-content:center;align-items:flex-start;width:100%;height:154px}.brand-image img{display:block;width:min(410px,48vw);height:auto;max-height:145px;object-fit:contain;filter:none!important;box-shadow:none!important}
-
-/* Uploaded icon sprite: assets/IMG_2726.png */
-.nav-icon{display:inline-block;width:28px;height:28px;flex:0 0 28px;margin-right:7px;background-image:url("../assets/IMG_2726.png");background-repeat:no-repeat;background-size:600% 100%;background-position-y:center;vertical-align:middle;filter:drop-shadow(0 1px 2px rgba(0,0,0,.8))}
-.icon-home{background-position-x:0%}.icon-alliances{background-position-x:20%}.icon-campaigns{background-position-x:40%}.icon-forum{background-position-x:60%}.icon-ranking{background-position-x:80%}.icon-regiments{background-position-x:100%}
-nav a:hover .nav-icon,nav a.active .nav-icon{filter:brightness(1.1) drop-shadow(0 1px 2px rgba(0,0,0,.9))}
-@media(max-width:760px){nav a .nav-icon{width:38px;height:38px;flex-basis:38px;margin-right:9px}}
-@media(max-width:420px){nav a .nav-icon{width:34px;height:34px;flex-basis:34px;margin-right:8px}}
 
 /* Regiment tiles */
 .regiment-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:18px}
