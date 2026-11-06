@@ -11,15 +11,30 @@ document.getElementById('demoLogin')?.addEventListener('click',()=>{const n=docu
   const input=document.getElementById('chatInput');
   const send=document.getElementById('sendChat');
   if(!tabs.length||!input||!send)return;
+
+  // UI visibility only: production must provide this membership from the authenticated server session.
+  const getCurrentRegiment=()=>{
+    const sessionUser=window.EMPIRE_CURRENT_USER;
+    if(sessionUser&&typeof sessionUser==='object'&&sessionUser.regimentId)return String(sessionUser.regimentId);
+    try{return localStorage.getItem('empireCurrentRegiment')||''}catch{return ''}
+  };
+  const regimentTab=tabs.find(tab=>tab.dataset.tab==='regiment-chat');
+  const regimentPanel=document.getElementById('regiment-chat');
+  const membership=getCurrentRegiment();
+  const isMember=Boolean(membership);
+  if(regimentTab)regimentTab.hidden=!isMember;
+  if(regimentPanel)regimentPanel.hidden=!isMember;
+
   let active='general';
   const updateComposer=()=>{
     const isRegiment=active==='regiment-chat';
-    input.disabled=isRegiment;
-    send.disabled=isRegiment;
-    input.placeholder=isRegiment?'Войдите и подтвердите членство в полку':'Написать в общий чат...';
-    input.setAttribute('aria-label',isRegiment?'Полковой чат недоступен без проверки членства':'Сообщение в общий чат');
+    input.disabled=isRegiment&&!isMember;
+    send.disabled=isRegiment&&!isMember;
+    input.placeholder=isRegiment?'Сообщение участникам вашего полка':'Написать в общий чат...';
+    input.setAttribute('aria-label',isRegiment?'Сообщение в полковой чат':'Сообщение в общий чат');
   };
   tabs.forEach(button=>button.addEventListener('click',()=>{
+    if(button.dataset.tab==='regiment-chat'&&!isMember)return;
     active=button.dataset.tab;
     tabs.forEach(tab=>{
       const selected=tab===button;
@@ -32,11 +47,12 @@ document.getElementById('demoLogin')?.addEventListener('click',()=>{const n=docu
   function sendChat(){
     const value=input.value.trim();
     if(!value)return;
-    if(active!=='general'){
-      toast('Доступ к полковому чату требует подтверждённого членства в полку.');
+    if(active==='regiment-chat'&&!isMember){
+      toast('Полковой чат доступен только участникам полка.');
       return;
     }
-    const box=document.querySelector('#general .messages');
+    const box=document.querySelector('#'+active+' .messages');
+    if(!box)return;
     const row=document.createElement('div');
     row.className='msg';
     const avatar=document.createElement('div');
@@ -54,12 +70,12 @@ document.getElementById('demoLogin')?.addEventListener('click',()=>{const n=docu
     row.append(avatar,body,time);
     box.appendChild(row);
     input.value='';
-    toast('Сообщение добавлено в демонстрационный общий чат');
+    toast('Сообщение добавлено в демонстрационный чат');
   }
   send.addEventListener('click',sendChat);
   input.addEventListener('keydown',event=>{if(event.key==='Enter')sendChat()});
   updateComposer();
-})();
+})();;
 document.querySelectorAll('[data-regiment]').forEach(e=>e.addEventListener('click',()=>toast('Открываем профиль: '+e.dataset.regiment)));
 
 
