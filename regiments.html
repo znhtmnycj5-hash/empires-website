@@ -9,15 +9,17 @@
 <a href="news.html">Новости</a><a class="login" href="#" data-login>Войти</a>
 </nav><main><section class="page-title"><h1>ПОЛКИ</h1><p>Найди своё подразделение, изучи его историю и подай заявку на вступление.</p></section>
 <div class="toolbar"><input class="input" placeholder="Поиск полка..." id="regSearch"><select class="select" id="regNation"><option value="">Все фракции</option><option value="Французская империя">Французская империя</option><option value="Австрийская Империя">Австрийская Империя</option><option value="Пруссия">Пруссия</option><option value="Российская империя">Российская империя</option><option value="Рейнский Союз">Рейнский Союз</option><option value="Британская Империя">Британская Империя</option></select><span class="sort-label">Сортировка: <strong>по рейтингу ↓</strong></span><a class="btn primary" id="createRegiment" href="create-regiment.html?v=20261106d">Создать полк</a></div>
-<div class="regiment-tiles" id="regList"><div id="regEmpty" class="empty-state">Пока нет зарегистрированных полков.</div></div></main></div>
+<div id="regDebug" style="margin:0 0 14px;padding:10px 12px;border:1px solid #5b4630;background:#17130f;color:#bfa77f;font-size:12px">Проверка списка полков: подключение к базе данных…</div><div class="regiment-tiles" id="regList"><div id="regEmpty" class="empty-state">Пока нет зарегистрированных полков.</div></div></main></div>
 <footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Mount &amp; Blade: Napoleonic Wars</div><div>Главная · Полки · Кампании · Рейтинг · Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
 <div class="modal-backdrop" id="loginModal"><div class="modal"><button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь для доступа к личному кабинету и функциям сайта.</p><label>Логин или email</label><input id="loginName" placeholder="Введите логин"><label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль"><div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div></div></div><div class="toast" id="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js?v=20261106f"></script><script src="assets/app.js?v=20261106f"></script><script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js?v=20261106g"></script><script src="assets/app.js?v=20261106g"></script><script>
 (async function forceLoadRegimentList(){
   const list=document.getElementById('regList');
   const empty=document.getElementById('regEmpty');
   const client=window.EMPIRE_SUPABASE;
-  if(!list||!client)return;
+  const debug=document.getElementById('regDebug');
+  if(!list||!client){if(debug)debug.textContent='Ошибка: Supabase не подключён.';return;}
+  if(debug)debug.textContent='Проверка списка полков: запрос к базе данных…';
   await new Promise(r=>setTimeout(r,150));
   try{
     const {data,error}=await client.from('regiments').select('id,name,faction,logo_url,rating').order('rating',{ascending:false});
@@ -25,6 +27,7 @@
     list.querySelectorAll('.regiment-tile').forEach(x=>x.remove());
     if(!data||!data.length){
       if(empty){empty.style.display='block';empty.textContent='В базе данных пока нет полков.';}
+      if(debug)debug.textContent='База данных подключена. Полков найдено: 0.';
       return;
     }
     if(empty)empty.style.display='none';
@@ -40,9 +43,11 @@
       list.appendChild(a);
     });
     if(typeof sortAndFilterRegiments==='function')sortAndFilterRegiments();
+    if(debug)debug.textContent='База данных подключена. Полков найдено: '+data.length+'.';
   }catch(e){
     console.error('Regiment list error:',e);
     if(empty){empty.style.display='block';empty.textContent='Ошибка загрузки полков: '+(e.message||'неизвестная ошибка');}
+    if(debug)debug.textContent='Ошибка Supabase: '+(e.message||'неизвестная ошибка');
   }
 })();
 </script></body></html>
