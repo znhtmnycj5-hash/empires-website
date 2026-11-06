@@ -140,7 +140,34 @@ document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',(
 })();
 
 
-// Campaign management and participation demo. Production permissions and storage must be enforced by the server.
+// Demo campaign: one standalone battle, seeded once for the campaign page preview.
+(function seedCampaignBattle(){
+  if(!document.getElementById('campaignList'))return;
+  const key='empireCampaignsDemo';
+  let items=[];try{items=JSON.parse(localStorage.getItem(key)||'[]')}catch{}
+  if(!items.some(c=>c.id==='demo-campaign-battle-01')){
+    items.unshift({
+      id:'demo-campaign-battle-01',
+      name:'Сражение при Ватерлоо',
+      start:'2026-11-15T19:00',
+      description:'Демонстрационная кампания EMPIRE: союзные войска выступают против французской армии. Задача сторон — удержать ключевые позиции и добиться победы в генеральном сражении. Это одно самостоятельное сражение продолжительностью ровно 60 минут.',
+      server:'EMPIRE — Waterloo Event Server',
+      password:'demo-hidden',
+      factions:['Французская империя','Британская Империя','Пруссия'],
+      participants:[
+        {regiment:'84e Régiment',count:45,faction:'Французская империя',arms:['Пехота','Стрелки'],attendance:'pending',ratingAwarded:false},
+        {regiment:'7th Hussars',count:24,faction:'Французская империя',arms:['Кавалерия'],attendance:'pending',ratingAwarded:false},
+        {regiment:'95th Rifles',count:32,faction:'Британская Империя',arms:['Стрелки','Пехота'],attendance:'pending',ratingAwarded:false},
+        {regiment:'Prussian Guard',count:40,faction:'Пруссия',arms:['Пехота','Артиллерия'],attendance:'pending',ratingAwarded:false}
+      ],
+      status:'registration',
+      demo:true
+    });
+    localStorage.setItem(key,JSON.stringify(items));
+  }
+})();
+
+// Campaign management and participation demo. Each campaign is one standalone battle. Production permissions and storage must be enforced by the server.
 (function initCampaigns(){
   const list=document.getElementById('campaignList');
   if(!list)return;
@@ -160,7 +187,7 @@ document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',(
   const create=document.getElementById('campaignCreateForm');
   const render=()=>{
     const items=getItems(), active=items.filter(c=>c.status!=='completed'), archived=items.filter(c=>c.status==='completed');
-    list.innerHTML=active.length?active.map(c=>`<article class="campaign-event"><div class="campaign-event-head"><div><span class="status status-planned">${c.status==='started'?'Идёт кампания':'Регистрация / подготовка'}</span><h2>${esc(c.name)}</h2><p>${dateText(c.start)} · продолжительность 1 час</p></div><span class="campaign-event-count">${c.participants.length} полк.</span></div><p>${esc(c.description)}</p><div class="campaign-factions"><b>Фракции:</b> ${c.factions.map(esc).join(' · ')}</div><div class="campaign-participation"><form class="campaign-join-form" data-join="${c.id}"><label>Полк<select name="regiment" required><option value="">Выберите свой полк</option><option>1st Regiment</option><option>84e Régiment</option><option>7th Hussars</option><option>95th Rifles</option><option>Preobrazhensky</option><option>Prussian Guard</option></select></label><label>Количество бойцов<input name="count" type="number" min="1" max="200" value="10" required></label><button class="btn primary" type="submit">Принять участие</button></form></div><div class="campaign-roster"><b>Заявки и распределение</b>${c.participants.length?c.participants.map(p=>`<div class="campaign-roster-row"><span><strong>${esc(p.regiment)}</strong><small>${p.count} бойцов · ${esc(p.faction||'Фракция не назначена')} · ${(p.arms||[]).map(esc).join(', ')||'Рода войск не назначены'}</small></span><span class="status ${p.attendance==='yes'?'status-done':p.attendance==='no'?'status-pending':'status-planned'}">${p.attendance==='yes'?'Явился':p.attendance==='no'?'Не явился':'Ожидает проверки'}</span></div>`).join(''):'<p class="empty-state">Заявок пока нет.</p>'}</div><details class="campaign-admin-tools"><summary>Администрирование участников</summary>${c.participants.map(p=>`<div class="campaign-manage-row" data-manage="${c.id}" data-regiment="${esc(p.regiment)}"><b>${esc(p.regiment)}</b><label>Фракция<select class="assign-faction"><option value="">Не назначена</option>${factions.map(f=>`<option ${p.faction===f?'selected':''}>${esc(f)}</option>`).join('')}</select></label><fieldset class="campaign-fieldset"><legend>Рода войск (можно несколько)</legend><div class="check-grid">${arms.map(a=>`<label class="checkline"><input type="checkbox" class="assign-arm" value="${a}" ${(p.arms||[]).includes(a)?'checked':''}>${a}</label>`).join('')}</div></fieldset><label>Явка<select class="assign-attendance"><option value="pending" ${p.attendance==='pending'?'selected':''}>Ожидает проверки</option><option value="yes" ${p.attendance==='yes'?'selected':''}>Явился</option><option value="no" ${p.attendance==='no'?'selected':''}>Не явился</option></select></label><button class="btn save-assignment" type="button">Сохранить назначение и явку</button></div>`).join('')||'<p>Пока нет заявок.</p>'}<div class="campaign-server-unlock"><b>Данные игрового сервера</b><p>${Date.now()>=new Date(c.start).getTime()?'Кампания началась. В рабочей системе сервер и пароль будут доступны только подтверждённым участникам; демонстрационная версия не раскрывает пароль.':'Сервер и пароль скрыты до начала кампании.'}</p></div><button class="btn finish-campaign" type="button" data-finish="${c.id}">Завершить кампанию</button></details></article>`).join(''):'<div class="empty-state">Пока нет опубликованных кампаний. Создайте событие в блоке управления ниже.</div>';
+    list.innerHTML=active.length?active.map(c=>`<article class="campaign-event"><div class="campaign-event-head"><div><span class="status status-planned">${c.status==='started'?'Сражение идёт':'Предстоящее сражение'}</span><h2>${esc(c.name)}</h2><p>${dateText(c.start)} · продолжительность 1 час</p></div><span class="campaign-event-count">${c.participants.length} полк.</span></div><p>${esc(c.description)}</p><div class="campaign-factions"><b>Фракции:</b> ${c.factions.map(esc).join(' · ')}</div><div class="campaign-participation"><form class="campaign-join-form" data-join="${c.id}"><label>Полк<select name="regiment" required><option value="">Выберите свой полк</option><option>1st Regiment</option><option>84e Régiment</option><option>7th Hussars</option><option>95th Rifles</option><option>Preobrazhensky</option><option>Prussian Guard</option></select></label><label>Количество бойцов<input name="count" type="number" min="1" max="200" value="10" required></label><button class="btn primary" type="submit">Принять участие</button></form></div><div class="campaign-roster"><b>Заявки и распределение</b>${c.participants.length?c.participants.map(p=>`<div class="campaign-roster-row"><span><strong>${esc(p.regiment)}</strong><small>${p.count} бойцов · ${esc(p.faction||'Фракция не назначена')} · ${(p.arms||[]).map(esc).join(', ')||'Рода войск не назначены'}</small></span><span class="status ${p.attendance==='yes'?'status-done':p.attendance==='no'?'status-pending':'status-planned'}">${p.attendance==='yes'?'Явился':p.attendance==='no'?'Не явился':'Ожидает проверки'}</span></div>`).join(''):'<p class="empty-state">Заявок пока нет.</p>'}</div><details class="campaign-admin-tools"><summary>Администрирование участников</summary>${c.participants.map(p=>`<div class="campaign-manage-row" data-manage="${c.id}" data-regiment="${esc(p.regiment)}"><b>${esc(p.regiment)}</b><label>Фракция<select class="assign-faction"><option value="">Не назначена</option>${factions.map(f=>`<option ${p.faction===f?'selected':''}>${esc(f)}</option>`).join('')}</select></label><fieldset class="campaign-fieldset"><legend>Рода войск (можно несколько)</legend><div class="check-grid">${arms.map(a=>`<label class="checkline"><input type="checkbox" class="assign-arm" value="${a}" ${(p.arms||[]).includes(a)?'checked':''}>${a}</label>`).join('')}</div></fieldset><label>Явка<select class="assign-attendance"><option value="pending" ${p.attendance==='pending'?'selected':''}>Ожидает проверки</option><option value="yes" ${p.attendance==='yes'?'selected':''}>Явился</option><option value="no" ${p.attendance==='no'?'selected':''}>Не явился</option></select></label><button class="btn save-assignment" type="button">Сохранить назначение и явку</button></div>`).join('')||'<p>Пока нет заявок.</p>'}<div class="campaign-server-unlock"><b>Данные игрового сервера</b><p>${Date.now()>=new Date(c.start).getTime()?'Кампания началась. В рабочей системе сервер и пароль будут доступны только подтверждённым участникам; демонстрационная версия не раскрывает пароль.':'Сервер и пароль скрыты до начала кампании.'}</p></div><button class="btn finish-campaign" type="button" data-finish="${c.id}">Завершить сражение и подвести итоги</button></details></article>`).join(''):'<div class="empty-state">Пока нет опубликованных кампаний. Создайте событие в блоке управления ниже.</div>';
     const archive=document.getElementById('campaignArchive');
     archive.innerHTML=archived.length?archived.map(c=>`<div class="archive-row"><div><b>${esc(c.name)}</b><small>${dateText(c.start)} · ${c.participants.filter(p=>p.attendance==='yes').length} полков явились</small></div><span class="status status-done">Завершена</span></div>` ).join(''):'Завершённых кампаний пока нет.';
   };
@@ -172,7 +199,7 @@ document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',(
     if(!Number.isFinite(new Date(start).getTime())){toast('Укажите корректные дату и время.');return;}
     const items=getItems();
     items.push({id:String(Date.now()),name:document.getElementById('campaignName').value.trim(),start,description:document.getElementById('campaignDescription').value.trim(),server:document.getElementById('campaignServer').value.trim(),password:document.getElementById('campaignPassword').value,factions:chosen,participants:[],status:'registration'});
-    saveItems(items);create.reset();render();toast('Кампания создана в демонстрационном режиме.');
+    saveItems(items);create.reset();render();toast('Сражение кампании создано в демонстрационном режиме.');
   });
   list.addEventListener('submit',e=>{
     const form=e.target.closest('.campaign-join-form');if(!form)return;e.preventDefault();
