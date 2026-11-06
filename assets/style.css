@@ -522,3 +522,72 @@ footer{border-top-color:#40566b;background-image:linear-gradient(rgba(4,8,13,.88
 .campaign-server-unlock{background:#152333;border-color:#60778c}
 .campaign-factions,.campaign-roster-row small{color:#aab8c6}
 .chat-access-note{border-color:#4b6177;background:rgba(7,12,18,.35);color:#c1ced9}
+
+/* === STEEL BLUE / GOLD THEME === */
+:root{
+  --bg:#0d1116;--panel:#182b3d;--gold:#c9a45d;--gold2:#e0bd76;
+  --cream:#bfc4c9;--muted:#858c93;--red:#6b2522;--line:#8a6a37;
+}
+body{
+  background:radial-gradient(circle at 50% 0%,rgba(45,82,113,.22),transparent 38%),
+  linear-gradient(135deg,#0a0f14,#111c27 50%,#080c11);
+  color:#bfc4c9;
+}
+header{background-color:#142434;border-bottom-color:#b18a4b}
+header:after{background:linear-gradient(90deg,rgba(5,9,13,.88),rgba(5,9,13,.4) 50%,rgba(5,9,13,.14))}
+.logo{color:#d4d7da;text-shadow:0 3px 12px #000}
+nav{background:linear-gradient(180deg,#172c40,#0d1823);border-color:#9b773f;outline-color:rgba(201,164,93,.3)}
+nav a{color:#bfc4c9;border-right-color:#34495b}
+nav a:hover,nav a.active{background:linear-gradient(#294d6b,#19354d);color:#ead49f}
+.dropdown-menu{background:#11202e;border-color:#a17c43}
+.hero{background-color:#172a3c;border-color:#b18a4b}
+.btn{border-color:#b18a4b;color:#d0d3d6;background:#1b344b}
+.btn.primary{background:linear-gradient(#6b2a25,#471b19);border-color:#c29a55}
+.card{background:linear-gradient(145deg,rgba(24,44,62,.98),rgba(12,22,32,.98));border-color:#9b773f;box-shadow:0 0 0 2px rgba(21,38,53,.85),0 12px 28px rgba(0,0,0,.62)}
+.card:hover{border-color:#d0aa61}
+.card-title{border-bottom-color:#7f6337;color:#d9c28e;background:linear-gradient(90deg,rgba(201,164,93,.12),transparent 65%)}
+.chat-tabs{border-bottom-color:#7f6337}
+.chat-tab{background:#152638;color:#9da5ad;border-right-color:#304557}
+.chat-tab.active,.chat-tab:hover{background:#2b4e6b;color:#e1e3e5}
+.chat-input input{background:#0b141d;border-color:#80643a;color:#d0d3d6}
+.chat-input button{background:#1f405a;color:#e1cf9f;border-color:#b18a4b}
+.news-item{background:linear-gradient(90deg,rgba(190,196,201,.97),rgba(145,157,168,.97));color:#17212a;border-bottom-color:#9b773f}
+.news-item h3{color:#16212a}.news-item p{color:#3d464e}.news-item .date{color:#635746}
+.thumb{border-color:#b18a4b}
+.profile{background:linear-gradient(145deg,#16293a,#0b151f)}
+.crest,.crest-mini{border-color:#b18a4b;box-shadow:inset 0 0 18px rgba(201,164,93,.12)}
+.battle{background:linear-gradient(90deg,#c4c9ce,#9ca7b0);color:#18222b;border-top-color:#b18a4b}
+.battle .team{color:#1c2831}.battle .datebox{color:#382c1d}.battle .datebox small{color:#66583f}
+.community{background:linear-gradient(rgba(10,19,28,.76),rgba(8,14,20,.92)),url("../assets/battlefield.svg") center/cover;border-color:#b18a4b}
+.page-title{border-color:#b18a4b}
+.badge{border-color:#b18a4b;color:#d5b875;background:rgba(201,164,93,.06)}
+.list-card{border-color:#9b773f;background:linear-gradient(145deg,#1b344b,#0d1823)}
+.list-card:hover{border-color:#d0aa61}
+footer{border-top-color:#9b773f;background-image:linear-gradient(rgba(5,10,15,.88),rgba(5,10,15,.94)),url("../assets/footer-art.svg")}
+.motto{color:#c9a45d}
+.modal{background:linear-gradient(145deg,#1b344b,#0c1721);border-color:#b18a4b}
+.modal h2{color:#dfc88f}
+.modal input{background:#0a121a;border-color:#80643a;color:#d5d8da}
+.close{color:#a9afb4}
+.toast{background:#132333;border-color:#b18a4b;color:#e0ce9c}
+.site-role-moderator{border-color:#6f8da5;background:rgba(62,99,128,.2);color:#c3d1db}
+.site-role-admin{border-color:#c29a55;background:rgba(121,87,33,.2);color:#efd28f}
+.profile-spoiler>summary{border-color:#415a6e;border-left-color:#b18a4b;background:linear-gradient(90deg,rgba(31,57,78,.98),rgba(17,28,38,.99))}
+.profile-spoiler>summary:hover{border-color:#c09a58;border-left-color:#d5b56e;background:linear-gradient(90deg,rgba(42,72,96,.98),rgba(19,31,42,.99))}
+.profile-spoiler .spoiler-chevron{border-color:#9a773f;color:#d3b46f;background:rgba(0,0,0,.2)}
+.profile-spoiler[open]>summary .spoiler-chevron{background:rgba(201,164,93,.14)}
+.more-records>summary{color:#c9a45d;border-color:#7f6337;background:rgba(8,15,22,.35)}
+.more-records>summary:hover{background:rgba(120,91,44,.14);border-color:#b18a4b}
+.service-entry-mark{background:#15283a;border-color:#8f6d3c}
+.service-period{color:#c2a66e}
+.regiment-tile{border-color:#9b773f;background:linear-gradient(145deg,#1b344b,#0d1823)}
+.regiment-tile:hover{border-color:#d0aa61}
+.regiment-tile h2,.campaign-event h2,.service-entry-info b,.service-entry-info a{color:#d6c08e}
+.regiment-rating,.points,.datebox,.stat strong,.community-grid strong{color:#c9a45d}
+.campaign-fieldset,.campaign-admin-tools,.campaign-join-form,.campaign-event .campaign-roster{border-color:#80643a;background:#0d1823}
+.campaign-server-unlock{background:#183149;border-color:#a27d45}
+.campaign-factions,.campaign-roster-row small{color:#aeb5bb}
+.chat-access-note{border-color:#80643a;background:rgba(8,15,22,.38);color:#b9c0c5}
+.news-filter select,.news-category-admin input{background:#0b141d;color:#c7ccd0;border-color:#80643a}
+.news-category-chip{border-color:#9b773f;background:#15283a;color:#c8cdd1}
+.news-category-chip button{color:#c9a45d}
