@@ -1,1 +1,76 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Создание полка — Empire</title><link rel="stylesheet" href="assets/style.css"></head><body><header><div class="container brand"><div class="brand-image"><img src="assets/IMG_2724.png" alt="EMPIRE"></div></div></header><div class="container"><nav><a href="index.html">Главная</a><a class="active" href="regiments.html">Полки</a><a href="campaigns.html">Кампании</a><a href="battles.html">Сражения</a><a href="ranking.html">Рейтинг</a><a href="alliances.html">Союзы</a><a href="news.html">Новости</a><a class="login" href="auth.html">Войти</a></nav><main><section class="page-title"><h1>СОЗДАНИЕ ПОЛКА</h1><p>Зарегистрируйте свой полк и станьте его командиром.</p></section><section class="card" style="max-width:620px;margin:20px auto;padding:24px"><form id="createRegimentForm"><label>Название полка<input id="name" class="input" required maxlength="60" placeholder="Введите название полка"></label><label style="display:block;margin-top:16px">Фракция<select id="faction" class="select" required><option value="">Выберите фракцию</option><option>Французская империя</option><option>Австрийская Империя</option><option>Пруссия</option><option>Российская империя</option><option>Рейнский Союз</option><option>Британская Империя</option></select></label><div style="display:flex;gap:10px;margin-top:22px"><a class="btn" href="regiments.html">Отмена</a><button class="btn primary" type="submit">Зарегистрировать полк</button></div></form><p id="status" style="margin-top:18px"></p></section></main></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js?v=20261106c"></script><script>(async function(){const client=window.EMPIRE_SUPABASE,status=document.getElementById('status'),form=document.getElementById('createRegimentForm');if(!client){status.textContent='Ошибка подключения к Supabase.';return}const {data:{session}}=await client.auth.getSession();if(!session){status.textContent='Для создания полка необходимо войти в аккаунт.';form.querySelector('button').disabled=true;return}form.addEventListener('submit',async e=>{e.preventDefault();const name=document.getElementById('name').value.trim(),faction=document.getElementById('faction').value;if(!name||!faction)return;status.textContent='Создаём полк…';const {data,error}=await client.from('regiments').insert({name,faction,commander_id:session.user.id}).select().single();if(error){status.textContent='Не удалось создать полк: '+error.message;return}const memberError=(await client.from('regiment_members').insert({regiment_id:data.id,user_id:session.user.id,member_role:'commander'})).error;if(memberError){status.textContent='Полк создан, но командир не добавлен: '+memberError.message;return}location.href='regiment.html?id='+encodeURIComponent(data.id)});})();</script></body></html>
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Создание полка — Empire</title><link rel="stylesheet" href="assets/style.css"></head><body><header><div class="container brand"><div class="brand-image"><img src="assets/IMG_2724.png" alt="EMPIRE"></div></div></header><div class="container"><nav><a href="index.html">Главная</a><a class="active" href="regiments.html">Полки</a><a href="campaigns.html">Кампании</a><a href="battles.html">Сражения</a><a href="ranking.html">Рейтинг</a><a href="alliances.html">Союзы</a><a href="news.html">Новости</a><a class="login" href="auth.html">Войти</a></nav><main><section class="page-title"><h1>СОЗДАНИЕ ПОЛКА</h1><p>Зарегистрируйте свой полк и станьте его командиром.</p></section><section class="card" style="max-width:620px;margin:20px auto;padding:24px"><form id="createRegimentForm"><label>Название полка<input id="name" class="input" required maxlength="60" placeholder="Введите название полка"></label><label style="display:block;margin-top:16px">Фракция<select id="faction" class="select" required><option value="">Выберите фракцию</option><option>Французская империя</option><option>Австрийская Империя</option><option>Пруссия</option><option>Российская империя</option><option>Рейнский Союз</option><option>Британская Империя</option></select></label><div style="display:flex;gap:10px;margin-top:22px"><a class="btn" href="regiments.html">Отмена</a><button class="btn primary" type="submit">Зарегистрировать полк</button></div></form><p id="status" style="margin-top:18px;min-height:24px"></p><div id="resultActions" style="display:none;margin-top:18px"></div></section></main></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js?v=20261106c"></script><script>
+(async function(){
+  const client=window.EMPIRE_SUPABASE;
+  const status=document.getElementById('status');
+  const form=document.getElementById('createRegimentForm');
+  const resultActions=document.getElementById('resultActions');
+  const submitButton=form.querySelector('button[type="submit"]');
+
+  function showError(message){
+    status.textContent='Ошибка: '+message;
+    status.style.color='#b94a48';
+    submitButton.disabled=false;
+  }
+
+  if(!client){
+    showError('Не удалось подключиться к Supabase.');
+    return;
+  }
+
+  const {data:{session},error:sessionError}=await client.auth.getSession();
+  if(sessionError){
+    showError(sessionError.message);
+    return;
+  }
+  if(!session){
+    showError('Для создания полка необходимо войти в аккаунт.');
+    submitButton.disabled=true;
+    return;
+  }
+
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+
+    const name=document.getElementById('name').value.trim();
+    const faction=document.getElementById('faction').value;
+
+    if(!name||!faction){
+      showError('Укажите название полка и выберите фракцию.');
+      return;
+    }
+
+    submitButton.disabled=true;
+    status.style.color='';
+    status.textContent='Создаём полк…';
+
+    try{
+      const {data,error}=await client
+        .from('regiments')
+        .insert({name,faction,commander_id:session.user.id})
+        .select('id,name,faction')
+        .single();
+
+      if(error) throw new Error('Не удалось создать полк: '+error.message);
+      if(!data||!data.id) throw new Error('Supabase не вернул ID созданного полка.');
+
+      status.style.color='#b99559';
+      status.textContent='Полк «'+data.name+'» создан. Назначаем вас командиром…';
+
+      const {error:memberError}=await client
+        .from('regiment_members')
+        .insert({regiment_id:data.id,user_id:session.user.id,member_role:'commander'});
+
+      if(memberError){
+        throw new Error('Полк создан, но не удалось добавить вас как командира: '+memberError.message);
+      }
+
+      status.textContent='Полк успешно создан. Вы — командир полка.';
+      resultActions.style.display='block';
+      resultActions.innerHTML='<a class="btn primary" href="regiment.html?id='+encodeURIComponent(data.id)+'">Открыть страницу полка</a>';
+      form.style.display='none';
+    }catch(error){
+      showError(error.message||'Неизвестная ошибка.');
+    }
+  });
+})();
+</script></body></html>
