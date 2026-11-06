@@ -1,30 +1,26 @@
 <!doctype html>
-<html lang="ru">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Профиль пользователя — Empire</title><link rel="stylesheet" href="assets/style.css"></head>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Профиль пользователя — Empire</title><link rel="stylesheet" href="assets/style.css"></head>
 <body>
 <header><div class="container brand"><div class="brand-image"><img src="assets/IMG_2724.png" alt="EMPIRE"></div></div></header>
 <div class="container"><nav>
-<a href="index.html">Главная</a>
-<div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="regiments.html#my">Мои полки</a></div></div>
+<a href="index.html">Главная</a><div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="regiments.html#my">Мои полки</a></div></div>
 <div class="dropdown"><a href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html">Текущие</a><a href="campaigns.html#archive">Архив</a></div></div>
-<a href="battles.html">Сражения</a><a href="ranking.html">Рейтинг</a>
-<a href="alliances.html">Союзы</a><a href="news.html">Новости</a><a class="login" href="#" data-login>Войти</a>
+<a href="battles.html">Сражения</a><a href="ranking.html">Рейтинг</a><a href="alliances.html">Союзы</a><a href="news.html">Новости</a><a class="login" href="#" data-login>Войти</a>
 </nav>
 <main>
-<div class="profile-page-heading"><div><span class="eyebrow">ЛИЧНОЕ ДЕЛО · EMPIRE</span><h1>ПРОФИЛЬ ИГРОКА</h1><p>История службы, товарищи и связи в сообществе.</p></div><span class="profile-id">№ 001842</span></div>
+<div class="profile-page-heading"><div><span class="eyebrow">ЛИЧНОЕ ДЕЛО · EMPIRE</span><h1>ПРОФИЛЬ ИГРОКА</h1><p>История службы и принадлежность к полку.</p></div><span class="profile-id" id="profileId"></span></div>
 <section class="user-profile-hero card">
- <div class="user-avatar-wrap"><div class="user-avatar"><img src="assets/avatars/default-avatar.svg" alt="Аватар пользователя"></div><button class="btn small avatar-edit" data-demo="Загрузка и смена аватара появятся после подключения личного кабинета.">Изменить фото</button></div>
- <div class="user-identity"><span class="eyebrow">ПОЛЬЗОВАТЕЛЬ EMPIRE</span><h2>Imperator</h2><p class="user-motto">«За честь и Империю»</p>
-  <div class="user-status" data-presence-status="online"><span class="status-dot"></span> В сети</div>
-  <div class="site-role-badge" data-site-role="user" hidden></div>
-  <div class="user-facts"><div><span>Полк</span><b>Не назначен</b></div><div><span>Фракция</span><b>Не назначена</b></div><div><span>Положение</span><b>Пользователь</b></div><div><span>В Empire с</span><b>Дата регистрации</b></div></div>
-  <div class="profile-actions">
-  <div class="profile-actions"><button class="btn primary" data-demo="Личные сообщения станут доступны после подключения системы сообщений.">Написать сообщение</button><button class="btn" data-demo="Добавление друзей станет доступно после подключения аккаунтов.">Добавить в друзья</button><a class="btn" href="#profile-settings">Настройки профиля</a></div>
+ <div class="user-avatar-wrap"><div class="user-avatar"><img id="profileAvatarImage" src="assets/avatars/default-avatar.svg" alt="Аватар пользователя"></div><button class="btn small avatar-edit" type="button">Изменить фото</button></div>
+ <div class="user-identity"><span class="eyebrow">ПОЛЬЗОВАТЕЛЬ EMPIRE</span><h2 id="profileDisplayName">Пользователь</h2><p class="user-motto" id="profileDisplayMotto">—</p>
+  <div class="user-status" data-presence-status="online"><span class="status-dot"></span> В сети</div><div class="site-role-badge" data-site-role="user" hidden></div>
+  <div class="user-facts"><div><span>Полк</span><b id="profileRegiment">Не назначен</b></div><div><span>Фракция</span><b id="profileFaction">Не назначена</b></div><div><span>Положение</span><b id="profileMemberRole">Пользователь</b></div><div><span>В Empire с</span><b id="profileJoined">—</b></div></div>
+  <div class="profile-actions"><a class="btn" href="regiments.html">Полки</a><a class="btn" href="#profile-settings">Настройки профиля</a></div>
  </div>
- <aside class="user-service-card"><span class="eyebrow">СЛУЖЕБНАЯ СТАТИСТИКА</span><div><b>0</b><span>сражений</span></div><div><b>0</b><span>побед</span></div></aside></aside>
+ <aside class="user-service-card"><span class="eyebrow">СЛУЖЕБНАЯ СТАТИСТИКА</span><div><b>0</b><span>сражений</span></div><div><b>0</b><span>побед</span></div></aside>
 </section>
-<section class="card"><div class="card-title">История и связи</div><div class="empty-state">История службы, друзья и посетители появятся после подключения соответствующих систем.</div></section>
-<section class="card profile-settings<section class="card profile-settings" id="profile-settings"><div class="card-title">⚙ &nbsp; Настройки профиля</div><form id="profileSettingsForm"><div class="profile-settings-grid"><label>Никнейм<input id="profileName" maxlength="40" value="Imperator"></label><label class="profile-settings-wide">Девиз<textarea id="profileMotto" maxlength="180">«За честь и Империю»</textarea></label><label class="profile-settings-wide">Аватар<input id="profileAvatar" type="file" accept="image/*"></label></div><div class="profile-settings-actions"><button class="btn primary" type="submit">Сохранить изменения</button><span id="profileSaveNote"></span></div></form></section></main></div>
+<section class="card"><div class="card-title">Служба</div><div id="profileService" class="empty-state">Загрузка данных о службе...</div></section>
+<section class="card profile-settings" id="profile-settings"><div class="card-title">⚙ &nbsp; Настройки профиля</div><form id="profileSettingsForm"><div class="profile-settings-grid"><label>Никнейм<input id="profileName" maxlength="40"></label><label class="profile-settings-wide">Девиз<textarea id="profileMotto" maxlength="180"></textarea></label><label class="profile-settings-wide">Аватар<input id="profileAvatar" type="file" accept="image/*"></label></div><div class="profile-settings-actions"><button class="btn primary" type="submit">Сохранить изменения</button><span id="profileSaveNote"></span></div></form></section>
+</main></div>
 <footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Mount &amp; Blade: Napoleonic Wars</div><div>Главная · Полки · Кампании · Рейтинг · Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
 <div class="modal-backdrop" id="loginModal"><div class="modal"><button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь для доступа к личному кабинету.</p><label>Логин или email</label><input id="loginName" placeholder="Введите логин"><label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль"><div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div></div></div><div class="toast" id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js"></script><script src="assets/app.js"></script><script src="assets/profile.js"></script></body></html>
