@@ -387,3 +387,10 @@ img.person-avatar{object-fit:cover;padding:0;border-radius:50%;background:#17120
 .more-records[open] .more-chevron{transform:rotate(180deg)}
 .more-records-content{padding-top:6px}
 .more-records-content>.person-row:first-child{border-top:0}
+
+
+/* Faction selection in regiment registration */
+#regimentModal .modal .select{width:100%;margin:5px 0 14px}
+#regimentModal .modal form label{display:block;margin:12px 0 5px;color:#b9a27a;font-size:11px}
+#regimentModal .modal form input{width:100%;box-sizing:border-box}
+.regiment-tile .regiment-faction{margin:6px 0;color:#aa9878;font-size:11px;text-align:center}
