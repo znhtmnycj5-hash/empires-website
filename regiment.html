@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Полк — Empire</title><link rel="stylesheet" href="assets/style.css?v=20261106h">
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Полк — Empire</title><link rel="stylesheet" href="assets/style.css?v=20261106j">
 <style id="regiment-page-inline">
 #regimentPage .regiment-detail-grid{align-items:start}
 #regimentPage .regiment-detail-grid>div:last-child{min-width:0}
@@ -26,9 +26,9 @@
 }
 </style>
 <style id="regiment-logo-size-fix">
-#regimentPage .regiment-crest-large{width:180px;height:180px;display:flex;align-items:center;justify-content:center;overflow:hidden;box-sizing:border-box}
-#regimentPage .regiment-crest-large img{display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain}
-@media(max-width:650px){#regimentPage .regiment-crest-large{width:140px;height:140px}}
+#regimentPage .regiment-crest-large{width:110px !important;height:110px !important;min-width:110px !important;min-height:110px !important;max-width:110px !important;max-height:110px !important;display:flex;align-items:center;justify-content:center;overflow:hidden;box-sizing:border-box}
+#regimentPage .regiment-crest-large img{display:block !important;width:100% !important;height:100% !important;max-width:100% !important;max-height:100% !important;object-fit:contain !important}
+@media(max-width:650px){#regimentPage .regiment-crest-large{width:90px !important;height:90px !important;min-width:90px !important;min-height:90px !important;max-width:90px !important;max-height:90px !important}}
 </style>
 </head><body>
 <header><div class="container brand"><div class="brand-image"><img src="assets/IMG_2724.png" alt="EMPIRE"></div></div></header>
@@ -46,7 +46,7 @@
 </main></div>
 <footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Mount &amp; Blade: Napoleonic Wars</div><div>Главная · Полки · Кампании · Рейтинг · Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
 <div class="modal-backdrop" id="loginModal"><div class="modal"><button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь для доступа к личному кабинету.</p><label>Логин или email</label><input id="loginName" placeholder="Введите логин"><label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль"><div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div></div></div><div class="toast" id="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js?v=20261106h"></script><script src="assets/app.js?v=20261106h"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js?v=20261106j"></script><script src="assets/app.js?v=20261106j"></script>
 <script>
 (async function(){
  const client=window.EMPIRE_SUPABASE, note=document.getElementById('regimentNote');
