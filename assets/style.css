@@ -420,3 +420,19 @@ img.person-avatar{object-fit:cover;padding:0;border-radius:50%;background:#17120
 .chat-input button:disabled{opacity:.4;cursor:not-allowed}
 
 .chat-tab[hidden],.chat-panel[hidden]{display:none!important}
+
+/* Homepage online users */
+.online-users{margin-top:14px;padding-bottom:15px}
+.online-users-count{font:11px "Roboto Slab";color:#8f8068;align-self:center}
+.online-users-grid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:10px;padding:16px}
+.online-user-tile{position:relative;display:block;aspect-ratio:1;min-width:0;border:1px solid #765a36;background:#100e0b;overflow:hidden;transition:.18s}
+.online-user-tile img{display:block;width:100%;height:100%;object-fit:cover}
+.online-user-tile:hover{border-color:#e0bd76;transform:translateY(-2px);box-shadow:0 5px 14px #000}
+.online-user-tile i{position:absolute;right:5px;bottom:5px;width:10px;height:10px;border:2px solid #17130f;border-radius:50%;background:#69b66c}
+.online-users-more{margin:0 16px}
+.online-users-more summary{width:max-content;max-width:100%;cursor:pointer;color:#c9a45d;font-size:12px;list-style:none;border-bottom:1px dotted #80633b;padding:5px 0}
+.online-users-more summary::-webkit-details-marker{display:none}
+.online-users-more summary span{margin-left:7px;color:#a99470}
+.online-users-extra{padding:12px 0 0}
+@media(max-width:900px){.online-users-grid{grid-template-columns:repeat(8,minmax(0,1fr))}}
+@media(max-width:600px){.online-users-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding:12px}.online-users-more{margin:0 12px}.online-users-count{font-size:10px}}
