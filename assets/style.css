@@ -175,13 +175,7 @@ nav a:hover .nav-icon,nav a.active .nav-icon{filter:brightness(1.1) drop-shadow(
 .regiment-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:18px}
 .regiment-tile{min-width:0;padding:12px;border:1px solid #5d4930;background:linear-gradient(145deg,#211c16,#11100e);cursor:pointer;text-align:center;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
 .regiment-tile:hover{transform:translateY(-4px);border-color:#9a7440;box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.regiment-logo{height:150px;border:1px solid #765b36;background-color:#17130f;background-image:url("../assets/IMG_2727.png");background-repeat:no-repeat;background-size:300% 200%;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.regiment-logo.flag-1{background-position:0% 0%}
-.regiment-logo.flag-2{background-position:50% 0%}
-.regiment-logo.flag-3{background-position:100% 0%}
-.regiment-logo.flag-4{background-position:0% 100%}
-.regiment-logo.flag-5{background-position:50% 100%}
-.regiment-logo.flag-6{background-position:100% 100%}
+.regiment-logo{height:150px;border:1px solid #765b36;background-color:#17130f;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.regiment-logo img{width:100%;height:100%;object-fit:contain;display:block}
 .regiment-tile h2{margin:12px 0 5px;font:700 18px Cinzel;color:#e1c48e}
 .regiment-rating{font:700 16px 'Roboto Slab';color:#b99559}
 .regiment-rating span{display:block;margin-top:3px;font:10px 'Roboto Slab';letter-spacing:1px;color:#82745f}
