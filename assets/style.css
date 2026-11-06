@@ -376,3 +376,14 @@ img.person-avatar{object-fit:cover;padding:0;border-radius:50%;background:#17120
 
 /* Center the service-status label within the profile identity column. */
 .user-identity>.user-status{display:flex;width:max-content;max-width:100%;margin:12px auto 0;justify-content:center;}
+
+/* Nested overflow lists: latest three entries remain visible, older entries expand on demand. */
+.more-records{margin-top:8px;border-top:1px solid rgba(137,113,75,.28);padding-top:7px}
+.more-records>summary{display:flex;align-items:center;justify-content:center;gap:8px;list-style:none;cursor:pointer;padding:8px 10px;color:#c6a66d;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:rgba(0,0,0,.16);border:1px solid rgba(137,113,75,.35);border-radius:3px;transition:background .18s ease,border-color .18s ease}
+.more-records>summary::-webkit-details-marker{display:none}
+.more-records>summary::marker{content:""}
+.more-records>summary:hover{background:rgba(137,113,75,.12);border-color:#8c754d}
+.more-chevron{font-size:16px;line-height:1;transition:transform .2s ease}
+.more-records[open] .more-chevron{transform:rotate(180deg)}
+.more-records-content{padding-top:6px}
+.more-records-content>.person-row:first-child{border-top:0}
