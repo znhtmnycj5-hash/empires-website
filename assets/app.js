@@ -33,3 +33,6 @@ function sortAndFilterRegiments(){
 regSearch?.addEventListener('input',sortAndFilterRegiments);
 regNation?.addEventListener('change',sortAndFilterRegiments);
 sortAndFilterRegiments();
+
+// Demo-only notices for controls that require the future server backend.
+document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',()=>toast(b.dataset.demo)));
