@@ -1,20 +1,30 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Кампании — Empire</title><link rel="stylesheet" href="assets/style.css"></head><body><header><div class="container brand"><div class="brand-image"><img src="assets/IMG_2724.png" alt="EMPIRE"></div></div></header>
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Кампании — Empire</title><link rel="stylesheet" href="assets/style.css"></head><body>
+<header><div class="container brand"><div class="brand-image"><img src="assets/IMG_2724.png" alt="EMPIRE"></div></div></header>
 <div class="container"><nav>
-<a class="" href="index.html">Главная</a>
-<div class="dropdown"><a class="" href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="regiments.html#my">Мои полки</a></div></div>
-<div class="dropdown"><a class="active" href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html">Текущие</a><a href="campaigns.html#archive">Архив</a></div></div>
-<a href="battles.html">Сражения</a>
-<a class="" href="ranking.html">Рейтинг</a>
-<div class="dropdown"><a class="" href="forum.html">Форум</a><div class="dropdown-menu"><a href="forum.html">Обсуждения</a><a href="forum.html#guides">Гайды</a></div></div>
-<a class="" href="alliances.html">Союзы</a>
-<a href="about.html">О нас</a><a class="login" href="#" data-login>Войти</a>
-</nav><main><section class="page-title"><h1>КАМПАНИИ</h1><p>Сражения, турниры и сезонные кампании Empire.</p></section>
-<div class="two-col"><section class="card"><div class="card-title">⚔ Текущие кампании</div>
-<div class="list-card"><span class="badge">Идёт сейчас</span><h2>Empire Autumn Campaign</h2><p>24 полка · 8-й тур · Следующий этап: 8 ноября, 20:00</p><button class="btn primary">Открыть кампанию</button></div>
-<div class="list-card"><span class="badge">Регистрация</span><h2>Grand European Campaign</h2><p>Регистрация до 15 ноября · Максимум 32 полка</p><button class="btn">Подать заявку</button></div></section>
-<aside class="card"><div class="card-title">Календарь боёв</div><div class="list-card"><b>8 НОЯ · 20:00</b><p>1st Regiment vs 84e Régiment</p></div><div class="list-card"><b>10 НОЯ · 21:00</b><p>7th Hussars vs 95th Rifles</p></div><div class="list-card"><b>12 НОЯ · 19:30</b><p>Grenadiers vs Voltigeurs</p></div></aside></div>
-<section class="card" id="archive" style="margin-top:14px"><div class="card-title">Архив кампаний</div><div class="list-card"><span class="badge">Завершена</span><h2>Empire Autumn Cup 2026</h2><p>Победитель: 1st Regiment · 32 участника</p></div></section>
+<a href="index.html">Главная</a><div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="regiments.html#my">Мои полки</a></div></div>
+<div class="dropdown"><a class="active" href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html">Текущие</a><a href="#archive">Архив</a></div></div>
+<a href="battles.html">Сражения</a><a href="ranking.html">Рейтинг</a><div class="dropdown"><a href="forum.html">Форум</a><div class="dropdown-menu"><a href="forum.html">Обсуждения</a><a href="forum.html#guides">Гайды</a></div></div><a href="alliances.html">Союзы</a><a href="about.html">О нас</a><a class="login" href="#" data-login>Войти</a>
+</nav><main>
+<section class="page-title"><span class="eyebrow">ВОЕННЫЕ ОПЕРАЦИИ EMPIRE</span><h1>КАМПАНИИ</h1><p>Общие военные события, организуемые администрацией сайта. Продолжительность каждой кампании — ровно один час.</p></section>
+<div class="campaign-layout">
+<section class="card"><div class="card-title">⚔ Текущие и предстоящие кампании <span class="section-note">Список событий</span></div><div id="campaignList" class="campaign-list"><div class="empty-state">Пока нет опубликованных кампаний. Новые события появятся здесь.</div></div></section>
+<aside class="card campaign-rules"><div class="card-title">Порядок участия</div><ol><li>Командир полка подаёт заявку и указывает количество бойцов.</li><li>Администрация назначает полку фракцию и один или несколько родов войск.</li><li>Данные сервера и пароль открываются допущенным участникам в момент начала.</li><li>После кампании администратор вручную отмечает явку.</li><li>Явившийся полк получает <b class="rating-plus">+50 рейтинга</b>.</li></ol><div class="aside-rule"><b>Важно: расписание</b><p>Кампания и обычное сражение для одного полка не могут пересекаться. Оба события длятся ровно 60 минут.</p></div></aside>
+</div>
+<section class="card campaign-admin" id="campaignAdmin"><div class="card-title">♛ Управление кампаниями <span class="section-note">Инструменты администрации · демонстрационный режим</span></div>
+<form id="campaignCreateForm" class="campaign-form"><div class="form-grid">
+<label>Название кампании<input id="campaignName" required maxlength="100" placeholder="Например: Битва народов"></label>
+<label>Дата проведения<input id="campaignDate" type="date" required></label>
+<label>Время начала<input id="campaignTime" type="time" required></label>
+<label>Игровой сервер<input id="campaignServer" required maxlength="120" placeholder="Название сервера"></label>
+<label>Пароль сервера<input id="campaignPassword" type="password" required maxlength="120" placeholder="Пароль"></label>
+<label class="wide">Описание кампании<textarea id="campaignDescription" rows="3" required placeholder="Историческая обстановка, задачи и правила события"></textarea></label>
+<fieldset class="wide campaign-fieldset"><legend>Фракции, участвующие в кампании</legend><div class="check-grid"><label class="checkline"><input type="checkbox" name="campaignFaction" value="Французская империя">Французская империя</label><label class="checkline"><input type="checkbox" name="campaignFaction" value="Австрийская Империя">Австрийская Империя</label><label class="checkline"><input type="checkbox" name="campaignFaction" value="Пруссия">Пруссия</label><label class="checkline"><input type="checkbox" name="campaignFaction" value="Российская империя">Российская империя</label><label class="checkline"><input type="checkbox" name="campaignFaction" value="Рейнский Союз">Рейнский Союз</label><label class="checkline"><input type="checkbox" name="campaignFaction" value="Британская Империя">Британская Империя</label></div></fieldset>
+</div><div class="form-actions"><button class="btn primary" type="submit">Создать кампанию</button></div></form>
+<div class="campaign-admin-note">В этой версии форма демонстрирует логику интерфейса в браузере. Настоящие права администратора, хранение пароля и синхронизация между пользователями требуют серверной части.</div>
+</section>
+<section class="card" id="archive"><div class="card-title">Архив кампаний</div><div id="campaignArchive" class="empty-state">Завершённых кампаний пока нет.</div></section>
 </main></div>
-<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Mount &amp; Blade: Napoleonic Wars</div><div>Главная · Полки · Кампании · Рейтинг · Форум · Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
-<div class="modal-backdrop" id="loginModal"><div class="modal"><button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь для доступа к личному кабинету и функциям сайта.</p><label>Логин или email</label><input id="loginName" placeholder="Введите логин"><label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль"><div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div></div></div><div class="toast" id="toast"></div>
+<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Mount &amp; Blade: Napoleonic Wars</div><div>Главная · Полки · Кампании · Сражения · Рейтинг · Форум · Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
+<div class="modal-backdrop" id="loginModal"><div class="modal"><button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь для доступа к функциям сайта.</p><label>Логин или email</label><input id="loginName" placeholder="Введите логин"><label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль"><div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div></div></div><div class="toast" id="toast"></div>
 <script src="assets/app.js"></script></body></html>
