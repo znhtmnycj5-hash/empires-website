@@ -26,8 +26,6 @@ header:before,footer:before{content:"";position:absolute;inset:0;pointer-events:
 header .container,footer .container{position:relative;z-index:2}
 nav:before{content:"";position:absolute;inset:-5px;pointer-events:none;border:1px solid rgba(199,157,83,.22);box-shadow:0 0 18px rgba(0,0,0,.55)}
 nav a{display:flex;align-items:center;gap:8px}
-nav a:before{font-size:17px;line-height:1;opacity:.9}
-nav a[href="index.html"]:before{content:"⌂"}nav a[href="regiments.html"]:before{content:"♟"}nav a[href="campaigns.html"]:before{content:"⚔"}nav a[href="ranking.html"]:before{content:"♜"}nav a[href="forum.html"]:before{content:"☵"}nav a[href="alliances.html"]:before{content:"♛"}nav .login:before{content:"♙"}
 .card-title:first-letter{color:#e0bd76}
 .page-title{box-shadow:inset 0 0 55px rgba(0,0,0,.55),0 14px 35px rgba(0,0,0,.45)}
 .card,.hero,.page-title{border-radius:2px}
