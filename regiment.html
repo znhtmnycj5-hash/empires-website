@@ -4,6 +4,50 @@
 <div class="container"><nav>
 <a href="index.html">Главная</a><div class="dropdown"><a class="active" href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="regiments.html#my">Мои полки</a></div></div>
 <div class="dropdown"><a href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html">Текущие</a><a href="campaigns.html#archive">Архив</a></div></div><a href="battles.html">Сражения</a><a href="ranking.html">Рейтинг</a><a href="alliances.html">Союзы</a><a href="news.html">Новости</a><a class="login" href="#" data-login>Войти</a></nav>
-<main><section class="page-title"><span class="eyebrow">ВОЕННОЕ ПОДРАЗДЕЛЕНИЕ</span><h1>ПОЛК НЕ НАЙДЕН</h1><p>Демонстрационные полки удалены. Здесь будет отображаться реальный полк после его регистрации в Empire.</p><a class="btn primary" href="regiments.html">Вернуться к полкам</a></section></main></div><footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Mount &amp; Blade: Napoleonic Wars</div><div>Главная · Полки · Кампании · Рейтинг · Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
+<main id="regimentPage">
+<section class="page-title"><span class="eyebrow">ВОЕННОЕ ПОДРАЗДЕЛЕНИЕ</span><h1 id="regimentName">Загрузка...</h1><p id="regimentFaction">Загрузка данных полка...</p></section>
+<section class="card"><div class="regiment-detail-grid">
+<div><div class="regiment-crest-large" id="regimentLogo">⚔</div></div>
+<div><div class="card-title">Сведения о полке</div><div class="user-facts"><div><span>Командир</span><b id="regimentCommander">—</b></div><div><span>Рейтинг</span><b id="regimentRating">0</b></div><div><span>Участников</span><b id="regimentMemberCount">0</b></div><div><span>Дата создания</span><b id="regimentCreated">—</b></div></div><p id="regimentDescription" class="regiment-description">Описание полка пока не заполнено.</p><div class="profile-actions"><button class="btn primary" id="joinRegiment">Подать заявку</button><a class="btn" href="regiments.html">← Все полки</a></div><p id="regimentNote" class="form-note"></p></div>
+</div></section>
+<section class="card"><div class="card-title">Состав полка</div><div id="regimentMembers" class="regiment-members-list"><div class="empty-state">Загрузка состава...</div></div></section>
+<section class="card"><div class="card-title">История и новости</div><div class="empty-state">История службы, новости и боевой архив будут подключены к полку на следующих этапах.</div></section>
+</main></div>
+<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Mount &amp; Blade: Napoleonic Wars</div><div>Главная · Полки · Кампании · Рейтинг · Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
 <div class="modal-backdrop" id="loginModal"><div class="modal"><button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь для доступа к личному кабинету.</p><label>Логин или email</label><input id="loginName" placeholder="Введите логин"><label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль"><div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div></div></div><div class="toast" id="toast"></div>
-<script src="assets/app.js"></script><script>document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',()=>{const t=document.getElementById('toast');t.textContent=b.dataset.demo;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}));</script></body></html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js"></script><script src="assets/app.js"></script>
+<script>
+(async function(){
+ const client=window.EMPIRE_SUPABASE, note=document.getElementById('regimentNote');
+ const id=new URLSearchParams(location.search).get('id');
+ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ const setNote=t=>{if(note)note.textContent=t};
+ if(!client||!id){setNote('Полк не найден.');return}
+ const {data:r,error}=await client.from('regiments').select('id,name,faction,commander_id,logo_url,description,rating,created_at').eq('id',id).maybeSingle();
+ if(error||!r){document.getElementById('regimentName').textContent='ПОЛК НЕ НАЙДЕН';setNote('Такого полка нет в базе данных.');return}
+ document.title=r.name+' — Empire';
+ document.getElementById('regimentName').textContent=r.name;
+ document.getElementById('regimentFaction').textContent=r.faction;
+ document.getElementById('regimentRating').textContent=Number(r.rating||0);
+ document.getElementById('regimentDescription').textContent=r.description||'Описание полка пока не заполнено.';
+ document.getElementById('regimentCreated').textContent=new Date(r.created_at).toLocaleDateString('ru-RU');
+ if(r.logo_url){document.getElementById('regimentLogo').innerHTML='<img src="'+esc(r.logo_url)+'" alt="Эмблема '+esc(r.name)+'">'}
+ const {data:members,error:membersError}=await client.from('regiment_members').select('user_id,member_role,joined_at,profiles(username,avatar_url)').eq('regiment_id',id).order('member_role');
+ if(membersError){setNote('Не удалось загрузить состав полка.');return}
+ document.getElementById('regimentMemberCount').textContent=members.length;
+ const commander=members.find(m=>m.member_role==='commander');
+ document.getElementById('regimentCommander').textContent=commander?.profiles?.username||'Не назначен';
+ const box=document.getElementById('regimentMembers');
+ if(!members.length){box.innerHTML='<div class="empty-state">В полку пока нет участников.</div>'}
+ else{box.innerHTML=members.map(m=>'<div class="regiment-member-row"><div class="member-avatar">'+(m.profiles?.avatar_url?'<img src="'+esc(m.profiles.avatar_url)+'" alt="">':'⚔')+'</div><div><b>'+esc(m.profiles?.username||'Пользователь')+'</b><small>'+({'commander':'Командир','officer':'Офицер','soldier':'Солдат'}[m.member_role]||'Участник')+'</small></div></div>').join('')}
+ const {data:{session}}=await client.auth.getSession();
+ const join=document.getElementById('joinRegiment');
+ if(!session){join.textContent='Войдите, чтобы подать заявку';join.onclick=()=>location.href='auth.html';return}
+ if(members.some(m=>m.user_id===session.user.id)){join.textContent='Вы уже состоите в полку';join.disabled=true;return}
+ join.onclick=async()=>{
+   const {error:e}=await client.from('regiment_applications').insert({regiment_id:id,user_id:session.user.id,status:'pending'});
+   if(e){setNote(e.code==='23505'?'Заявка уже подана или вы уже состоите в полку.':'Не удалось подать заявку: '+e.message);return}
+   join.disabled=true;join.textContent='Заявка отправлена';setNote('Командир полка должен рассмотреть вашу заявку.');
+ };
+})();
+</script></body></html>
