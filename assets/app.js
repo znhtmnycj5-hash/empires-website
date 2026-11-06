@@ -5,7 +5,7 @@ const modal=document.getElementById('loginModal');
 document.querySelectorAll('[data-login]').forEach(x=>x.addEventListener('click',e=>{e.preventDefault();modal?.classList.add('show')}));
 document.getElementById('closeLogin')?.addEventListener('click',()=>modal.classList.remove('show'));
 modal?.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('show')});
-document.getElementById('demoLogin')?.addEventListener('click',()=>{const n=document.getElementById('loginName').value.trim()||'Император';modal.classList.remove('show');toast('Добро пожаловать, '+n+'!')});
+document.getElementById('demoLogin')?.addEventListener('click',async()=>{const email=document.getElementById('loginName').value.trim(),password=document.getElementById('loginPassword').value;if(!email||!password){toast('Введите email и пароль.');return}const client=window.EMPIRE_SUPABASE;if(!client){toast('Supabase не подключён.');return}const {error}=await client.auth.signInWithPassword({email,password});if(error){toast(error.message);return}modal?.classList.remove('show');toast('Вход выполнен.');setTimeout(()=>location.href='profile.html',500)});
 (function initHomeMiniChat(){
   const tabs=[...document.querySelectorAll('.chat-tab')];
   const panels=[...document.querySelectorAll('.chat-panel')];
