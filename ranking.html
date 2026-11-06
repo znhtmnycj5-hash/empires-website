@@ -166,7 +166,142 @@ footer:before{display:none!important}
  .profile-flag{width:min(100%,220px);margin:auto}
 }
 @media(max-width:420px){nav{grid-template-columns:repeat(2,minmax(0,1fr))!important}.container{width:94%!important}}
-</style></head><body>
+</style>
+<style id="empire-reference-theme">
+/* EMPIRE — classic Napoleonic reference design */
+:root{--bg:#f5eddb;--panel:#fff9ec;--gold:#b88738;--gold2:#e5c477;--cream:#f4e6c8;--muted:#77684f;--red:#17395b;--line:#c6a66d;--surface:#fffaf0;--surface-soft:#f1e5cf;--text:#211d17;--text-muted:#74664f;--accent:#12385d;--accent-soft:#e9dfca;--border:#c9ad7b;--shadow:0 3px 10px rgba(53,37,16,.14)}
+html,body{background:#f5eddb!important;color:#211d17!important;font-family:Georgia,"Times New Roman",serif!important}
+body:before{display:none!important}
+a{color:#17395b}
+.container{width:min(1500px,98%)!important}
+header{min-height:220px!important;position:relative!important;overflow:hidden!important;background:#102e4d url("assets/header-art.svg") center 43%/cover no-repeat!important;border-bottom:3px solid #c79a4e!important;box-shadow:0 3px 10px rgba(37,25,11,.25)!important}
+header:after{content:""!important;position:absolute!important;inset:0!important;background:linear-gradient(90deg,rgba(7,28,49,.2),rgba(7,28,49,.04) 55%,rgba(7,28,49,.18))!important}
+header:before{display:none!important}
+header .container{position:relative!important;z-index:2!important}
+.brand{min-height:210px!important;padding:10px 0!important;justify-content:flex-start!important;gap:20px!important}
+.brand:before{display:none!important}
+.brand-image{height:200px!important;width:100%!important;display:flex!important;align-items:center!important;justify-content:flex-start!important}
+.brand-image img{height:auto!important;width:auto!important;max-width:min(410px,45vw)!important;max-height:190px!important;object-fit:contain!important;filter:drop-shadow(0 3px 5px rgba(0,0,0,.65))!important}
+nav{position:relative!important;z-index:5!important;display:flex!important;align-items:center!important;justify-content:space-around!important;flex-wrap:wrap!important;gap:0!important;min-height:58px!important;margin:0 0 16px!important;padding:0 8px!important;background:linear-gradient(180deg,#173e64,#092440)!important;border:2px solid #c59a51!important;outline:1px solid #f0d18b!important;outline-offset:-5px!important;box-shadow:0 3px 8px rgba(38,26,12,.25)!important;border-radius:3px!important}
+nav:before{display:none!important}
+nav a,nav .dropdown>a{display:flex!important;align-items:center!important;justify-content:center!important;min-height:52px!important;padding:12px 18px!important;border:0!important;background:transparent!important;color:#f6e4bd!important;font:600 16px Georgia,"Times New Roman",serif!important;text-shadow:0 1px 2px #06192b!important;white-space:nowrap!important}
+nav a:hover,nav a.active,nav .dropdown:hover>a{background:linear-gradient(180deg,#28527a,#102d4c)!important;color:#ffdf9a!important;box-shadow:inset 0 -3px #d5aa5d!important}
+nav .login{margin-left:0!important}
+.dropdown-menu{top:100%!important;background:#102d4b!important;border:1px solid #c49a55!important;box-shadow:0 8px 20px rgba(0,0,0,.25)!important}
+.dropdown-menu a{color:#f4e4c5!important}
+main{padding:8px 0 36px!important}
+h1,h2,h3,h4,.card-title,.page-title h1{font-family:Georgia,"Times New Roman",serif!important;text-shadow:none!important;letter-spacing:normal!important}
+h1{color:#183b5c!important}
+.hero{min-height:275px!important;position:relative!important;overflow:hidden!important;border:2px solid #b88a43!important;border-radius:3px!important;background:#263b4e url("assets/hero-art.svg") center/cover no-repeat!important;box-shadow:0 2px 8px rgba(39,26,10,.22)!important}
+.hero:before{background:linear-gradient(90deg,rgba(7,23,38,.02),rgba(7,23,38,.14) 38%,rgba(5,18,30,.84) 100%)!important}
+.hero:after{background:linear-gradient(0deg,rgba(0,0,0,.35),transparent 40%)!important}
+.hero-copy{width:48%!important;padding:30px!important}
+.kicker{color:#f2d49a!important;font:italic 20px Georgia,serif!important}
+.hero h1{color:#f2d49a!important;font-family:Georgia,serif!important;text-shadow:0 2px 5px #000!important}
+.tagline{color:#fff2d7!important}
+.stat strong,.community-grid strong{color:#e0b963!important;text-shadow:0 1px 2px #38240d!important}
+.stat span,.community-grid span{color:#f0dfbd!important}
+.card,.list-card,.profile-hero,.commander-card,.modal,.news-create-card,.campaign-form,.campaign-admin-tools{background:#fff9ec!important;border:1px solid #b9975e!important;border-radius:3px!important;box-shadow:0 2px 8px rgba(53,37,16,.13)!important;color:#211d17!important}
+.card-title{padding:11px 14px!important;background:linear-gradient(180deg,#1a4167,#0c2947)!important;border-bottom:2px solid #c49a52!important;color:#f7e5bd!important;font:700 18px Georgia,serif!important}
+.card-title a{color:#f1cf8a!important}
+.card:hover,.list-card:hover{border-color:#a77a35!important;box-shadow:0 4px 12px rgba(53,37,16,.18)!important}
+p,.profile dd,.regiment-card p,.news-item p{color:#29231a!important}
+.page-title{padding:28px 20px!important;background:linear-gradient(90deg,rgba(12,40,66,.88),rgba(12,40,66,.65)),url("assets/battlefield.svg") center/cover!important;border:2px solid #b99153!important;border-radius:3px!important;box-shadow:none!important}
+.page-title h1,.page-title p{color:#fff0d1!important}
+.btn{min-height:38px!important;padding:9px 16px!important;border:1px solid #c39a53!important;border-radius:5px!important;background:linear-gradient(180deg,#fff4d8,#dfc28a)!important;color:#382713!important;box-shadow:inset 0 1px rgba(255,255,255,.8),0 2px 4px rgba(40,27,10,.2)!important;font:600 13px Georgia,serif!important;text-shadow:none!important}
+.btn.primary{background:linear-gradient(180deg,#1d4b73,#092744)!important;color:#fff0cf!important;border-color:#d0a65e!important}
+.btn:hover{transform:translateY(-1px)!important;filter:brightness(1.05)!important}
+input,textarea,select,.input,.select,.chat-input input,.modal input{background:#fffdf7!important;color:#29231a!important;border:1px solid #cbb58c!important;border-radius:3px!important;box-shadow:inset 0 1px 2px rgba(50,35,12,.06)!important}
+input::placeholder,textarea::placeholder{color:#8d806a!important}
+.badge{background:#f0e2c5!important;border:1px solid #c5a36a!important;color:#62471f!important}
+.news-item{background:#fff9ec!important;border-bottom:1px solid #dfcfad!important;color:#211d17!important}
+.news-item h3{color:#17395b!important}
+.news-item p{color:#3c3325!important}
+.news-item .date,.date{color:#756348!important}
+.thumb{border:1px solid #b9965e!important;border-radius:2px!important}
+.chat-tabs{border-color:#cdb98f!important}
+.chat-tab{background:#e9dcc1!important;color:#5d4c31!important;border-right:1px solid #cdb98f!important}
+.chat-tab.active,.chat-tab:hover{background:#173b60!important;color:#f8e8c7!important}
+.messages{color:#29231a!important}
+.msg{border-color:#e4d7bc!important}
+.msg b{color:#17395b!important}
+.msg p{color:#3d3427!important}
+.time{color:#8c7a5a!important}
+.chat-input button{background:linear-gradient(#1c4a72,#092744)!important;color:#f7e4bd!important;border:1px solid #c49a52!important}
+.avatar,.crest,.crest-mini{background:#efe2c8!important;border:1px solid #b8955c!important;color:#17395b!important;box-shadow:none!important}
+.profile{background:#fff9ec!important}
+.profile h3,.regiment-card h4,.campaign-event h2{color:#17395b!important}
+.profile small,.profile dt,.profile-meta{color:#76664b!important}
+.profile dd{color:#29231a!important}
+.battle{background:#f1e3c7!important;border-top:1px solid #c9ad7b!important}
+.battle .team{color:#29231a!important}
+.battle .datebox{color:#17395b!important;text-shadow:none!important}
+.battle .datebox small{color:#756348!important}
+.ranking td{border-color:#e3d5b8!important;color:#3c3325!important}
+.points{color:#17395b!important}
+.rank-row:hover,.rank-row.selected{background:#f0e4cc!important}
+.regiment-card{border-color:#dfcfad!important}
+.regiment-card:hover{background:#f6ecd9!important}
+.regiment-card h4{color:#17395b!important}
+.regiment-card p{color:#756348!important}
+.regiment-tile{background:#fff9ec!important;border:1px solid #c2a36f!important;box-shadow:0 2px 7px rgba(53,37,16,.1)!important}
+.regiment-tile h2{color:#17395b!important}
+.regiment-logo{background:#f2e8d6!important;border:1px solid #c2a36f!important}
+.profile-hero{background:#fff9ec!important}
+.profile-flag{background:#f1e5cf!important;border:1px solid #c9ad7b!important}
+.profile-heading h1{color:#17395b!important}
+.profile-heading p,.profile-meta{color:#756348!important}
+.commander-card{background:#f5ecd9!important}
+.regiment-members-list .regiment-member-row{border-color:#e4d7bc!important}
+.regiment-members-list .member-avatar{background:#efe2c8!important;border-color:#c9ad7b!important;color:#17395b!important}
+.regiment-members-list .regiment-member-row b,#regimentPage .user-facts b{color:#17395b!important}
+.regiment-members-list .regiment-member-row small,#regimentPage .user-facts span{color:#756348!important}
+#regimentPage .regiment-description{color:#3d3427!important}
+.campaign-event{border-color:#d9c69e!important}
+.campaign-event h2{color:#17395b!important}
+.campaign-event p,.campaign-factions,.campaign-rules ol{color:#4b3e2a!important}
+.campaign-event-count{color:#17395b!important}
+.campaign-fieldset{border:1px solid #c9ad7b!important}
+.campaign-fieldset legend{color:#62471f!important}
+.campaign-join-form,.campaign-event .campaign-roster,.campaign-admin-tools,.campaign-server-unlock{background:#f4ead6!important;border:1px solid #d7c49d!important;color:#4b3e2a!important}
+.campaign-join-form label,.campaign-manage-row>label{color:#5b4a30!important}
+.campaign-join-form input,.campaign-join-form select,.campaign-manage-row select{background:#fffdf7!important;color:#29231a!important;border:1px solid #cbb58c!important}
+.campaign-roster-row{border-color:#e2d2af!important}
+.campaign-admin-tools summary,.chat-access-note strong{color:#17395b!important}
+.chat-access-note{background:#f1e5cf!important;border:1px solid #c9ad7b!important;color:#5b4a30!important}
+.online-user-tile{background:#f1e5cf!important;border:1px solid #c9ad7b!important}
+.online-user-tile:hover{border-color:#a77a35!important}
+footer{position:relative!important;min-height:150px!important;background:#092744 url("assets/footer-art.svg") center/cover no-repeat!important;border-top:3px solid #c49a52!important;color:#f2dfba!important}
+footer:before{display:none!important}
+footer .motto{color:#f0cb82!important}
+footer a{color:#f4dfb4!important}
+.modal-backdrop{background:rgba(12,25,38,.55)!important}
+.modal h2{color:#17395b!important}
+.modal p,.modal label{color:#65563d!important}
+.close{color:#756348!important}
+.toast{background:#fff9ec!important;border:1px solid #c9ad7b!important;color:#29231a!important}
+.community{background:linear-gradient(rgba(13,42,68,.84),rgba(8,29,49,.9)),url("assets/battlefield.svg") center/cover!important;border:1px solid #bd9655!important}
+.community .card-title{background:transparent!important;border:0!important}
+@media(min-width:1100px){main.home-main{gap:12px 14px!important}}
+@media(max-width:760px){
+ header{min-height:140px!important}
+ .brand{min-height:132px!important;padding:6px 0!important}
+ .brand-image{height:126px!important;justify-content:center!important}
+ .brand-image img{max-width:min(300px,82vw)!important;max-height:120px!important}
+ nav{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0!important;padding:4px!important}
+ nav a,nav .dropdown>a{min-width:0!important;min-height:44px!important;padding:7px 3px!important;font-size:12px!important;white-space:normal!important;text-align:center!important;line-height:1.15!important}
+ nav .dropdown{min-width:0!important}
+ nav .login{grid-column:auto!important;margin:0!important}
+ nav .dropdown-menu{left:0!important;right:0!important;width:100%!important}
+ .hero{min-height:300px!important}
+ .hero-copy{width:100%!important;padding:25px 18px!important;background:linear-gradient(90deg,rgba(7,23,38,.42),rgba(5,18,30,.8))!important}
+ .stats{flex-wrap:wrap!important;gap:14px!important}
+ .regiment-tiles{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ footer{background-position:center!important}
+}
+@media(max-width:420px){nav{grid-template-columns:repeat(2,minmax(0,1fr))!important}.container{width:96%!important}.regiment-tiles{grid-template-columns:1fr!important}}
+</style>
+</head><body>
 <header><div class="container brand"><div class="brand-image"><img src="assets/IMG_2724.png" alt="EMPIRE"></div></div></header><div class="container"><nav><a href="index.html">Главная</a><div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="regiments.html#my">Мои полки</a></div></div><div class="dropdown"><a href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html">Текущие</a><a href="campaigns.html#archive">Архив</a></div></div><a href="battles.html">Сражения</a><a class="active" href="ranking.html">Рейтинг</a><a href="alliances.html">Союзы</a><a href="news.html">Новости</a><a class="login" href="#" data-login>Войти</a></nav><main>
 <section class="page-title"><span class="eyebrow">ЛЕТОПИСЬ ПОБЕД И ПОРАЖЕНИЙ</span><h1>РЕЙТИНГ EMPIRE</h1><p>Независимые рейтинги полков и союзов по результатам подтверждённых сражений.</p></section>
 <div class="rank-summary"><div><b>+50</b><span>ЗА ПОБЕДУ</span></div><div><b>+25</b><span>ЗА НИЧЬЮ</span></div><div><b>−50</b><span>ЗА ПОРАЖЕНИЕ</span></div></div>
