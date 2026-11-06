@@ -143,3 +143,83 @@ for insert to authenticated with check (auth.uid() = user_id);
 -- following insert if your project permits direct storage catalog inserts.
 -- insert into storage.buckets (id, name, public) values ('avatars','avatars',true)
 -- on conflict (id) do nothing;
+
+
+-- Regiment applications and commander-controlled membership.
+create table if not exists public.regiment_applications (
+  id uuid primary key default gen_random_uuid(),
+  regiment_id uuid not null references public.regiments(id) on delete cascade,
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  status text not null default 'pending' check (status in ('pending','accepted','rejected','cancelled')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create unique index if not exists regiment_applications_one_pending_per_user
+on public.regiment_applications(user_id) where status = 'pending';
+
+create unique index if not exists regiment_applications_one_pending_per_regiment_user
+on public.regiment_applications(regiment_id,user_id) where status = 'pending';
+
+create index if not exists idx_regiment_applications_regiment on public.regiment_applications(regiment_id);
+create index if not exists idx_regiment_applications_user on public.regiment_applications(user_id);
+
+alter table public.regiment_applications enable row level security;
+
+drop policy if exists regiment_applications_select_own on public.regiment_applications;
+create policy regiment_applications_select_own on public.regiment_applications
+for select using (
+  auth.uid() = user_id
+  or auth.uid() = (select commander_id from public.regiments where id = regiment_id)
+);
+
+drop policy if exists regiment_applications_insert_own on public.regiment_applications;
+create policy regiment_applications_insert_own on public.regiment_applications
+for insert to authenticated
+with check (
+  auth.uid() = user_id
+  and not exists (
+    select 1 from public.regiment_members m
+    where m.regiment_id = regiment_applications.regiment_id and m.user_id = auth.uid()
+  )
+);
+
+drop policy if exists regiment_applications_update_commander on public.regiment_applications;
+create policy regiment_applications_update_commander on public.regiment_applications
+for update to authenticated
+using (auth.uid() = (select commander_id from public.regiments where id = regiment_id))
+with check (auth.uid() = (select commander_id from public.regiments where id = regiment_id));
+
+-- Only the regiment commander can add/remove/change members.
+drop policy if exists regiment_members_insert_self on public.regiment_members;
+drop policy if exists regiment_members_insert_commander on public.regiment_members;
+create policy regiment_members_insert_commander on public.regiment_members
+for insert to authenticated
+with check (auth.uid() = (select commander_id from public.regiments where id = regiment_id));
+
+drop policy if exists regiment_members_update_commander on public.regiment_members;
+create policy regiment_members_update_commander on public.regiment_members
+for update to authenticated
+using (auth.uid() = (select commander_id from public.regiments where id = regiment_id))
+with check (auth.uid() = (select commander_id from public.regiments where id = regiment_id));
+
+drop policy if exists regiment_members_delete_commander on public.regiment_members;
+create policy regiment_members_delete_commander on public.regiment_members
+for delete to authenticated
+using (auth.uid() = (select commander_id from public.regiments where id = regiment_id));
+
+drop policy if exists regiments_update_commander on public.regiments;
+create policy regiments_update_commander on public.regiments
+for update to authenticated
+using (auth.uid() = commander_id)
+with check (auth.uid() = commander_id);
+
+drop policy if exists regiments_delete_commander on public.regiments;
+create policy regiments_delete_commander on public.regiments
+for delete to authenticated
+using (auth.uid() = commander_id);
+
+drop trigger if exists regiment_applications_set_updated_at on public.regiment_applications;
+create trigger regiment_applications_set_updated_at
+before update on public.regiment_applications
+for each row execute procedure public.set_updated_at();
