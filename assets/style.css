@@ -408,3 +408,13 @@ img.person-avatar{object-fit:cover;padding:0;border-radius:50%;background:#17120
 .campaign-event .campaign-roster-row{padding:11px 5px}
 .campaign-event .campaign-roster-row strong{color:#e2c98f;font-size:13px}
 .campaign-event .campaign-roster-row small{line-height:1.5}
+
+
+/* Homepage mini-chat: exactly two channels and a locked regiment channel until membership is verified. */
+.chat-tab{font-size:12px}
+.chat-access-note{margin:14px;padding:15px;border:1px solid #57452d;background:rgba(0,0,0,.22);color:#cdbb98}
+.chat-access-note strong{display:block;margin-bottom:7px;color:#e0c17e;font:600 14px Cinzel}
+.chat-access-note p{margin:0 0 8px;font-size:12px;line-height:1.55}
+.chat-access-note small{color:#9a896d;font-size:10px}
+.chat-input input:disabled{opacity:.55;cursor:not-allowed}
+.chat-input button:disabled{opacity:.4;cursor:not-allowed}
