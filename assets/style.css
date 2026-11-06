@@ -189,3 +189,5 @@ header{min-height:178px} .brand{justify-content:center;padding:12px 0 10px;min-h
 body{top:0!important}
 .goog-tooltip,.goog-tooltip:hover{display:none!important}
 @media(max-width:900px){.language-switch{margin:5px 0 5px auto}}
+.footer-language-switch{margin-left:18px;align-self:center}
+@media(max-width:700px){.footer-language-switch{margin:12px 0 0 auto}}
