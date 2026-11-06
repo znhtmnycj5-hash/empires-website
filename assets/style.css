@@ -256,3 +256,59 @@ body{top:0!important}
 img.person-avatar{object-fit:cover;padding:0;border-radius:50%;background:#17120d}
 .visitors-list img.person-avatar{width:40px;height:40px}
 @media(max-width:650px){.visitors-list img.person-avatar{width:40px;height:40px}}
+
+
+/* Refined dossier-style spoilers in the personal cabinet */
+.profile-spoiler>summary{
+  min-height:68px;
+  padding:14px 16px;
+  border:1px solid #5b452b;
+  border-left:3px solid #b18a4c;
+  background:linear-gradient(105deg,rgba(107,78,39,.22),rgba(22,17,12,.94) 58%),repeating-linear-gradient(135deg,rgba(208,176,119,.035) 0 1px,transparent 1px 7px);
+  transition:background .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+.profile-spoiler>summary:hover{
+  border-color:#9a7744;
+  border-left-color:#d4b06e;
+  background:linear-gradient(105deg,rgba(133,96,45,.3),rgba(27,20,13,.97) 62%),repeating-linear-gradient(135deg,rgba(208,176,119,.045) 0 1px,transparent 1px 7px);
+  box-shadow:inset 0 0 22px rgba(184,142,75,.07);
+}
+.profile-spoiler>summary:focus-visible{
+  outline:2px solid #d0ad70;
+  outline-offset:2px;
+}
+.profile-spoiler .spoiler-chevron{
+  display:grid;
+  place-items:center;
+  width:28px;
+  height:28px;
+  margin-left:auto;
+  border:1px solid #765a35;
+  border-radius:50%;
+  background:rgba(0,0,0,.28);
+  color:#dfbd7b;
+  font:18px "Roboto Slab";
+  transition:transform .22s ease,background .22s ease;
+}
+.profile-spoiler[open]>summary .spoiler-chevron{
+  transform:rotate(180deg);
+  background:rgba(177,138,76,.16);
+}
+.service-record.profile-spoiler{padding:0 20px 16px}
+.service-record.profile-spoiler .service-record-header{
+  margin:0 -20px;
+  padding:15px 20px;
+}
+.service-record.profile-spoiler .service-record-content{padding:12px 2px 0}
+.social-card.profile-spoiler{padding:0 0 14px}
+.social-card.profile-spoiler>.card-title{
+  margin:0;
+  border-radius:3px 3px 0 0;
+}
+.social-card.profile-spoiler .spoiler-body{padding-top:4px}
+@media(max-width:650px){
+  .profile-spoiler>summary{min-height:62px;padding:12px}
+  .service-record.profile-spoiler{padding:0 14px 12px}
+  .service-record.profile-spoiler .service-record-header{margin:0 -14px;padding:13px 14px}
+  .service-record.profile-spoiler .service-record-content{padding:10px 0 0}
+}
