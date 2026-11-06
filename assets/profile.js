@@ -22,7 +22,7 @@
     if(profile.avatar_url){currentAvatarUrl=profile.avatar_url;if(avatarImg)avatarImg.src=profile.avatar_url;}
     const h=document.querySelector('.user-identity h2');
     const m=document.querySelector('.user-motto');
-    if(h)h.textContent=profile.display_name||profile.username||'Пользователь';
+    if(h)h.textContent=profile.username||'Пользователь';
     if(m)m.textContent=profile.motto||'«За честь и Империю»';
     setPresence(profile.status!=='offline');
   };
