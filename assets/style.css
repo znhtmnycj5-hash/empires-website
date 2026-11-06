@@ -445,3 +445,9 @@ img.person-avatar{object-fit:cover;padding:0;border-radius:50%;background:#17120
 .ranking .rank-regiment{display:inline-flex;align-items:center;gap:9px;min-width:0}
 .ranking .rank-regiment img{display:block;width:34px;height:25px;flex:0 0 34px;object-fit:contain;border:1px solid rgba(137,113,75,.45);background:#100e0b;padding:2px}
 @media(max-width:600px){.ranking .rank-regiment{gap:6px}.ranking .rank-regiment img{width:29px;height:22px;flex-basis:29px}}
+
+
+/* Miniature regiment crests in upcoming homepage battles */
+.battle .team{display:flex;align-items:center;justify-content:center;gap:9px;min-height:34px}
+.battle .team img{display:block;width:38px;height:30px;flex:0 0 38px;object-fit:contain;padding:2px;border:1px solid rgba(74,55,30,.55);background:rgba(255,255,255,.16)}
+@media(max-width:600px){.battle .team{gap:6px;font-size:11px}.battle .team img{width:31px;height:25px;flex-basis:31px}}
