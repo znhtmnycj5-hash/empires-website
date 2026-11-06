@@ -1,4 +1,5 @@
-(async function initSupabaseAuth(){const client=window.EMPIRE_SUPABASE;if(!client)return;const {data:{session}}=await client.auth.getSession();if(session?.user){window.EMPIRE_CURRENT_USER={id:session.user.id,email:session.user.email||''};try{const {data:profile}=await client.from('profiles').select('username,display_name,avatar_url,status').eq('id',session.user.id).maybeSingle();if(profile){Object.assign(window.EMPIRE_CURRENT_USER,profile);const tile=document.getElementById('currentUserOnlineTile');if(tile&&profile.avatar_url){const img=tile.querySelector('img');if(img)img.src=profile.avatar_url;}if(tile&&profile.username){tile.title=profile.username;tile.setAttribute('aria-label','Профиль '+profile.username);const img=tile.querySelector('img');if(img)img.alt=profile.username;}}}catch{}}client.auth.onAuthStateChange((_event,newSession)=>{window.EMPIRE_CURRENT_USER=newSession?{id:newSession.user.id,email:newSession.user.email||''}:null})})();
+(async function initSupabaseAuth(){const client=window.EMPIRE_SUPABASE;if(!client)return;const {data:{session}}=await client.auth.getSession();if(session?.user){window.EMPIRE_CURRENT_USER={id:session.user.id,email:session.user.email||''};try{const {data:profile}=await client.from('profiles').select('username,display_name,avatar_url,status').eq('id',session.user.id).maybeSingle();if(profile)Object.assign(window.EMPIRE_CURRENT_USER,profile)}catch{};updateCurrentUserOnlineTile();}client.auth.onAuthStateChange((_event,newSession)=>{window.EMPIRE_CURRENT_USER=newSession?{id:newSession.user.id,email:newSession.user.email||''}:null;updateCurrentUserOnlineTile()})();
+function updateCurrentUserOnlineTile(){const tile=document.getElementById('currentUserOnlineTile'),count=document.getElementById('onlineUsersCount'),u=window.EMPIRE_CURRENT_USER;if(!tile)return;if(u?.id){tile.hidden=false;const img=tile.querySelector('img');if(img&&u.avatar_url)img.src=u.avatar_url;tile.title=u.username||'Профиль';tile.setAttribute('aria-label','Профиль '+(u.username||''));if(img)img.alt=u.username||'Профиль';if(count)count.textContent='1 пользователь'}else{tile.hidden=true;if(count)count.textContent='0 пользователей'}}
 const toast=(msg)=>{const e=document.getElementById('toast');if(!e)return;e.textContent=msg;e.classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>e.classList.remove('show'),2300)};
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id&&id.length>1&&document.querySelector(id)){e.preventDefault();document.querySelector(id).scrollIntoView({behavior:'smooth',block:'start'})}}));
 const modal=document.getElementById('loginModal');
@@ -159,56 +160,19 @@ document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',(
 })();
 
 
-// Regiment registration demo: a faction is mandatory and exactly one can be selected.
-(function initRegimentRegistration(){
-  const openButton=document.getElementById('createRegiment');
-  const dialog=document.getElementById('regimentModal');
-  const closeButton=document.getElementById('closeRegiment');
-  const form=document.getElementById('regimentForm');
-  const nameInput=document.getElementById('newRegimentName');
-  const factionInput=document.getElementById('newRegimentFaction');
-  const list=document.getElementById('regList');
-  if(!openButton||!dialog||!form||!list)return;
-  openButton.addEventListener('click',()=>{
-    dialog.classList.add('show');
-    nameInput?.focus();
-  });
-  closeButton?.addEventListener('click',()=>dialog.classList.remove('show'));
-  dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.classList.remove('show')});
-  form.addEventListener('submit',e=>{
-    e.preventDefault();
-    const name=(nameInput?.value||'').trim();
-    const faction=factionInput?.value||'';
-    if(!name||!faction){toast('Укажите название полка и выберите фракцию.');return;}
-    const card=document.createElement('div');
-    card.className='regiment-tile';
-    card.dataset.name=name;
-    card.dataset.nation=faction;
-    card.dataset.rating='0';
-    const logo=document.createElement('div');
-    logo.className='regiment-logo';
-    logo.textContent='⚔';
-    const title=document.createElement('h2');
-    title.textContent=name;
-    const rating=document.createElement('div');
-    rating.className='regiment-rating';
-    rating.textContent='0 ';
-    const label=document.createElement('span');
-    label.textContent='РЕЙТИНГ';
-    rating.appendChild(label);
-    const factionLabel=document.createElement('p');
-    factionLabel.className='regiment-faction';
-    factionLabel.textContent=faction;
-    card.append(logo,title,factionLabel,rating);
-    list.appendChild(card);
-    if(typeof sortAndFilterRegiments==='function')sortAndFilterRegiments();
-    form.reset();
-    dialog.classList.remove('show');
-    toast('Полк добавлен в демонстрационный список. Для постоянной регистрации требуется сервер.');
-  });
+// Real regiments from Supabase. Demonstration regiment records have been removed.
+(function initRealRegiments(){
+  const list=document.getElementById('regList'), createButton=document.getElementById('createRegiment'), modal=document.getElementById('regimentModal'), close=document.getElementById('closeRegiment'), form=document.getElementById('regimentForm');
+  if(!list)return;
+  const client=window.EMPIRE_SUPABASE;
+  const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const render=items=>{list.querySelectorAll('.regiment-tile').forEach(x=>x.remove());const empty=document.getElementById('regEmpty');if(!items.length){if(empty)empty.style.display='block';return}if(empty)empty.style.display='none';items.forEach(r=>{const a=document.createElement('a');a.className='regiment-tile';a.href='regiment.html?id='+encodeURIComponent(r.id);a.dataset.name=r.name;a.dataset.nation=r.faction||'';a.dataset.rating=String(r.rating||0);a.innerHTML='<div class="regiment-logo">'+(r.logo_url?'<img src="'+esc(r.logo_url)+'" alt="Флаг '+esc(r.name)+'">':'⚔')+'</div><h2>'+esc(r.name)+'</h2><div class="regiment-rating">'+Number(r.rating||0)+' <span>РЕЙТИНГ</span></div>';list.insertBefore(a,empty||null)});if(typeof sortAndFilterRegiments==='function')sortAndFilterRegiments()};
+  const load=async()=>{if(!client){render([]);return}const {data,error}=await client.from('regiments').select('id,name,faction,logo_url,rating').order('rating',{ascending:false});if(error){console.error(error);toast('Не удалось загрузить полки из базы данных.');render([]);return}render(data||[])};
+  createButton?.addEventListener('click',async()=>{if(!client){toast('Supabase не подключён.');return}const {data:{session}}=await client.auth.getSession();if(!session){toast('Для создания полка войдите в аккаунт.');return}modal?.classList.add('show')});
+  close?.addEventListener('click',()=>modal?.classList.remove('show'));modal?.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('show')});
+  form?.addEventListener('submit',async e=>{e.preventDefault();if(!client)return;const {data:{session}}=await client.auth.getSession();if(!session){toast('Для создания полка войдите в аккаунт.');return}const name=document.getElementById('newRegimentName').value.trim(),faction=document.getElementById('newRegimentFaction').value;if(!name||!faction){toast('Укажите название полка и фракцию.');return}const {data,error}=await client.from('regiments').insert({name,faction,commander_id:session.user.id}).select().single();if(error){toast(error.code==='23505'?'Такой полк уже существует.':'Не удалось создать полк: '+error.message);return}const memberError=(await client.from('regiment_members').insert({regiment_id:data.id,user_id:session.user.id,member_role:'commander'})).error;if(memberError){toast('Полк создан, но не удалось добавить командира: '+memberError.message);return}form.reset();modal?.classList.remove('show');await load();toast('Полк создан и сохранён в базе данных.')});
+  load();
 })();
-
-
 // Demo campaign: one standalone battle, seeded once for the campaign page preview.
 (function seedCampaignBattle(){
   if(!document.getElementById('campaignList'))return;
