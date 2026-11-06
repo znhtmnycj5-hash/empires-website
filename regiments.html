@@ -12,4 +12,37 @@
 <div class="regiment-tiles" id="regList"><div id="regEmpty" class="empty-state">Пока нет зарегистрированных полков.</div></div></main></div>
 <footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Mount &amp; Blade: Napoleonic Wars</div><div>Главная · Полки · Кампании · Рейтинг · Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
 <div class="modal-backdrop" id="loginModal"><div class="modal"><button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь для доступа к личному кабинету и функциям сайта.</p><label>Логин или email</label><input id="loginName" placeholder="Введите логин"><label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль"><div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div></div></div><div class="toast" id="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js?v=20261106e"></script><script src="assets/app.js?v=20261106e"></script></body></html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js?v=20261106f"></script><script src="assets/app.js?v=20261106f"></script><script>
+(async function forceLoadRegimentList(){
+  const list=document.getElementById('regList');
+  const empty=document.getElementById('regEmpty');
+  const client=window.EMPIRE_SUPABASE;
+  if(!list||!client)return;
+  await new Promise(r=>setTimeout(r,150));
+  try{
+    const {data,error}=await client.from('regiments').select('id,name,faction,logo_url,rating').order('rating',{ascending:false});
+    if(error)throw error;
+    list.querySelectorAll('.regiment-tile').forEach(x=>x.remove());
+    if(!data||!data.length){
+      if(empty){empty.style.display='block';empty.textContent='В базе данных пока нет полков.';}
+      return;
+    }
+    if(empty)empty.style.display='none';
+    data.forEach(r=>{
+      const a=document.createElement('a');
+      a.className='regiment-tile';
+      a.href='regiment.html?id='+encodeURIComponent(r.id);
+      a.dataset.name=r.name||'';
+      a.dataset.nation=r.faction||'';
+      a.dataset.rating=String(r.rating||0);
+      const logo=r.logo_url?'<img src="'+String(r.logo_url).replace(/"/g,'&quot;')+'" alt="Эмблема">':'⚔';
+      a.innerHTML='<div class="regiment-logo">'+logo+'</div><h2>'+String(r.name||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))+'</h2><div class="regiment-rating">'+Number(r.rating||0)+' <span>РЕЙТИНГ</span></div>';
+      list.appendChild(a);
+    });
+    if(typeof sortAndFilterRegiments==='function')sortAndFilterRegiments();
+  }catch(e){
+    console.error('Regiment list error:',e);
+    if(empty){empty.style.display='block';empty.textContent='Ошибка загрузки полков: '+(e.message||'неизвестная ошибка');}
+  }
+})();
+</script></body></html>
