@@ -8,13 +8,15 @@
 <a class="" href="alliances.html"><span class="nav-icon icon-alliances" aria-hidden="true"></span>Союзы</a>
 <a class="login" href="#" data-login>♙ &nbsp; Войти</a>
 </nav><main><section class="page-title"><h1>ПОЛКИ</h1><p>Найди своё подразделение, изучи состав и вступи в строй.</p></section>
-<div class="toolbar"><input class="input" placeholder="Поиск полка..." id="regSearch"><select class="select"><option>Все нации</option><option>Франция</option><option>Великобритания</option><option>Россия</option></select><button class="btn primary">Создать полк</button></div>
+<div class="toolbar"><input class="input" placeholder="Поиск полка..." id="regSearch"><select class="select" id="regNation"><option value="">Все нации</option><option value="Франция">Франция</option><option value="Великобритания">Великобритания</option><option value="Россия">Россия</option></select><button class="btn primary" id="createRegiment">Создать полк</button></div>
 <div class="list" id="regList">
-<div class="list-card" data-name="1st Regiment"><span class="badge">Франция</span><h2>1st Regiment</h2><p>42 бойца · Командир: Imperator · Рейтинг 1840</p></div>
-<div class="list-card" data-name="95th Rifles"><span class="badge">Великобритания</span><h2>95th Rifles</h2><p>37 бойцов · Командир: Wellington · Рейтинг 1715</p></div>
-<div class="list-card" data-name="84e Régiment"><span class="badge">Франция</span><h2>84e Régiment</h2><p>34 бойца · Командир: Marquis · Рейтинг 1630</p></div>
-<div class="list-card" data-name="Preobrazhensky"><span class="badge">Россия</span><h2>Preobrazhensky</h2><p>31 боец · Командир: Volk · Рейтинг 1590</p></div>
+<div class="list-card" data-name="1st Regiment" data-nation="Франция"><span class="badge">Франция</span><h2>1st Regiment</h2><p>42 бойца · Командир: Imperator · Рейтинг 1840</p></div>
+<div class="list-card" data-name="95th Rifles" data-nation="Великобритания"><span class="badge">Великобритания</span><h2>95th Rifles</h2><p>37 бойцов · Командир: Wellington · Рейтинг 1715</p></div>
+<div class="list-card" data-name="84e Régiment" data-nation="Франция"><span class="badge">Франция</span><h2>84e Régiment</h2><p>34 бойца · Командир: Marquis · Рейтинг 1630</p></div>
+<div class="list-card" data-name="Preobrazhensky" data-nation="Россия"><span class="badge">Россия</span><h2>Preobrazhensky</h2><p>31 боец · Командир: Volk · Рейтинг 1590</p></div>
+<div class="list-card" data-name="7th Hussars" data-nation="Великобритания"><span class="badge">Великобритания</span><h2>7th Hussars</h2><p>29 бойцов · Командир: Wellington · Рейтинг 1565</p></div>
 </div>
+<div id="regEmpty" style="display:none;text-align:center;padding:28px;color:#9b8d78">Полки по заданным параметрам не найдены.</div>
 </main></div>
 <footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Mount &amp; Blade: Napoleonic Wars</div><div>Главная · Полки · Кампании · Рейтинг · Форум · Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
 <div class="modal-backdrop" id="loginModal"><div class="modal"><button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь для доступа к личному кабинету и функциям сайта.</p><label>Логин или email</label><input id="loginName" placeholder="Введите логин"><label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль"><div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div></div></div><div class="toast" id="toast"></div>
