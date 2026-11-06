@@ -227,3 +227,23 @@ body{top:0!important}
 .site-role-badge[hidden]{display:none!important}
 .site-role-moderator{border-color:#657b91;background:rgba(62,91,119,.16);color:#b7cbe0}
 .site-role-admin{border-color:#a17b43;background:rgba(130,79,29,.2);color:#f0cf88;box-shadow:inset 0 0 12px rgba(201,164,93,.08)}
+
+
+/* Collapsible profile sections */
+.profile-spoiler{overflow:hidden}
+.profile-spoiler>summary{list-style:none;cursor:pointer;position:relative;display:flex;align-items:center;gap:12px;user-select:none}
+.profile-spoiler>summary::-webkit-details-marker{display:none}
+.profile-spoiler>summary::marker{content:""}
+.profile-spoiler>summary:focus-visible{outline:2px solid #c9a45d;outline-offset:-3px}
+.profile-spoiler .spoiler-chevron{margin-left:auto;flex:0 0 auto;color:#c9a45d;font:22px "Roboto Slab";transition:transform .2s ease}
+.profile-spoiler[open]>summary .spoiler-chevron{transform:rotate(180deg)}
+.service-record.profile-spoiler{padding:0 20px}
+.service-record.profile-spoiler .service-record-header{gap:6px;flex-wrap:wrap;padding:18px 0 16px}
+.service-record.profile-spoiler .service-record-header .eyebrow{width:100%}
+.spoiler-heading{color:#e0c17e;font:600 19px Cinzel}
+.spoiler-description{color:#96866d;font-size:10px}
+.service-record.profile-spoiler .service-record-content{padding-bottom:2px}
+.social-card.profile-spoiler{padding-bottom:0}
+.social-card.profile-spoiler>.card-title{min-height:52px}
+.social-card.profile-spoiler .spoiler-body{padding-bottom:14px}
+@media(max-width:650px){.service-record.profile-spoiler{padding:0 14px}.spoiler-heading{font-size:16px}.service-record.profile-spoiler .service-record-header{gap:5px}.service-record.profile-spoiler .spoiler-description{width:calc(100% - 28px)}}
