@@ -88,3 +88,53 @@ document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',(
     el.hidden=false;
   });
 })();
+
+
+// Regiment registration demo: a faction is mandatory and exactly one can be selected.
+(function initRegimentRegistration(){
+  const openButton=document.getElementById('createRegiment');
+  const dialog=document.getElementById('regimentModal');
+  const closeButton=document.getElementById('closeRegiment');
+  const form=document.getElementById('regimentForm');
+  const nameInput=document.getElementById('newRegimentName');
+  const factionInput=document.getElementById('newRegimentFaction');
+  const list=document.getElementById('regList');
+  if(!openButton||!dialog||!form||!list)return;
+  openButton.addEventListener('click',()=>{
+    dialog.classList.add('show');
+    nameInput?.focus();
+  });
+  closeButton?.addEventListener('click',()=>dialog.classList.remove('show'));
+  dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.classList.remove('show')});
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const name=(nameInput?.value||'').trim();
+    const faction=factionInput?.value||'';
+    if(!name||!faction){toast('Укажите название полка и выберите фракцию.');return;}
+    const card=document.createElement('div');
+    card.className='regiment-tile';
+    card.dataset.name=name;
+    card.dataset.nation=faction;
+    card.dataset.rating='0';
+    const logo=document.createElement('div');
+    logo.className='regiment-logo';
+    logo.textContent='⚔';
+    const title=document.createElement('h2');
+    title.textContent=name;
+    const rating=document.createElement('div');
+    rating.className='regiment-rating';
+    rating.textContent='0 ';
+    const label=document.createElement('span');
+    label.textContent='РЕЙТИНГ';
+    rating.appendChild(label);
+    const factionLabel=document.createElement('p');
+    factionLabel.className='regiment-faction';
+    factionLabel.textContent=faction;
+    card.append(logo,title,factionLabel,rating);
+    list.appendChild(card);
+    if(typeof sortAndFilterRegiments==='function')sortAndFilterRegiments();
+    form.reset();
+    dialog.classList.remove('show');
+    toast('Полк добавлен в демонстрационный список. Для постоянной регистрации требуется сервер.');
+  });
+})();
