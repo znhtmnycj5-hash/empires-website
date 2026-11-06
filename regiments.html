@@ -12,11 +12,4 @@
 <div class="regiment-tiles" id="regList"><div id="regEmpty" class="empty-state">Пока нет зарегистрированных полков.</div></div></main></div>
 <footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Mount &amp; Blade: Napoleonic Wars</div><div>Главная · Полки · Кампании · Рейтинг · Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
 <div class="modal-backdrop" id="loginModal"><div class="modal"><button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь для доступа к личному кабинету и функциям сайта.</p><label>Логин или email</label><input id="loginName" placeholder="Введите логин"><label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль"><div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div></div></div><div class="toast" id="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js?v=20261106b"></script><script src="assets/app.js?v=20261106b"></script><script>
-(function(){
- const b=document.getElementById("createRegiment"),m=document.getElementById("regimentModal"),x=document.getElementById("closeRegiment");
- if(b&&m){b.addEventListener("click",function(e){e.preventDefault();m.classList.add("show");});}
- if(x&&m){x.addEventListener("click",function(){m.classList.remove("show");});}
- m?.addEventListener("click",function(e){if(e.target===m)m.classList.remove("show");});
-})();
-</script></body></html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js?v=20261106b"></script><script src="assets/app.js?v=20261106b"></script></body></html>
