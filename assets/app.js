@@ -10,24 +10,26 @@ function sendChat(){const i=document.getElementById('chatInput'),v=i?.value.trim
 document.getElementById('sendChat')?.addEventListener('click',sendChat);document.getElementById('chatInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});
 document.querySelectorAll('[data-regiment]').forEach(e=>e.addEventListener('click',()=>toast('Открываем профиль: '+e.dataset.regiment)));
 
+
 const regSearch=document.getElementById('regSearch');
 const regNation=document.getElementById('regNation');
-function filterRegiments(){
+const regList=document.getElementById('regList');
+function sortAndFilterRegiments(){
+  if(!regList)return;
   const q=(regSearch?.value||'').trim().toLowerCase();
   const nation=regNation?.value||'';
+  const cards=[...regList.querySelectorAll('.regiment-tile')];
+  cards.sort((a,b)=>Number(b.dataset.rating)-Number(a.dataset.rating));
+  cards.forEach(card=>regList.appendChild(card));
   let visible=0;
-  document.querySelectorAll('#regList .list-card').forEach(card=>{
-    const name=(card.dataset.name||'').toLowerCase();
-    const cardNation=card.dataset.nation||'';
-    const matchName=!q||name.includes(q);
-    const matchNation=!nation||cardNation===nation;
-    const show=matchName&&matchNation;
+  cards.forEach(card=>{
+    const show=(!q||(card.dataset.name||'').toLowerCase().includes(q))&&(!nation||card.dataset.nation===nation);
     card.style.display=show?'block':'none';
-    if(show) visible++;
+    if(show)visible++;
   });
   const empty=document.getElementById('regEmpty');
-  if(empty) empty.style.display=visible?'none':'block';
+  if(empty)empty.style.display=visible?'none':'block';
 }
-regSearch?.addEventListener('input',filterRegiments);
-regNation?.addEventListener('change',filterRegiments);
-document.getElementById('createRegiment')?.addEventListener('click',()=>toast('Создание полка будет доступно после регистрации аккаунта'));
+regSearch?.addEventListener('input',sortAndFilterRegiments);
+regNation?.addEventListener('change',sortAndFilterRegiments);
+sortAndFilterRegiments();
