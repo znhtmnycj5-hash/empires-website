@@ -418,3 +418,5 @@ img.person-avatar{object-fit:cover;padding:0;border-radius:50%;background:#17120
 .chat-access-note small{color:#9a896d;font-size:10px}
 .chat-input input:disabled{opacity:.55;cursor:not-allowed}
 .chat-input button:disabled{opacity:.4;cursor:not-allowed}
+
+.chat-tab[hidden],.chat-panel[hidden]{display:none!important}
