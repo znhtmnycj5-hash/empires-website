@@ -202,8 +202,21 @@ body{top:0!important}
 @media(max-width:1000px){.user-profile-hero{grid-template-columns:230px minmax(0,1fr)}.user-service-card{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;border-left:0;border-top:1px solid #59452c;padding:12px 0 0}.user-service-card>.eyebrow{grid-column:1/-1}.user-service-card>div{padding:8px 0;border:0}.user-service-card b{font-size:20px}}
 @media(max-width:650px){.profile-page-heading{align-items:flex-start;gap:10px}.profile-page-heading h1{font-size:27px}.profile-id{font-size:9px}.user-profile-hero{grid-template-columns:1fr;padding:15px;gap:18px}.user-avatar-wrap{max-width:240px;margin:auto}.user-identity h2{font-size:34px;text-align:center}.user-identity>.eyebrow,.user-motto,.user-status{text-align:center;justify-content:center}.user-facts{gap:12px}.profile-actions{flex-direction:column}.profile-actions .btn{width:100%;text-align:center}.user-service-card{grid-template-columns:repeat(3,1fr)}.user-service-card b{font-size:17px}.user-service-card span:not(.eyebrow){font-size:8px}.profile-social-grid{grid-template-columns:1fr}.person-row time{font-size:8px}}
 
-/* Military service record */
-.service-record{margin-top:14px;padding:0}.service-record-details>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;cursor:pointer;list-style:none}.service-record-details>summary::-webkit-details-marker{display:none}.service-record-heading{display:flex;flex-direction:column;gap:5px}.service-record-heading strong{color:#e0c17e;font:600 19px Cinzel}.service-record-heading small{color:#96866d;font-size:10px}.service-record-toggle{display:flex;align-items:center;gap:10px;color:#c9a45d;font:10px Cinzel;letter-spacing:1px;white-space:nowrap}.service-record-toggle b{display:grid;place-items:center;width:25px;height:25px;border:1px solid #69502e;font:16px "Roboto Slab";transition:transform .2s}.service-record-details[open] .service-record-toggle b{transform:rotate(45deg)}.service-record-content{padding:0 20px 16px}.service-entry{display:flex;align-items:center;gap:13px;padding:13px 0;border-top:1px solid #3a2e20}.service-entry-mark{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;background:#21190f;border:1px solid #60492b;font-size:20px}.service-entry-info{display:flex;flex:1;min-width:0;flex-direction:column;gap:4px}.service-entry-info b,.service-entry-info a{color:#ddc38e;font:600 13px Cinzel;text-decoration:none}.service-entry-info a:hover{color:#f0d18d}.service-entry-info span{color:#a49478;font-size:10px}.service-entry-info small{color:#82745e;font-size:10px}.service-period{color:#b99a60;font:10px Cinzel;letter-spacing:.5px;text-align:right}.service-entry.current .service-entry-mark{border-color:#94713e}.service-entry.current .service-period{color:#91a879}
-.user-service-card{grid-template-columns:1fr 1fr}.user-service-card>div{border:0}.user-service-card>div b{font-size:24px}
-@media(max-width:1000px){.user-service-card{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:650px){.service-record-details>summary{padding:15px}.service-record-heading strong{font-size:16px}.service-record-toggle{font-size:8px}.service-record-content{padding:0 14px 12px}.service-entry{gap:9px;flex-wrap:wrap}.service-entry-mark{width:36px;height:36px;flex-basis:36px}.service-period{width:100%;padding-left:45px;text-align:left;font-size:9px}.user-service-card{grid-template-columns:1fr 1fr}}
+/* Military service record — always visible standalone panel */
+.service-record{margin-top:14px;padding:0 20px 16px}
+.service-record-header{padding:18px 0 12px;border-bottom:1px solid #493823}
+.service-record-header h2{margin:5px 0;color:#e0c17e;font:600 19px Cinzel}
+.service-record-header p{margin:0;color:#96866d;font-size:10px}
+.service-record-content{padding:0}
+.service-entry{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid #3a2e20}
+.service-entry:last-child{border-bottom:0}
+.service-entry-mark{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;background:#21190f;border:1px solid #60492b;font-size:20px}
+.service-entry-info{display:flex;flex:1;min-width:0;flex-direction:column;gap:4px}
+.service-entry-info b,.service-entry-info a{color:#ddc38e;font:600 13px Cinzel;text-decoration:none}
+.service-entry-info a:hover{color:#f0d18d}
+.service-entry-info span{color:#a49478;font-size:10px}
+.service-entry-info small{color:#82745e;font-size:10px}
+.service-period{color:#b99a60;font:10px Cinzel;letter-spacing:.5px;text-align:right}
+.service-entry.current .service-entry-mark{border-color:#94713e}
+.service-entry.current .service-period{color:#91a879}
+@media(max-width:650px){.service-record{padding:0 14px 12px}.service-record-header h2{font-size:16px}.service-entry{gap:9px;flex-wrap:wrap}.service-entry-mark{width:36px;height:36px;flex-basis:36px}.service-period{width:100%;padding-left:45px;text-align:left;font-size:9px}}
