@@ -5,9 +5,61 @@ document.querySelectorAll('[data-login]').forEach(x=>x.addEventListener('click',
 document.getElementById('closeLogin')?.addEventListener('click',()=>modal.classList.remove('show'));
 modal?.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('show')});
 document.getElementById('demoLogin')?.addEventListener('click',()=>{const n=document.getElementById('loginName').value.trim()||'Император';modal.classList.remove('show');toast('Добро пожаловать, '+n+'!')});
-document.querySelectorAll('.chat-tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.chat-tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.chat-panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active')}));
-function sendChat(){const i=document.getElementById('chatInput'),v=i?.value.trim();if(!v)return;const box=document.querySelector('#general .messages');const r=document.createElement('div');r.className='msg';r.innerHTML='<div class="avatar">Я</div><div><b>Вы</b><p></p></div><div class="time">сейчас</div>';r.querySelector('p').textContent=v;box.appendChild(r);i.value='';toast('Сообщение добавлено в чат')}
-document.getElementById('sendChat')?.addEventListener('click',sendChat);document.getElementById('chatInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});
+(function initHomeMiniChat(){
+  const tabs=[...document.querySelectorAll('.chat-tab')];
+  const panels=[...document.querySelectorAll('.chat-panel')];
+  const input=document.getElementById('chatInput');
+  const send=document.getElementById('sendChat');
+  if(!tabs.length||!input||!send)return;
+  let active='general';
+  const updateComposer=()=>{
+    const isRegiment=active==='regiment-chat';
+    input.disabled=isRegiment;
+    send.disabled=isRegiment;
+    input.placeholder=isRegiment?'Войдите и подтвердите членство в полку':'Написать в общий чат...';
+    input.setAttribute('aria-label',isRegiment?'Полковой чат недоступен без проверки членства':'Сообщение в общий чат');
+  };
+  tabs.forEach(button=>button.addEventListener('click',()=>{
+    active=button.dataset.tab;
+    tabs.forEach(tab=>{
+      const selected=tab===button;
+      tab.classList.toggle('active',selected);
+      tab.setAttribute('aria-selected',String(selected));
+    });
+    panels.forEach(panel=>panel.classList.toggle('active',panel.id===active));
+    updateComposer();
+  }));
+  function sendChat(){
+    const value=input.value.trim();
+    if(!value)return;
+    if(active!=='general'){
+      toast('Доступ к полковому чату требует подтверждённого членства в полку.');
+      return;
+    }
+    const box=document.querySelector('#general .messages');
+    const row=document.createElement('div');
+    row.className='msg';
+    const avatar=document.createElement('div');
+    avatar.className='avatar';
+    avatar.textContent='Я';
+    const body=document.createElement('div');
+    const author=document.createElement('b');
+    author.textContent='Вы';
+    const message=document.createElement('p');
+    message.textContent=value;
+    body.append(author,message);
+    const time=document.createElement('div');
+    time.className='time';
+    time.textContent='сейчас';
+    row.append(avatar,body,time);
+    box.appendChild(row);
+    input.value='';
+    toast('Сообщение добавлено в демонстрационный общий чат');
+  }
+  send.addEventListener('click',sendChat);
+  input.addEventListener('keydown',event=>{if(event.key==='Enter')sendChat()});
+  updateComposer();
+})();
 document.querySelectorAll('[data-regiment]').forEach(e=>e.addEventListener('click',()=>toast('Открываем профиль: '+e.dataset.regiment)));
 
 
