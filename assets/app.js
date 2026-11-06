@@ -138,3 +138,61 @@ document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',(
     toast('Полк добавлен в демонстрационный список. Для постоянной регистрации требуется сервер.');
   });
 })();
+
+
+// Campaign management and participation demo. Production permissions and storage must be enforced by the server.
+(function initCampaigns(){
+  const list=document.getElementById('campaignList');
+  if(!list)return;
+  const storeKey='empireCampaignsDemo';
+  const getItems=()=>{try{return JSON.parse(localStorage.getItem(storeKey)||'[]')}catch{return []}};
+  const saveItems=items=>localStorage.setItem(storeKey,JSON.stringify(items));
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const arms=['Пехота','Кавалерия','Стрелки','Артиллерия'];
+  const factions=['Французская империя','Австрийская Империя','Пруссия','Российская империя','Рейнский Союз','Британская Империя'];
+  const demoBattles=[
+    {regiment:'1st Regiment',start:'2026-11-08T20:00'},
+    {regiment:'7th Hussars',start:'2026-11-10T21:00'}
+  ];
+  const overlaps=(a,b)=>{const x=new Date(a).getTime(),y=new Date(b).getTime();return Number.isFinite(x)&&Number.isFinite(y)&&x<y+3600000&&y<x+3600000};
+  const conflict=(regiment,start,items)=>demoBattles.some(b=>b.regiment===regiment&&overlaps(start,b.start))||items.some(c=>c.status!=='completed'&&c.participants.some(p=>p.regiment===regiment)&&overlaps(start,c.start));
+  const dateText=s=>new Date(s).toLocaleString('ru-RU',{dateStyle:'long',timeStyle:'short'});
+  const create=document.getElementById('campaignCreateForm');
+  const render=()=>{
+    const items=getItems(), active=items.filter(c=>c.status!=='completed'), archived=items.filter(c=>c.status==='completed');
+    list.innerHTML=active.length?active.map(c=>`<article class="campaign-event"><div class="campaign-event-head"><div><span class="status status-planned">${c.status==='started'?'Идёт кампания':'Регистрация / подготовка'}</span><h2>${esc(c.name)}</h2><p>${dateText(c.start)} · продолжительность 1 час</p></div><span class="campaign-event-count">${c.participants.length} полк.</span></div><p>${esc(c.description)}</p><div class="campaign-factions"><b>Фракции:</b> ${c.factions.map(esc).join(' · ')}</div><div class="campaign-participation"><form class="campaign-join-form" data-join="${c.id}"><label>Полк<select name="regiment" required><option value="">Выберите свой полк</option><option>1st Regiment</option><option>84e Régiment</option><option>7th Hussars</option><option>95th Rifles</option><option>Preobrazhensky</option><option>Prussian Guard</option></select></label><label>Количество бойцов<input name="count" type="number" min="1" max="200" value="10" required></label><button class="btn primary" type="submit">Принять участие</button></form></div><div class="campaign-roster"><b>Заявки и распределение</b>${c.participants.length?c.participants.map(p=>`<div class="campaign-roster-row"><span><strong>${esc(p.regiment)}</strong><small>${p.count} бойцов · ${esc(p.faction||'Фракция не назначена')} · ${(p.arms||[]).map(esc).join(', ')||'Рода войск не назначены'}</small></span><span class="status ${p.attendance==='yes'?'status-done':p.attendance==='no'?'status-pending':'status-planned'}">${p.attendance==='yes'?'Явился':p.attendance==='no'?'Не явился':'Ожидает проверки'}</span></div>`).join(''):'<p class="empty-state">Заявок пока нет.</p>'}</div><details class="campaign-admin-tools"><summary>Администрирование участников</summary>${c.participants.map(p=>`<div class="campaign-manage-row" data-manage="${c.id}" data-regiment="${esc(p.regiment)}"><b>${esc(p.regiment)}</b><label>Фракция<select class="assign-faction"><option value="">Не назначена</option>${factions.map(f=>`<option ${p.faction===f?'selected':''}>${esc(f)}</option>`).join('')}</select></label><fieldset class="campaign-fieldset"><legend>Рода войск (можно несколько)</legend><div class="check-grid">${arms.map(a=>`<label class="checkline"><input type="checkbox" class="assign-arm" value="${a}" ${(p.arms||[]).includes(a)?'checked':''}>${a}</label>`).join('')}</div></fieldset><label>Явка<select class="assign-attendance"><option value="pending" ${p.attendance==='pending'?'selected':''}>Ожидает проверки</option><option value="yes" ${p.attendance==='yes'?'selected':''}>Явился</option><option value="no" ${p.attendance==='no'?'selected':''}>Не явился</option></select></label><button class="btn save-assignment" type="button">Сохранить назначение и явку</button></div>`).join('')||'<p>Пока нет заявок.</p>'}<div class="campaign-server-unlock"><b>Серверные данные (только с момента начала)</b><p>${Date.now()>=new Date(c.start).getTime()?'Сервер: '+esc(c.server)+' · Пароль: '+esc(c.password):'Сервер и пароль пока скрыты до начала кампании.'}</p></div><button class="btn finish-campaign" type="button" data-finish="${c.id}">Завершить кампанию</button></details></article>`).join(''):'<div class="empty-state">Пока нет опубликованных кампаний. Создайте событие в блоке управления ниже.</div>';
+    const archive=document.getElementById('campaignArchive');
+    archive.innerHTML=archived.length?archived.map(c=>`<div class="archive-row"><div><b>${esc(c.name)}</b><small>${dateText(c.start)} · ${c.participants.filter(p=>p.attendance==='yes').length} полков явились</small></div><span class="status status-done">Завершена</span></div>` ).join(''):'Завершённых кампаний пока нет.';
+  };
+  create?.addEventListener('submit',e=>{
+    e.preventDefault();
+    const chosen=[...create.querySelectorAll('[name="campaignFaction"]:checked')].map(x=>x.value);
+    if(!chosen.length){toast('Выберите хотя бы одну фракцию кампании.');return;}
+    const start=document.getElementById('campaignDate').value+'T'+document.getElementById('campaignTime').value;
+    if(!Number.isFinite(new Date(start).getTime())){toast('Укажите корректные дату и время.');return;}
+    const items=getItems();
+    items.push({id:String(Date.now()),name:document.getElementById('campaignName').value.trim(),start,description:document.getElementById('campaignDescription').value.trim(),server:document.getElementById('campaignServer').value.trim(),password:document.getElementById('campaignPassword').value,factions:chosen,participants:[],status:'registration'});
+    saveItems(items);create.reset();render();toast('Кампания создана в демонстрационном режиме.');
+  });
+  list.addEventListener('submit',e=>{
+    const form=e.target.closest('.campaign-join-form');if(!form)return;e.preventDefault();
+    const items=getItems(),c=items.find(x=>x.id===form.dataset.join);if(!c)return;
+    const regiment=form.regiment.value.trim(),count=Number(form.count.value);
+    if(!regiment||!Number.isInteger(count)||count<1){toast('Укажите полк и количество бойцов.');return;}
+    if(c.participants.some(p=>p.regiment===regiment)){toast('Этот полк уже подал заявку на кампанию.');return;}
+    if(conflict(regiment,c.start,items)){toast('Нельзя подать заявку: у полка есть сражение или другая кампания в это время.');return;}
+    c.participants.push({regiment,count,faction:'',arms:[],attendance:'pending',ratingAwarded:false});saveItems(items);render();toast('Заявка полка добавлена.');
+  });
+  list.addEventListener('click',e=>{
+    const row=e.target.closest('.campaign-manage-row');
+    if(e.target.matches('.save-assignment')&&row){
+      const items=getItems(),c=items.find(x=>x.id===row.dataset.manage),p=c?.participants.find(x=>x.regiment===row.dataset.regiment);if(!p)return;
+      p.faction=row.querySelector('.assign-faction').value;p.arms=[...row.querySelectorAll('.assign-arm:checked')].map(x=>x.value);p.attendance=row.querySelector('.assign-attendance').value;
+      if(p.attendance==='yes'&&!p.ratingAwarded){p.ratingAwarded=true;p.ratingAward=50;}
+      if(p.attendance!=='yes'&&p.ratingAwarded){p.ratingAwarded=false;p.ratingAward=0;}
+      saveItems(items);render();toast(p.attendance==='yes'?'Явка подтверждена: полку начислено +50 (демо).':'Данные участника сохранены.');
+    }
+    const finish=e.target.closest('[data-finish]');if(finish){const items=getItems(),c=items.find(x=>x.id===finish.dataset.finish);if(!c)return;c.status='completed';c.participants.forEach(p=>{if(p.attendance==='yes'&&!p.ratingAwarded){p.ratingAwarded=true;p.ratingAward=50;}});saveItems(items);render();toast('Кампания завершена. Начисления рассчитаны в демонстрационном режиме.');}
+  });
+  render();
+})();
