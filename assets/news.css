@@ -5,3 +5,39 @@
 .news-filter{margin:14px 0;padding:13px 15px}.news-filter-head{display:flex;justify-content:space-between;align-items:center;gap:14px}.news-filter-head span{color:#8f8068;font-size:10px}.news-filter select,.news-category-admin input{min-width:190px;background:#0c0b09;color:#e5d4b2;border:1px solid #5d4930;padding:9px;font:11px "Roboto Slab"}.news-category-admin{margin-top:14px;padding:14px}.news-category-admin p{color:#8f8068;font-size:10px;line-height:1.5}.news-category-admin form{display:flex;gap:8px}.news-category-admin input{flex:1}.news-category-chip{display:inline-flex;align-items:center;gap:5px;margin:8px 6px 0 0;padding:5px 8px;border:1px solid #59452d;background:#17130e;color:#cdb88e;font-size:9px}.news-category-chip button{border:0;background:none;color:#b99559;cursor:pointer;font-size:14px}.news-list-item[hidden]{display:none}.news-filter-empty{padding:18px;color:#a99a80;font-size:11px}@media(max-width:600px){.news-filter-head{align-items:stretch;flex-direction:column}.news-filter select{width:100%}.news-category-admin form{flex-direction:column}}
 
 .news-write-description{color:#8f8068;font-size:11px;line-height:1.6;margin:8px 0 14px}.news-write-button{display:inline-block;text-decoration:none}.news-create-card{max-width:980px;margin:14px auto;padding:0}.news-create-card .news-editor{padding:18px}.news-create-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}.news-create-actions .btn{text-decoration:none}@media(max-width:600px){.news-create-actions{flex-direction:column}.news-create-actions .btn{width:100%;box-sizing:border-box;text-align:center}}
+
+
+/* News light skin */
+.news-full h2,.news-list-content h2{color:#2b4057!important}
+.news-full>p,.news-list-content p{color:#65758a!important}
+.news-author,.news-rules ul,.news-write-description{color:#8190a1!important}
+.news-cover,.news-list-cover{border:1px solid #e0e6ed!important;border-radius:8px!important}
+.reaction-bar{border-color:#e7ecf2!important}
+.reaction{background:#f6f8fb!important;border:1px solid #dce4ed!important;color:#526a83!important;border-radius:7px!important}
+.reaction:hover,.reaction.selected{border-color:#8eabc8!important;color:#315f8c!important;background:#edf3f9!important}
+.reaction-note,.comments-head span{color:#8996a5!important}
+.comments-head h3{color:#2b4057!important}
+.comment-form{background:#f7f9fc!important;border:1px solid #e1e7ee!important;border-radius:8px!important}
+.comment-form textarea,.news-editor input,.news-editor textarea,.rich-editor{background:#fff!important;color:#29394b!important;border:1px solid #d6dfe8!important;border-radius:6px!important}
+.upload-button,.editor-file{color:#55799d!important}
+.comment{background:#fff!important;border:1px solid #e5eaf0!important;border-radius:8px!important}
+.comment-avatar{background:#eef3f8!important;border:1px solid #dce5ee!important;color:#315f8c!important;border-radius:7px!important}
+.comment-meta b{color:#344b63!important}
+.comment-meta time,.comment-tools button{color:#8996a5!important}
+.comment-body>p{color:#5e7084!important}
+.comment-tools button:hover,.comment-tools button.selected{color:#315f8c!important}
+.reply{background:#f5f8fb!important;border-left-color:#7c9dbc!important}
+.quote{color:#8291a1!important}
+.news-editor label{color:#5d7187!important}
+.editor-toolbar{background:#f3f6f9!important;border:1px solid #e1e7ee!important;border-radius:7px!important}
+.editor-toolbar button{background:#fff!important;border:1px solid #dce4ed!important;color:#526a83!important;border-radius:5px!important}
+.editor-toolbar button:hover{border-color:#8eabc8!important}
+.rich-editor:empty:before{color:#9aa6b4!important}
+.editor-options{color:#8996a5!important}
+.moderation-queue{background:#f4f7fa!important;border:1px solid #dce5ee!important;border-radius:8px!important;color:#526a83!important}
+.moderation-queue p{color:#8291a1!important}
+.news-filter select,.news-category-admin input{background:#fff!important;color:#29394b!important;border:1px solid #d6dfe8!important;border-radius:6px!important}
+.news-category-admin p{color:#8291a1!important}
+.news-category-chip{background:#f1f6fb!important;border:1px solid #dce5ee!important;color:#526a83!important;border-radius:20px!important}
+.news-category-chip button{color:#55799d!important}
+.back-link{color:#426b93!important}
