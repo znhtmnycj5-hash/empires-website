@@ -1,4 +1,172 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Создание полка — Empire</title><link rel="stylesheet" href="assets/style.css?v=20261106light1"></head><body><header><div class="container brand"><div class="brand-image"><img src="assets/IMG_2724.png" alt="EMPIRE"></div></div></header><div class="container"><nav><a href="index.html">Главная</a><a class="active" href="regiments.html">Полки</a><a href="campaigns.html">Кампании</a><a href="battles.html">Сражения</a><a href="ranking.html">Рейтинг</a><a href="alliances.html">Союзы</a><a href="news.html">Новости</a><a class="login" href="auth.html">Войти</a></nav><main><section class="page-title"><h1>СОЗДАНИЕ ПОЛКА</h1><p>Зарегистрируйте свой полк и станьте его командиром.</p></section><section class="card" style="max-width:620px;margin:20px auto;padding:24px"><form id="createRegimentForm" novalidate><label>Название полка<input id="name" class="input" required maxlength="60" placeholder="Введите название полка"></label><label style="display:block;margin-top:16px">Фракция<select id="faction" class="select" required><option value="">Выберите фракцию</option><option>Французская империя</option><option>Австрийская Империя</option><option>Пруссия</option><option>Российская империя</option><option>Рейнский Союз</option><option>Британская Империя</option></select></label><div style="display:flex;gap:10px;margin-top:22px"><a class="btn" href="regiments.html">Отмена</a><button class="btn primary" type="submit">Зарегистрировать полк</button></div></form><p id="status" role="status" aria-live="polite" style="margin-top:18px;min-height:24px"></p><div id="resultActions" style="display:none;margin-top:18px"></div></section></main></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js?v=20261106d"></script><script>
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Создание полка — Empire</title><link rel="stylesheet" href="assets/style.css?v=20261106light2"><style id="empire-light-inline">/* =========================================================
+   EMPIRE — LIGHT MINIMAL DESIGN SYSTEM / 2026-11
+   ========================================================= */
+:root{
+ --bg:#f4f6f9;--panel:#ffffff;--gold:#315f8c;--gold2:#244d75;
+ --cream:#263445;--muted:#718096;--red:#315f8c;--line:#dce3eb;
+ --surface:#fff;--surface-soft:#f7f9fc;--text:#263445;
+ --text-muted:#718096;--accent:#315f8c;--accent-soft:#eaf1f8;
+ --border:#e1e7ee;--shadow:0 5px 18px rgba(27,45,66,.06);
+}
+html{background:var(--bg)}
+body{background:#f4f6f9!important;color:#263445!important;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif!important}
+body:before{display:none!important}
+a{color:#315f8c}
+header{min-height:0!important;overflow:visible!important;background:#fff!important;border:0!important;border-bottom:1px solid #e4e9ef!important;box-shadow:none!important}
+header:before,header:after{display:none!important}
+header .container{max-width:1320px}
+.brand{min-height:0!important;padding:12px 0!important;justify-content:flex-start!important}
+.brand-image{height:76px!important;justify-content:flex-start!important;align-items:center!important}
+.brand-image img{width:auto!important;height:auto!important;max-width:min(280px,70vw)!important;max-height:68px!important;object-fit:contain}
+.logo{color:#24364a!important;text-shadow:none!important;font-family:Georgia,serif!important;letter-spacing:3px!important}
+.logo small{color:#748397!important}
+.container{width:min(1320px,94%)!important}
+nav{min-height:0!important;display:flex!important;flex-wrap:wrap!important;gap:2px!important;overflow:visible!important;padding:5px!important;margin:12px 0 18px!important;background:#fff!important;border:1px solid #e3e8ef!important;outline:0!important;box-shadow:0 2px 8px rgba(30,50,75,.04)!important;border-radius:10px!important}
+nav:before{display:none!important}
+nav a,nav .dropdown>a{display:flex;align-items:center;min-height:40px;padding:10px 15px!important;border:0!important;border-radius:7px!important;background:transparent!important;color:#526174!important;font:600 13px Inter,system-ui,sans-serif!important;text-shadow:none!important;white-space:nowrap}
+nav a:hover,nav a.active,nav .dropdown:hover>a{background:#edf3f9!important;color:#244f79!important;box-shadow:none!important}
+nav .login{margin-left:auto!important;border:0!important}
+.dropdown-menu{top:calc(100% + 5px)!important;background:#fff!important;border:1px solid #e0e6ed!important;border-radius:9px!important;box-shadow:0 12px 28px rgba(28,48,70,.12)!important;overflow:hidden}
+.dropdown-menu a{border-radius:0!important;color:#526174!important}
+main{padding:8px 0 40px!important}
+h1,h2,h3,h4,.card-title,.page-title h1,.regiment-tile h2,.profile-heading h1,.alliance-detail-hero h1{font-family:Inter,system-ui,sans-serif!important;text-shadow:none!important;letter-spacing:normal!important}
+h1{color:#23364b!important;font-size:clamp(28px,4vw,44px)!important;font-weight:750!important}
+h2{color:#2b4057}
+p{line-height:1.65}
+.hero{min-height:260px!important;border:1px solid #e0e7ef!important;border-radius:14px!important;background-color:#e9eff5!important;background-image:linear-gradient(90deg,rgba(241,246,251,.18),rgba(241,246,251,.92) 62%),url("../assets/hero-art.svg")!important;box-shadow:none!important}
+.hero:before,.hero:after{display:none!important}
+.hero-copy{width:52%!important;padding:34px!important}
+.kicker{color:#54708e!important;font:600 14px Inter,system-ui,sans-serif!important}
+.tagline{color:#617286!important;font-style:normal!important}
+.stat strong,.community-grid strong{color:#315f8c!important;text-shadow:none!important}
+.stat span,.community-grid span{color:#738196!important}
+.btn{display:inline-flex!important;align-items:center;justify-content:center;min-height:40px;padding:10px 17px!important;border:1px solid #d3deea!important;border-radius:8px!important;background:#fff!important;color:#315f8c!important;box-shadow:none!important;font:650 13px Inter,system-ui,sans-serif!important;text-shadow:none!important}
+.btn.primary{background:#315f8c!important;border-color:#315f8c!important;color:#fff!important;box-shadow:none!important}
+.btn:hover{transform:translateY(-1px)!important;background:#edf3f9!important;box-shadow:0 4px 12px rgba(35,65,95,.09)!important}
+.btn.primary:hover{background:#244d75!important}
+.card,.list-card,.profile-hero,.commander-card,.modal,.news-create-card,.campaign-form,.campaign-admin-tools{
+ background:#fff!important;border:1px solid #e1e7ee!important;border-radius:11px!important;box-shadow:var(--shadow)!important;color:#263445!important
+}
+.card:hover,.list-card:hover{border-color:#c6d4e3!important;box-shadow:0 8px 22px rgba(27,45,66,.09)!important}
+.card-title{padding:14px 17px!important;border-bottom:1px solid #edf0f4!important;background:#fff!important;color:#2c435c!important;font:700 15px Inter,system-ui,sans-serif!important}
+.card-title a{color:#54799e!important}
+.profile{background:#fff!important}
+.profile h3,.regiment-card h4,.campaign-event h2,.comments-head h3{color:#2b4057!important}
+.profile small,.profile dt,.date,.news-author,.news-item .date{color:#8290a1!important}
+.profile dd{color:#3c4b5e!important}
+.page-title{padding:30px 22px!important;background:#edf3f8!important;border:1px solid #e1e8f0!important;border-radius:12px!important;box-shadow:none!important}
+.page-title p{color:#65768a!important}
+.input,.select,input,textarea,select{
+ background:#fff!important;color:#29394b!important;border:1px solid #d6dfe8!important;border-radius:7px!important;box-shadow:none!important
+}
+.input:focus,.select:focus,input:focus,textarea:focus,select:focus{outline:2px solid rgba(49,95,140,.14)!important;border-color:#7d9cba!important}
+input::placeholder,textarea::placeholder{color:#9aa6b4!important}
+.list-card{padding:17px!important}
+.badge{border:1px solid #d6e2ef!important;border-radius:20px!important;background:#f1f6fb!important;color:#41688f!important;font-weight:650!important}
+footer{position:relative;background:#fff!important;border-top:1px solid #e2e8ef!important;color:#8491a0!important}
+footer:before{display:none!important}
+.motto{color:#55718f!important}
+.modal-backdrop{background:rgba(31,45,61,.35)!important;backdrop-filter:blur(3px)}
+.modal{padding:24px!important}
+.modal h2{color:#2c435c!important}
+.modal p,.modal label{color:#718096!important}
+.modal input{background:#fff!important;color:#263445!important;border:1px solid #d6dfe8!important}
+.close{color:#77879a!important}
+.toast{background:#fff!important;border:1px solid #dce4ed!important;border-radius:9px!important;color:#2c435c!important;box-shadow:0 8px 25px rgba(28,48,70,.13)!important}
+.news-item{background:#fff!important;border-bottom:1px solid #edf0f4!important}
+.news-item h3{color:#2c435c!important}
+.news-item p{color:#66778b!important}
+.thumb{border:1px solid #e0e6ed!important;border-radius:7px!important}
+.chat-tabs{border-color:#e5eaf0!important}
+.chat-tab{background:#f7f9fc!important;color:#65758a!important;border:0!important;border-right:1px solid #e5eaf0!important}
+.chat-tab.active,.chat-tab:hover{background:#eaf1f8!important;color:#315f8c!important}
+.messages{color:#34465a}
+.msg{border-color:#edf0f4!important}
+.msg b{color:#315f8c!important}
+.msg p{color:#66778b!important}
+.time{color:#9aa5b2!important}
+.chat-input input{background:#fff!important;color:#263445!important;border:1px solid #d6dfe8!important}
+.chat-input button{background:#315f8c!important;color:#fff!important;border:0!important;border-radius:0 7px 7px 0!important}
+.avatar,.crest,.crest-mini{background:#f0f4f8!important;border:1px solid #d9e2eb!important;color:#315f8c!important;box-shadow:none!important}
+.battle{background:#f6f8fb!important;border-top:1px solid #e5eaf0!important;border-radius:8px!important}
+.battle .team{color:#34465a!important}
+.battle .datebox{color:#315f8c!important;text-shadow:none!important}
+.battle .datebox small{color:#7d8b9b!important}
+.ranking td{border-color:#edf0f4!important;color:#46576a!important}
+.points{color:#315f8c!important}
+.rank-row:hover{background:#f5f8fb!important}
+.rank-row.selected{background:#edf3f9!important;box-shadow:inset 3px 0 #4776a2!important}
+.regiment-card{border-color:#edf0f4!important}
+.regiment-card:hover{background:#f7f9fc!important}
+.regiment-card h4{color:#2c435c!important}
+.regiment-card p{color:#718096!important}
+.community{background:#f0f4f8!important;border:1px solid #e1e8f0!important;border-radius:11px!important}
+.regiment-tiles{gap:14px!important}
+.regiment-tile{background:#fff!important;border:1px solid #e1e7ee!important;border-radius:10px!important;box-shadow:0 3px 12px rgba(27,45,66,.04)!important}
+.regiment-tile:hover{border-color:#b9cadb!important;box-shadow:0 8px 22px rgba(27,45,66,.09)!important}
+.regiment-logo{background:#f7f9fc!important;border:1px solid #e1e7ee!important;border-radius:8px!important}
+.regiment-tile h2{color:#2b4057!important}
+.regiment-rating{color:#315f8c!important}
+.regiment-rating span,.sort-label{color:#8190a1!important}
+.profile-hero{background:#fff!important;padding:22px!important}
+.profile-flag{background:#f7f9fc!important;border:1px solid #e1e7ee!important;border-radius:9px!important}
+.profile-heading h1{color:#263b52!important}
+.profile-heading p,.profile-meta{color:#718096!important}
+.profile-meta b{color:#315f8c!important}
+.commander-card{background:#f8fafc!important}
+.commander-card img{border-color:#d5e0eb!important}
+.regiment-members-list .regiment-member-row{border-color:#edf0f4!important}
+.regiment-members-list .member-avatar{background:#f1f5f9!important;border-color:#dbe3ec!important;color:#315f8c!important;border-radius:8px!important}
+.regiment-members-list .regiment-member-row b{color:#344b63!important}
+.regiment-members-list .regiment-member-row small{color:#8190a1!important}
+#regimentPage .user-facts span{color:#8290a0!important}
+#regimentPage .user-facts b{color:#344b63!important}
+#regimentPage .regiment-description{color:#596b7e!important}
+#regimentPage .profile-actions{gap:9px}
+#commanderPanel,#commanderPanel .user-facts{color:#34465a!important}
+#commanderPanel input,#commanderPanel textarea,#commanderPanel select{background:#fff!important;color:#29394b!important}
+.campaign-event{border-color:#edf0f4!important}
+.campaign-event h2{color:#2c435c!important}
+.campaign-event p,.campaign-factions{color:#66778b!important}
+.campaign-event-count{color:#315f8c!important}
+.campaign-rules ol{color:#65758a!important}
+.campaign-fieldset{border:1px solid #e1e7ee!important;border-radius:8px!important}
+.campaign-fieldset legend{color:#46698c!important}
+.campaign-join-form,.campaign-event .campaign-roster,.campaign-admin-tools,.campaign-server-unlock{background:#f7f9fc!important;border:1px solid #e1e7ee!important;border-radius:8px!important;color:#526478!important}
+.campaign-join-form label,.campaign-manage-row>label{color:#526478!important}
+.campaign-join-form input,.campaign-join-form select,.campaign-manage-row select{background:#fff!important;color:#29394b!important;border:1px solid #d6dfe8!important}
+.campaign-event .campaign-roster> b,.campaign-roster-row strong{color:#344b63!important}
+.campaign-roster-row{border-color:#e8edf2!important}
+.campaign-roster-row small{color:#7c8b9b!important}
+.campaign-admin-tools summary{color:#315f8c!important}
+.campaign-admin-note{color:#7b8999!important;border-color:#e8edf2!important}
+.chat-access-note{background:#f4f7fa!important;border:1px solid #e1e7ee!important;color:#617286!important;border-radius:8px!important}
+.chat-access-note strong{color:#315f8c!important}
+.chat-access-note small{color:#8794a3!important}
+.online-user-tile{background:#f0f4f8!important;border:1px solid #dbe3ec!important;border-radius:8px!important}
+.online-user-tile:hover{border-color:#8ca9c5!important;box-shadow:0 5px 14px rgba(35,65,95,.1)!important}
+.online-user-tile i{border-color:#fff!important}
+.online-users-count{color:#7e8c9c!important}
+.online-users-more summary{color:#426b93!important;border-color:#b9cadb!important}
+.profile-settings input,.profile-settings textarea{background:#fff!important;color:#29394b!important;border-color:#d6dfe8!important}
+.profile-settings label{color:#60748a!important}
+.profile-settings-actions span{color:#4d8b68!important}
+@media(max-width:760px){
+ .brand{justify-content:center!important}
+ .brand-image{justify-content:center!important;height:64px!important}
+ .brand-image img{max-width:240px!important;max-height:58px!important}
+ nav{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:3px!important;padding:5px!important}
+ nav a,nav .dropdown>a{min-height:42px!important;padding:8px 4px!important;justify-content:center!important;text-align:center!important;white-space:normal!important;font-size:11px!important;border:0!important}
+ nav .login{grid-column:1/-1!important;margin:0!important}
+ nav .dropdown-menu{top:100%!important;left:0!important;right:0!important;width:100%!important}
+ .hero{min-height:260px!important;background-image:linear-gradient(90deg,rgba(240,245,250,.7),rgba(240,245,250,.94)),url("../assets/hero-art.svg")!important}
+ .hero-copy{width:100%!important;padding:28px 18px!important}
+ .stats{flex-wrap:wrap!important}
+ .profile-hero{grid-template-columns:1fr!important}
+ .profile-flag{width:min(100%,220px);margin:auto}
+}
+@media(max-width:420px){nav{grid-template-columns:repeat(2,minmax(0,1fr))!important}.container{width:94%!important}}
+</style></head><body><header><div class="container brand"><div class="brand-image"><img src="assets/IMG_2724.png" alt="EMPIRE"></div></div></header><div class="container"><nav><a href="index.html">Главная</a><a class="active" href="regiments.html">Полки</a><a href="campaigns.html">Кампании</a><a href="battles.html">Сражения</a><a href="ranking.html">Рейтинг</a><a href="alliances.html">Союзы</a><a href="news.html">Новости</a><a class="login" href="auth.html">Войти</a></nav><main><section class="page-title"><h1>СОЗДАНИЕ ПОЛКА</h1><p>Зарегистрируйте свой полк и станьте его командиром.</p></section><section class="card" style="max-width:620px;margin:20px auto;padding:24px"><form id="createRegimentForm" novalidate><label>Название полка<input id="name" class="input" required maxlength="60" placeholder="Введите название полка"></label><label style="display:block;margin-top:16px">Фракция<select id="faction" class="select" required><option value="">Выберите фракцию</option><option>Французская империя</option><option>Австрийская Империя</option><option>Пруссия</option><option>Российская империя</option><option>Рейнский Союз</option><option>Британская Империя</option></select></label><div style="display:flex;gap:10px;margin-top:22px"><a class="btn" href="regiments.html">Отмена</a><button class="btn primary" type="submit">Зарегистрировать полк</button></div></form><p id="status" role="status" aria-live="polite" style="margin-top:18px;min-height:24px"></p><div id="resultActions" style="display:none;margin-top:18px"></div></section></main></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/supabase.js?v=20261106d"></script><script>
 (async function(){
   const client=window.EMPIRE_SUPABASE;
   const status=document.getElementById('status');
