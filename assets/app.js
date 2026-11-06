@@ -36,3 +36,41 @@ sortAndFilterRegiments();
 
 // Demo-only notices for controls that require the future server backend.
 document.querySelectorAll('[data-demo]').forEach(b=>b.addEventListener('click',()=>toast(b.dataset.demo)));
+
+
+// RU / EN language switch. Google Translate provides page-wide translation.
+(function initLanguageSwitch(){
+  const nav=document.querySelector('nav');
+  if(!nav)return;
+  const readLang=()=>document.cookie.split('; ').find(x=>x.startsWith('googtrans='))?.split('/').pop()==='en'?'en':'ru';
+  const button=document.createElement('button');
+  button.type='button';
+  button.className='language-switch';
+  button.setAttribute('aria-label','Switch website language');
+  button.textContent=readLang()==='ru'?'🇬🇧 EN':'🇷🇺 RU';
+  button.addEventListener('click',()=>{
+    const next=readLang()==='ru'?'en':'ru';
+    if(next==='en'){
+      document.cookie='googtrans=/ru/en;path=/;max-age=31536000;SameSite=Lax';
+    }else{
+      document.cookie='googtrans=;path=/;max-age=0;SameSite=Lax';
+      document.cookie='googtrans=;path=/;domain='+location.hostname+';max-age=0;SameSite=Lax';
+    }
+    location.reload();
+  });
+  nav.appendChild(button);
+  const host=document.createElement('div');
+  host.id='google_translate_element';
+  host.setAttribute('aria-hidden','true');
+  host.style.cssText='position:absolute;left:-10000px;top:-10000px;width:1px;height:1px;overflow:hidden';
+  document.body.appendChild(host);
+  window.googleTranslateElementInit=function(){
+    if(window.google?.translate?.TranslateElement){
+      new google.translate.TranslateElement({pageLanguage:'ru',includedLanguages:'ru,en',autoDisplay:false},'google_translate_element');
+    }
+  };
+  const script=document.createElement('script');
+  script.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+  script.async=true;
+  document.head.appendChild(script);
+})();
