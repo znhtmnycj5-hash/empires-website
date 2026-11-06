@@ -175,12 +175,12 @@ nav a:hover .nav-icon,nav a.active .nav-icon{filter:brightness(1.1) drop-shadow(
 .regiment-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:18px}
 .regiment-tile{min-width:0;padding:12px;border:1px solid #5d4930;background:linear-gradient(145deg,#211c16,#11100e);cursor:pointer;text-align:center;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
 .regiment-tile:hover{transform:translateY(-4px);border-color:#9a7440;box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.regiment-logo{height:0;padding-top:100%;border:1px solid #765b36;background-color:#17130f;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.regiment-logo img{width:100%;height:100%;object-fit:contain;display:block}
+.regiment-logo{height:auto;aspect-ratio:1 / 1;border:1px solid #765b36;background-color:#17130f;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.regiment-logo img{width:100%;height:100%;object-fit:contain;display:block}
 .regiment-tile h2{margin:12px 0 5px;font:700 18px Cinzel;color:#e1c48e}
 .regiment-rating{font:700 16px 'Roboto Slab';color:#b99559}
 .regiment-rating span{display:block;margin-top:3px;font:10px 'Roboto Slab';letter-spacing:1px;color:#82745f}
 .sort-label{margin-left:auto;color:#9b8d78;font-size:11px}
 .sort-label strong{color:#c9a45d}
 @media(max-width:900px){.regiment-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:650px){.regiment-tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.regiment-logo{height:125px}.sort-label{display:none}}
-@media(max-width:420px){.regiment-tiles{grid-template-columns:1fr}.regiment-logo{height:145px}}
+@media(max-width:650px){.regiment-tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.sort-label{display:none}}
+@media(max-width:420px){.regiment-tiles{grid-template-columns:1fr}}
