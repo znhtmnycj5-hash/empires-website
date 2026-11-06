@@ -9,3 +9,25 @@ document.querySelectorAll('.chat-tab').forEach(b=>b.addEventListener('click',()=
 function sendChat(){const i=document.getElementById('chatInput'),v=i?.value.trim();if(!v)return;const box=document.querySelector('#general .messages');const r=document.createElement('div');r.className='msg';r.innerHTML='<div class="avatar">Я</div><div><b>Вы</b><p></p></div><div class="time">сейчас</div>';r.querySelector('p').textContent=v;box.appendChild(r);i.value='';toast('Сообщение добавлено в чат')}
 document.getElementById('sendChat')?.addEventListener('click',sendChat);document.getElementById('chatInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});
 document.querySelectorAll('[data-regiment]').forEach(e=>e.addEventListener('click',()=>toast('Открываем профиль: '+e.dataset.regiment)));
+
+const regSearch=document.getElementById('regSearch');
+const regNation=document.getElementById('regNation');
+function filterRegiments(){
+  const q=(regSearch?.value||'').trim().toLowerCase();
+  const nation=regNation?.value||'';
+  let visible=0;
+  document.querySelectorAll('#regList .list-card').forEach(card=>{
+    const name=(card.dataset.name||'').toLowerCase();
+    const cardNation=card.dataset.nation||'';
+    const matchName=!q||name.includes(q);
+    const matchNation=!nation||cardNation===nation;
+    const show=matchName&&matchNation;
+    card.style.display=show?'block':'none';
+    if(show) visible++;
+  });
+  const empty=document.getElementById('regEmpty');
+  if(empty) empty.style.display=visible?'none':'block';
+}
+regSearch?.addEventListener('input',filterRegiments);
+regNation?.addEventListener('change',filterRegiments);
+document.getElementById('createRegiment')?.addEventListener('click',()=>toast('Создание полка будет доступно после регистрации аккаунта'));
