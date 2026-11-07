@@ -110,12 +110,25 @@ if(user===currentUser){
   const setFriendState=(isFriend)=>{
     friendButton.textContent=isFriend?"Друг":"Добавить в друзья";
     friendButton.classList.toggle("is-friend",isFriend);
-    friendButton.disabled=isFriend;
+    friendButton.disabled=false;
+    let removeButton=document.getElementById("removeFriendButton");
+    if(isFriend){
+      if(!removeButton){
+        removeButton=document.createElement("button");
+        removeButton.id="removeFriendButton";
+        removeButton.type="button";
+        removeButton.className="friend-remove-button";
+        removeButton.textContent="Удалить из друзей";
+        friendButton.parentNode.appendChild(removeButton);
+        removeButton.onclick=()=>setFriendState(false);
+      }
+      removeButton.style.display="inline-block";
+    }else if(removeButton){
+      removeButton.style.display="none";
+    }
   };
   setFriendState(alreadyFriend);
-  friendButton.onclick=()=>{
-    setFriendState(true);
-  };
+  friendButton.onclick=()=>setFriendState(true);
 }
 document.getElementById("profileFriends").innerHTML=d.friends.length?d.friends.map(name=>{
  const p=profiles[name]||fallback;
