@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Roboto+Slab:wght@400;500;600&display=swap');
+
+:root{
+  --bg:#0c0b09;
+  --panel:#171512;
+  --panel2:#211d17;
+  --gold:#c9a45d;
+  --gold2:#e0bd76;
+  --cream:#e5d4b2;
+  --muted:#a99a80;
+  --red:#681c1b;
+  --red2:#8e2824;
+  --line:#5d4930;
+  --shadow:0 14px 40px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:
+  radial-gradient(circle at 50% 0%,rgba(121,92,49,.12),transparent 34%),
+  linear-gradient(135deg,#0b0a08,#15120e 50%,#090807);
+  color:var(--cream);font-family:"Roboto Slab",serif;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.08;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+}
+.container{width:min(1500px,94%);margin:auto}
+header{
+  min-height:190px;position:relative;overflow:hidden;border-bottom:1px solid #715733;
+  background:#17130f url("hero.jpg") center/cover no-repeat;
+}
+header:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,6,5,.9) 0%,rgba(7,6,5,.55) 45%,rgba(7,6,5,.15) 100%)}
+.brand{position:relative;z-index:1;padding:30px 0 18px;display:flex;align-items:center;gap:20px}
+.eagle{font-size:58px;color:var(--gold);text-shadow:0 3px 8px #000}
+.logo{font:700 46px Cinzel,serif;letter-spacing:7px;color:#d9b875;text-shadow:0 3px 12px #000}
+.logo small{display:block;font:italic 16px "Roboto Slab";letter-spacing:1px;color:#d9c8aa;margin-top:5px}
+nav{
+  position:relative;z-index:3;background:rgba(12,10,8,.93);border:1px solid #684f30;
+  box-shadow:var(--shadow);display:flex;align-items:center;min-height:58px
+}
+nav a{color:#d6c29d;text-decoration:none;padding:18px 24px;border-right:1px solid #332a20;font:600 15px Cinzel}
+nav a:hover,nav a.active{background:linear-gradient(#7e2825,#4c1716);color:#f2d58d}
+nav .login{margin-left:auto;border-left:1px solid #332a20;border-right:0}
+main{padding:18px 0 45px}
+.hero{
+  min-height:355px;position:relative;overflow:hidden;border:1px solid #725735;
+  background:#1a1712 url("hero.jpg") center/cover no-repeat;box-shadow:var(--shadow)
+}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,4,3,.15),rgba(5,4,3,.18) 45%,rgba(5,4,3,.86) 100%)}
+.hero-copy{position:relative;z-index:2;margin-left:auto;width:52%;padding:48px 48px 28px;text-align:center}
+.kicker{font:italic 24px Cinzel;color:#dcc494}
+h1{font:700 70px Cinzel;margin:0;color:#e0bb73;letter-spacing:8px;text-shadow:0 4px 14px #000}
+.tagline{font-style:italic;color:#e1d0af;margin:4px 0 24px}
+.buttons{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:13px 25px;border:1px solid #b58a43;color:#ead19c;text-decoration:none;background:#251d14;font:600 13px Cinzel}
+.btn.primary{background:linear-gradient(#8e2b27,#5c1716)}
+.stats{display:flex;justify-content:center;gap:35px;margin-top:28px}
+.stat strong{display:block;color:#e2c383;font-size:22px}
+.stat span{font-size:11px;color:#b7a98e;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:1.05fr 1.8fr .9fr;gap:14px;margin-top:14px}
+.card{background:linear-gradient(145deg,rgba(29,25,20,.97),rgba(14,13,11,.98));border:1px solid #5d4930;box-shadow:var(--shadow)}
+.card-title{padding:13px 16px;border-bottom:1px solid #493823;color:#e0c17e;font:600 16px Cinzel;display:flex;justify-content:space-between}
+.card-title a{font:12px "Roboto Slab";color:#9e8a68;text-decoration:none}
+.chat{min-height:405px}
+.messages{padding:10px 15px}
+.msg{display:grid;grid-template-columns:32px 1fr auto;gap:8px;padding:10px 0;border-bottom:1px solid #30291f}
+.avatar{width:30px;height:30px;border:1px solid #70552f;display:grid;place-items:center;color:#d4b36e;font-size:12px}
+.msg b{color:#cda85d;font-size:13px}.msg p{margin:3px 0 0;color:#b9ab91;font-size:12px}.time{color:#706653;font-size:10px}
+.chat-input{margin:10px 14px 14px;display:flex}
+.chat-input input{flex:1;background:#0e0d0b;border:1px solid #51412d;color:#ddd;padding:12px}
+.chat-input button{width:48px;background:#6d201d;color:#e8ca8d;border:1px solid #9a6d3c}
+.news-item{display:grid;grid-template-columns:130px 1fr;gap:15px;padding:15px;border-bottom:1px solid #3a3023}
+.thumb{height:76px;background-position:center;background-size:cover;background-repeat:no-repeat;border:1px solid #654c31;filter:saturate(.75)}
+.news-item h3{margin:0 0 5px;color:#dbc08a;font-size:15px}.news-item p{margin:0;color:#aa9d87;font-size:12px;line-height:1.5}.date{color:#827258;font-size:10px}
+.profile{padding:18px}
+.profile-top{display:flex;gap:14px;align-items:center}
+.crest{width:68px;height:68px;border:1px solid #9a7440;display:grid;place-items:center;font-size:30px;background:#251d15}
+.profile h3{margin:0;color:#dfc17f;font:600 17px Cinzel}.profile small{color:#a9987b}
+.profile dl{display:grid;grid-template-columns:1fr auto;gap:9px;margin:20px 0;font-size:12px}.profile dt{color:#97866c}.profile dd{margin:0;color:#d7c7a8}
+.full{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;margin-top:14px}
+.battle{padding:16px 20px;display:grid;grid-template-columns:85px 1fr 85px;align-items:center;text-align:center}
+.datebox{color:#d7b66e;font:700 18px Cinzel}.datebox small{display:block;font:11px "Roboto Slab";color:#a8997e}
+.team{color:#d8c6a7;font-weight:600}.vs{color:#806f55;font-size:12px;margin:4px}
+.ranking table{width:100%;border-collapse:collapse}.ranking td{padding:9px 14px;border-bottom:1px solid #332b21;font-size:12px}.ranking tr:first-child td{color:#dfbf7b}.pos{color:#9e895f;width:35px}.points{text-align:right;color:#c6a76d}
+.community{padding:20px;background:linear-gradient(rgba(24,20,15,.78),rgba(18,15,11,.9)),url("battlefield.jpg") center/cover;min-height:100%}
+.community-grid{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;margin-top:20px}
+.community-grid div{border-right:1px solid #493c2b}.community-grid div:last-child{border:0}
+.community-grid strong{display:block;font:600 27px Cinzel;color:#dfc07c}.community-grid span{font-size:10px;color:#9d8e75;text-transform:uppercase}
+footer{border-top:1px solid #4f3d28;padding:25px 0;color:#80745f;font-size:11px}
+.footer-inner{display:flex;justify-content:space-between;align-items:center}.motto{font:italic 20px Cinzel;color:#b4935c}
+@media(max-width:1050px){.grid{grid-template-columns:1fr 1.6fr}.grid>.profile{grid-column:1/-1}.full{grid-template-columns:1fr}.hero-copy{width:60%}}
+@media(max-width:760px){.logo{font-size:32px}.brand{padding:22px 0}.eagle{font-size:40px}nav{overflow:auto}nav a{padding:15px 14px;white-space:nowrap}.hero-copy{width:100%;padding:40px 20px;background:rgba(5,4,3,.5)}h1{font-size:48px}.stats{gap:15px}.grid,.full{grid-template-columns:1fr}.news-item{grid-template-columns:95px 1fr}.community-grid{grid-template-columns:repeat(2,1fr);gap:20px}.community-grid div:nth-child(2){border:0}.footer-inner{gap:15px;flex-direction:column}}
+
+html{scroll-behavior:smooth}
+a,button{transition:all .18s ease}
+nav a{position:relative}
+nav a:not(.login):after{content:"";position:absolute;left:18px;right:18px;bottom:6px;height:2px;background:var(--gold2);transform:scaleX(0);transition:.18s}
+nav a:hover:after,nav a.active:after{transform:scaleX(1)}
+.dropdown{position:relative}
+.dropdown-menu{display:none;position:absolute;z-index:20;top:54px;left:0;min-width:190px;background:#15120e;border:1px solid #765a34;box-shadow:0 14px 30px rgba(0,0,0,.7)}
+.dropdown:hover .dropdown-menu{display:block}
+.dropdown-menu a{display:block;border:0!important;padding:13px 17px!important;font:500 12px "Roboto Slab"!important;color:#cdbd9f!important}
+.dropdown-menu a:hover{background:#5c1c1a;color:#f0d28e!important}
+.btn:hover{transform:translateY(-2px);box-shadow:0 7px 18px rgba(0,0,0,.4);border-color:#d5a95f}
+.card{transition:transform .2s,border-color .2s,box-shadow .2s}
+.card:hover{border-color:#82643b;box-shadow:0 16px 42px rgba(0,0,0,.62)}
+.chat-tabs{display:flex;border-bottom:1px solid #4a3927}
+.chat-tab{flex:1;background:#17130f;color:#9d8e75;border:0;border-right:1px solid #3b3023;padding:9px 4px;cursor:pointer;font:11px "Roboto Slab"}
+.chat-tab.active,.chat-tab:hover{background:#641e1b;color:#ead09a}
+.chat-panel{display:none}.chat-panel.active{display:block}
+.regiment-card{position:relative;padding:16px;border-top:1px solid #392e22;cursor:pointer;transition:background .18s,transform .18s}
+.regiment-card:hover{background:rgba(112,77,34,.12);transform:translateX(2px)}
+.regiment-card .crest-mini{width:42px;height:42px;float:left;margin-right:12px;border:1px solid #87663b;display:grid;place-items:center;background:#251d15;color:#d9b56e}
+.regiment-card h4{margin:0 0 4px;color:#ddc07e;font:600 14px Cinzel}.regiment-card p{margin:0;color:#9e917b;font-size:11px}
+.rank-row{cursor:pointer;transition:background .18s,transform .18s}.rank-row:hover{background:rgba(111,75,35,.15);transform:translateX(2px)}.rank-row.selected{background:rgba(120,34,30,.22);box-shadow:inset 3px 0 #c79a51}
+.toast{position:fixed;right:24px;bottom:24px;z-index:100;min-width:260px;padding:14px 17px;background:#17130f;border:1px solid #a1763e;color:#e6d09e;box-shadow:0 12px 30px rgba(0,0,0,.65);opacity:0;transform:translateY(15px);pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translateY(0)}
+.modal-backdrop{display:none;position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.76);align-items:center;justify-content:center;padding:20px}.modal-backdrop.show{display:flex}
+.modal{width:min(440px,100%);background:linear-gradient(145deg,#211c16,#100f0d);border:1px solid #8a683b;box-shadow:0 25px 70px #000;padding:26px}.modal h2{margin:0 0 8px;font:600 25px Cinzel;color:#e0bd78}.modal p{color:#9f927d;font-size:12px}
+.modal label{display:block;color:#b9aa91;font-size:11px;margin:14px 0 5px}.modal input{width:100%;padding:12px;background:#0d0c0a;border:1px solid #51412e;color:#eee;outline:0}.modal input:focus{border-color:#b18a4e}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}.close{background:none;border:0;color:#a9987b;float:right;font-size:20px;cursor:pointer}
+@media(max-width:760px){.dropdown-menu{position:fixed;top:auto;left:10px;right:10px}.toast{left:15px;right:15px;bottom:15px}}
