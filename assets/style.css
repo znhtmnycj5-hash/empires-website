@@ -319,3 +319,18 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  .regiment-news-body p{font-size:10px;line-height:1.5}
 }
 \n/* Lift the main site block 100px over the header background */\nbody > .container{transform:translateY(-100px);}\n
+
+/* Header hero content moved under the centered logo */
+.header-copy{position:relative;z-index:2;width:min(760px,92%);text-align:center;margin-top:4px}
+.header-copy .tagline{margin:0 0 14px;font-size:16px;text-shadow:0 2px 8px #000}
+.header-copy .buttons{gap:12px}
+.header-copy .stats{margin-top:18px;gap:35px}
+@media(max-width:760px){
+  .header-copy{width:94%;margin-top:2px}
+  .header-copy .tagline{font-size:14px;margin-bottom:11px}
+  .header-copy .buttons{gap:8px}
+  .header-copy .btn{padding:10px 16px;font-size:11px}
+  .header-copy .stats{gap:14px;margin-top:14px}
+  .header-copy .stat strong{font-size:18px}
+  .header-copy .stat span{font-size:9px}
+}
