@@ -329,3 +329,29 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
   .header-copy .stat strong{font-size:18px}
   .header-copy .stat span{font-size:9px}
 }
+
+
+/* Mini chat avatars and access states */
+.chat-avatar{width:32px;height:32px;flex:0 0 32px;object-fit:cover;border:1px solid #70552f;background:#251d15;border-radius:50%;display:block}
+.msg{grid-template-columns:32px 1fr auto;align-items:center}
+.regiment-chat-status{padding:8px 15px 0;font-size:10px}
+.chat-access-ok{color:#6db86d}
+.chat-access-locked{color:#d26a61}
+.regiment-chat-locked{display:none;margin:14px;padding:18px;text-align:center;border:1px solid #5b4731;background:rgba(15,13,10,.72)}
+.regiment-chat-locked .lock-icon{font-size:22px;margin-bottom:7px}
+.regiment-chat-locked strong{display:block;color:#dfc17f;font:600 13px Cinzel}
+.regiment-chat-locked p{margin:7px auto 12px;max-width:330px;color:#9f927d;font-size:10px;line-height:1.5}
+.regiment-chat-locked .btn{padding:9px 16px;font-size:10px}
+.online-list{padding:10px 14px}
+.online-user{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid #30291f}
+.online-user:last-child{border-bottom:0}
+.online-user b{display:block;color:#cda85d;font-size:12px}
+.online-user small{display:block;margin-top:2px;color:#8f826d;font-size:9px}
+.online-dot{width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:#6db86d;box-shadow:0 0 7px rgba(109,184,109,.7)}
+.online-count{margin:0 14px 12px;padding-top:9px;border-top:1px solid #3a3023;color:#8f826d;font-size:10px;text-align:right}
+.online-count strong{color:#d8bd82}
+@media(max-width:600px){
+ .chat-avatar{width:30px;height:30px;flex-basis:30px}
+ .msg{grid-template-columns:30px 1fr auto}
+ .online-user{gap:8px}
+}
