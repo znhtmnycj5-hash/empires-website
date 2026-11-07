@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Полк — EMPIRE</title><link rel="stylesheet" href="assets/style.css"></head>
+<body><header><div class="container"><div class="brand"><div class="eagle">♜</div><div class="logo">EMPIRE<small>Сообщество Mount &amp; Blade: Napoleonic Wars</small></div></div><nav><a href="index.html">Главная</a><div class="dropdown"><a class="active" href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a></div></div><a href="index.html#battles">Кампании</a><a href="index.html#ranking">Рейтинг</a><a href="index.html#news">Форум</a><a href="index.html#alliances">Союзы</a><a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a></nav></div></header>
+<main class="container"><section class="card regiment-detail"><a class="back-link" href="regiments.html">← Все полки</a><div class="regiment-detail-head"><img id="detailAvatar" src="" alt=""><div><div class="page-kicker">ПОЛК EMPIRE</div><h1 id="detailName">Полк</h1><p id="detailFaction"></p></div></div><div class="regiment-detail-grid"><div><span>Командир клана</span><strong id="detailCommander"></strong></div><div><span>Фракция</span><strong id="detailFaction2"></strong></div></div></section></main>
+<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div><div class="motto">Vive l’Empire!</div></div></footer>
+<script>
+const data={
+ "1st Regiment":{avatar:"assets/1st.jpg",commander:"Jean-Baptiste Moreau",faction:"Франция"},
+ "95th Rifles":{avatar:"assets/95.webp",commander:"Richard Hawthorne",faction:"Великобритания"},
+ "84e Régiment":{avatar:"assets/84e.png",commander:"Pierre Delacroix",faction:"Франция"},
+ "Preobrazhensky":{avatar:"assets/preobraz.webp",commander:"Алексей Воронцов",faction:"Россия"},
+ "7th Hussars":{avatar:"assets/hussars.png",commander:"William Harrington",faction:"Великобритания"},
+ "13e Léger":{avatar:"assets/1st.jpg",commander:"Étienne Morel",faction:"Франция"},
+ "33e Ligne":{avatar:"assets/95.webp",commander:"Thomas Clarke",faction:"Великобритания"},
+ "92nd Gordon Highlanders":{avatar:"assets/84e.png",commander:"Alexander MacLeod",faction:"Великобритания"},
+ "Semenovsky":{avatar:"assets/preobraz.webp",commander:"Николай Орлов",faction:"Россия"},
+ "King's German Legion":{avatar:"assets/kgr.png",commander:"Friedrich von Keller",faction:"Великобритания"},
+ "6e Hussards":{avatar:"assets/1st.jpg",commander:"Louis Beaumont",faction:"Франция"},
+ "Royal Scots":{avatar:"assets/95.webp",commander:"James Campbell",faction:"Великобритания"}
+};;
+const name=new URLSearchParams(location.search).get('name')||'1st Regiment',d=data[name]||data['1st Regiment'];
+document.getElementById('detailAvatar').src=d.avatar;document.getElementById('detailAvatar').alt='Аватар '+name;document.getElementById('detailName').textContent=name;document.getElementById('detailFaction').textContent=d.faction;document.getElementById('detailCommander').textContent=d.commander;document.getElementById('detailFaction2').textContent=d.faction;
+</script></body></html>
