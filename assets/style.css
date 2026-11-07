@@ -121,4 +121,12 @@ nav a:hover:after,nav a.active:after{transform:scaleX(1)}
 .modal{width:min(440px,100%);background:linear-gradient(145deg,#211c16,#100f0d);border:1px solid #8a683b;box-shadow:0 25px 70px #000;padding:26px}.modal h2{margin:0 0 8px;font:600 25px Cinzel;color:#e0bd78}.modal p{color:#9f927d;font-size:12px}
 .modal label{display:block;color:#b9aa91;font-size:11px;margin:14px 0 5px}.modal input{width:100%;padding:12px;background:#0d0c0a;border:1px solid #51412e;color:#eee;outline:0}.modal input:focus{border-color:#b18a4e}
 .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}.close{background:none;border:0;color:#a9987b;float:right;font-size:20px;cursor:pointer}
-@media(max-width:760px){.dropdown-menu{position:fixed;top:auto;left:10px;right:10px}.toast{left:15px;right:15px;bottom:15px}}
+@media(max-width:760px){
+  nav{display:flex;flex-wrap:wrap;overflow:visible;min-height:0;align-items:stretch}
+  nav>a:not(.login),nav>.dropdown{flex:1 1 33.333%;min-width:0}
+  nav>a:not(.login),nav>.dropdown>a{display:block;text-align:center;padding:13px 6px;font-size:11px;white-space:nowrap}
+  nav>.dropdown>a{border-right:0}
+  nav .login{flex:1 1 100%;margin-left:0;border-left:0;border-top:1px solid #332a20;text-align:center;padding:13px 10px}
+  .dropdown-menu{position:fixed;top:auto;left:10px;right:10px}
+  .toast{left:15px;right:15px;bottom:15px}
+}
