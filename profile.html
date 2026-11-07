@@ -108,11 +108,12 @@ if(user===currentUser){
 }else{
   const alreadyFriend=(profiles[currentUser]?.friends||[]).includes(user);
   const setFriendState=(isFriend)=>{
-    friendButton.textContent=isFriend?"Друг":"Добавить в друзья";
-    friendButton.classList.toggle("is-friend",isFriend);
+    friendButton.textContent=isFriend?"Добавить в друзья":"Добавить в друзья";
+    friendButton.classList.toggle("is-friend",false);
     friendButton.disabled=false;
     let removeButton=document.getElementById("removeFriendButton");
     if(isFriend){
+      friendButton.style.display="none";
       if(!removeButton){
         removeButton=document.createElement("button");
         removeButton.id="removeFriendButton";
@@ -123,8 +124,9 @@ if(user===currentUser){
         removeButton.onclick=()=>setFriendState(false);
       }
       removeButton.style.display="inline-block";
-    }else if(removeButton){
-      removeButton.style.display="none";
+    }else{
+      friendButton.style.display="inline-block";
+      if(removeButton) removeButton.style.display="none";
     }
   };
   setFriendState(alreadyFriend);
