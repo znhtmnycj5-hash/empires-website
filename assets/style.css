@@ -261,3 +261,10 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-history-bottom{margin-top:10px;color:#92846d;font-size:10px}
 .battle-score{color:#d8c39e;font-size:13px;font-variant-numeric:tabular-nums}
 @media(max-width:600px){.battle-history-item{padding:11px}.battle-history-top,.battle-history-bottom{gap:7px}}
+
+.battle-history-more{border:1px solid #51432f;background:rgba(15,13,10,.45);color:#d8bd86}
+.battle-history-more summary{cursor:pointer;list-style:none;text-align:center;padding:12px;font-size:11px;color:#d8bd86}
+.battle-history-more summary::-webkit-details-marker{display:none}
+.battle-history-more summary:after{content:"＋";margin-left:8px;color:#caa45f}
+.battle-history-more[open] summary:after{content:"−"}
+.battle-history-extra{display:flex;flex-direction:column;gap:10px;padding:0 10px 10px}
