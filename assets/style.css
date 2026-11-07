@@ -78,8 +78,8 @@ h1{font:700 70px Cinzel;margin:0;color:#e0bb73;letter-spacing:8px;text-shadow:0 
 .profile h3{margin:0;color:#dfc17f;font:600 17px Cinzel}.profile small{color:#a9987b}
 .profile dl{display:grid;grid-template-columns:1fr auto;gap:9px;margin:20px 0;font-size:12px}.profile dt{color:#97866c}.profile dd{margin:0;color:#d7c7a8}
 .full{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;margin-top:14px}
-.battle{padding:16px 20px;display:grid;grid-template-columns:85px 1fr 85px;align-items:center;text-align:center}
-.datebox{color:#d7b66e;font:700 18px Cinzel}.datebox small{display:block;font:11px "Roboto Slab";color:#a8997e}
+.battle{padding:16px 20px;display:grid;grid-template-columns:85px minmax(0,1fr) 70px minmax(0,1fr);align-items:center;text-align:center;gap:10px}
+.datebox{color:#d7b66e;font:700 18px Cinzel}.datebox small{display:block;font:11px "Roboto Slab";color:#a8997e}.battle-type{display:block;margin-top:7px;color:#8e7a5d;font:10px "Roboto Slab";letter-spacing:.5px}
 .team{color:#d8c6a7;font-weight:600}.vs{color:#806f55;font-size:12px;margin:4px}
 .ranking table{width:100%;border-collapse:collapse}.ranking td{padding:9px 14px;border-bottom:1px solid #332b21;font-size:12px}.ranking tr:first-child td{color:#dfbf7b}.pos{color:#9e895f;width:35px}.points{text-align:right;color:#c6a76d}
 .community{padding:20px;background:linear-gradient(rgba(24,20,15,.78),rgba(18,15,11,.9)),url("battlefield.jpg") center/cover;min-height:100%}
