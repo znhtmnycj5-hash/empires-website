@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Профиль — EMPIRE</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="brand">
+      <a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a>
+      <div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div>
+    </div>
+  </div>
+</header>
+<div class="container">
+  <nav>
+    <a href="index.html">Главная</a>
+    <a href="regiments.html">Полки</a>
+    <a href="index.html#battles">Кампании</a>
+    <a href="index.html#ranking">Рейтинг</a>
+    <a href="index.html#news">Форум</a>
+    <a href="index.html#alliances">Союзы</a>
+    <span style="margin-left:auto"></span>
+    <a href="#">♟ Войти</a>
+  </nav>
+
+  <main class="profile-page">
+    <a class="back-link" href="index.html">← Вернуться на главную</a>
+    <section class="card profile-header">
+      <div class="profile-avatar-wrap"><img id="profileAvatar" class="profile-avatar" src="assets/default-soldier.jpg" alt=""></div>
+      <div class="profile-main">
+        <div class="page-kicker">ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ</div>
+        <h1 id="profileName">Пользователь</h1>
+        <div class="profile-meta">
+          <div><span>Полк</span><strong id="profileRegiment">Без полка</strong></div>
+          <div><span>Статус</span><strong id="profileRole">Солдат</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="profile-columns">
+      <section class="card profile-section">
+        <div class="card-title">♟ &nbsp; Друзья профиля</div>
+        <div class="profile-friends" id="profileFriends"></div>
+      </section>
+
+      <section class="card profile-section">
+        <div class="card-title">📜 &nbsp; Послужной список</div>
+        <div class="service-list" id="serviceList"></div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script>
+const profiles={
+  "Kalashnikov":{avatar:"assets/avatar.jpg",regiment:"1st Regiment",role:"Глава клана",friends:["Veli4estvo","Kazak","Grenadier87"],service:[
+    {regiment:"1st Regiment",from:"01.10.2026",to:"по настоящее время"}]},
+  "Ankord":{avatar:"assets/avatar.jpg",regiment:"1st Regiment",role:"Глава клана",friends:["Veli4estvo","Mel","Kazak"],service:[
+    {regiment:"1st Regiment",from:"01.10.2026",to:"по настоящее время"}]},
+  "Veli4estvo":{avatar:"assets/images (4).jpg",regiment:"1st Regiment",role:"Офицер",friends:["Ankord","Kazak","MeGusta"],service:[
+    {regiment:"1st Regiment",from:"05.10.2026",to:"по настоящее время"}]},
+  "Mel":{avatar:"assets/images (1).jpg",regiment:"1st Regiment",role:"Солдат",friends:["Veli4estvo","Kazak"],service:[
+    {regiment:"1st Regiment",from:"08.10.2026",to:"по настоящее время"}]},
+  "Kazak":{avatar:"assets/images (6).jpg",regiment:"1st Regiment",role:"Офицер",friends:["Ankord","Veli4estvo","Flashkodr"],service:[
+    {regiment:"1st Regiment",from:"12.10.2026",to:"по настоящее время"}]},
+  "MeGusta":{avatar:"assets/images.jpg",regiment:"1st Regiment",role:"Солдат",friends:["Flashkodr","Theodor","Veli4estvo"],service:[
+    {regiment:"1st Regiment",from:"24.10.2026",to:"по настоящее время"}]},
+  "Flashkodr":{avatar:"assets/images (2).jpg",regiment:"1st Regiment",role:"Солдат",friends:["MeGusta","MrDixon"],service:[
+    {regiment:"1st Regiment",from:"29.10.2026",to:"по настоящее время"}]},
+  "MrDixon":{avatar:"assets/images (3).jpg",regiment:"1st Regiment",role:"Солдат",friends:["Flashkodr","Theodor"],service:[
+    {regiment:"1st Regiment",from:"01.11.2026",to:"по настоящее время"}]},
+  "Theodor":{avatar:"assets/images (5).jpg",regiment:"1st Regiment",role:"Солдат",friends:["MeGusta","MrDixon"],service:[
+    {regiment:"1st Regiment",from:"01.11.2026",to:"по настоящее время"}]},
+  "Grenadier87":{avatar:"assets/images.jpg",regiment:"1st Regiment",role:"Солдат",friends:["Kalashnikov","Veli4estvo"],service:[
+    {regiment:"1st Regiment",from:"15.10.2026",to:"по настоящее время"}]},
+  "Marquis":{avatar:"assets/images (1).jpg",regiment:"95th Rifles",role:"Офицер",friends:["Grenadier87","Fusilier"],service:[
+    {regiment:"95th Rifles",from:"12.09.2026",to:"по настоящее время"}]},
+  "Fusilier":{avatar:"assets/images (2).jpg",regiment:"Без полка",role:"Солдат",friends:["Marquis"],service:[]}
+};
+const fallback={avatar:"assets/default-soldier.jpg",regiment:"Без полка",role:"Солдат",friends:[],service:[]};
+const user=new URLSearchParams(location.search).get("user")||"Kalashnikov";
+const d=profiles[user]||fallback;
+document.title=user+" — EMPIRE";
+document.getElementById("profileAvatar").src=d.avatar;
+document.getElementById("profileAvatar").alt="Аватар "+user;
+document.getElementById("profileName").textContent=user;
+document.getElementById("profileRegiment").textContent=d.regiment;
+document.getElementById("profileRole").textContent=d.role;
+document.getElementById("profileFriends").innerHTML=d.friends.length?d.friends.map(name=>{
+ const p=profiles[name]||fallback;
+ return '<a class="profile-friend" href="profile.html?user='+encodeURIComponent(name)+'"><img src="'+p.avatar+'" alt=""><span>'+name+'</span></a>';
+}).join(""):'<p class="empty-note">Друзей пока нет.</p>';
+document.getElementById("serviceList").innerHTML=d.service.length?d.service.map(x=>'<div class="service-item"><div class="service-regiment">'+x.regiment+'</div><div class="service-dates"><span>С '+x.from+'</span><span>По '+x.to+'</span></div></div>').join(""):'<p class="empty-note">Послужной список пока пуст.</p>';
+</script>
+</body>
+</html>
