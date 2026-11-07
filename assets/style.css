@@ -393,3 +393,25 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  .service-item{grid-template-columns:1fr;gap:7px}
  .service-dates{flex-wrap:wrap;gap:8px}
 }
+
+
+/* Private messages on user profiles */
+.profile-messages-section{margin-top:14px}
+.message-history{display:flex;flex-direction:column;gap:9px;padding:14px}
+.private-message{display:flex;align-items:flex-start;gap:10px;max-width:82%;padding:10px 12px;border:1px solid #4e402e;background:rgba(15,13,10,.62)}
+.private-message.mine{margin-left:auto}
+.private-message img{width:34px;height:34px;flex:0 0 34px;object-fit:cover;border-radius:50%;border:1px solid #765a36}
+.private-message b{color:#d2b16f;font:600 11px Cinzel,serif}
+.private-message p{margin:4px 0;color:#b6a68e;font-size:11px;line-height:1.5}
+.private-message span{color:#746957;font-size:9px}
+.message-compose{display:flex;gap:8px;padding:0 14px 14px}
+.message-compose input{flex:1;min-width:0;padding:10px 12px;border:1px solid #4e402e;background:#15120e;color:#d8c8aa;font:11px "Roboto Slab",serif;outline:none}
+.message-compose button{border:1px solid #87663b;background:#4d3922;color:#e0c17d;padding:0 16px;font:600 10px Cinzel,serif;cursor:pointer}
+.no-conversation{text-align:center;padding:22px 14px}
+.no-conversation p{margin:0 0 12px;color:#9d907c;font-size:11px}
+.no-conversation .btn{display:inline-block}
+@media(max-width:600px){
+ .private-message{max-width:94%}
+ .message-compose{padding:0 10px 10px}
+ .message-compose button{padding:0 11px}
+}
