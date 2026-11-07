@@ -274,3 +274,22 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-opponent-avatar{width:38px;height:38px;flex:0 0 38px;object-fit:contain;padding:2px;border:1px solid #87663b;background:#251d15}
 .battle-opponent strong{overflow-wrap:anywhere}
 @media(max-width:600px){.battle-opponent-avatar{width:34px;height:34px;flex-basis:34px}.battle-opponent{gap:8px}}
+
+
+/* Regiment chronicle */
+.regiment-chronicle-section{margin-top:14px}
+.regiment-chronicle-list{display:flex;flex-direction:column;gap:10px}
+.chronicle-item{display:grid;grid-template-columns:120px minmax(0,1fr);gap:18px;padding:13px 14px;border:1px solid #51432f;border-left:4px solid #9a7440;background:rgba(15,13,10,.62);align-items:start}
+.chronicle-date{color:#d8b66e;font:600 12px Cinzel;white-space:nowrap;padding-top:2px}
+.chronicle-content strong{display:block;color:#dfc17f;font:600 13px Cinzel;margin-bottom:5px}
+.chronicle-content p{margin:0;color:#a99a80;font-size:11px;line-height:1.55}
+.chronicle-more{border:1px solid #51432f;background:rgba(15,13,10,.45);color:#d8bd86}
+.chronicle-more summary{cursor:pointer;list-style:none;text-align:center;padding:12px;font-size:11px;color:#d8bd86}
+.chronicle-more summary::-webkit-details-marker{display:none}
+.chronicle-more summary:after{content:"＋";margin-left:8px;color:#caa45f}
+.chronicle-more[open] summary:after{content:"−"}
+.chronicle-extra{display:flex;flex-direction:column;gap:10px;padding:0 10px 10px}
+@media(max-width:600px){
+ .chronicle-item{grid-template-columns:1fr;gap:6px;padding:11px}
+ .chronicle-date{font-size:11px}
+}
