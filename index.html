@@ -40,18 +40,47 @@
   <section class="card chat" id="chat">
   <div class="card-title">◉ &nbsp; Мини-чат <span style="font:10px 'Roboto Slab';color:#6db86d">● Online: 24</span></div>
   <div class="chat-tabs">
-    <button class="chat-tab active" data-tab="general">Общий</button><button class="chat-tab" data-tab="regiments-chat">Полки</button><button class="chat-tab" data-tab="alliances-chat">Союзы</button>
+    <button class="chat-tab active" data-tab="general">Общий чат</button>
+    <button class="chat-tab" data-tab="regiments-chat">Полковой чат</button>
+    <button class="chat-tab" data-tab="online-users">Онлайн</button>
   </div>
-  <div id="general" class="chat-panel active"><div class="messages">
-    <div class="msg"><div class="avatar">G</div><div><b>Grenadier87</b><p>Отличный бой был!</p></div><div class="time">19:42</div></div>
-    <div class="msg"><div class="avatar">M</div><div><b>Marquis</b><p>Когда следующая кампания?</p></div><div class="time">19:40</div></div>
-    <div class="msg"><div class="avatar">V</div><div><b>Volk</b><p>В субботу, следите за новостями.</p></div><div class="time">19:39</div></div>
-    <div class="msg"><div class="avatar">F</div><div><b>Fusilier</b><p>Есть кто на тренировку?</p></div><div class="time">19:37</div></div>
-    <div class="msg"><div class="avatar">G</div><div><b>Grenadier87</b><p>За Империю! ♛</p></div><div class="time">19:35</div></div>
-  </div></div>
-  <div id="regiments-chat" class="chat-panel"><div class="messages"><div class="msg"><div class="avatar">1R</div><div><b>1st Regiment</b><p>Набор открыт до воскресенья.</p></div><div class="time">19:41</div></div><div class="msg"><div class="avatar">95</div><div><b>95th Rifles</b><p>Тренировка сегодня в 21:00.</p></div><div class="time">19:36</div></div></div></div>
-  <div id="alliances-chat" class="chat-panel"><div class="messages"><div class="msg"><div class="avatar">A</div><div><b>Alliance</b><p>Новые переговоры завершены.</p></div><div class="time">19:32</div></div><div class="msg"><div class="avatar">E</div><div><b>Empire</b><p>Союзный турнир стартует скоро.</p></div><div class="time">19:28</div></div></div></div>
-  <div class="chat-input"><input id="chatInput" placeholder="Написать сообщение..."><button id="sendChat">➤</button></div>
+
+  <div id="general" class="chat-panel active">
+    <div class="messages">
+      <div class="msg"><img class="chat-avatar" src="assets/images.jpg" alt="Grenadier87"><div><b>Grenadier87</b><p>Отличный бой был!</p></div><div class="time">19:42</div></div>
+      <div class="msg"><img class="chat-avatar" src="assets/images (1).jpg" alt="Marquis"><div><b>Marquis</b><p>Когда следующая кампания?</p></div><div class="time">19:40</div></div>
+      <div class="msg"><img class="chat-avatar" src="assets/images (4).jpg" alt="Volk"><div><b>Volk</b><p>В субботу, следите за новостями.</p></div><div class="time">19:39</div></div>
+      <div class="msg"><img class="chat-avatar" src="assets/images (2).jpg" alt="Fusilier"><div><b>Fusilier</b><p>Есть кто на тренировку?</p></div><div class="time">19:37</div></div>
+      <div class="msg"><img class="chat-avatar" src="assets/avatar.jpg" alt="Grenadier87"><div><b>Grenadier87</b><p>За Империю! ♛</p></div><div class="time">19:35</div></div>
+    </div>
+  </div>
+
+  <div id="regiments-chat" class="chat-panel">
+    <div class="regiment-chat-status" id="regimentChatStatus"></div>
+    <div class="messages" id="regimentMessages">
+      <div class="msg"><img class="chat-avatar" src="assets/images (4).jpg" alt="Veli4estvo"><div><b>Veli4estvo</b><p>Набор открыт до воскресенья.</p></div><div class="time">19:41</div></div>
+      <div class="msg"><img class="chat-avatar" src="assets/images (3).jpg" alt="Flashkodr"><div><b>Flashkodr</b><p>Тренировка сегодня в 21:00.</p></div><div class="time">19:36</div></div>
+    </div>
+    <div class="regiment-chat-locked" id="regimentChatLocked">
+      <div class="lock-icon">🔒</div>
+      <strong>Полковой чат заблокирован</strong>
+      <p>Вы не состоите ни в одном полку. Вступите в полк, чтобы получить доступ к полковому чату.</p>
+      <a class="btn" href="regiments.html">Найти полк</a>
+    </div>
+  </div>
+
+  <div id="online-users" class="chat-panel">
+    <div class="online-list">
+      <div class="online-user"><span class="online-dot"></span><img class="chat-avatar" src="assets/images.jpg" alt="Grenadier87"><div><b>Grenadier87</b><small>1st Regiment</small></div></div>
+      <div class="online-user"><span class="online-dot"></span><img class="chat-avatar" src="assets/images (1).jpg" alt="Marquis"><div><b>Marquis</b><small>95th Rifles</small></div></div>
+      <div class="online-user"><span class="online-dot"></span><img class="chat-avatar" src="assets/images (4).jpg" alt="Veli4estvo"><div><b>Veli4estvo</b><small>1st Regiment</small></div></div>
+      <div class="online-user"><span class="online-dot"></span><img class="chat-avatar" src="assets/images (2).jpg" alt="Fusilier"><div><b>Fusilier</b><small>Без полка</small></div></div>
+      <div class="online-user"><span class="online-dot"></span><img class="chat-avatar" src="assets/avatar.jpg" alt="Kalashnikov"><div><b>Kalashnikov</b><small>1st Regiment</small></div></div>
+    </div>
+    <div class="online-count">Сейчас в общем чате: <strong>24</strong></div>
+  </div>
+
+  <div class="chat-input" id="chatInputWrap"><input id="chatInput" placeholder="Написать сообщение..."><button id="sendChat">➤</button></div>
 </section>
 
 <section class="card" id="news">
@@ -138,14 +167,26 @@ document.getElementById('closeLogin').onclick=()=>modal.classList.remove('show')
 modal.onclick=e=>{if(e.target===modal)modal.classList.remove('show')};
 document.getElementById('demoLogin').onclick=()=>{const n=document.getElementById('loginName').value.trim()||'Император';modal.classList.remove('show');toast('Добро пожаловать, '+n+'!')};
 
+const currentUser={name:'Kalashnikov',regiment:'1st Regiment'};
 document.querySelectorAll('.chat-tab').forEach(b=>b.onclick=()=>{
  document.querySelectorAll('.chat-tab').forEach(x=>x.classList.remove('active'));
  document.querySelectorAll('.chat-panel').forEach(x=>x.classList.remove('active'));
  b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');
+ const isRegiment=b.dataset.tab==='regiments-chat';
+ document.getElementById('chatInputWrap').style.display=isRegiment&& !currentUser.regiment?'none':'flex';
 });
+const regimentStatus=document.getElementById('regimentChatStatus');
+const regimentLocked=document.getElementById('regimentChatLocked');
+if(currentUser.regiment){
+ regimentStatus.innerHTML='<span class="chat-access-ok">● Полковой чат: '+currentUser.regiment+'</span>';
+ regimentLocked.style.display='none';
+}else{
+ regimentStatus.innerHTML='<span class="chat-access-locked">● Доступ закрыт</span>';
+ document.getElementById('regimentMessages').style.display='none';
+}
 function send(){const i=document.getElementById('chatInput'),v=i.value.trim();if(!v)return;
- const box=document.querySelector('#general .messages'),r=document.createElement('div');r.className='msg';
- r.innerHTML='<div class="avatar">Я</div><div><b>Вы</b><p></p></div><div class="time">сейчас</div>';r.querySelector('p').textContent=v;box.appendChild(r);i.value='';toast('Сообщение добавлено в чат')}
+ const active=document.querySelector('.chat-panel.active'),box=active?.querySelector('.messages')||document.querySelector('#general .messages'),r=document.createElement('div');r.className='msg';
+ r.innerHTML='<img class="chat-avatar" src="assets/avatar.jpg" alt="Вы"><div><b>'+currentUser.name+'</b><p></p></div><div class="time">сейчас</div>';r.querySelector('p').textContent=v;box.appendChild(r);i.value='';toast('Сообщение добавлено в чат')}
 document.getElementById('sendChat').onclick=send;document.getElementById('chatInput').onkeydown=e=>{if(e.key==='Enter')send()};
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.onclick=e=>{const id=a.getAttribute('href');if(id.length>1&&document.querySelector(id)){e.preventDefault();document.querySelector(id).scrollIntoView({behavior:'smooth',block:'start'})}});
 })();
