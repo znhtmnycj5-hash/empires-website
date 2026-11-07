@@ -189,3 +189,29 @@ nav a:hover:after,nav a.active:after{transform:scaleX(1)}
 }
 .regiment-link{color:inherit;text-decoration:none;display:block}
 .regiment-link:hover{color:inherit}
+
+
+/* Regiment page layout */
+.regiment-page{padding:18px 0 40px}
+.regiment-page>.back-link{margin:0 0 14px 4px}
+.regiment-main-info{display:flex;align-items:center;gap:24px;padding:24px 28px;margin-bottom:14px}
+.regiment-main-info>img{width:150px;height:150px;flex:0 0 150px;object-fit:contain;padding:8px;background:#251d15;border:1px solid #9a7440}
+.regiment-main-copy{flex:1;min-width:0}
+.regiment-main-copy h1{font-size:42px;letter-spacing:2px;margin:5px 0 18px;overflow-wrap:anywhere}
+.regiment-main-meta{display:flex;gap:34px;flex-wrap:wrap}
+.regiment-main-meta div{display:flex;flex-direction:column;gap:5px}
+.regiment-main-meta span,.commander-line span{font-size:10px;color:#99896f;text-transform:uppercase;letter-spacing:1px}
+.regiment-main-meta strong,.commander-line strong{font-size:15px;color:#e0c17e}
+.regiment-columns{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.regiment-section{min-height:270px}
+.regiment-section-content{padding:18px}
+.commander-line{display:flex;flex-direction:column;gap:7px;padding:14px;border:1px solid #493823;background:rgba(15,13,10,.6)}
+.empty-note{color:#9e917b;font-size:12px;line-height:1.7;margin:16px 0 0}
+@media(max-width:600px){
+ .regiment-main-info{padding:18px;gap:15px;align-items:flex-start}
+ .regiment-main-info>img{width:105px;height:105px;flex-basis:105px}
+ .regiment-main-copy h1{font-size:27px;letter-spacing:1px;margin:4px 0 12px}
+ .regiment-main-meta{gap:12px 20px}
+ .regiment-main-meta strong{font-size:13px}
+ .regiment-columns{grid-template-columns:1fr}
+}
