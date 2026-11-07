@@ -415,3 +415,10 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  .message-compose{padding:0 10px 10px}
  .message-compose button{padding:0 11px}
 }
+
+
+/* Profile friend action */
+.profile-friend-action{margin-top:18px}
+.friend-add-button{border:1px solid #8b302b;background:#8f2f2a;color:#f2d7c8;padding:11px 22px;font:600 11px Cinzel,serif;letter-spacing:.3px;cursor:pointer;transition:.15s}
+.friend-add-button:hover{background:#a63a34}
+.friend-add-button.is-friend{border-color:#665f58;background:#5a5651;color:#d0cbc5;cursor:default}
