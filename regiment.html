@@ -27,14 +27,4 @@ const data={
 };;
 const name=new URLSearchParams(location.search).get('name')||'1st Regiment',d=data[name]||data['1st Regiment'];
 document.getElementById('detailAvatar').src=d.avatar;document.getElementById('detailAvatar').alt='Аватар '+name;document.getElementById('detailName').textContent=name;document.getElementById('detailFaction').textContent=d.faction;document.getElementById('detailCommander').textContent=d.commander;document.getElementById('commanderAvatar').src=d.commanderPhoto||'assets/default-soldier.jpg';document.getElementById('commanderAvatar').alt='Аватар '+d.commander;document.getElementById('commanderAvatar').onerror=function(){this.onerror=null;this.src='assets/default-soldier.jpg';};document.getElementById('detailRating').textContent=d.rating.toLocaleString('ru-RU');document.getElementById('detailCount').textContent=d.count+' чел.';const renderMembers=(id,members)=>{const grid=document.getElementById(id);if(members&&members.length){grid.innerHTML=members.map(m=>`<div class="member-card"><img class="member-avatar" src="${m.photo||'assets/default-soldier.jpg'}" alt="Аватар ${m.name}"><strong>${m.name}</strong></div>`).join('');}else{grid.innerHTML='<p class="empty-note">Пока участники не добавлены.</p>';}};renderMembers('officersGrid',d.officers);renderMembers('soldiersGrid',d.soldiers);
-const battleHistory={
- "1st Regiment":[
-  {opponent:"95th Rifles",date:"26.10.2026",score:"2 : 3",result:"loss",label:"Поражение"},
-  {opponent:"84e Régiment",date:"29.10.2026",score:"4 : 2",result:"win",label:"Победа"},
-  {opponent:"Preobrazhensky",date:"02.11.2026",score:"3 : 3",result:"draw",label:"Ничья"}
- ]
-};
-const battleRecords=battleHistory[name]||[];
-const historyList=document.getElementById('battleHistoryList');
-if(battleRecords.length){historyList.innerHTML=battleRecords.map(b=>`<article class="battle-history-item battle-${b.result}"><div class="battle-history-top"><strong>${b.opponent}</strong><span class="battle-result">${b.label}</span></div><div class="battle-history-bottom"><span>${b.date} · Тестовый бой</span><b class="battle-score">${b.score}</b></div></article>`).join('');}
 </script></body></html>
