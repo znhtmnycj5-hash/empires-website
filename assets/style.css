@@ -74,7 +74,7 @@ h1{font:700 70px Cinzel;margin:0;color:#e0bb73;letter-spacing:8px;text-shadow:0 
 .news-item h3{margin:0 0 5px;color:#dbc08a;font-size:15px}.news-item p{margin:0;color:#aa9d87;font-size:12px;line-height:1.5}.date{color:#827258;font-size:10px}
 .profile{padding:18px}
 .profile-top{display:flex;gap:14px;align-items:center}
-.crest{width:68px;height:68px;border:1px solid #9a7440;display:grid;place-items:center;font-size:30px;background:#251d15}
+.crest{width:68px;height:68px;border:1px solid #9a7440;display:grid;place-items:center;font-size:30px;background:#251d15}.profile-avatar{width:68px;height:68px;object-fit:cover;border:1px solid #9a7440;display:block;background:#251d15}
 .profile h3{margin:0;color:#dfc17f;font:600 17px Cinzel}.profile small{color:#a9987b}
 .profile dl{display:grid;grid-template-columns:1fr auto;gap:9px;margin:20px 0;font-size:12px}.profile dt{color:#97866c}.profile dd{margin:0;color:#d7c7a8}
 .full{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;margin-top:14px}
