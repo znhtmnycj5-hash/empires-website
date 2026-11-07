@@ -27,7 +27,7 @@ body:before{
 .container{width:min(1500px,94%);margin:auto}
 header{
   min-height:190px;position:relative;overflow:hidden;border-bottom:1px solid #715733;
-  background:#17130f url("73f84f86-e210-42f1-8105-81ffb0b393be.png") center/cover no-repeat;
+  background:#17130f url("95ec6cf5-7990-42a5-b52b-9df7e454ecfd.png") center/cover no-repeat;
 }
 header:after{content:"";position:absolute;inset:0;background:rgba(7,6,5,.62)}
 .brand{position:relative;z-index:1;padding:12px 0 10px;display:flex;align-items:center;gap:20px}
