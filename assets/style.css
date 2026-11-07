@@ -268,3 +268,9 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-history-more summary:after{content:"＋";margin-left:8px;color:#caa45f}
 .battle-history-more[open] summary:after{content:"−"}
 .battle-history-extra{display:flex;flex-direction:column;gap:10px;padding:0 10px 10px}
+
+.battle-history-top{align-items:center}
+.battle-opponent{display:flex;align-items:center;gap:10px;min-width:0}
+.battle-opponent-avatar{width:38px;height:38px;flex:0 0 38px;object-fit:contain;padding:2px;border:1px solid #87663b;background:#251d15}
+.battle-opponent strong{overflow-wrap:anywhere}
+@media(max-width:600px){.battle-opponent-avatar{width:34px;height:34px;flex-basis:34px}.battle-opponent{gap:8px}}
