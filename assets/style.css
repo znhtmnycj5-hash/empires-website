@@ -233,3 +233,7 @@ nav a:hover:after,nav a.active:after{transform:scaleX(1)}
  .members-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 8px}
  .member-card .member-avatar{width:64px;height:64px}
 }
+
+/* Real member avatar images */
+img.member-avatar{object-fit:cover;display:block;padding:0}
+img.commander-avatar{width:104px;height:104px;object-fit:cover}
