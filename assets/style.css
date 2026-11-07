@@ -419,10 +419,10 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 
 /* Profile friend action */
 .profile-friend-action{margin-top:18px}
-.friend-add-button{border:1px solid #2f7d43;background:#2f7d43;color:#f2d7c8;padding:11px 22px;font:600 11px Cinzel,serif;letter-spacing:.3px;cursor:pointer;transition:.15s}
-.friend-add-button:hover{background:#3d9554}
-.friend-add-button.is-friend{border-color:#665f58;background:#5a5651;color:#d0cbc5;cursor:default}
+.friend-add-button{border:1px solid #87663b;background:#4d3922;color:#e0c17d;padding:11px 22px;font:600 11px Cinzel,serif;letter-spacing:.3px;cursor:pointer;transition:.15s}
+.friend-add-button:hover{background:#5a4328}
+.friend-add-button.is-friend{border:1px solid #87663b;background:#4d3922;color:#e0c17d;cursor:pointer}
 
-.friend-remove-button{margin-left:8px;border:1px solid #8b302b;background:#8f2f2a;color:#f2d7c8;padding:11px 22px;font:600 11px Cinzel,serif;letter-spacing:.3px;cursor:pointer;transition:.15s}
-.friend-remove-button:hover{background:#a63a34}
+.friend-remove-button{margin-left:8px;border:1px solid #87663b;background:#4d3922;color:#e0c17d;padding:11px 22px;font:600 11px Cinzel,serif;letter-spacing:.3px;cursor:pointer;transition:.15s}
+.friend-remove-button:hover{background:#5a4328}
 @media(max-width:600px){.friend-remove-button{margin-left:5px;padding:11px 14px}}
