@@ -355,3 +355,41 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  .msg{grid-template-columns:30px 1fr auto}
  .online-user{gap:8px}
 }
+
+
+/* User profiles */
+.profile-page{padding:20px 0 50px}
+.profile-header{display:flex;align-items:center;gap:26px;padding:24px}
+.profile-avatar-wrap{flex:0 0 auto}
+.profile-avatar{width:150px;height:150px;object-fit:cover;border:2px solid #87663b;background:#251d15;box-shadow:0 0 22px rgba(0,0,0,.45)}
+.profile-main{min-width:0}
+.profile-main h1{margin:4px 0 18px;color:#dfc17f;font:700 32px Cinzel,serif;text-shadow:0 2px 8px #000}
+.profile-meta{display:flex;gap:35px;flex-wrap:wrap}
+.profile-meta div{display:flex;flex-direction:column;gap:5px}
+.profile-meta span{color:#8f8068;font-size:10px;text-transform:uppercase}
+.profile-meta strong{color:#cda85d;font:600 13px Cinzel,serif}
+.profile-columns{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr);gap:14px;margin-top:14px}
+.profile-section{min-width:0}
+.profile-friends{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;padding:14px}
+.profile-friend{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid #4e402e;background:rgba(15,13,10,.62);text-decoration:none}
+.profile-friend:hover{border-color:#96713f;background:rgba(30,24,16,.75)}
+.profile-friend img{width:40px;height:40px;object-fit:cover;border-radius:50%;border:1px solid #765a36}
+.profile-friend span{color:#d2b16f;font:600 11px Cinzel,serif}
+.service-list{display:flex;flex-direction:column;gap:9px;padding:14px}
+.service-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;padding:13px;border:1px solid #4e402e;background:rgba(15,13,10,.62)}
+.service-regiment{color:#dfc17f;font:600 13px Cinzel,serif}
+.service-dates{display:flex;gap:16px;color:#a99a80;font-size:10px;white-space:nowrap}
+.chat-avatar-link{display:block;width:32px;height:32px;flex:0 0 32px}
+.chat-user-link,.member-name-link{color:inherit;text-decoration:none}
+.chat-user-link:hover,.member-name-link:hover{color:#dfc17f;text-decoration:underline}
+.member-profile-link{display:block}
+.member-profile-link .member-avatar{display:block}
+@media(max-width:700px){
+ .profile-header{flex-direction:column;text-align:center;padding:18px}
+ .profile-avatar{width:120px;height:120px}
+ .profile-main h1{font-size:26px}
+ .profile-meta{justify-content:center;gap:20px}
+ .profile-columns{grid-template-columns:1fr}
+ .service-item{grid-template-columns:1fr;gap:7px}
+ .service-dates{flex-wrap:wrap;gap:8px}
+}
