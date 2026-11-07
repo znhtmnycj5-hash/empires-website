@@ -167,7 +167,6 @@ nav a:hover:after,nav a.active:after{transform:scaleX(1)}
   .regiments-list{grid-template-columns:1fr}
   .regiment-tile>img{height:180px}
 }
-function cAdd(){return `
 /* Regiment detail page */
 .regiment-detail{margin-top:18px;padding:30px}
 .back-link{display:inline-block;color:#a9987b;text-decoration:none;font-size:11px;margin-bottom:24px}
