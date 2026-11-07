@@ -138,7 +138,7 @@
 <div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div>
 </div></div>
 <div class="toast" id="toast"></div>
-script>
+<script>
 (() => {
 const toast=(msg)=>{const e=document.getElementById('toast');e.textContent=msg;e.classList.add('show');clearTimeout(window.__t);window.__t=setTimeout(()=>e.classList.remove('show'),2400)};
 const modal=document.getElementById('loginModal');
