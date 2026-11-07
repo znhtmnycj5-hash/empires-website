@@ -44,7 +44,7 @@ nav .login{margin-left:auto;border-left:1px solid #332a20;border-right:0}
 main{padding:18px 0 45px}
 .hero{
   min-height:355px;position:relative;overflow:hidden;border:1px solid #725735;
-  background:#1a1712 url("hero.jpg") center/cover no-repeat;box-shadow:var(--shadow)
+  background:#1a1712 url("73f84f86-e210-42f1-8105-81ffb0b393be.png") center/cover no-repeat;box-shadow:var(--shadow)
 }
 .hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,4,3,.15),rgba(5,4,3,.18) 45%,rgba(5,4,3,.86) 100%)}
 .hero-copy{position:relative;z-index:2;margin-left:auto;width:52%;padding:48px 48px 28px;text-align:center}
