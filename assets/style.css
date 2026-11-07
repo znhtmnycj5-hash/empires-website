@@ -34,7 +34,7 @@ header:after{content:"";position:absolute;inset:0;background:linear-gradient(90d
 .brand-logo-link{display:flex;align-items:center;text-decoration:none}
 .site-logo{display:block;width:150px;height:92px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.7))}
 .brand-title{font:700 28px Cinzel,serif;letter-spacing:3px;color:#d9b875;text-shadow:0 3px 10px #000;line-height:1.05}
-.brand-title span{display:block;font:italic 14px "Roboto Slab";letter-spacing:1.5px;color:#d9c8aa;margin-top:6px}
+.brand-title span{display:block;font:700 14px Cinzel,serif;letter-spacing:1.5px;color:#d9c8aa;margin-top:6px}
 nav{
   position:relative;z-index:3;background:rgba(12,10,8,.93);border:1px solid #684f30;
   box-shadow:var(--shadow);display:flex;align-items:center;min-height:58px
