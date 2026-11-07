@@ -293,3 +293,26 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  .chronicle-item{grid-template-columns:1fr;gap:6px;padding:11px}
  .chronicle-date{font-size:11px}
 }
+
+
+/* Regiment news */
+.regiment-news-section{margin-top:14px}
+.regiment-news-list{display:flex;flex-direction:column;gap:10px}
+.regiment-news-item{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:12px;border:1px solid #51432f;background:rgba(15,13,10,.62);align-items:stretch}
+.regiment-news-preview{width:150px;height:92px;object-fit:cover;border:1px solid #765a36;background:#251d15;filter:saturate(.78);display:block}
+.regiment-news-body{min-width:0}
+.regiment-news-date{color:#8f7e65;font-size:10px;margin-bottom:5px}
+.regiment-news-body h3{margin:0 0 6px;color:#dfc17f;font:600 14px Cinzel}
+.regiment-news-body p{margin:0;color:#a99a80;font-size:11px;line-height:1.6}
+.regiment-news-more{border:1px solid #51432f;background:rgba(15,13,10,.45);color:#d8bd86}
+.regiment-news-more summary{cursor:pointer;list-style:none;text-align:center;padding:12px;font-size:11px;color:#d8bd86}
+.regiment-news-more summary::-webkit-details-marker{display:none}
+.regiment-news-more summary:after{content:"＋";margin-left:8px;color:#caa45f}
+.regiment-news-more[open] summary:after{content:"−"}
+.regiment-news-extra{display:flex;flex-direction:column;gap:10px;padding:0 10px 10px}
+@media(max-width:600px){
+ .regiment-news-item{grid-template-columns:100px minmax(0,1fr);gap:11px;padding:10px}
+ .regiment-news-preview{width:100px;height:76px}
+ .regiment-news-body h3{font-size:12px}
+ .regiment-news-body p{font-size:10px;line-height:1.5}
+}
