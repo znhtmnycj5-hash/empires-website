@@ -203,6 +203,7 @@ nav a:hover:after,nav a.active:after{transform:scaleX(1)}
 .regiment-main-meta span,.commander-line span{font-size:10px;color:#99896f;text-transform:uppercase;letter-spacing:1px}
 .regiment-main-meta strong,.commander-line strong{font-size:15px;color:#e0c17e}
 .regiment-columns{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.regiment-bottom-columns{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
 .regiment-section{min-height:270px}
 .regiment-section-content{padding:18px}
 .commander-line{display:flex;flex-direction:column;gap:7px;padding:14px;border:1px solid #493823;background:rgba(15,13,10,.6)}
@@ -213,7 +214,7 @@ nav a:hover:after,nav a.active:after{transform:scaleX(1)}
  .regiment-main-copy h1{font-size:27px;letter-spacing:1px;margin:4px 0 12px}
  .regiment-main-meta{gap:12px 20px}
  .regiment-main-meta strong{font-size:13px}
- .regiment-columns{grid-template-columns:1fr}
+ .regiment-columns,.regiment-bottom-columns{grid-template-columns:1fr}
 }
 
 /* Regiment roster */
@@ -296,7 +297,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 
 
 /* Regiment news */
-.regiment-news-section{margin-top:14px}
+.regiment-news-section{margin-top:0}
 .regiment-news-list{display:flex;flex-direction:column;gap:10px}
 .regiment-news-item{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:12px;border:1px solid #51432f;background:rgba(15,13,10,.62);align-items:stretch}
 .regiment-news-preview{width:150px;height:92px;object-fit:cover;border:1px solid #765a36;background:#251d15;filter:saturate(.78);display:block}
