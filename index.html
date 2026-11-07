@@ -79,12 +79,12 @@
     <div class="card-title">⚔ &nbsp; Предстоящие полковые сражения <a href="#">Все сражения →</a></div>
     <div class="battle">
       <div class="datebox">8<br><small>НОЯБРЯ<br>20:00</small></div>
-      <div><div class="team"><img class="battle-flag" src="assets/1st.jpg" alt="Флаг 1st Regiment">1st Regiment</div><div class="vs">VS</div><div class="team"><img class="battle-flag" src="assets/84e.png" alt="Флаг 84e Régiment">84e Régiment</div></div>
+      <div><div class="team regiment-click" data-regiment="1st Regiment"><img class="battle-flag" src="assets/1st.jpg" alt="Флаг 1st Regiment">1st Regiment</div><div class="vs">VS</div><div class="team regiment-click" data-regiment="84e Régiment"><img class="battle-flag" src="assets/84e.png" alt="Флаг 84e Régiment">84e Régiment</div></div>
       <div class="datebox">⚔<br><small>БОЙ</small></div>
     </div>
     <div class="battle" style="border-top:1px solid #332b21">
       <div class="datebox">10<br><small>НОЯБРЯ<br>21:00</small></div>
-      <div><div class="team"><img class="battle-flag" src="assets/hussars.png" alt="Флаг 7th Hussars">7th Hussars</div><div class="vs">VS</div><div class="team"><img class="battle-flag" src="assets/95.webp" alt="Флаг 95th Rifles">95th Rifles</div></div>
+      <div><div class="team regiment-click" data-regiment="7th Hussars"><img class="battle-flag" src="assets/hussars.png" alt="Флаг 7th Hussars">7th Hussars</div><div class="vs">VS</div><div class="team regiment-click" data-regiment="95th Rifles"><img class="battle-flag" src="assets/95.webp" alt="Флаг 95th Rifles">95th Rifles</div></div>
       <div class="datebox">⚔<br><small>БОЙ</small></div>
     </div>
   </section>
@@ -93,11 +93,11 @@
     <div class="card-title">♜ &nbsp; Рейтинг полков <a href="#">Полный рейтинг →</a></div>
     <table>
       <tr><td class="pos">#</td><td>Полк</td><td class="points">Очки</td></tr>
-      <tr><td class="pos">1.</td><td><img class="rank-flag" src="assets/1st.jpg" alt="Флаг 1st Regiment">1st Regiment</td><td class="points">1840</td></tr>
-      <tr><td class="pos">2.</td><td><img class="rank-flag" src="assets/95.webp" alt="Флаг 95th Rifles">95th Rifles</td><td class="points">1715</td></tr>
-      <tr><td class="pos">3.</td><td><img class="rank-flag" src="assets/84e.png" alt="Флаг 84e Régiment">84e Régiment</td><td class="points">1630</td></tr>
-      <tr><td class="pos">4.</td><td><img class="rank-flag" src="assets/preobraz.webp" alt="Флаг Preobrazhensky">Preobrazhensky</td><td class="points">1590</td></tr>
-      <tr><td class="pos">5.</td><td><img class="rank-flag" src="assets/hussars.png" alt="Флаг 7th Hussars">7th Hussars</td><td class="points">1565</td></tr>
+      <tr class="rank-row regiment-click" data-regiment="1st Regiment"><td class="pos">1.</td><td><img class="rank-flag" src="assets/1st.jpg" alt="Флаг 1st Regiment">1st Regiment</td><td class="points">1840</td></tr>
+      <tr class="rank-row regiment-click" data-regiment="95th Rifles"><td class="pos">2.</td><td><img class="rank-flag" src="assets/95.webp" alt="Флаг 95th Rifles">95th Rifles</td><td class="points">1715</td></tr>
+      <tr class="rank-row regiment-click" data-regiment="84e Régiment"><td class="pos">3.</td><td><img class="rank-flag" src="assets/84e.png" alt="Флаг 84e Régiment">84e Régiment</td><td class="points">1630</td></tr>
+      <tr class="rank-row regiment-click" data-regiment="Preobrazhensky"><td class="pos">4.</td><td><img class="rank-flag" src="assets/preobraz.webp" alt="Флаг Preobrazhensky">Preobrazhensky</td><td class="points">1590</td></tr>
+      <tr class="rank-row regiment-click" data-regiment="7th Hussars"><td class="pos">5.</td><td><img class="rank-flag" src="assets/hussars.png" alt="Флаг 7th Hussars">7th Hussars</td><td class="points">1565</td></tr>
     </table>
   </section>
 </div>
@@ -138,6 +138,12 @@
 <div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div>
 </div></div>
 <div class="toast" id="toast"></div>
+<div class="regiment-modal-backdrop" id="regimentModal"><div class="regiment-modal">
+<button class="regiment-modal-close" id="closeRegimentModal">×</button>
+<div class="regiment-modal-head"><img id="regimentModalAvatar" src="" alt=""><div><div class="regiment-modal-kicker">ПОЛК EMPIRE</div><h2 id="regimentModalName"></h2></div></div>
+<div class="regiment-modal-info"><div><span>Командир клана</span><b id="regimentModalCommander"></b></div><div><span>Фракция</span><b id="regimentModalFaction"></b></div></div>
+<a class="btn primary regiment-modal-button" id="regimentModalLink" href="#">Перейти на страницу полка →</a>
+</div></div>
 <script>
 (() => {
 const toast=(msg)=>{const e=document.getElementById('toast');e.textContent=msg;e.classList.add('show');clearTimeout(window.__t);window.__t=setTimeout(()=>e.classList.remove('show'),2400)};
@@ -159,6 +165,33 @@ document.getElementById('sendChat').onclick=send;document.getElementById('chatIn
 document.querySelectorAll('[data-regiment]').forEach(e=>e.onclick=()=>toast('Открываем профиль полка: '+e.dataset.regiment));
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.onclick=e=>{const id=a.getAttribute('href');if(id.length>1&&document.querySelector(id)){e.preventDefault();document.querySelector(id).scrollIntoView({behavior:'smooth',block:'start'})}});
 })();
+const regimentData={
+ "1st Regiment":{avatar:"assets/1st.jpg",commander:"Jean-Baptiste Moreau",faction:"Франция"},
+ "95th Rifles":{avatar:"assets/95.webp",commander:"Richard Hawthorne",faction:"Великобритания"},
+ "84e Régiment":{avatar:"assets/84e.png",commander:"Pierre Delacroix",faction:"Франция"},
+ "Preobrazhensky":{avatar:"assets/preobraz.webp",commander:"Алексей Воронцов",faction:"Россия"},
+ "7th Hussars":{avatar:"assets/hussars.png",commander:"William Harrington",faction:"Великобритания"},
+ "13e Léger":{avatar:"assets/1st.jpg",commander:"Étienne Morel",faction:"Франция"},
+ "33e Ligne":{avatar:"assets/95.webp",commander:"Thomas Clarke",faction:"Великобритания"},
+ "92nd Gordon Highlanders":{avatar:"assets/84e.png",commander:"Alexander MacLeod",faction:"Великобритания"},
+ "Semenovsky":{avatar:"assets/preobraz.webp",commander:"Николай Орлов",faction:"Россия"},
+ "King's German Legion":{avatar:"assets/kgr.png",commander:"Friedrich von Keller",faction:"Великобритания"},
+ "6e Hussards":{avatar:"assets/1st.jpg",commander:"Louis Beaumont",faction:"Франция"},
+ "Royal Scots":{avatar:"assets/95.webp",commander:"James Campbell",faction:"Великобритания"}
+};
+const openRegiment=(name)=>{
+ const d=regimentData[name];if(!d)return;
+ document.getElementById('regimentModalAvatar').src=d.avatar;
+ document.getElementById('regimentModalAvatar').alt='Аватар '+name;
+ document.getElementById('regimentModalName').textContent=name;
+ document.getElementById('regimentModalCommander').textContent=d.commander;
+ document.getElementById('regimentModalFaction').textContent=d.faction;
+ document.getElementById('regimentModalLink').href='regiment.html?name='+encodeURIComponent(name);
+ document.getElementById('regimentModal').classList.add('show');
+};
+document.querySelectorAll('[data-regiment]').forEach(e=>e.onclick=()=>openRegiment(e.dataset.regiment));
+document.getElementById('closeRegimentModal').onclick=()=>document.getElementById('regimentModal').classList.remove('show');
+document.getElementById('regimentModal').onclick=e=>{if(e.target.id==='regimentModal')e.target.classList.remove('show')};
 </script>
 
 </body>
