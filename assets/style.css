@@ -82,7 +82,7 @@ h1{font:700 70px Cinzel;margin:0;color:#e0bb73;letter-spacing:8px;text-shadow:0 
 .datebox{color:#d7b66e;font:700 18px Cinzel}.datebox small{display:block;font:11px "Roboto Slab";color:#a8997e}
 .team{color:#d8c6a7;font-weight:600}.vs{color:#806f55;font-size:12px;margin:4px}
 .ranking table{width:100%;border-collapse:collapse}.ranking td{padding:9px 14px;border-bottom:1px solid #332b21;font-size:12px}.ranking tr:first-child td{color:#dfbf7b}.pos{color:#9e895f;width:35px}.points{text-align:right;color:#c6a76d}
-.community{padding:20px;background:linear-gradient(rgba(24,20,15,.78),rgba(18,15,11,.9)),url("battlefield.jpg") center/cover;min-height:100%}
+.community{padding:20px;background:linear-gradient(rgba(24,20,15,.78),rgba(18,15,11,.9)),url("battlefield.svg") center/cover;min-height:100%}
 .community-grid{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;margin-top:20px}
 .community-grid div{border-right:1px solid #493c2b}.community-grid div:last-child{border:0}
 .community-grid strong{display:block;font:600 27px Cinzel;color:#dfc07c}.community-grid span{font-size:10px;color:#9d8e75;text-transform:uppercase}
