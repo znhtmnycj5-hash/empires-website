@@ -30,11 +30,11 @@ header{
   background:#17130f url("95ec6cf5-7990-42a5-b52b-9df7e454ecfd.png") center/cover no-repeat;
 }
 header:after{content:"";position:absolute;inset:0;background:rgba(7,6,5,.62)}
-.brand{position:relative;z-index:1;padding:12px 0 10px;display:flex;align-items:center;gap:20px}
+.brand{position:relative;z-index:1;height:100%;min-height:490px;padding:0;display:flex;align-items:center;justify-content:center;gap:30px}
 .brand-logo-link{display:flex;align-items:center;text-decoration:none}
-.site-logo{display:block;width:150px;height:92px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.7))}
-.brand-title{font:700 28px Cinzel,serif;letter-spacing:3px;color:#d9b875;text-shadow:0 3px 10px #000;line-height:1.05}
-.brand-title span{display:block;font:700 14px Cinzel,serif;letter-spacing:1.5px;color:#d9c8aa;margin-top:6px}
+.site-logo{display:block;width:225px;height:138px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.7))}
+.brand-title{font:700 42px Cinzel,serif;letter-spacing:3px;color:#d9b875;text-shadow:0 3px 10px #000;line-height:1.05}
+.brand-title span{display:block;font:700 21px Cinzel,serif;letter-spacing:1.5px;color:#d9c8aa;margin-top:6px}
 nav{
   position:relative;z-index:3;background:rgba(12,10,8,.93);border:1px solid #684f30;
   box-shadow:var(--shadow);display:flex;align-items:center;min-height:58px
@@ -318,3 +318,4 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  .regiment-news-body h3{font-size:12px}
  .regiment-news-body p{font-size:10px;line-height:1.5}
 }
+\n/* Lift the main site block 100px over the header background */\nbody > .container{transform:translateY(-100px);}\n
