@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Профиль — EMPIRE</title>
-  <link rel="stylesheet" href="assets/style.css?v=20261107-profile1">
+  <link rel="stylesheet" href="assets/style.css?v=20261108-msg2">
 </head>
 <body>
 <header>
@@ -98,7 +98,7 @@ document.getElementById("profileRegiment").textContent=d.regiment;
 document.getElementById("profileRole").textContent=d.role;
 document.getElementById("profileFriends").innerHTML=d.friends.length?d.friends.map(name=>{
  const p=profiles[name]||fallback;
- return '<a class="profile-friend" href="profile.html?user='+encodeURIComponent(name)+'"><img src="'+p.avatar+'" alt=""><span>'+name+'</span></a>';
+ return '<a class="profile-friend" href="profile.html?v=20261108-msg&user='+encodeURIComponent(name)+'"><img src="'+p.avatar+'" alt=""><span>'+name+'</span></a>';
 }).join(""):'<p class="empty-note">Друзей пока нет.</p>';
 document.getElementById("serviceList").innerHTML=d.service.length?d.service.map(x=>'<div class="service-item"><div class="service-regiment">'+x.regiment+'</div><div class="service-dates"><span>С '+x.from+'</span><span>По '+x.to+'</span></div></div>').join(""):'<p class="empty-note">Послужной список пока пуст.</p>';
 
