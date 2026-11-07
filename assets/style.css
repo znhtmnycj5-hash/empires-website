@@ -167,3 +167,22 @@ nav a:hover:after,nav a.active:after{transform:scaleX(1)}
   .regiments-list{grid-template-columns:1fr}
   .regiment-tile>img{height:180px}
 }
+function cAdd(){return `
+/* Regiment info popup */
+.regiment-click{cursor:pointer}
+.regiment-click:hover{background:rgba(111,75,35,.12)}
+.regiment-modal-backdrop{display:none;position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.76);align-items:center;justify-content:center;padding:18px}
+.regiment-modal-backdrop.show{display:flex}
+.regiment-modal{width:min(470px,100%);background:linear-gradient(145deg,#241e17,#100f0d);border:1px solid #927043;box-shadow:0 25px 70px rgba(0,0,0,.8);padding:24px;position:relative}
+.regiment-modal-close{position:absolute;right:12px;top:8px;background:none;border:0;color:#a9987b;font-size:28px;line-height:1;cursor:pointer}
+.regiment-modal-head{display:flex;align-items:center;gap:18px;padding-right:28px}
+.regiment-modal-head img{width:86px;height:86px;object-fit:contain;background:#251d15;border:1px solid #9a7440;padding:5px}
+.regiment-modal-kicker{font-size:10px;letter-spacing:2px;color:#a9987b;margin-bottom:5px}
+.regiment-modal h2{margin:0;color:#dfc17f;font:600 22px Cinzel}
+.regiment-modal-info{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
+.regiment-modal-info div{border:1px solid #4d3c29;background:rgba(15,13,10,.6);padding:12px}
+.regiment-modal-info span{display:block;color:#887a65;font-size:10px;margin-bottom:5px}
+.regiment-modal-info b{color:#d8c39e;font-size:12px}
+.regiment-modal-button{display:block;text-align:center;width:100%}
+@media(max-width:480px){.regiment-modal{padding:20px}.regiment-modal-head img{width:70px;height:70px}.regiment-modal h2{font-size:18px}.regiment-modal-info{grid-template-columns:1fr}}
+`;}
