@@ -39,6 +39,9 @@
           <div><span>Полк</span><strong id="profileRegiment">Без полка</strong></div>
           <div><span>Статус</span><strong id="profileRole">Солдат</strong></div>
         </div>
+        <div class="profile-friend-action">
+          <button id="friendButton" class="friend-add-button" type="button">Добавить в друзья</button>
+        </div>
       </div>
     </section>
 
@@ -97,6 +100,23 @@ document.getElementById("profileAvatar").alt="Аватар "+user;
 document.getElementById("profileName").textContent=user;
 document.getElementById("profileRegiment").textContent=d.regiment;
 document.getElementById("profileRole").textContent=d.role;
+
+const currentUser="Kalashnikov";
+const friendButton=document.getElementById("friendButton");
+if(user===currentUser){
+  friendButton.style.display="none";
+}else{
+  const alreadyFriend=(profiles[currentUser]?.friends||[]).includes(user);
+  const setFriendState=(isFriend)=>{
+    friendButton.textContent=isFriend?"Друг":"Добавить в друзья";
+    friendButton.classList.toggle("is-friend",isFriend);
+    friendButton.disabled=isFriend;
+  };
+  setFriendState(alreadyFriend);
+  friendButton.onclick=()=>{
+    setFriendState(true);
+  };
+}
 document.getElementById("profileFriends").innerHTML=d.friends.length?d.friends.map(name=>{
  const p=profiles[name]||fallback;
  return '<a class="profile-friend" href="profile.html?v=20261108-msg&user='+encodeURIComponent(name)+'"><img src="'+p.avatar+'" alt=""><span>'+name+'</span></a>';
