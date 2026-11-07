@@ -42,6 +42,11 @@
       </div>
     </section>
 
+    <section class="card profile-section profile-messages-section">
+      <div class="card-title">✉ &nbsp; Переписка</div>
+      <div id="messageArea"></div>
+    </section>
+
     <div class="profile-columns">
       <section class="card profile-section">
         <div class="card-title">♟ &nbsp; Друзья профиля</div>
@@ -96,6 +101,33 @@ document.getElementById("profileFriends").innerHTML=d.friends.length?d.friends.m
  return '<a class="profile-friend" href="profile.html?user='+encodeURIComponent(name)+'"><img src="'+p.avatar+'" alt=""><span>'+name+'</span></a>';
 }).join(""):'<p class="empty-note">Друзей пока нет.</p>';
 document.getElementById("serviceList").innerHTML=d.service.length?d.service.map(x=>'<div class="service-item"><div class="service-regiment">'+x.regiment+'</div><div class="service-dates"><span>С '+x.from+'</span><span>По '+x.to+'</span></div></div>').join(""):'<p class="empty-note">Послужной список пока пуст.</p>';
+
+const conversations={
+  "Kalashnikov":[{from:"Ankord",text:"Привет! Как подготовка к следующему бою?",time:"19:12"},{from:"Kalashnikov",text:"Всё готово. Собираем состав к вечеру.",time:"19:15"}],
+  "Ankord":[{from:"Kalashnikov",text:"Командир, состав на тренировку готов.",time:"18:46"},{from:"Ankord",text:"Отлично. Встречаемся в 21:00.",time:"18:49"}],
+  "Veli4estvo":[{from:"Kalashnikov",text:"Проведёшь сегодня обучение новичков?",time:"17:20"},{from:"Veli4estvo",text:"Да, всё организую.",time:"17:23"}],
+  "Mel":[{from:"Mel",text:"Есть новости по следующему бою?",time:"16:10"},{from:"Kalashnikov",text:"Пока ждём подтверждения соперника.",time:"16:14"}],
+  "Kazak":[{from:"Kazak",text:"Скинь расписание тренировки.",time:"15:02"},{from:"Kalashnikov",text:"Отправлю в общий чат.",time:"15:05"}],
+  "MeGusta":[{from:"MeGusta",text:"Спасибо за тренировку!",time:"14:31"},{from:"Kalashnikov",text:"Всегда пожалуйста.",time:"14:34"}],
+  "Flashkodr":[{from:"Flashkodr",text:"Сегодня в 21:00 сбор?",time:"13:08"},{from:"Kalashnikov",text:"Да.",time:"13:10"}]
+};
+const history=conversations[user];
+const messageArea=document.getElementById("messageArea");
+if(history){
+ messageArea.innerHTML='<div class="message-history">'+history.map(m=>{
+  const me=m.from==="Kalashnikov";
+  return '<div class="private-message '+(me?'mine':'')+'"><img src="'+(profiles[m.from]||fallback).avatar+'" alt=""><div><b>'+m.from+'</b><p>'+m.text+'</p><span>'+m.time+'</span></div></div>';
+ }).join("")+'</div><div class="message-compose"><input id="privateMessageInput" placeholder="Написать сообщение..."><button id="privateMessageSend">Отправить</button></div>';
+}else{
+ messageArea.innerHTML='<div class="no-conversation"><p>Переписки с пользователем пока нет.</p><button class="btn primary" id="startConversation">Написать сообщение</button></div>';
+ document.getElementById("startConversation").onclick=()=>{messageArea.innerHTML='<div class="message-compose standalone"><input id="privateMessageInput" placeholder="Написать сообщение..."><button id="privateMessageSend">Отправить</button></div>';bindPrivateSend();};
+}
+function bindPrivateSend(){
+ const input=document.getElementById("privateMessageInput"),button=document.getElementById("privateMessageSend");
+ button.onclick=()=>{const text=input.value.trim();if(!text)return;messageArea.innerHTML='<div class="message-history"><div class="private-message mine"><img src="'+profiles.Kalashnikov.avatar+'" alt=""><div><b>Kalashnikov</b><p>'+text.replace(/</g,"&lt;")+'</p><span>сейчас</span></div></div></div><div class="message-compose"><input id="privateMessageInput" placeholder="Написать сообщение..."><button id="privateMessageSend">Отправить</button></div>';bindPrivateSend();};
+ input.onkeydown=e=>{if(e.key==="Enter")button.click();};
+}
+if(history)bindPrivateSend();
 </script>
 </body>
 </html>
