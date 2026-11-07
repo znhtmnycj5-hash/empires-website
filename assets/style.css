@@ -245,3 +245,19 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 @media(max-width:600px){
  .members-grid{grid-template-columns:repeat(3,minmax(0,1fr));justify-items:center}
 }
+
+/* Regiment battle history */
+.battle-history-list{display:flex;flex-direction:column;gap:10px}
+.battle-history-item{padding:13px 14px;border:1px solid #51432f;background:rgba(15,13,10,.62);border-left:4px solid #888}
+.battle-history-item.battle-win{border-left-color:#4f9a62}
+.battle-history-item.battle-loss{border-left-color:#c6534b}
+.battle-history-item.battle-draw{border-left-color:#858585}
+.battle-history-top,.battle-history-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.battle-history-top strong{color:#dfc17f;font:600 13px Cinzel}
+.battle-result{font-size:11px;font-weight:700}
+.battle-win .battle-result{color:#6dbb7d}
+.battle-loss .battle-result{color:#e16b62}
+.battle-draw .battle-result{color:#aaa}
+.battle-history-bottom{margin-top:10px;color:#92846d;font-size:10px}
+.battle-score{color:#d8c39e;font-size:13px;font-variant-numeric:tabular-nums}
+@media(max-width:600px){.battle-history-item{padding:11px}.battle-history-top,.battle-history-bottom{gap:7px}}
