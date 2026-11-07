@@ -27,9 +27,9 @@ body:before{
 .container{width:min(1500px,94%);margin:auto}
 header{
   min-height:190px;position:relative;overflow:hidden;border-bottom:1px solid #715733;
-  background:#17130f url("hero.jpg") center/cover no-repeat;
+  background:#17130f url("73f84f86-e210-42f1-8105-81ffb0b393be.png") center/cover no-repeat;
 }
-header:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,6,5,.9) 0%,rgba(7,6,5,.55) 45%,rgba(7,6,5,.15) 100%)}
+header:after{content:"";position:absolute;inset:0;background:rgba(7,6,5,.62)}
 .brand{position:relative;z-index:1;padding:12px 0 10px;display:flex;align-items:center;gap:20px}
 .brand-logo-link{display:flex;align-items:center;text-decoration:none}
 .site-logo{display:block;width:150px;height:92px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.7))}
