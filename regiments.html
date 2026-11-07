@@ -35,51 +35,51 @@
   </section>
 
   <section class="regiments-list">
-    <article class="regiment-tile">
+    <article class="regiment-tile regiment-click" data-regiment="1st Regiment">
       <img src="assets/1st.jpg" alt="Флаг 1st Regiment">
       <div class="regiment-info"><h2>1st Regiment</h2><div class="regiment-meta"><span>Рейтинг <b>1840</b></span><span>42 человека</span></div></div>
     </article>
-    <article class="regiment-tile">
+    <article class="regiment-tile regiment-click" data-regiment="95th Rifles">
       <img src="assets/95.webp" alt="Флаг 95th Rifles">
       <div class="regiment-info"><h2>95th Rifles</h2><div class="regiment-meta"><span>Рейтинг <b>1715</b></span><span>37 человек</span></div></div>
     </article>
-    <article class="regiment-tile">
+    <article class="regiment-tile regiment-click" data-regiment="84e Régiment">
       <img src="assets/84e.png" alt="Флаг 84e Régiment">
       <div class="regiment-info"><h2>84e Régiment</h2><div class="regiment-meta"><span>Рейтинг <b>1630</b></span><span>35 человек</span></div></div>
     </article>
-    <article class="regiment-tile">
+    <article class="regiment-tile regiment-click" data-regiment="Preobrazhensky">
       <img src="assets/preobraz.webp" alt="Флаг Preobrazhensky">
       <div class="regiment-info"><h2>Preobrazhensky</h2><div class="regiment-meta"><span>Рейтинг <b>1590</b></span><span>31 человек</span></div></div>
     </article>
-    <article class="regiment-tile">
+    <article class="regiment-tile regiment-click" data-regiment="7th Hussars">
       <img src="assets/hussars.png" alt="Флаг 7th Hussars">
       <div class="regiment-info"><h2>7th Hussars</h2><div class="regiment-meta"><span>Рейтинг <b>1565</b></span><span>29 человек</span></div></div>
     </article>
-    <article class="regiment-tile">
+    <article class="regiment-tile regiment-click" data-regiment="13e Léger">
       <img src="assets/1st.jpg" alt="Флаг 13e Léger">
       <div class="regiment-info"><h2>13e Léger</h2><div class="regiment-meta"><span>Рейтинг <b>1510</b></span><span>28 человек</span></div></div>
     </article>
-    <article class="regiment-tile">
+    <article class="regiment-tile regiment-click" data-regiment="33e Ligne">
       <img src="assets/95.webp" alt="Флаг 33e Ligne">
       <div class="regiment-info"><h2>33e Ligne</h2><div class="regiment-meta"><span>Рейтинг <b>1475</b></span><span>26 человек</span></div></div>
     </article>
-    <article class="regiment-tile">
+    <article class="regiment-tile regiment-click" data-regiment="92nd Gordon Highlanders">
       <img src="assets/84e.png" alt="Флаг 92nd Gordon Highlanders">
       <div class="regiment-info"><h2>92nd Gordon Highlanders</h2><div class="regiment-meta"><span>Рейтинг <b>1420</b></span><span>24 человека</span></div></div>
     </article>
-    <article class="regiment-tile">
+    <article class="regiment-tile regiment-click" data-regiment="Semenovsky">
       <img src="assets/preobraz.webp" alt="Флаг Semenovsky">
       <div class="regiment-info"><h2>Semenovsky</h2><div class="regiment-meta"><span>Рейтинг <b>1385</b></span><span>23 человека</span></div></div>
     </article>
-    <article class="regiment-tile">
+    <article class="regiment-tile regiment-click" data-regiment="King's German Legion">
       <img src="assets/kgr.png" alt="Аватар King's German Legion">
       <div class="regiment-info"><h2>King's German Legion</h2><div class="regiment-meta"><span>Рейтинг <b>1320</b></span><span>21 человек</span></div></div>
     </article>
-    <article class="regiment-tile">
+    <article class="regiment-tile regiment-click" data-regiment="6e Hussards">
       <img src="assets/1st.jpg" alt="Флаг 6e Hussards">
       <div class="regiment-info"><h2>6e Hussards</h2><div class="regiment-meta"><span>Рейтинг <b>1260</b></span><span>19 человек</span></div></div>
     </article>
-    <article class="regiment-tile">
+    <article class="regiment-tile regiment-click" data-regiment="Royal Scots">
       <img src="assets/95.webp" alt="Флаг Royal Scots">
       <div class="regiment-info"><h2>Royal Scots</h2><div class="regiment-meta"><span>Рейтинг <b>1195</b></span><span>17 человек</span></div></div>
     </article>
@@ -92,6 +92,12 @@
     <span>…</span>
     <a href="#">Далее →</a>
   </div>
+<div class="regiment-modal-backdrop" id="regimentModal"><div class="regiment-modal">
+<button class="regiment-modal-close" id="closeRegimentModal">×</button>
+<div class="regiment-modal-head"><img id="regimentModalAvatar" src="" alt=""><div><div class="regiment-modal-kicker">ПОЛК EMPIRE</div><h2 id="regimentModalName"></h2></div></div>
+<div class="regiment-modal-info"><div><span>Командир клана</span><b id="regimentModalCommander"></b></div><div><span>Фракция</span><b id="regimentModalFaction"></b></div></div>
+<a class="btn primary regiment-modal-button" id="regimentModalLink" href="#">Перейти на страницу полка →</a>
+</div></div>
 </main>
 
 <footer>
@@ -101,5 +107,32 @@
     <div class="motto">Vive l’Empire!</div>
   </div>
 </footer>
+<script>const regimentData={
+ "1st Regiment":{avatar:"assets/1st.jpg",commander:"Jean-Baptiste Moreau",faction:"Франция"},
+ "95th Rifles":{avatar:"assets/95.webp",commander:"Richard Hawthorne",faction:"Великобритания"},
+ "84e Régiment":{avatar:"assets/84e.png",commander:"Pierre Delacroix",faction:"Франция"},
+ "Preobrazhensky":{avatar:"assets/preobraz.webp",commander:"Алексей Воронцов",faction:"Россия"},
+ "7th Hussars":{avatar:"assets/hussars.png",commander:"William Harrington",faction:"Великобритания"},
+ "13e Léger":{avatar:"assets/1st.jpg",commander:"Étienne Morel",faction:"Франция"},
+ "33e Ligne":{avatar:"assets/95.webp",commander:"Thomas Clarke",faction:"Великобритания"},
+ "92nd Gordon Highlanders":{avatar:"assets/84e.png",commander:"Alexander MacLeod",faction:"Великобритания"},
+ "Semenovsky":{avatar:"assets/preobraz.webp",commander:"Николай Орлов",faction:"Россия"},
+ "King's German Legion":{avatar:"assets/kgr.png",commander:"Friedrich von Keller",faction:"Великобритания"},
+ "6e Hussards":{avatar:"assets/1st.jpg",commander:"Louis Beaumont",faction:"Франция"},
+ "Royal Scots":{avatar:"assets/95.webp",commander:"James Campbell",faction:"Великобритания"}
+};
+const openRegiment=(name)=>{
+ const d=regimentData[name];if(!d)return;
+ document.getElementById('regimentModalAvatar').src=d.avatar;
+ document.getElementById('regimentModalAvatar').alt='Аватар '+name;
+ document.getElementById('regimentModalName').textContent=name;
+ document.getElementById('regimentModalCommander').textContent=d.commander;
+ document.getElementById('regimentModalFaction').textContent=d.faction;
+ document.getElementById('regimentModalLink').href='regiment.html?name='+encodeURIComponent(name);
+ document.getElementById('regimentModal').classList.add('show');
+};
+document.querySelectorAll('[data-regiment]').forEach(e=>e.onclick=()=>openRegiment(e.dataset.regiment));
+document.getElementById('closeRegimentModal').onclick=()=>document.getElementById('regimentModal').classList.remove('show');
+document.getElementById('regimentModal').onclick=e=>{if(e.target.id==='regimentModal')e.target.classList.remove('show')};</script>
 </body>
 </html>
