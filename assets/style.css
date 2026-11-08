@@ -2686,3 +2686,17 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 .campaign-hero.has-cover .campaign-countdown{margin-top:16px;}
 .campaign-participant img{flex:0 0 42px;width:42px;height:42px;object-fit:contain;background:rgba(8,7,6,.78);padding:2px;box-sizing:border-box;border:1px solid #987344;box-shadow:0 2px 8px rgba(0,0,0,.45);}
 @media(max-width:600px){.campaign-hero.has-cover{min-height:210px;padding:24px 14px;background-position:center;background-size:cover;}}
+
+
+/* Campaign list: larger campaign covers and compact numeric dates */
+.campaign-card{grid-template-columns:130px 92px minmax(0,1fr) 40px}
+.campaign-card-preview{width:130px;height:92px}
+.campaign-card-date{min-width:0}
+.campaign-card-date strong{font-size:12px!important;letter-spacing:.2px}
+@media(max-width:600px){
+  .campaign-card{grid-template-columns:88px 76px minmax(0,1fr) 20px;gap:8px;padding:12px 8px}
+  .campaign-card-preview{width:88px;height:76px}
+  .campaign-card-date{min-height:76px!important}
+  .campaign-card-date strong{font-size:10px!important;letter-spacing:0}
+  .campaign-card-date span{font-size:8px!important}
+}
