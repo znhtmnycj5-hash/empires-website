@@ -299,6 +299,35 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .regiment-news-section .news-pagination a:visited,.regiment-news-section .news-pagination a:focus,.regiment-news-section .news-pagination a:active{color:#bba783;background:#17130f;text-decoration:none}
 
 
+/* Regiment album */
+.regiment-album-section{width:100%;margin-top:18px}
+.album-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:14px}
+.album-head h2{margin:0 0 4px;color:#d8b86f;font:700 20px Cinzel}
+.album-head p{margin:0;color:#9f8c70;font-size:12px}
+.album-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.album-item{display:block;position:relative;min-width:0;border:1px solid #5d4930;background:#120f0c;padding:4px;color:#bba783;text-decoration:none;overflow:hidden}
+.album-item img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#080706;transition:transform .2s ease,filter .2s ease}
+.album-item:hover{border-color:#a77b43}
+.album-item:hover img{transform:scale(1.025);filter:brightness(1.08)}
+.album-pagination{display:flex;justify-content:center;gap:6px;margin-top:15px;flex-wrap:wrap}
+.album-pagination a{min-width:30px;height:30px;padding:0 8px;display:flex;align-items:center;justify-content:center;border:1px solid #5d4930;background:#17130f;color:#bba783;text-decoration:none;font:600 10px Cinzel}
+.album-pagination a:hover,.album-pagination a.current{background:#641e1b;border-color:#9a6d3c;color:#efd49a}
+.album-upload-button{display:inline-flex;align-items:center;justify-content:center;padding:9px 13px;border:1px solid #8b6739;background:#17130f;color:#d8b86f;cursor:pointer;font:700 10px Cinzel;text-transform:uppercase}
+.album-upload-button:hover{background:#641e1b;border-color:#b18a51}
+.album-commander-note{font-size:10px;color:#8f806c;font-style:italic}
+@media(max-width:700px){
+ .album-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .album-head{align-items:flex-start}
+ .album-head h2{font-size:17px}
+ .album-head p{font-size:10px}
+ .album-upload-button{font-size:8px;padding:8px 9px}
+}
+@media(max-width:480px){
+ .album-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+ .album-item{padding:3px}
+ .album-pagination a{min-width:27px;height:27px}
+}
+
 /* Regiment news */
 .regiment-news-item.news-clickable{display:flex;color:inherit;text-decoration:none;cursor:pointer;transition:border-color .18s ease,background .18s ease,transform .18s ease}
 .regiment-news-item.news-clickable img{width:150px;height:92px;min-width:150px;object-fit:cover;border:1px solid #765a36;background:#251d15;display:block}
