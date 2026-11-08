@@ -274,34 +274,15 @@ const renderHomeBattles=()=>{
     const left=sides[0],right=sides[1];
     const leftImg=left?.querySelector('img')?.getAttribute('src')||'',rightImg=right?.querySelector('img')?.getAttribute('src')||'';
     const leftName=left?.querySelector('strong')?.textContent.trim()||'Полк',rightName=right?.querySelector('strong')?.textContent.trim()||'Полк';
-    const result=record.querySelector('.battle-result-box span')?.textContent.trim()||'';
     const score=record.querySelector('.battle-result-box b')?.textContent.trim()||'';
-    const normalizeBattleName=value=>String(value||'').toLowerCase().replace(/ё/g,'е').replace(/[.,:;!?]/g,' ').replace(/\s+/g,' ').trim();
-    const resultLower=normalizeBattleName(result);
-    const leftNameLower=normalizeBattleName(leftName);
-    const rightNameLower=normalizeBattleName(rightName);
-    const mentionsLeft=!!leftNameLower&&resultLower.includes(leftNameLower);
-    const mentionsRight=!!rightNameLower&&resultLower.includes(rightNameLower);
-    const isDraw=/ничья|вничью/.test(resultLower);
-    let leftWinner=false,rightWinner=false,leftLoser=false,rightLoser=false;
-    if(status==='completed'&&!isDraw){
-      if(/побед|выиграл|выигрыш/.test(resultLower)){
-        if(mentionsLeft){leftWinner=true;rightLoser=true;}
-        else if(mentionsRight){rightWinner=true;leftLoser=true;}
-      }else if(/пораж|проиграл|проигрыш/.test(resultLower)){
-        if(mentionsLeft){leftLoser=true;rightWinner=true;}
-        else if(mentionsRight){rightLoser=true;leftWinner=true;}
-      }
-      if(!leftWinner&&!rightWinner&&!leftLoser&&!rightLoser){
-        const scoreMatch=score.match(/(\d+)\s*[:：-]\s*(\d+)/);
-        if(scoreMatch&&Number(scoreMatch[1])!==Number(scoreMatch[2])){
-          leftWinner=Number(scoreMatch[1])>Number(scoreMatch[2]);
-          rightWinner=!leftWinner;
-          leftLoser=!leftWinner;
-          rightLoser=leftWinner;
-        }
-      }
-    }
+    const scoreMatch=score.match(/(\d+)\s*[:：-]\s*(\d+)/);
+    const leftRounds=scoreMatch?Number(scoreMatch[1]):null;
+    const rightRounds=scoreMatch?Number(scoreMatch[2]):null;
+    const isDraw=status==='completed'&&scoreMatch!==null&&leftRounds===rightRounds;
+    const leftWinner=status==='completed'&&scoreMatch!==null&&leftRounds>rightRounds;
+    const rightWinner=status==='completed'&&scoreMatch!==null&&rightRounds>leftRounds;
+    const leftLoser=rightWinner;
+    const rightLoser=leftWinner;
     const outcomeMarkup=status==='completed'?(isDraw?'<div class="home-battle-draw"><strong>'+score+'</strong><span>НИЧЬЯ</span></div>':'<div class="home-battle-result">'+score+'</div>'):'';
     const parts=date.split('·').map(s=>s.trim()),d=parts[0]||date;
     const dt=d.split('.'),day=dt[0]||d;
