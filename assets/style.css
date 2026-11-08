@@ -2514,3 +2514,25 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   position:relative!important;
   z-index:2!important;
 }
+
+
+/* 1st Regiment: readable name badge over battle background */
+.regiment-main-info.regiment-test-hero .regiment-main-copy h1{
+  display:inline-block!important;
+  width:auto!important;
+  max-width:100%!important;
+  padding:9px 20px 10px!important;
+  margin:0 auto 22px!important;
+  color:#f0d69b!important;
+  background:linear-gradient(180deg,rgba(20,15,10,.88),rgba(8,7,6,.72))!important;
+  border:1px solid rgba(191,151,82,.72)!important;
+  border-radius:3px!important;
+  box-shadow:0 6px 18px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,224,160,.08)!important;
+  text-shadow:0 2px 7px #000!important;
+}
+@media(max-width:600px){
+  .regiment-main-info.regiment-test-hero .regiment-main-copy h1{
+    padding:7px 14px 8px!important;
+    margin-bottom:18px!important;
+  }
+}
