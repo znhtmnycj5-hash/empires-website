@@ -4,8 +4,8 @@
     const sides = [...record.querySelectorAll('.battle-side strong')].map(el => el.textContent.trim());
     const summary = record.querySelector('.battle-result-box span')?.textContent.trim() || '';
     if (summary.includes('Ничья')) return {type:'draw', teams:sides};
-    const winMatch = summary.match(/^Победа\\s+(.+)$/);
-    const lossMatch = summary.match(/^Поражение\\s+(.+)$/);
+    const winMatch = summary.match(/^Победа\s+(.+)$/);
+    const lossMatch = summary.match(/^Поражение\s+(.+)$/);
     if (winMatch) return {type:'win', winner:winMatch[1].trim(), loser:sides.find(n => n !== winMatch[1].trim()) || ''};
     if (lossMatch) return {type:'win', winner:sides.find(n => n !== lossMatch[1].trim()) || '', loser:lossMatch[1].trim()};
     return null;
@@ -23,7 +23,7 @@
     regimentsDoc.querySelectorAll('.regiment-tile').forEach(tile => {
       const name = tile.querySelector('h2')?.textContent.trim();
       const countText = tile.querySelector('.regiment-meta span:last-child')?.textContent || '';
-      const count = parseInt(countText.match(/\\d+/)?.[0] || '0', 10);
+      const count = parseInt(countText.match(/\d+/)?.[0] || '0', 10);
       if (name) ratings[name] = {name, count, score: count * 10, wins:0, losses:0, draws:0};
     });
 
