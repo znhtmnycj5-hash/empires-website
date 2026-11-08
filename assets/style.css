@@ -2418,10 +2418,26 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   position:relative;
   z-index:1;
 }
+.regiment-main-info.regiment-test-hero{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:34px;
+}
 .regiment-main-info.regiment-test-hero>img{
+  flex:0 0 150px;
+  margin:0;
   background:rgba(20,15,11,.72);
   border-color:#b28a4b;
   box-shadow:0 8px 24px rgba(0,0,0,.6);
+}
+.regiment-main-info.regiment-test-hero>.regiment-main-copy{
+  flex:1 1 auto;
+  align-self:center;
+  min-width:0;
+}
+.regiment-main-info.regiment-test-hero .regiment-main-copy h1{
+  margin-top:0;
 }
 .regiment-main-info.regiment-test-hero .regiment-main-copy h1{
   text-shadow:0 4px 16px #000,0 0 28px rgba(0,0,0,.65);
