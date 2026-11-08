@@ -293,8 +293,15 @@ const communityRegiments=[
   {name:"6e Hussards",avatar:"assets/1st.jpg",faction:"Французская Империя",count:19,rating:1260},
   {name:"Royal Scots",avatar:"assets/95.webp",faction:"Британская Империя",count:17,rating:1195}
 ];
-const shuffledCommunityRegiments=[...communityRegiments].sort(()=>Math.random()-0.5).slice(0,3);
-document.getElementById("communityRegiments").innerHTML=shuffledCommunityRegiments.map(r=>'<a class="regiment-card regiment-link" data-regiment="'+r.name+'" href="regiment.html?name='+encodeURIComponent(r.name)+'"><img class="regiment-flag" src="'+r.avatar+'" alt="Флаг '+r.name+'"><h4>'+r.name+'</h4><p>'+r.faction+' · '+r.count+' бойцов · Рейтинг '+r.rating+'</p></a>').join("");
+const renderCommunityRegiments=(ratings)=>{
+  const ratingMap=Object.fromEntries((ratings||[]).map(item=>[item.name,item.score]));
+  const shuffledCommunityRegiments=[...communityRegiments].sort(()=>Math.random()-0.5).slice(0,3);
+  document.getElementById("communityRegiments").innerHTML=shuffledCommunityRegiments.map(r=>{
+    const liveRating=ratingMap[r.name]??r.rating;
+    return '<a class="regiment-card regiment-link" data-regiment="'+r.name+'" href="regiment.html?name='+encodeURIComponent(r.name)+'"><img class="regiment-flag" src="'+r.avatar+'" alt="Флаг '+r.name+'"><h4>'+r.name+'</h4><p>'+r.faction+' · '+r.count+' бойцов · Рейтинг '+liveRating+'</p></a>';
+  }).join("");
+};
+calculateRegimentRatings().then(renderCommunityRegiments).catch(()=>renderCommunityRegiments([]));
 document.querySelectorAll('.chat-tab').forEach(b=>b.onclick=()=>{
  document.querySelectorAll('.chat-tab').forEach(x=>x.classList.remove('active'));
  document.querySelectorAll('.chat-panel').forEach(x=>x.classList.remove('active'));
