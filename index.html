@@ -209,7 +209,7 @@ const loadUpcomingBattles=async()=>{
       if(now<startTime+3600000) return 'ongoing';
       return 'awaiting_confirmation';
     };
-    const allowed=['challenged','preparation','ongoing'];
+    const allowed=['challenged','accepted','ongoing'];
     const upcoming=records
       .filter(record=>allowed.includes(getStatus(record)))
       .sort((a,b)=>{
@@ -224,7 +224,7 @@ const loadUpcomingBattles=async()=>{
       box.innerHTML='<div class="battle"><div style="padding:18px;text-align:center;color:#8f8068;font-size:11px;width:100%">Предстоящих сражений пока нет.</div></div>';
       return;
     }
-    const statusLabels={challenged:'ВЫЗОВ БРОШЕН',preparation:'ПОДГОТОВКА К СРАЖЕНИЮ',ongoing:'ИДЁТ БОЙ'};
+    const statusLabels={challenged:'ВЫЗОВ БРОШЕН',accepted:'ВЫЗОВ ПРИНЯТ',ongoing:'ИДЁТ БОЙ'};
     box.innerHTML=upcoming.map((record,index)=>{
       const top=record.querySelector('.battle-record-top');
       const date=(top?.querySelectorAll('span')[1]?.textContent||'').trim();
