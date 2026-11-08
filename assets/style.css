@@ -1926,8 +1926,9 @@ nav a,.btn{font-family:"Roboto Slab",serif}
     right:84px!important;
   }
   .battle-thread-replies{
-    margin-left:0!important;
-    padding-left:0!important;
-    border-left:0!important;
+    margin-left:14px!important;
+    padding-left:10px!important;
+    border-left:2px solid rgba(137,103,57,.18)!important;
+    box-sizing:border-box!important;
   }
 }
