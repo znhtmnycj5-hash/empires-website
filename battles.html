@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Сражения — EMPIRE</title>
-  <link rel="stylesheet" href="assets/style.css?v=20261108-battlefix1">
+  <link rel="stylesheet" href="assets/style.css?v=20261108-commentcount1">\n  <script src="assets/comment-counts.js?v=20261108-1"></script>
 </head>
 <body>
 <header class="inner-header">
@@ -157,6 +157,13 @@
 
 <script>
 const records=[...document.querySelectorAll('.battle-record')];
+records.forEach(record=>{
+  const id=record.id;
+  const link=record.querySelector('.battle-open-link');
+  if(!id||!link)return;
+  const count=window.EMPIRE_COMMENT_COUNTS.getBattleCommentCount(id);
+  link.insertAdjacentHTML('beforebegin',window.EMPIRE_COMMENT_COUNTS.badge(count,'battle.html?id='+encodeURIComponent(id)));
+});
 const filters=[...document.querySelectorAll('.battle-filter')];
 const empty=document.getElementById('battleEmpty');
 const getDynamicStatus=record=>{
