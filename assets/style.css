@@ -359,3 +359,26 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .news-comment strong{color:#d8b86f;font-size:12px}.news-comment small{display:block;color:#7f735f;font-size:9px;margin-top:2px}.news-comment p{margin:6px 0 0;color:#c1b39b;font-size:12px;line-height:1.5}
 .news-comment-form{display:grid;gap:9px}.news-comment-form textarea{min-height:90px;resize:vertical;background:#120f0c;border:1px solid #5d4930;color:#e3d2b3;padding:10px;font:13px Georgia,serif}
 @media(max-width:700px){.news-list-head,.news-detail-head{flex-direction:column}.news-list-head h1,.news-detail-head h1{font-size:23px}.news-detail-card,.news-editor-card,.news-comments-card{padding:15px}.news-body-editor{min-height:220px}.news-section-link{font-size:9px}}
+
+
+/* Fix regiment links, battle statistics and compact news thumbnails */
+.member-name-link,.member-name-link:visited,.member-name-link:active{color:inherit;text-decoration:none}
+.member-name-link:hover,.member-name-link:focus{color:#e0bd76;text-decoration:underline}
+.battle-history-link,.battle-history-link:visited,.battle-history-link:hover,.battle-history-link:active{display:block;color:inherit;text-decoration:none}
+.battle-history-link:focus-visible{outline:1px solid #b18a4e;outline-offset:3px}
+.battle-statistics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:0 0 16px}
+.battle-stat{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-width:0;padding:11px 6px;border:1px solid #51432f;background:rgba(15,13,10,.62)}
+.battle-stat strong{font:700 22px Cinzel;color:#dfc17f}
+.battle-stat span{font-size:10px;color:#a99a80;text-transform:uppercase;letter-spacing:.4px}
+.battle-stat.wins strong{color:#6dbb7d}
+.battle-stat.losses strong{color:#e16b62}
+.battle-stat.draws strong{color:#aaa}
+.regiment-news-item.news-clickable img{width:100px;height:62px;min-width:100px;max-width:100px;flex:0 0 100px;object-fit:cover}
+.regiment-news-item.news-clickable .regiment-news-body{flex:1;min-width:0}
+@media(max-width:600px){
+ .battle-statistics{gap:6px}
+ .battle-stat{padding:9px 4px}
+ .battle-stat strong{font-size:19px}
+ .battle-stat span{font-size:9px}
+ .regiment-news-item.news-clickable img{width:88px;height:56px;min-width:88px;max-width:88px;flex-basis:88px}
+}
