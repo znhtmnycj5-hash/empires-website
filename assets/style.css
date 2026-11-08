@@ -2871,3 +2871,10 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 #upcomingBattlesHome .home-battle-versus .home-battle-winner-name{color:#a9df91;text-shadow:0 2px 5px #000,0 0 12px rgba(75,145,62,.8)}
 #upcomingBattlesHome .home-battle-result{padding:4px 10px;border:1px solid rgba(130,190,112,.55);background:rgba(17,48,22,.78);color:#b9e4a7;font:700 11px "Roboto Slab",serif}
 @media(max-width:700px){.home-battle-filters{gap:6px;padding:9px}.home-battle-filter{flex:1 1 calc(50% - 6px);padding:8px 6px;font-size:9px}}
+
+
+/* Completed battle outcomes: winner, loser and draw */
+#upcomingBattlesHome .home-battle-half.home-battle-loser img{opacity:.72;filter:brightness(.58) saturate(.8)}
+#upcomingBattlesHome .home-battle-half.home-battle-loser:before{content:"ПРОИГРАВШИЙ";position:absolute;z-index:2;left:50%;top:12px;transform:translateX(-50%);padding:5px 9px;border:1px solid rgba(205,91,82,.78);background:rgba(67,17,17,.9);color:#ffaaa2;font:700 9px "Roboto Slab",serif;letter-spacing:1px;white-space:nowrap}
+#upcomingBattlesHome .home-battle-versus .home-battle-loser-name{color:#ff9b91;text-shadow:0 2px 5px #000,0 0 10px rgba(170,45,38,.75)}
+#upcomingBattlesHome .home-battle-draw{display:inline-block;padding:5px 14px;border:1px solid rgba(180,180,180,.55);background:rgba(65,65,65,.88);color:#e0e0e0;font:700 11px "Roboto Slab",serif;letter-spacing:1.5px}
