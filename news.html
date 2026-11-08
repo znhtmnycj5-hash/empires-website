@@ -163,6 +163,8 @@ const bindRichEditor=(form,editor)=>{
  });
 };
 const richToolbarHtml='<div class="battle-comment-toolbar" role="toolbar" aria-label="Форматирование комментария"><button type="button" data-editor-command="bold" title="Жирный"><strong>B</strong></button><button type="button" data-editor-command="italic" title="Курсив"><em>I</em></button><button type="button" data-editor-command="underline" title="Подчёркивание"><u>U</u></button><button type="button" data-editor-command="quote" title="Цитата">❝</button><button type="button" data-editor-command="spoiler" title="Спойлер">S</button><button type="button" data-editor-command="image" title="Вставить картинку">▧</button><button type="button" data-editor-command="video" title="Вставить видео">▶</button></div>';
+const commentRegiments={"Kalashnikov":"1st Regiment","Ankord":"1st Regiment","Veli4estvo":"1st Regiment","Mel":"1st Regiment","Kazak":"1st Regiment","MeGusta":"1st Regiment","Flashkodr":"1st Regiment","MrDixon":"1st Regiment","Theodor":"1st Regiment","Grenadier87":"1st Regiment","Marquis":"95th Rifles"};
+const commentPresence=()=>{try{const value=JSON.parse(localStorage.getItem('empire_profile_presence_v1')||'{}');return value&&typeof value==='object'?value:{}}catch(e){return {}}};
 const ensureTestComments=news=>{
   if(String(news.id)!=="sample-4")return;
   const map=getComments(),items=Array.isArray(map[news.id])?map[news.id]:[],existing=new Set(items.map(x=>String(x.id||"")));
@@ -188,13 +190,12 @@ const ensureTestComments=news=>{
   const additions=[...samples,...replies].filter(x=>!existing.has(x.id)).map(x=>({...x,avatar:typeof empireUserAvatar==="function"?empireUserAvatar(x.author):"assets/default-soldier.jpg"}));
   if(additions.length){map[news.id]=[...items,...additions];localStorage.setItem(commentsKey,JSON.stringify(map));}
 };
-const commentPresence=()=>{try{const value=JSON.parse(localStorage.getItem('empire_profile_presence_v1')||'{}');return value&&typeof value==='object'?value:{}}catch(e){return {}}};
+
 const commentAuthorMeta=name=>{const regiment=commentRegiments[name]||'Без полка',last=commentPresence()[name],online=typeof last==='number'&&Date.now()-last<5*60*1000;return {regiment,online};};
 function renderComments(news){
  ensureTestComments(news);
  const map=getComments(),comments=Array.isArray(map[news.id])?map[news.id]:[];
- const commentRegiments={"Kalashnikov":"1st Regiment","Ankord":"1st Regiment","Veli4estvo":"1st Regiment","Mel":"1st Regiment","Kazak":"1st Regiment","MeGusta":"1st Regiment","Flashkodr":"1st Regiment","MrDixon":"1st Regiment","Theodor":"1st Regiment","Grenadier87":"1st Regiment","Marquis":"95th Rifles"};
- const card=(c,depth=0)=>{
+  const card=(c,depth=0)=>{
   const author=String(c.author||c.name||"Пользователь"),cid=String(c.id||""),kids=comments.filter(x=>String(x.parentId||"")===cid);
   const meta=commentAuthorMeta(author),regimentName=String(c.regiment||meta.regiment||"");
   const status='<span class="battle-comment-presence '+(meta.online?'is-online':'is-offline')+'"><i></i>'+(meta.online?'В сети':'Не в сети')+'</span>';
