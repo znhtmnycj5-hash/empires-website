@@ -7,12 +7,12 @@
 </head>
 <body>
 <header class="inner-header"><div class="container">
-<div class="brand"><a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a><div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div></div>
+<div class="brand"><a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE" decoding="async"></a><div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div></div>
 <nav><a href="index.html">Главная</a><a href="regiments.html">Полки</a><a href="battles.html">Сражения</a><a href="rating.html">Рейтинг</a><a href="index.html#news">Форум</a><a class="active" href="alliances.html">Союзы</a><a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a></nav>
 </div></header>
 <main class="container alliance-page">
 <a class="back-link" href="alliances.html">← Все союзы</a>
-<section class="card alliance-hero"><img id="allianceAvatar" src="" alt=""><div><div class="page-kicker">СОЮЗ EMPIRE</div><h1 id="allianceName">Союз</h1><p id="allianceLeader"></p><div class="alliance-hero-stats"><div><span>Рейтинг</span><strong id="allianceRating">0</strong></div><div><span>Полков</span><strong id="allianceCount">0</strong></div></div></div></section>
+<section class="card alliance-hero"><img id="allianceAvatar" src="" alt="" loading="lazy" decoding="async"><div><div class="page-kicker">СОЮЗ EMPIRE</div><h1 id="allianceName">Союз</h1><p id="allianceLeader"></p><div class="alliance-hero-stats"><div><span>Рейтинг</span><strong id="allianceRating">0</strong></div><div><span>Полков</span><strong id="allianceCount">0</strong></div></div></div></section>
 <div class="alliance-columns">
 <section class="card alliance-section"><div class="card-title">♜ &nbsp; Состав союза</div><div id="allianceMembers" class="alliance-members"></div></section>
 <section class="card alliance-section"><div class="card-title">⚔ &nbsp; Проведённые сражения</div><div id="allianceBattles" class="alliance-battles"></div></section>
@@ -35,7 +35,7 @@
   document.getElementById('allianceCount').textContent=a.members.length;
   document.getElementById('allianceMembers').innerHTML=a.members.length?a.members.map(name=>{
     const r=window.EMPIRE_ALLIANCES.defaultRegiments[name];
-    return '<a class="alliance-member" href="regiment.html?name='+encodeURIComponent(name)+'"><img src="'+(r?.img||'assets/empire_logo_top_right.png')+'" alt=""><div><strong>'+name+'</strong><span>Рейтинг полка: '+(r?.rating||0)+'</span></div></a>';
+    return '<a class="alliance-member" href="regiment.html?name='+encodeURIComponent(name)+'"><img src="'+(r?.img||'assets/empire_logo_top_right.png')+'" alt="" loading="lazy" decoding="async"><div><strong>'+name+'</strong><span>Рейтинг полка: '+(r?.rating||0)+'</span></div></a>';
   }).join(''):'<p class="empty-note">В союзе пока нет полков.</p>';
   document.getElementById('allianceBattles').innerHTML=a.battles.length?a.battles.map(b=>{
     return '<a class="alliance-battle" href="battle.html?id='+encodeURIComponent(b.id)+'"><div><strong>'+b.title+'</strong><span>'+b.date+' · Помощь вызвана полком '+b.calledBy+'</span></div><b class="alliance-result '+b.result+'">'+window.EMPIRE_ALLIANCES.statusForBattle(b)+'</b></a>';
