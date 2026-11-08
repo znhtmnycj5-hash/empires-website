@@ -2314,3 +2314,8 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 .battle-thread-item .battle-comment-content .battle-reply-form{
   display:flex!important;
 }
+
+/* Private messages: square avatars on every profile */
+.profile-page .private-message img{
+  border-radius:0!important;
+}
