@@ -1206,3 +1206,7 @@ nav a,.btn{font-family:"Roboto Slab",serif}
     line-height:1.15
   }
 }
+
+
+/* Hide the role badge for all ordinary profiles */
+.profile-role-badge[hidden]{display:none!important}
