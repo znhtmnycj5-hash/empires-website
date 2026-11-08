@@ -476,7 +476,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 /* Homepage layout and chat-name fixes */
 #chat .msg b{color:inherit!important}
 #chat .chat-user-link,#chat .chat-user-link:visited,#chat .chat-user-link:hover,#chat .chat-user-link:focus{color:inherit!important;text-decoration:none!important}
-#chat .chat-user-link:hover{color:#e0bd76!important}
+#chat .chat-user-link:hover{color:inherit!important;text-decoration:none!important}
 #news .news-item{display:grid!important;grid-template-columns:130px minmax(0,1fr)!important;align-items:start!important;gap:15px!important}
 #news .news-item>.thumb{display:block!important;position:relative!important;float:none!important;width:130px!important;height:76px!important;min-width:130px!important;max-width:130px!important;min-height:76px!important;max-height:76px!important;flex:none!important;object-fit:cover!important;background-position:center!important;background-size:cover!important;box-sizing:border-box!important}
 #news .news-item>div:not(.thumb){min-width:0!important;grid-column:2!important}
