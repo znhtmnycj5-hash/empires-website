@@ -35,7 +35,7 @@ const seed=()=>{
    ['84e Régiment','Veli4estvo',16,'Французская армия','Пехота','assets/84e.png'],
    ['Preobrazhensky','Fusilier',14,'Французская армия','Пехота','assets/preobraz.webp'],
    ['7th Hussars','Grenadier87',12,'Британская армия','Кавалерия','assets/hussars.png'],
-   ['King\\'s German Legion','Ankord',13,'Британская армия','Пехота','assets/kgr.png']
+   ["King's German Legion",'Ankord',13,'Британская армия','Пехота','assets/kgr.png']
   ];
   testParticipants.forEach((p,i)=>{
    if(!c.applications.some(a=>a.regiment===p[0])) c.applications.push({id:'test-app-'+String(i+1).padStart(2,'0'),regiment:p[0],commander:p[1],people:p[2],status:'accepted',logo:p[5],faction:p[3],troopType:p[4],attended:false});
