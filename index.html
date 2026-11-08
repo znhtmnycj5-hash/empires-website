@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Empire — Napoleonic Wars Community</title>
-<link rel="stylesheet" href="assets/style.css?v=20261108-home-battle-results2">
+<link rel="stylesheet" href="assets/style.css?v=20261108-home-battle-score3">
   <script src="assets/comment-counts.js?v=20261108-1"></script>
 <script src="assets/rating.js"></script>
 </head>
@@ -275,6 +275,7 @@ const renderHomeBattles=()=>{
     const leftImg=left?.querySelector('img')?.getAttribute('src')||'',rightImg=right?.querySelector('img')?.getAttribute('src')||'';
     const leftName=left?.querySelector('strong')?.textContent.trim()||'Полк',rightName=right?.querySelector('strong')?.textContent.trim()||'Полк';
     const result=record.querySelector('.battle-result-box span')?.textContent.trim()||'';
+    const score=record.querySelector('.battle-result-box b')?.textContent.trim()||'';
     const resultLower=result.toLowerCase();
     const leftNameLower=leftName.toLowerCase();
     const rightNameLower=rightName.toLowerCase();
@@ -283,11 +284,12 @@ const renderHomeBattles=()=>{
     const rightLoser=status==='completed'&&!isDraw&&/поражение/i.test(resultLower)&&resultLower.includes(rightNameLower);
     const leftWinner=status==='completed'&&!isDraw&&((/победа/i.test(resultLower)&&resultLower.includes(leftNameLower))||rightLoser);
     const rightWinner=status==='completed'&&!isDraw&&((/победа/i.test(resultLower)&&resultLower.includes(rightNameLower))||leftLoser);
+    const outcomeMarkup=status==='completed'?(isDraw?'<div class="home-battle-draw"><strong>'+score+'</strong><span>НИЧЬЯ</span></div>':'<div class="home-battle-result">'+score+'</div>'):'';
     const parts=date.split('·').map(s=>s.trim()),d=parts[0]||date;
     const dt=d.split('.'),day=dt[0]||d;
     const month={10:'ОКТЯБРЯ',11:'НОЯБРЯ',12:'ДЕКАБРЯ'}[Number(dt[1])]||'';
     const battleUrl='battle.html?id='+encodeURIComponent(record.id||'');
-    return '<div class="battle home-battle-link" data-battle-url="'+battleUrl+'"><div class="home-battle-cover"><a class="home-battle-half home-battle-left '+(leftWinner?'home-battle-winner':leftLoser?'home-battle-loser':'')+'" href="'+battleUrl+'" aria-label="Открыть сражение"><img src="'+leftImg+'" alt=""></a><a class="home-battle-half home-battle-right '+(rightWinner?'home-battle-winner':rightLoser?'home-battle-loser':'')+'" href="'+battleUrl+'" aria-label="Открыть сражение"><img src="'+rightImg+'" alt=""></a><div class="home-battle-overlay"><div class="home-battle-date">'+day+'<span>'+month+'</span></div><div class="home-battle-status">'+(statusLabels[status]||'')+'</div><div class="home-battle-versus"><span class="'+(leftWinner?'home-battle-winner-name':leftLoser?'home-battle-loser-name':'')+'">'+leftName+'</span><b>VS</b><span class="'+(rightWinner?'home-battle-winner-name':rightLoser?'home-battle-loser-name':'')+'">'+rightName+'</span></div>'+(status==='completed'?(isDraw?'<div class="home-battle-draw">НИЧЬЯ</div>':'<div class="home-battle-result">'+result+'</div>'):'')+'</div></div></div>';
+    return '<div class="battle home-battle-link" data-battle-url="'+battleUrl+'"><div class="home-battle-cover"><a class="home-battle-half home-battle-left '+(leftWinner?'home-battle-winner':leftLoser?'home-battle-loser':'')+'" href="'+battleUrl+'" aria-label="Открыть сражение"><img src="'+leftImg+'" alt=""></a><a class="home-battle-half home-battle-right '+(rightWinner?'home-battle-winner':rightLoser?'home-battle-loser':'')+'" href="'+battleUrl+'" aria-label="Открыть сражение"><img src="'+rightImg+'" alt=""></a><div class="home-battle-overlay"><div class="home-battle-date">'+day+'<span>'+month+'</span></div><div class="home-battle-status">'+(statusLabels[status]||'')+'</div><div class="home-battle-versus"><span class="'+(leftWinner?'home-battle-winner-name':leftLoser?'home-battle-loser-name':'')+'">'+leftName+'</span><b>VS</b><span class="'+(rightWinner?'home-battle-winner-name':rightLoser?'home-battle-loser-name':'')+'">'+rightName+'</span></div>'+outcomeMarkup+'</div></div></div>'
   }).join('');
   box.querySelectorAll('.home-battle-link').forEach(row=>row.addEventListener('click',event=>{
     if(event.target.closest('.regiment-link'))return;
