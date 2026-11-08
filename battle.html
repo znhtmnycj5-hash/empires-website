@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сражение — EMPIRE</title>
+  <link rel="stylesheet" href="assets/style.css?v=20261108-battlepage1">
+</head>
+<body>
+<header class="inner-header">
+  <div class="container">
+    <div class="brand">
+      <a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a>
+      <div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div>
+    </div>
+    <nav>
+      <a href="index.html">Главная</a>
+      <div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="#">Создать полк</a><a href="#">Мои полки</a></div></div>
+      <div class="dropdown"><a class="active" href="battles.html">Сражения</a><div class="dropdown-menu"><a href="battles.html#planned">Предстоящие</a><a href="battles.html#completed">Завершённые</a><a href="battles.html#all">Все сражения</a></div></div>
+      <a href="index.html#ranking">Рейтинг</a>
+      <div class="dropdown"><a href="index.html#news">Форум</a><div class="dropdown-menu"><a href="index.html#news">Обсуждения</a><a href="#">Гайды</a><a href="#">Объявления</a></div></div>
+      <a href="index.html#alliances">Союзы</a>
+      <a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container battle-page" id="battlePage">
+  <a class="back-link" href="battles.html">← Вернуться к списку сражений</a>
+  <section class="card battle-hero-card">
+    <div class="battle-page-kicker" id="battleStatus">СРАЖЕНИЕ</div>
+    <h1 id="battleTitle">Загрузка сражения…</h1>
+    <div class="battle-participants">
+      <a id="leftRegiment" class="battle-participant" href="#">
+        <img src="" alt="">
+        <strong></strong>
+        <small></small>
+        <span class="battle-role">Назначил сражение</span>
+      </a>
+      <div class="battle-center">
+        <div class="battle-page-countdown" id="battleCountdown">—</div>
+        <div class="battle-countdown-label" id="countdownLabel">до начала сражения</div>
+      </div>
+      <a id="rightRegiment" class="battle-participant" href="#">
+        <img src="" alt="">
+        <strong></strong>
+        <small></small>
+        <span class="battle-role">Принял вызов</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="card battle-info-card">
+    <div class="card-title">⚔ &nbsp; Информация о сражении</div>
+    <div class="battle-info-grid">
+      <div><span>Тип сражения</span><strong id="battleType">—</strong></div>
+      <div><span>Состав сторон</span><strong id="battleSize">—</strong></div>
+      <div><span>Союзники</span><strong id="battleAllies">—</strong></div>
+      <div><span>Сервер</span><strong id="battleServer" class="secret-field">Скрыт</strong></div>
+      <div><span>Пароль</span><strong id="battlePassword" class="secret-field">Скрыт</strong></div>
+      <div><span>Начало</span><strong id="battleStart">—</strong></div>
+    </div>
+    <div id="accessNotice" class="battle-access-notice"></div>
+  </section>
+
+  <section class="card battle-result-card" id="resultSection">
+    <div class="card-title">🏆 &nbsp; Итог сражения</div>
+    <div class="battle-final-grid">
+      <div><span>Победитель</span><strong id="battleWinner">—</strong></div>
+      <div><span>Счёт</span><strong id="battleScore">—</strong></div>
+    </div>
+    <div class="battle-media" id="battleMedia"></div>
+  </section>
+
+  <section class="card battle-comments-card">
+    <div class="card-title">💬 &nbsp; Комментарии</div>
+    <div id="commentList" class="battle-comments"></div>
+    <form id="commentForm" class="battle-comment-form">
+      <input id="commentInput" type="text" maxlength="500" placeholder="Написать комментарий…" autocomplete="off">
+      <button type="submit">Отправить</button>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div>
+    <div>Главная &nbsp;|&nbsp; Полки &nbsp;|&nbsp; Сражения &nbsp;|&nbsp; Рейтинг &nbsp;|&nbsp; Форум &nbsp;|&nbsp; Союзы</div>
+    <div class="motto">Vive l’Empire!</div>
+  </div>
+</footer>
+
+<script>
+const battlesData={
+  "battle-001":{status:"completed",title:"1st Regiment vs 95th Rifles",date:"26.10.2026",start:"2026-10-26T20:00:00",type:"Линейная Битва (ЛБ)",size:10,allies:false,server:"EMPIRE Line #1",password:"empire001",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"95th Rifles",faction:"Британская Империя",avatar:"assets/95.webp",href:"regiment.html?name=95th%20Rifles"},winner:"95th Rifles",score:"2 : 3",media:[]},
+  "battle-002":{status:"completed",title:"1st Regiment vs 84e Régiment",date:"29.10.2026",start:"2026-10-29T20:00:00",type:"Клановая Война (КВ)",size:10,allies:false,server:"EMPIRE War #1",password:"empire002",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"84e Régiment",faction:"Французская Империя",avatar:"assets/84e.png",href:"regiment.html?name=84e%20R%C3%A9giment"},winner:"1st Regiment",score:"4 : 2",media:[]},
+  "battle-003":{status:"completed",title:"1st Regiment vs Preobrazhensky",date:"02.11.2026",start:"2026-11-02T20:00:00",type:"Линейная Битва (ЛБ)",size:10,allies:true,allySize:5,server:"EMPIRE Line #2",password:"empire003",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"Preobrazhensky",faction:"Российская Империя",avatar:"assets/preobraz.webp",href:"regiment.html?name=Preobrazhensky"},winner:"Ничья",score:"3 : 3",media:[]},
+  "battle-004":{status:"completed",title:"1st Regiment vs 95th Rifles",date:"04.11.2026",start:"2026-11-04T20:00:00",type:"Линейная Битва (ЛБ)",size:12,allies:false,server:"EMPIRE Line #1",password:"empire004",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"95th Rifles",faction:"Британская Империя",avatar:"assets/95.webp",href:"regiment.html?name=95th%20Rifles"},winner:"1st Regiment",score:"3 : 1",media:[]},
+  "battle-005":{status:"completed",title:"1st Regiment vs 84e Régiment",date:"05.11.2026",start:"2026-11-05T20:00:00",type:"Клановая Война (КВ)",size:10,allies:true,allySize:5,server:"EMPIRE War #1",password:"empire005",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"84e Régiment",faction:"Французская Империя",avatar:"assets/84e.png",href:"regiment.html?name=84e%20R%C3%A9giment"},winner:"84e Régiment",score:"1 : 2",media:[]},
+  "battle-006":{status:"completed",title:"1st Regiment vs Preobrazhensky",date:"06.11.2026",start:"2026-11-06T20:00:00",type:"Линейная Битва (ЛБ)",size:10,allies:false,server:"EMPIRE Line #2",password:"empire006",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"Preobrazhensky",faction:"Российская Империя",avatar:"assets/preobraz.webp",href:"regiment.html?name=Preobrazhensky"},winner:"1st Regiment",score:"4 : 2",media:[]},
+  "battle-007":{status:"completed",title:"1st Regiment vs 95th Rifles",date:"07.11.2026",start:"2026-11-07T20:00:00",type:"Линейная Битва (ЛБ)",size:10,allies:false,server:"EMPIRE Line #1",password:"empire007",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"95th Rifles",faction:"Британская Империя",avatar:"assets/95.webp",href:"regiment.html?name=95th%20Rifles"},winner:"Ничья",score:"2 : 2",media:[]},
+  "battle-008":{status:"completed",title:"1st Regiment vs 84e Régiment",date:"08.11.2026",start:"2026-11-08T20:00:00",type:"Линейная Битва (ЛБ)",size:10,allies:false,server:"EMPIRE Line #1",password:"empire008",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"84e Régiment",faction:"Французская Империя",avatar:"assets/84e.png",href:"regiment.html?name=84e%20R%C3%A9giment"},winner:"1st Regiment",score:"3 : 0",media:[]},
+  "battle-009":{status:"completed",title:"1st Regiment vs Preobrazhensky",date:"09.11.2026",start:"2026-11-09T20:00:00",type:"Клановая Война (КВ)",size:12,allies:true,allySize:5,server:"EMPIRE War #1",password:"empire009",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"Preobrazhensky",faction:"Российская Империя",avatar:"assets/preobraz.webp",href:"regiment.html?name=Preobrazhensky"},winner:"Preobrazhensky",score:"1 : 3",media:[]},
+  "battle-010":{status:"planned",title:"7th Hussars vs 95th Rifles",date:"10.11.2026",start:"2026-11-10T21:00:00",type:"Линейная Битва (ЛБ)",size:10,allies:false,server:"EMPIRE Line #1",password:"empire010",left:{name:"7th Hussars",faction:"Британская Империя",avatar:"assets/hussars.png",href:"regiment.html?name=7th%20Hussars"},right:{name:"95th Rifles",faction:"Британская Империя",avatar:"assets/95.webp",href:"regiment.html?name=95th%20Rifles"},winner:"",score:"",media:[]},
+  "battle-011":{status:"planned",title:"1st Regiment vs 84e Régiment",date:"08.11.2026",start:"2026-11-08T20:00:00",type:"Клановая Война (КВ)",size:10,allies:true,allySize:5,server:"EMPIRE War #1",password:"empire011",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"84e Régiment",faction:"Французская Империя",avatar:"assets/84e.png",href:"regiment.html?name=84e%20R%C3%A9giment"},winner:"",score:"",media:[]}
+};
+
+const currentUser={name:"Kalashnikov",regiment:"1st Regiment"};
+const params=new URLSearchParams(location.search);
+const battleId=params.get("id")||"battle-011";
+const battle=battlesData[battleId];
+const $=id=>document.getElementById(id);
+const formatDate=d=>new Date(d).toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
+const setParticipant=(id,p)=>{
+  const el=$(id); el.href=p.href; el.querySelector("img").src=p.avatar; el.querySelector("img").alt=p.name;
+  el.querySelector("strong").textContent=p.name; el.querySelector("small").textContent=p.faction;
+};
+
+if(!battle){
+  $("battlePage").innerHTML='<section class="card battle-empty"><strong>Сражение не найдено.</strong><br><a class="back-link" href="battles.html">Вернуться к списку сражений</a></section>';
+}else{
+  document.title=battle.title+" — EMPIRE";
+  $("battleStatus").textContent=battle.status==="completed"?"ЗАВЕРШЁННОЕ СРАЖЕНИЕ":"ПРЕДСТОЯЩЕЕ СРАЖЕНИЕ";
+  $("battleTitle").textContent=battle.title;
+  setParticipant("leftRegiment",battle.left); setParticipant("rightRegiment",battle.right);
+  $("battleType").textContent=battle.type;
+  $("battleSize").textContent=battle.size+" на "+battle.size;
+  $("battleAllies").textContent=battle.allies?"Да — до "+battle.allySize+" союзников":"Нет";
+  $("battleStart").textContent=formatDate(battle.start);
+  $("battleServer").textContent="Скрыт";
+  $("battlePassword").textContent="Скрыт";
+
+  const isMember=currentUser.regiment===battle.left.name||currentUser.regiment===battle.right.name;
+  if(isMember){
+    $("battleServer").textContent=battle.server;
+    $("battlePassword").textContent=battle.password;
+    $("accessNotice").innerHTML='<span class="access-ok">✓ Доступ разрешён для участника '+currentUser.regiment+'</span>';
+  }else{
+    $("accessNotice").innerHTML='<span class="access-locked">🔒 Сервер и пароль доступны только участникам полков, участвующих в этом сражении.</span>';
+  }
+
+  const countdown=$("battleCountdown");
+  const label=$("countdownLabel");
+  const updateTimer=()=>{
+    const diff=new Date(battle.start).getTime()-Date.now();
+    if(battle.status==="completed"||diff<=0){
+      countdown.textContent=battle.status==="completed"?"Сражение завершено":"Сражение началось";
+      label.textContent=battle.status==="completed"?"":"";
+      countdown.classList.add("finished");
+      return;
+    }
+    const total=Math.floor(diff/1000),d=Math.floor(total/86400),h=Math.floor(total%86400/3600),m=Math.floor(total%3600/60),s=total%60;
+    countdown.textContent=(d?d+"д ":"")+String(h).padStart(2,"0")+"ч "+String(m).padStart(2,"0")+"м "+String(s).padStart(2,"0")+"с";
+  };
+  updateTimer(); setInterval(updateTimer,1000);
+
+  if(battle.status==="completed"){
+    $("resultSection").style.display="block";
+    $("battleWinner").textContent=battle.winner;
+    $("battleScore").textContent=battle.score;
+    if(battle.media.length){
+      $("battleMedia").innerHTML=battle.media.map(m=>m.type==="video"?'<a href="'+m.url+'" target="_blank" rel="noopener">▶ Видео сражения</a>':'<img src="'+m.url+'" alt="Скриншот сражения">').join("");
+    }else{
+      $("battleMedia").innerHTML='<div class="battle-media-empty">Командиры могут добавить скриншоты и видео сражения.</div>';
+    }
+  }else{
+    $("resultSection").style.display="none";
+  }
+
+  const storageKey="empire-battle-comments-"+battleId;
+  const seed=[{name:"Kalashnikov",text:"Удачи обеим сторонам! ",time:"08.11.2026 01:20"}];
+  const renderComments=()=>{
+    let comments=[]; try{comments=JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){}
+    const all=[...seed,...comments];
+    $("commentList").innerHTML=all.length?all.map(c=>'<div class="battle-comment"><div><strong>'+c.name+'</strong><span>'+c.time+'</span></div><p>'+c.text.replace(/[&<>]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[x]))+'</p></div>').join(""):'<div class="battle-comments-empty">Комментариев пока нет.</div>';
+  };
+  renderComments();
+  $("commentForm").addEventListener("submit",e=>{
+    e.preventDefault(); const input=$("commentInput"); const text=input.value.trim(); if(!text)return;
+    let comments=[]; try{comments=JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(err){}
+    comments.push({name:currentUser.name,text,time:new Date().toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})});
+    localStorage.setItem(storageKey,JSON.stringify(comments)); input.value=""; renderComments();
+  });
+}
+</script>
+</body>
+</html>
