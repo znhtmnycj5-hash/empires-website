@@ -124,11 +124,7 @@
 
 <section class="card" style="margin-top:14px" id="regiments">
   <div class="card-title">♜ &nbsp; Полки сообщества <a href="#">Все полки →</a></div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr)">
-    <a class="regiment-card regiment-link" data-regiment="1st Regiment" href="regiment.html?name=1st%20Regiment"><img class="regiment-flag" src="assets/1st.jpg" alt="Флаг 1st Regiment"><h4>1st Regiment</h4><p>Французская Империя · 42 бойца · Рейтинг 1840</p></a>
-    <a class="regiment-card regiment-link" data-regiment="95th Rifles" href="regiment.html?name=95th%20Rifles"><img class="regiment-flag" src="assets/95.webp" alt="Флаг 95th Rifles"><h4>95th Rifles</h4><p>Британская Империя · 37 бойцов · Рейтинг 1715</p></a>
-    <a class="regiment-card regiment-link" data-regiment="Preobrazhensky" href="regiment.html?name=Preobrazhensky"><img class="regiment-flag" src="assets/preobraz.webp" alt="Флаг Preobrazhensky"><h4>Preobrazhensky</h4><p>Российская Империя · 31 боец · Рейтинг 1590</p></a>
-  </div>
+  <div id="communityRegiments" style="display:grid;grid-template-columns:repeat(3,1fr)"></div>
 </section>
 
 <section class="card community" id="alliances" style="margin-top:14px">
@@ -168,6 +164,23 @@ modal.onclick=e=>{if(e.target===modal)modal.classList.remove('show')};
 document.getElementById('demoLogin').onclick=()=>{const n=document.getElementById('loginName').value.trim()||'Император';modal.classList.remove('show');toast('Добро пожаловать, '+n+'!')};
 
 const currentUser={name:'Kalashnikov',regiment:'1st Regiment'};
+
+const communityRegiments=[
+  {name:"1st Regiment",avatar:"assets/1st.jpg",faction:"Французская Империя",count:42,rating:1840},
+  {name:"95th Rifles",avatar:"assets/95.webp",faction:"Британская Империя",count:37,rating:1715},
+  {name:"84e Régiment",avatar:"assets/84e.png",faction:"Французская Империя",count:35,rating:1630},
+  {name:"Preobrazhensky",avatar:"assets/preobraz.webp",faction:"Российская Империя",count:31,rating:1590},
+  {name:"7th Hussars",avatar:"assets/hussars.png",faction:"Британская Империя",count:29,rating:1565},
+  {name:"13e Léger",avatar:"assets/1st.jpg",faction:"Французская Империя",count:28,rating:1510},
+  {name:"33e Ligne",avatar:"assets/95.webp",faction:"Британская Империя",count:26,rating:1475},
+  {name:"92nd Gordon Highlanders",avatar:"assets/84e.png",faction:"Британская Империя",count:24,rating:1420},
+  {name:"Semenovsky",avatar:"assets/preobraz.webp",faction:"Российская Империя",count:23,rating:1385},
+  {name:"King's German Legion",avatar:"assets/kgr.png",faction:"Британская Империя",count:21,rating:1320},
+  {name:"6e Hussards",avatar:"assets/1st.jpg",faction:"Французская Империя",count:19,rating:1260},
+  {name:"Royal Scots",avatar:"assets/95.webp",faction:"Британская Империя",count:17,rating:1195}
+];
+const shuffledCommunityRegiments=[...communityRegiments].sort(()=>Math.random()-0.5).slice(0,3);
+document.getElementById("communityRegiments").innerHTML=shuffledCommunityRegiments.map(r=>'<a class="regiment-card regiment-link" data-regiment="'+r.name+'" href="regiment.html?name='+encodeURIComponent(r.name)+'"><img class="regiment-flag" src="'+r.avatar+'" alt="Флаг '+r.name+'"><h4>'+r.name+'</h4><p>'+r.faction+' · '+r.count+' бойцов · Рейтинг '+r.rating+'</p></a>').join("");
 document.querySelectorAll('.chat-tab').forEach(b=>b.onclick=()=>{
  document.querySelectorAll('.chat-tab').forEach(x=>x.classList.remove('active'));
  document.querySelectorAll('.chat-panel').forEach(x=>x.classList.remove('active'));
