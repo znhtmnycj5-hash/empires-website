@@ -114,8 +114,7 @@ const renderAlbum=()=>{
  const pageItems=items.slice((albumPage-1)*6,albumPage*6);
  document.getElementById('albumGrid').innerHTML=pageItems.map((item,i)=>'<a class="album-item" href="'+item.src+'" target="_blank" rel="noopener"><img src="'+item.src+'" alt="'+(item.title||'Скриншот')+'" loading="lazy"></a>').join('');
  const p=document.getElementById('albumPagination');
- p.innerHTML=totalPages>1?'<a href="#" data-page="'+Math.max(1,albumPage-1)+'">‹</a>'+Array.from({length:totalPages},(_,i)=>'<a href="#" data-page="'+(i+1)+'" class="'+(i+1===albumPage?'current':'')+'">'+(i+1)+'</a>').join('')+'<a href="#" data-page="'+Math.min(totalPages,albumPage+1)+'">›</a>':'';
- p.querySelectorAll('[data-page]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const page=e.currentTarget.dataset.page;const url=new URL(location.href);url.searchParams.set('name',name);url.searchParams.set('albumPage',page);location.href=url.toString();}));
+ if(p){p.innerHTML='';p.style.display='none';}
 };
 const currentUser='Kalashnikov';
 const commanderControls=document.getElementById('albumCommanderControls');
