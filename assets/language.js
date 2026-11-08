@@ -65,14 +65,19 @@
   function addSwitcher(){
     const footer=document.querySelector('footer'); if(!footer)return;
     const host=footer.querySelector('.footer-inner')||footer;
-    if(host.querySelector('.language-switcher'))return;
-    const box=document.createElement('div');
-    box.className='language-switcher';
-    box.innerHTML='<button type="button" data-lang="ru">RU</button><span class="lang-separator">/</span><button type="button" data-lang="en">EN</button>';
-    host.appendChild(box);
+    let box=host.querySelector('.language-switcher');
+    if(!box){
+      box=document.createElement('div');
+      box.className='language-switcher';
+      box.innerHTML='<button type="button" data-lang="ru">RU</button><span class="lang-separator">/</span><button type="button" data-lang="en">EN</button>';
+      host.appendChild(box);
+    }
     box.querySelectorAll('button').forEach(btn=>{
       btn.classList.toggle('active',btn.dataset.lang===lang);
-      btn.addEventListener('click',()=>{localStorage.setItem(KEY,btn.dataset.lang);location.reload();});
+      if(!btn.dataset.languageBound){
+        btn.dataset.languageBound='1';
+        btn.addEventListener('click',()=>{localStorage.setItem(KEY,btn.dataset.lang);location.reload();});
+      }
     });
   }
   addSwitcher();
