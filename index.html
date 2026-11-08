@@ -148,7 +148,7 @@ const modal=document.getElementById('loginModal');
 document.getElementById('openLogin').onclick=e=>{e.preventDefault();modal.classList.add('show')};
 document.getElementById('closeLogin').onclick=()=>modal.classList.remove('show');
 modal.onclick=e=>{if(e.target===modal)modal.classList.remove('show')};
-document.getElementById('demoLogin').onclick=()=>{const n=document.getElementById('loginName').value.trim()||'Император';modal.classList.remove('show');toast('Добро пожаловать, '+n+'!')};
+document.getElementById('demoLogin').onclick=()=>{const n=document.getElementById('loginName').value.trim()||'Император';try{localStorage.setItem('empire_current_user_v1',n)}catch(error){}modal.classList.remove('show');toast('Добро пожаловать, '+n+'!')};
 
 const siteCounters={regiments:12,battles:11,users:13};
 const applySiteCounters=()=>{
