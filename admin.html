@@ -8,8 +8,20 @@
 <section class="card admin-section"><div class="admin-section-head"><div><div class="page-kicker">02</div><h2>Жалобы на пользователей</h2></div><span class="admin-count" id="userReportsCount">0</span></div><div id="userReports" class="admin-list"></div></section>
 <section class="card admin-section"><div class="admin-section-head"><div><div class="page-kicker">03</div><h2>Жалобы на комментарии</h2></div><span class="admin-count" id="commentReportsCount">0</span></div><div id="commentReports" class="admin-list"></div></section>
 <section class="card admin-section"><div class="admin-section-head"><div><div class="page-kicker">04</div><h2>Заблокированные пользователи</h2></div></div><div class="admin-block-grid"><div><div class="admin-subhead"><h3>Навсегда</h3><span class="admin-count" id="permanentBansCount">0</span></div><div id="permanentBans" class="admin-list compact"></div></div><div><div class="admin-subhead"><h3>На время</h3><span class="admin-count" id="temporaryBansCount">0</span></div><div id="temporaryBans" class="admin-list compact"></div></div></div></section>
-<section class="card admin-section"><div class="admin-section-head"><div><div class="page-kicker">05</div><h2>Полки на сайте</h2></div><span class="admin-count" id="regimentsCount">0</span></div><div id="allRegiments" class="admin-object-list"></div></section>
-<section class="card admin-section"><div class="admin-section-head"><div><div class="page-kicker">06</div><h2>Союзы на сайте</h2></div><span class="admin-count" id="alliancesCount">0</span></div><div id="allAlliances" class="admin-object-list"></div></section>
+<section class="card admin-section campaign-admin-section"><div class="admin-section-head"><div><div class="page-kicker">05</div><h2>Создание кампании</h2></div><span class="admin-count">+50</span></div>
+<form id="campaignCreateForm" class="campaign-admin-form">
+  <label>Название кампании<input id="campaignTitle" required placeholder="Название события"></label>
+  <label>Сервер<input id="campaignServer" required placeholder="Название сервера"></label>
+  <label>Пароль сервера<input id="campaignPassword" required placeholder="Пароль"></label>
+  <label>Дата и время<input id="campaignStart" type="datetime-local" required></label>
+  <label class="campaign-factions-label">Участвующие фракции
+    <span class="campaign-factions"><label><input type="checkbox" value="Французская армия"> Французская армия</label><label><input type="checkbox" value="Российская империя"> Российская империя</label><label><input type="checkbox" value="Британская армия"> Британская армия</label><label><input type="checkbox" value="Пруссия"> Пруссия</label><label><input type="checkbox" value="Австрия"> Австрия</label></span>
+  </label>
+  <button class="btn primary" type="submit">Создать кампанию</button>
+</form>
+<div id="adminCampaigns" class="admin-list"></div></section>
+<section class="card admin-section"><div class="admin-section-head"><div><div class="page-kicker">06</div><h2>Полки на сайте</h2></div><span class="admin-count" id="regimentsCount">0</span></div><div id="allRegiments" class="admin-object-list"></div></section>
+<section class="card admin-section"><div class="admin-section-head"><div><div class="page-kicker">07</div><h2>Союзы на сайте</h2></div><span class="admin-count" id="alliancesCount">0</span></div><div id="allAlliances" class="admin-object-list"></div></section>
 <p class="admin-security-note">Сейчас это демонстрационная панель для статического GitHub Pages сайта. Данные модерации хранятся в localStorage браузера и не являются общей серверной базой. Защищённые роли администратора/модератора также пока работают на уровне интерфейса.</p>
 </main><footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div><div class="motto">Vive l’Empire!</div></div></footer>
-<script src="assets/alliances.js?v=20261108-admin2"></script><script src="assets/admin.js?v=20261108-1"></script></body></html>
+<script src="assets/alliances.js?v=20261108-admin2"></script><script src="assets/campaigns.js?v=20261108-1"></script><script src="assets/admin.js?v=20261108-campaign1"></script></body></html>
