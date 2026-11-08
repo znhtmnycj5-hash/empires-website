@@ -296,10 +296,11 @@ if(!battle){
     const likePreview=likes.slice(0,2).map(escapeCommentHtml).join(", ");
     const likeControls='<div class="comment-reactions"><button class="comment-like-button'+(likes.includes(currentUser.name)?' is-liked':'')+'" type="button" data-like-comment="'+escapeCommentHtml(c.id)+'" aria-pressed="'+likes.includes(currentUser.name)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+(likePreview||'')+(likes.length>2?' и ещё':'')+'</span><button type="button" class="comment-like-all" data-show-likes="'+escapeCommentHtml(c.id)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(n=>'<a href="'+empireProfileUrl(n)+'">'+escapeCommentHtml(n)+'</a>').join('')+'</div></div>':'')+'</div>';
     const reportControls='<button class="comment-report-button" type="button" data-report-comment="'+escapeCommentHtml(c.id)+'">⚑ Пожаловаться</button>';
+    const deleteControl=c.name===currentUser.name?'<button class="comment-delete-button" type="button" data-delete-comment="'+escapeCommentHtml(c.id)+'">Удалить</button>':"";
     const regimentLine=regiment?'<div class="battle-comment-regiment">'+escapeCommentHtml(regiment)+'</div>':"";
     const online=isUserOnline(name);
     const onlineLine='<div class="battle-comment-status '+(online?'is-online':'is-offline')+'"><i></i><span>'+(online?'В сети':'Не в сети')+'</span></div>';
-    return '<article class="battle-thread-item'+(depth?' is-reply':'')+'" data-comment-id="'+escapeCommentHtml(c.id)+'"><div class="battle-comment"><div class="battle-comment-author"><a class="battle-comment-avatar-link" href="'+empireProfileUrl(name)+'"><img class="battle-comment-avatar" src="'+escapeCommentHtml(avatar)+'" alt="'+escapeCommentHtml(name)+'" loading="lazy"></a><div class="battle-comment-identity"><div class="battle-comment-head"><a href="'+empireProfileUrl(name)+'"><strong>'+escapeCommentHtml(name)+'</strong></a></div>'+regimentLine+onlineLine+'<span class="battle-comment-time">'+escapeCommentHtml(c.time||"")+'</span></div></div><div class="battle-comment-content"><p>'+escapeCommentHtml(c.text||"")+'</p>'+image+likeControls+reportControls+'<button class="battle-reply-button" type="button" data-reply-to="'+escapeCommentHtml(c.id)+'">Ответить</button><form class="battle-reply-form" data-parent-id="'+escapeCommentHtml(c.id)+'" hidden><input type="text" maxlength="500" placeholder="Ответить '+escapeCommentHtml(name)+'…" required><button type="submit">Ответить</button></form></div></div>'+ (children.length?'<div class="battle-thread-replies">'+replies+'</div>':"")+'</article>';
+    return '<article class="battle-thread-item'+(depth?' is-reply':'')+'" data-comment-id="'+escapeCommentHtml(c.id)+'"><div class="battle-comment"><div class="battle-comment-author"><a class="battle-comment-avatar-link" href="'+empireProfileUrl(name)+'"><img class="battle-comment-avatar" src="'+escapeCommentHtml(avatar)+'" alt="'+escapeCommentHtml(name)+'" loading="lazy"></a><div class="battle-comment-identity"><div class="battle-comment-head"><a href="'+empireProfileUrl(name)+'"><strong>'+escapeCommentHtml(name)+'</strong></a></div>'+regimentLine+onlineLine+'<span class="battle-comment-time">'+escapeCommentHtml(c.time||"")+'</span></div></div><div class="battle-comment-content"><p>'+escapeCommentHtml(c.text||"")+'</p>'+image+likeControls+reportControls+deleteControl+'<button class="battle-reply-button" type="button" data-reply-to="'+escapeCommentHtml(c.id)+'">Ответить</button><form class="battle-reply-form" data-parent-id="'+escapeCommentHtml(c.id)+'" hidden><input type="text" maxlength="500" placeholder="Ответить '+escapeCommentHtml(name)+'…" required><button type="submit">Ответить</button></form></div></div>'+ (children.length?'<div class="battle-thread-replies">'+replies+'</div>':"")+'</article>';
   };
   const renderComments=()=>{
     const all=getComments();
@@ -328,6 +329,18 @@ if(!battle){
       const text=card?.querySelector(".battle-comment-content > p")?.textContent||"";
       const author=card?.querySelector(".battle-comment-head strong")?.textContent||"Пользователь";
       reportComment(reportButton.dataset.reportComment,text,author);
+      return;
+    }
+    const deleteButton=e.target.closest("[data-delete-comment]");
+    if(deleteButton){
+      const commentId=String(deleteButton.dataset.deleteComment||"");
+      const comments=getComments();
+      const target=comments.find(c=>String(c.id)===commentId);
+      if(!target||target.name!==currentUser.name){return;}
+      if(!confirm("Удалить этот комментарий?"))return;
+      const filtered=comments.filter(c=>String(c.id)!==commentId);
+      localStorage.setItem(storageKey,JSON.stringify(filtered));
+      renderComments();
       return;
     }
     const likeButton=e.target.closest("[data-like-comment]");
