@@ -245,6 +245,10 @@ if(!battle){
     {id:"demo-10",parentId:"demo-7",name:"Grenadier87",text:"Поддерживаю. Ждём реванш!",time:"26.10.2026 22:02",avatar:empireUserAvatar("Grenadier87")}
   ]:[];
   const escapeCommentHtml=value=>String(value??"").replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]));
+  const likesStorageKey="empire-comment-likes-v1";
+  const getLikeMap=()=>{try{return JSON.parse(localStorage.getItem(likesStorageKey)||"{}")||{}}catch(e){return {}}};
+  const getLikes=key=>{const value=getLikeMap()[key];return Array.isArray(value)?value:[]};
+  const toggleLike=key=>{const map=getLikeMap(),names=Array.isArray(map[key])?map[key]:[],index=names.indexOf(currentUser.name);if(index>=0)names.splice(index,1);else names.push(currentUser.name);map[key]=names;localStorage.setItem(likesStorageKey,JSON.stringify(map));};
   const getComments=()=>{
     let saved=[];try{saved=JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){}
     return [...demoComments,...(Array.isArray(saved)?saved:[])];
@@ -255,7 +259,10 @@ if(!battle){
     const children=all.filter(x=>x.parentId===c.id);
     const image=c.image?'<a class="battle-comment-image-link" href="'+escapeCommentHtml(c.image)+'" target="_blank" rel="noopener"><img class="battle-comment-image" src="'+escapeCommentHtml(c.image)+'" alt="Скриншот сражения" loading="lazy"></a>':"";
     const replies=children.map(child=>commentCard(child,all,depth+1)).join("");
-    return '<article class="battle-thread-item'+(depth?' is-reply':'')+'" data-comment-id="'+escapeCommentHtml(c.id)+'"><div class="battle-comment"><a class="battle-comment-avatar-link" href="'+empireProfileUrl(name)+'"><img class="battle-comment-avatar" src="'+escapeCommentHtml(avatar)+'" alt="'+escapeCommentHtml(name)+'" loading="lazy"></a><div class="battle-comment-content"><div class="battle-comment-head"><a href="'+empireProfileUrl(name)+'"><strong>'+escapeCommentHtml(name)+'</strong></a><span>'+escapeCommentHtml(c.time||"")+'</span></div><p>'+escapeCommentHtml(c.text||"")+'</p>'+image+'<button class="battle-reply-button" type="button" data-reply-to="'+escapeCommentHtml(c.id)+'">Ответить</button><form class="battle-reply-form" data-parent-id="'+escapeCommentHtml(c.id)+'" hidden><input type="text" maxlength="500" placeholder="Ответить '+escapeCommentHtml(name)+'…" required><button type="submit">Ответить</button></form></div></div>'+ (children.length?'<div class="battle-thread-replies">'+replies+'</div>':"")+'</article>';
+    const likes=getLikes("battle:"+battleId+":"+c.id);
+    const likePreview=likes.slice(0,2).map(escapeCommentHtml).join(", ");
+    const likeControls='<div class="comment-reactions"><button class="comment-like-button'+(likes.includes(currentUser.name)?' is-liked':'')+'" type="button" data-like-comment="'+escapeCommentHtml(c.id)+'" aria-pressed="'+likes.includes(currentUser.name)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+(likePreview||'')+(likes.length>2?' и ещё':'')+'</span><button type="button" class="comment-like-all" data-show-likes="'+escapeCommentHtml(c.id)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(n=>'<a href="'+empireProfileUrl(n)+'">'+escapeCommentHtml(n)+'</a>').join('')+'</div></div>':'')+'</div>';
+    return '<article class="battle-thread-item'+(depth?' is-reply':'')+'" data-comment-id="'+escapeCommentHtml(c.id)+'"><div class="battle-comment"><a class="battle-comment-avatar-link" href="'+empireProfileUrl(name)+'"><img class="battle-comment-avatar" src="'+escapeCommentHtml(avatar)+'" alt="'+escapeCommentHtml(name)+'" loading="lazy"></a><div class="battle-comment-content"><div class="battle-comment-head"><a href="'+empireProfileUrl(name)+'"><strong>'+escapeCommentHtml(name)+'</strong></a><span>'+escapeCommentHtml(c.time||"")+'</span></div><p>'+escapeCommentHtml(c.text||"")+'</p>'+image+likeControls+'<button class="battle-reply-button" type="button" data-reply-to="'+escapeCommentHtml(c.id)+'">Ответить</button><form class="battle-reply-form" data-parent-id="'+escapeCommentHtml(c.id)+'" hidden><input type="text" maxlength="500" placeholder="Ответить '+escapeCommentHtml(name)+'…" required><button type="submit">Ответить</button></form></div></div>'+ (children.length?'<div class="battle-thread-replies">'+replies+'</div>':"")+'</article>';
   };
   const renderComments=()=>{
     const all=getComments();
@@ -269,6 +276,10 @@ if(!battle){
   };
   const nowLabel=()=>new Date().toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
   $("commentList").addEventListener("click",e=>{
+    const likeButton=e.target.closest("[data-like-comment]");
+    if(likeButton){toggleLike("battle:"+battleId+":"+likeButton.dataset.likeComment);renderComments();return;}
+    const allButton=e.target.closest("[data-show-likes]");
+    if(allButton){const panel=allButton.parentElement.querySelector(".comment-like-full");if(panel)panel.hidden=!panel.hidden;return;}
     const button=e.target.closest("[data-reply-to]");if(!button)return;
     const card=button.closest(".battle-thread-item");const form=card.querySelector(":scope > .battle-comment .battle-reply-form");
     if(form){form.hidden=!form.hidden;if(!form.hidden)form.querySelector("input").focus();}
