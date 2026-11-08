@@ -520,3 +520,18 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  .battle-final-grid{grid-template-columns:1fr}.battle-comment-form{padding:0 10px 10px}
 }
 @media(max-width:480px){.battle-info-grid{grid-template-columns:1fr}.battle-page-countdown{font-size:20px}.battle-participant strong{font-size:15px}}
+
+/* Battle status system */
+.battle-status.challenged{color:#d28b72}
+.battle-status.preparation{color:#d4b36d}
+.battle-status.ongoing{color:#e0a06f}
+.battle-status.awaiting-confirmation{color:#c9a86b}
+.battle-page-kicker.challenged{color:#d28b72}
+.battle-page-kicker.preparation{color:#d4b36d}
+.battle-page-kicker.ongoing{color:#e0a06f}
+.battle-page-kicker.awaiting-confirmation{color:#c9a86b}
+.battle-participant.battle-winner strong{text-decoration:underline;text-decoration-color:#63b36f;text-decoration-thickness:3px;text-underline-offset:4px}
+.battle-participant.battle-loser strong{text-decoration:underline;text-decoration-color:#d85a52;text-decoration-thickness:3px;text-underline-offset:4px}
+.battle-participant.battle-draw strong{text-decoration:underline;text-decoration-color:#8f8f8f;text-decoration-thickness:3px;text-underline-offset:4px}
+.battle-winner-result{color:#72c27f!important;text-decoration:underline;text-decoration-color:#63b36f;text-decoration-thickness:2px;text-underline-offset:3px}
+.battle-draw-result{color:#a3a3a3!important}
