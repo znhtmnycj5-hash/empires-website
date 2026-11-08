@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Empire — Napoleonic Wars Community</title>
-<link rel="stylesheet" href="assets/style.css?v=20261108-home-battle-filters1">
+<link rel="stylesheet" href="assets/style.css?v=20261108-home-battle-results2">
   <script src="assets/comment-counts.js?v=20261108-1"></script>
 <script src="assets/rating.js"></script>
 </head>
@@ -275,11 +275,14 @@ const renderHomeBattles=()=>{
     const leftImg=left?.querySelector('img')?.getAttribute('src')||'',rightImg=right?.querySelector('img')?.getAttribute('src')||'';
     const leftName=left?.querySelector('strong')?.textContent.trim()||'Полк',rightName=right?.querySelector('strong')?.textContent.trim()||'Полк';
     const result=record.querySelector('.battle-result-box span')?.textContent.trim()||'';
-    const isDraw=/ничья/i.test(result);
-    const leftWinner=/победа\s+/i.test(result)&&result.toLowerCase().includes(leftName.toLowerCase());
-    const rightWinner=/победа\s+/i.test(result)&&result.toLowerCase().includes(rightName.toLowerCase());
-    const leftLoser=status==='completed'&&!isDraw&&!leftWinner&&rightWinner;
-    const rightLoser=status==='completed'&&!isDraw&&!rightWinner&&leftWinner;
+    const resultLower=result.toLowerCase();
+    const leftNameLower=leftName.toLowerCase();
+    const rightNameLower=rightName.toLowerCase();
+    const isDraw=/ничья/i.test(resultLower);
+    const leftLoser=status==='completed'&&!isDraw&&/поражение/i.test(resultLower)&&resultLower.includes(leftNameLower);
+    const rightLoser=status==='completed'&&!isDraw&&/поражение/i.test(resultLower)&&resultLower.includes(rightNameLower);
+    const leftWinner=status==='completed'&&!isDraw&&((/победа/i.test(resultLower)&&resultLower.includes(leftNameLower))||rightLoser);
+    const rightWinner=status==='completed'&&!isDraw&&((/победа/i.test(resultLower)&&resultLower.includes(rightNameLower))||leftLoser);
     const parts=date.split('·').map(s=>s.trim()),d=parts[0]||date;
     const dt=d.split('.'),day=dt[0]||d;
     const month={10:'ОКТЯБРЯ',11:'НОЯБРЯ',12:'ДЕКАБРЯ'}[Number(dt[1])]||'';
