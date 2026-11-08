@@ -199,6 +199,7 @@ nav a:hover:after,nav a.active:after{transform:scaleX(1)}
 .regiment-main-meta div{display:flex;flex-direction:column;gap:5px}
 .regiment-main-meta span,.commander-line span{font-size:10px;color:#99896f;text-transform:uppercase;letter-spacing:1px}
 .regiment-main-meta strong,.commander-line strong{font-size:15px;color:#e0c17e}
+.regiment-alliance-link{color:#e0c17e;text-decoration:none;border-bottom:1px solid rgba(185,149,89,.45);transition:.15s ease}.regiment-alliance-link:hover{color:#f0d59b;border-bottom-color:#f0d59b}
 .regiment-columns{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .regiment-bottom-columns{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
 .regiment-section{min-height:270px}
