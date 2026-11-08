@@ -389,3 +389,75 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  .regiment-news-item.news-clickable{gap:9px}
  .regiment-news-item.news-clickable img{width:92px;height:60px;min-width:92px;max-width:92px;flex-basis:92px}
 }
+
+
+/* Profile page: restore compact avatar, gallery, message and button sizing */
+.profile-page{padding:18px 0 42px;max-width:1100px;margin:0 auto}
+.profile-page .back-link{margin:0 0 14px 4px}
+.profile-header{display:flex;align-items:center;gap:24px;padding:24px;margin-bottom:14px}
+.profile-avatar-wrap{flex:0 0 116px;width:116px;height:116px}
+.profile-page img.profile-avatar{display:block!important;width:116px!important;height:116px!important;max-width:116px!important;max-height:116px!important;object-fit:cover!important;padding:0!important;flex:0 0 116px;border:1px solid #9a7440;background:#251d15}
+.profile-main{min-width:0;flex:1}
+.profile-main h1{margin:5px 0 15px;color:#e0c17e;font:700 30px Cinzel;overflow-wrap:anywhere}
+.profile-meta{display:flex;gap:28px;flex-wrap:wrap}
+.profile-meta>div{display:flex;flex-direction:column;gap:5px}
+.profile-meta span{font-size:10px;color:#99896f;text-transform:uppercase;letter-spacing:1px}
+.profile-meta strong{font-size:13px;color:#e0c17e}
+.profile-online-status{display:inline-flex;align-items:center;gap:7px}
+.profile-online-status i{width:7px;height:7px;border-radius:50%;background:#777}
+.profile-online-status.online i{background:#62b76e;box-shadow:0 0 8px #62b76e}
+.profile-online-status em{font-style:normal}
+.profile-columns{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.profile-section{min-width:0;padding:0 16px 16px}
+.profile-section .card-title{margin:0 -16px 14px}
+.profile-friends{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:12px;align-items:start}
+.profile-friend{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;color:#d8c39e;text-decoration:none;font-size:10px;text-align:center;overflow-wrap:anywhere}
+.profile-page .profile-friend img{display:block!important;width:48px!important;height:48px!important;max-width:48px!important;max-height:48px!important;object-fit:cover!important;padding:0!important;border:1px solid #87663b;border-radius:50%;background:#251d15}
+.profile-friend:hover{color:#e0bd76}
+.guest-pagination{grid-column:1/-1;display:flex;justify-content:center;gap:6px;margin-top:10px}
+.guest-pagination a{min-width:27px;height:27px;display:grid;place-items:center;border:1px solid #5d4930;color:#bba783;text-decoration:none;font:11px Cinzel}
+.guest-pagination a.current{background:#641e1b;color:#efd49a}
+.service-list{display:grid;gap:9px}
+.service-item{padding:11px 12px;border:1px solid #493823;background:rgba(15,13,10,.6)}
+.service-regiment{color:#dfc17f;font:600 12px Cinzel}
+.service-dates{display:flex;justify-content:space-between;gap:10px;margin-top:6px;color:#9e917b;font-size:10px}
+.profile-messages-section{padding:0 16px 16px}
+.profile-messages-section>.card-title{margin:0 -16px 12px;padding:13px 16px}
+.message-history{display:grid;gap:9px;max-height:320px;overflow-y:auto;padding:2px 0 12px}
+.profile-page .private-message{display:flex;align-items:flex-start;gap:10px;max-width:85%;padding:9px 11px;border:1px solid #493823;background:rgba(15,13,10,.7)}
+.profile-page .private-message.mine{margin-left:auto;background:rgba(83,35,28,.28)}
+.profile-page .private-message img{display:block!important;width:34px!important;height:34px!important;max-width:34px!important;max-height:34px!important;flex:0 0 34px;object-fit:cover!important;padding:0!important;border:1px solid #87663b;border-radius:50%}
+.private-message>div{min-width:0}
+.private-message b{color:#dfc17f;font-size:11px}
+.private-message p{margin:4px 0;color:#c9b99d;font-size:12px;line-height:1.5;overflow-wrap:anywhere}
+.private-message span{color:#827258;font-size:9px}
+.message-compose{display:flex;gap:8px;align-items:stretch;margin-top:8px}
+.profile-page .message-compose input{flex:1;min-width:0;height:38px;padding:8px 11px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:12px Georgia,serif}
+.profile-page .message-compose button,.profile-page .no-conversation button{min-height:36px;padding:8px 15px;border:1px solid #8b6739;background:#641e1b;color:#ead19c;font:600 10px Cinzel;cursor:pointer}
+.profile-page .message-compose button:hover,.profile-page .no-conversation button:hover{background:#7b2923;border-color:#d5a95f}
+.no-conversation{text-align:center;padding:12px;color:#a99a80;font-size:12px}
+.no-conversation p{margin:0 0 12px}
+@media(max-width:650px){
+ .profile-header{align-items:flex-start;gap:14px;padding:16px}
+ .profile-avatar-wrap{width:84px;height:84px;flex-basis:84px}
+ .profile-page img.profile-avatar{width:84px!important;height:84px!important;max-width:84px!important;max-height:84px!important;flex-basis:84px}
+ .profile-main h1{font-size:23px}
+ .profile-meta{gap:12px 18px}
+ .profile-columns{grid-template-columns:1fr}
+ .profile-page .private-message{max-width:96%}
+ .service-dates{flex-wrap:wrap}
+ .message-compose{flex-wrap:wrap}
+ .profile-page .message-compose button{width:100%}
+}
+
+/* Keep homepage thumbnails, flags and controls at their intended dimensions */
+#chat img.chat-avatar{width:32px!important;height:32px!important;max-width:32px!important;max-height:32px!important;object-fit:cover!important;flex:0 0 32px}
+#chat .chat-avatar-link{display:block;width:32px;height:32px;flex:0 0 32px}
+#chat .msg{align-items:center}
+#upcomingBattlesHome .battle-flag{display:inline-block;width:42px!important;height:42px!important;max-width:42px!important;max-height:42px!important;object-fit:contain!important;padding:2px!important}
+#upcomingBattlesHome .team{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px}
+#upcomingBattlesHome .home-battles-empty{grid-column:1/-1;width:100%;padding:18px;text-align:center;color:#8f8068;font-size:11px}
+#upcomingBattlesHome .home-battles-empty a{color:#d8b66e}
+#news .news-item .thumb{display:block;width:130px!important;height:76px!important;min-width:130px;max-width:130px;max-height:76px;box-sizing:border-box;object-fit:cover}
+#home .btn,#home button{box-sizing:border-box}
+#home .btn{padding:11px 18px;font-size:12px}
