@@ -58,8 +58,7 @@ const newsSampleTemplates={
 };
 const newsListKey='empire_regiment_news_v1_'+name;
 const newsCurrentUser={name:'Ankord',regiment:'1st Regiment',role:'commander'};
-const newsPageParam=Math.max(1,parseInt(new URLSearchParams(location.search).get('newsPage')||'1',10)||1);
-let regimentNewsPage=newsPageParam;
+let regimentNewsPage=1;
 const renderRegimentNews=()=>{
   const list=document.getElementById('regimentNewsList');
   const pagination=document.getElementById('regimentNewsPagination');
@@ -75,19 +74,7 @@ const renderRegimentNews=()=>{
   if(regimentNewsPage>totalPages)regimentNewsPage=totalPages;
   const pageItems=visible.slice((regimentNewsPage-1)*3,regimentNewsPage*3);
   list.innerHTML=pageItems.map(n=>'<a class="regiment-news-item news-clickable" href="news.html?regiment='+encodeURIComponent(name)+'&id='+encodeURIComponent(n.id)+'"><img src="'+n.image+'" alt=""><div class="regiment-news-body"><div class="regiment-news-date">'+n.date+' · '+(n.private?'🔒 Приватная':'🌐 Открытая')+'</div><h3>'+n.title+'</h3><p>'+(n.body||'Полковая новость. Нажмите, чтобы открыть публикацию и комментарии.')+'</p></div></a>').join('');
-  if(pagination){
-    pagination.innerHTML=totalPages>1
-      ? '<a href="#" data-news-page="'+Math.max(1,regimentNewsPage-1)+'">‹</a>'+Array.from({length:totalPages},(_,i)=>'<a href="#" data-news-page="'+(i+1)+'" class="'+(i+1===regimentNewsPage?'current':'')+'">'+(i+1)+'</a>').join('')+'<a href="#" data-news-page="'+Math.min(totalPages,regimentNewsPage+1)+'">›</a>'
-      : '';
-    pagination.querySelectorAll('[data-news-page]').forEach(a=>a.addEventListener('click',e=>{
-      e.preventDefault();
-      const url=new URL(location.href);
-      url.searchParams.set('name',name);
-      url.searchParams.set('newsPage',e.currentTarget.dataset.newsPage);
-      url.searchParams.delete('albumPage');
-      location.href=url.toString();
-    }));
-  }
+  if(pagination){pagination.innerHTML='';pagination.style.display='none';}
 };
 renderRegimentNews();
 
