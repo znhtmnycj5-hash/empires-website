@@ -2538,6 +2538,13 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 }
 
 
+/* Campaign visual previews */
+.campaign-card-preview{width:100px;height:76px;border:1px solid #765a37;background:#251d15 center/cover no-repeat;box-shadow:inset 0 0 18px rgba(0,0,0,.35)}
+.campaign-hero.has-cover{position:relative;overflow:hidden;background:#17130f center/cover no-repeat}
+.campaign-hero.has-cover:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,7,6,.72),rgba(8,7,6,.5),rgba(8,7,6,.72));pointer-events:none}
+.campaign-hero.has-cover>*{position:relative;z-index:1}
+@media(max-width:600px){.campaign-card-preview{width:70px;height:65px}}
+
 /* Campaigns */
 .campaigns-page,.campaign-detail-page{padding-bottom:50px}
 .campaign-list-section{margin-top:18px}
