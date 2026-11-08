@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
+<title>Рейтинг — EMPIRE</title>
+<link rel="stylesheet" href="assets/style.css?v=20261108-rating1">
+<script src="assets/rating.js"></script>
+<script src="assets/alliances.js?v=20261108-1"></script>
+</head>
+<body>
+<header class="inner-header"><div class="container">
+  <div class="brand"><a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a><div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div></div>
+  <nav>
+    <a href="index.html">Главная</a>
+    <div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a></div></div>
+    <div class="dropdown"><a href="battles.html">Сражения</a><div class="dropdown-menu"><a href="battles.html#all">Все сражения</a></div></div>
+    <a class="active" href="rating.html">Рейтинг</a>
+    <a href="index.html#news">Форум</a>
+    <a href="alliances.html">Союзы</a>
+    <a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+  </nav>
+</div></header>
+
+<main class="container rating-page">
+  <section class="page-heading card">
+    <div>
+      <div class="kicker">Таблица лидеров EMPIRE</div>
+      <h1>РЕЙТИНГ</h1>
+      <p>Рейтинг полков и союзов. Первые три места отмечены венками и особой рамкой аватара.</p>
+    </div>
+  </section>
+
+  <section class="rating-section">
+    <div class="rating-section-head">
+      <div><div class="kicker">Воинские подразделения</div><h2>Рейтинг полков</h2></div>
+      <div class="rating-note">Очки по текущей системе рейтинга</div>
+    </div>
+    <div id="regimentRating" class="rating-board"></div>
+  </section>
+
+  <section class="rating-section">
+    <div class="rating-section-head">
+      <div><div class="kicker">Объединения полков</div><h2>Рейтинг союзов</h2></div>
+      <div class="rating-note">Сумма рейтингов полков и очков сражений союза</div>
+    </div>
+    <div id="allianceRating" class="rating-board"></div>
+  </section>
+</main>
+
+<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div><div>Главная &nbsp;|&nbsp; Полки &nbsp;|&nbsp; Сражения &nbsp;|&nbsp; Рейтинг &nbsp;|&nbsp; Форум &nbsp;|&nbsp; Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
+
+<script>
+(function(){
+  const esc=value=>String(value??'').replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+  const podiumClass=position=>position===1?'gold':position===2?'silver':'bronze';
+
+  function renderRating(container,items,kind){
+    if(!container)return;
+    if(!items.length){
+      container.innerHTML='<div class="rating-empty">Рейтинг пока пуст.</div>';
+      return;
+    }
+    const top=items.slice(0,3);
+    const rest=items.slice(3);
+    const cards=top.map((item,index)=>{
+      const position=index+1;
+      const image=item.avatar||item.img||'assets/empire_logo_top_right.png';
+      const link=kind==='regiment'
+        ? 'regiment.html?name='+encodeURIComponent(item.name)
+        : 'alliance.html?id='+encodeURIComponent(item.id);
+      const sub=kind==='regiment'
+        ? ((item.count||0)+' человек')
+        : ((item.membersCount||0)+' полков');
+      return '<a class="rating-podium '+podiumClass(position)+'" href="'+link+'">'+
+        '<div class="rating-wreath" aria-hidden="true">❦</div>'+
+        '<div class="rating-position">'+position+'</div>'+
+        '<div class="rating-avatar"><img src="'+esc(image)+'" alt=""></div>'+
+        '<div class="rating-name">'+esc(item.name)+'</div>'+
+        '<div class="rating-sub">'+esc(sub)+'</div>'+
+        '<div class="rating-score">'+esc(item.score)+'</div>'+
+        '<div class="rating-score-label">ОЧКОВ</div>'+
+      '</a>';
+    }).join('');
+    const rows=rest.map((item,index)=>{
+      const position=index+4;
+      const image=item.avatar||item.img||'assets/empire_logo_top_right.png';
+      const link=kind==='regiment'
+        ? 'regiment.html?name='+encodeURIComponent(item.name)
+        : 'alliance.html?id='+encodeURIComponent(item.id);
+      const sub=kind==='regiment'
+        ? ((item.count||0)+' человек')
+        : ((item.membersCount||0)+' полков');
+      return '<a class="rating-row" href="'+link+'">'+
+        '<span class="rating-row-position">'+position+'</span>'+
+        '<img class="rating-row-avatar" src="'+esc(image)+'" alt="">'+
+        '<span class="rating-row-main"><strong>'+esc(item.name)+'</strong><small>'+esc(sub)+'</small></span>'+
+        '<span class="rating-row-score">'+esc(item.score)+' <small>очков</small></span>'+
+      '</a>';
+    }).join('');
+    container.innerHTML='<div class="rating-podiums">'+cards+'</div>'+
+      (rows?'<div class="rating-rest">'+rows+'</div>':'');
+  }
+
+  async function render(){
+    try{
+      const regiments=await calculateRegimentRatings();
+      const defaults=window.EMPIRE_ALLIANCES?.defaultRegiments||{};
+      const enriched=regiments.map(item=>({...item,avatar:defaults[item.name]?.img||'assets/empire_logo_top_right.png'}));
+      renderRating(document.getElementById('regimentRating'),enriched,'regiment');
+    }catch(error){
+      renderRating(document.getElementById('regimentRating'),[],'regiment');
+    }
+
+    try{
+      const alliances=window.EMPIRE_ALLIANCES.getAll()
+        .map(item=>({
+          ...item,
+          score:window.EMPIRE_ALLIANCES.calcRating(item),
+          avatar:item.avatar,
+          membersCount:window.EMPIRE_ALLIANCES.totalMembers(item)
+        }))
+        .sort((a,b)=>b.score-a.score||a.name.localeCompare(b.name));
+      renderRating(document.getElementById('allianceRating'),alliances,'alliance');
+    }catch(error){
+      renderRating(document.getElementById('allianceRating'),[],'alliance');
+    }
+  }
+  render();
+})();
+</script>
+</body>
+</html>
