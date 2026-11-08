@@ -464,3 +464,8 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
   .battle-side img{width:48px;height:48px}
   .battle-result-box{border-left:0;border-right:0;border-top:1px solid #4a3927;border-bottom:1px solid #4a3927;padding:10px}
 }
+
+/* Battle countdown */
+.battle-countdown{margin-top:8px;color:#d7b66e;font:600 11px "Roboto Slab",serif;letter-spacing:.2px;white-space:nowrap}
+.battle-countdown.started{color:#8db48a}
+@media(max-width:760px){.battle-countdown{white-space:normal}}
