@@ -2389,3 +2389,50 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   .rating-row-main small{font-size:8px}
   .rating-row-score small{display:none}
 }
+
+
+/* Experimental regiment hero: 1st Regiment only */
+.regiment-main-info.regiment-test-hero{
+  position:relative;
+  overflow:hidden;
+  min-height:230px;
+  background:
+    linear-gradient(90deg,rgba(8,7,6,.88) 0%,rgba(8,7,6,.72) 48%,rgba(8,7,6,.84) 100%),
+    url("battlefield.jpg") center/cover no-repeat;
+  border-color:#7a5b35;
+  box-shadow:0 18px 48px rgba(0,0,0,.68),inset 0 0 70px rgba(0,0,0,.35);
+}
+.regiment-main-info.regiment-test-hero:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(0,0,0,.28),transparent 45%,rgba(0,0,0,.3));
+  pointer-events:none;
+}
+.regiment-main-info.regiment-test-hero>img,
+.regiment-main-info.regiment-test-hero>.regiment-main-copy{
+  position:relative;
+  z-index:1;
+}
+.regiment-main-info.regiment-test-hero>img{
+  background:rgba(20,15,11,.72);
+  border-color:#b28a4b;
+  box-shadow:0 8px 24px rgba(0,0,0,.6);
+}
+.regiment-main-info.regiment-test-hero .regiment-main-copy h1{
+  text-shadow:0 4px 16px #000,0 0 28px rgba(0,0,0,.65);
+}
+.regiment-main-info.regiment-test-hero .regiment-main-meta div{
+  padding:8px 10px;
+  background:rgba(8,7,6,.38);
+  border:1px solid rgba(151,115,64,.3);
+}
+@media(max-width:600px){
+  .regiment-main-info.regiment-test-hero{
+    min-height:210px;
+    background-position:center;
+  }
+  .regiment-main-info.regiment-test-hero .regiment-main-meta div{
+    padding:6px 8px;
+  }
+}
