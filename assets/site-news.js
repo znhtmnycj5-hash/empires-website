@@ -6,9 +6,11 @@ const cleanRichComment=html=>{
  const walk=node=>[...node.childNodes].forEach(ch=>{
   if(ch.nodeType===Node.TEXT_NODE)return;
   if(ch.nodeType!==Node.ELEMENT_NODE||!allowed.has(ch.tagName)){const p=ch.parentNode;if(p){while(ch.firstChild)p.insertBefore(ch.firstChild,ch);p.removeChild(ch);}return;}
+  const originalSrc=ch.getAttribute("src"),isSpoiler=ch.dataset.spoiler==="true";
   [...ch.attributes].forEach(a=>ch.removeAttribute(a.name));
-  if(ch.tagName==="IMG"||ch.tagName==="VIDEO"){const src=safeUrl(ch.getAttribute("src"));if(!src){ch.remove();return;}ch.setAttribute("src",src);if(ch.tagName==="IMG"){ch.setAttribute("alt","Вставленная картинка");ch.setAttribute("loading","lazy");}else{ch.setAttribute("controls","");ch.setAttribute("preload","metadata");}}
-  if(ch.tagName==="SPAN"&&ch.dataset.spoiler!=="true"){ch.replaceWith(...ch.childNodes);return;}walk(ch);
+  if(ch.tagName==="IMG"||ch.tagName==="VIDEO"){const src=safeUrl(originalSrc);if(!src){ch.remove();return;}ch.setAttribute("src",src);if(ch.tagName==="IMG"){ch.setAttribute("alt","Вставленная картинка");ch.setAttribute("loading","lazy");}else{ch.setAttribute("controls","");ch.setAttribute("preload","metadata");}}
+  if(ch.tagName==="SPAN"&&!isSpoiler){ch.replaceWith(...ch.childNodes);return;}
+  if(ch.tagName==="SPAN"&&isSpoiler)ch.setAttribute("data-spoiler","true");walk(ch);
  });walk(doc.body);return doc.body.innerHTML;
 };
 const richCommentHtml=c=>c.html?cleanRichComment(c.html):escapeRichComment(c.text||"").replace(/\n/g,"<br>");
