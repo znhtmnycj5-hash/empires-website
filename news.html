@@ -98,18 +98,25 @@ function renderList(){
     const safePage=Math.min(newsPage,totalPages);
     const pageItems=visible.slice((safePage-1)*20,safePage*20);
     const pageLinks=totalPages>1?'<div class="news-pagination">'+(safePage>1?'<a href="news.html?regiment='+encodeURIComponent(regiment)+'&page='+(safePage-1)+'">‹</a>':'')+Array.from({length:totalPages},(_,i)=>'<a href="news.html?regiment='+encodeURIComponent(regiment)+'&page='+(i+1)+'" class="'+(i+1===safePage?'current':'')+'">'+(i+1)+'</a>').join('')+(safePage<totalPages?'<a href="news.html?regiment='+encodeURIComponent(regiment)+'&page='+(safePage+1)+'">›</a>':'')+'</div>':'';
-    document.getElementById('newsDetail').innerHTML='<div class="news-list-head"><div><div class="page-kicker">НОВОСТИ ПОЛКА</div><h1>'+escapeHtml(regiment)+'</h1><p>'+escapeHtml(d.faction)+' · '+visible.length+' публикаций</p></div><a class="btn primary" href="news.html?regiment='+encodeURIComponent(regiment)+'&create=1" '+(isOfficer?'':'hidden')+'>+ Создать новость</a></div><div class="regiment-news-list news-full-list">'+pageItems.map(n=>'<a class="regiment-news-item news-clickable" href="news.html?regiment='+encodeURIComponent(regiment)+'&id='+encodeURIComponent(n.id)+'"><img src="'+n.image+'" alt=""><div class="regiment-news-body"><div class="regiment-news-date">'+n.date+' · '+(n.private?'🔒 Приватная':'🌐 Открытая')+'</div><h3>'+escapeHtml(n.title)+'</h3><p>'+escapeHtml(n.body)+'</p><small>Автор: '+escapeHtml(n.author)+'</small>'+window.EMPIRE_COMMENT_COUNTS.badge(window.EMPIRE_COMMENT_COUNTS.getNewsCommentCount(n.id),'news.html?regiment='+encodeURIComponent(regiment)+'&id='+encodeURIComponent(n.id))</div></a>').join('')+'</div>'+pageLinks;
+    document.getElementById('newsDetail').innerHTML='<div class="news-list-head"><div><div class="page-kicker">НОВОСТИ ПОЛКА</div><h1>'+escapeHtml(regiment)+'</h1><p>'+escapeHtml(d.faction)+' · '+visible.length+' публикаций</p></div><a class="btn primary" href="news.html?regiment='+encodeURIComponent(regiment)+'&create=1" '+(isOfficer?'':'hidden')+'>+ Создать новость</a></div><div class="regiment-news-list news-full-list">'+pageItems.map(n=>'<a class="regiment-news-item news-clickable" href="news.html?regiment='+encodeURIComponent(regiment)+'&id='+encodeURIComponent(n.id)+'"><img src="'+n.image+'" alt=""><div class="regiment-news-body"><div class="regiment-news-date">'+n.date+' · '+(n.private?'🔒 Приватная':'🌐 Открытая')+'</div><h3>'+escapeHtml(n.title)+'</h3><p>'+escapeHtml(n.body)+'</p><small>Автор: '+escapeHtml(n.author)+'</small>'+'<span class="preview-comment-count">💬 <span>'+window.EMPIRE_COMMENT_COUNTS.getNewsCommentCount(n.id)+'</span></span>'</div></a>').join('')+'</div>'+pageLinks;
     document.getElementById('commentsSection').hidden=true;
     return;
   }
-  const news=allNews().find(n=>n.id===id);
-  if(!news){document.getElementById('newsDetail').innerHTML='<div class="empty-note">Новость не найдена.</div>';return;}
+  let news=allNews().find(n=>String(n.id)===String(id));
+  // Восстанавливаем демонстрационную публикацию по её sample-N ID, если ссылка ведёт на старый индекс.
+  if(!news){
+    const sampleMatch=String(id).match(/^sample-(\\d+)$/);
+    const sampleIndex=sampleMatch?Number(sampleMatch[1])-1:-1;
+    const template=(newsTemplates[regiment]||newsTemplates['1st Regiment'])[sampleIndex];
+    if(template)news={id,regiment,title:template[0],date:template[1],author:template[2],privacy:template[3],body:template[4],image:template[5],private:template[6]};
+  }
+  if(!news){document.getElementById('newsDetail').innerHTML='<div class="empty-note">Эта публикация больше недоступна. Вернитесь в архив и откройте другую новость.</div>';document.getElementById('commentsSection').hidden=true;return;}
   if(news.private&&!isMember){
     document.getElementById('newsDetail').innerHTML='<div class="empty-note">🔒 Эта новость приватная. Она доступна только участникам полка <strong>'+escapeHtml(regiment)+'</strong>.</div>';
     document.getElementById('commentsSection').hidden=true;
     return;
   }
-  document.getElementById('newsDetail').innerHTML='<div class="news-detail-head"><div><div class="page-kicker">НОВОСТЬ ПОЛКА</div><h1>'+escapeHtml(news.title)+'</h1><div class="news-meta">'+news.date+' · '+escapeHtml(news.author)+' · '+(news.private?'🔒 Только для членов полка':'🌐 Открытая')+'</div></div><a class="btn" href="news.html?regiment='+encodeURIComponent(regiment)+'">← Все новости</a></div><img class="news-cover" src="'+news.image+'" alt=""><div class="news-content">'+news.body+'</div>';
+  document.getElementById('newsDetail').innerHTML='<div class="news-detail-head"><div><div class="page-kicker">НОВОСТЬ ПОЛКА</div><h1>'+escapeHtml(news.title||'Новости полка')+'</h1><div class="news-meta">'+escapeHtml(news.date||'')+' · '+escapeHtml(news.author||'Командование')+' · '+(news.private?'🔒 Только для членов полка':'🌐 Открытая')+'</div></div><a class="btn" href="news.html?regiment='+encodeURIComponent(regiment)+'">← Все новости</a></div>'+(news.image?'<img class="news-cover" src="'+escapeHtml(news.image)+'" alt="">':'')+'<div class="news-content">'+(news.body||'<p>Подробности этой публикации пока не добавлены.</p>')+'</div>';
   document.getElementById('commentsSection').hidden=false;renderComments(news);
 }
 function renderComments(news){
