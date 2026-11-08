@@ -583,3 +583,19 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-history-link{display:block;color:inherit;text-decoration:none}
 .battle-history-link:hover .battle-history-item{border-color:#8a6538;background:rgba(100,30,27,.14);transform:translateY(-1px)}
 .battle-history-link .battle-history-item{cursor:pointer;transition:border-color .18s ease,background .18s ease,transform .18s ease}
+
+
+/* Regiment battle statistics */
+.battle-statistics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#4b3b28;border:1px solid #4b3b28;margin-bottom:14px}
+.battle-stat{background:rgba(17,14,11,.86);padding:14px 10px;text-align:center}
+.battle-stat strong{display:block;font:700 25px Cinzel;line-height:1;color:#d8b86f;margin-bottom:6px}
+.battle-stat span{display:block;color:#9f8c70;font:600 9px Cinzel;text-transform:uppercase;letter-spacing:.5px}
+.battle-stat.wins strong{color:#75b979}
+.battle-stat.losses strong{color:#d26a62}
+.battle-stat.draws strong{color:#aaa39a}
+@media(max-width:480px){
+  .battle-statistics{gap:0}
+  .battle-stat{padding:11px 5px}
+  .battle-stat strong{font-size:20px}
+  .battle-stat span{font-size:8px}
+}
