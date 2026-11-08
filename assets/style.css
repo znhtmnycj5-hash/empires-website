@@ -2330,6 +2330,8 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 
 /* Rating page */
 .rating-page{padding-bottom:50px}
+.rating-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.rating-columns .rating-section{min-width:0}
 .rating-section{margin-top:18px}
 .rating-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:22px 24px;border:1px solid #5d4930;background:linear-gradient(145deg,rgba(29,25,20,.98),rgba(14,13,11,.98));box-shadow:var(--shadow)}
 .rating-section-head .kicker{font-size:12px;color:#a99778;letter-spacing:1px}
@@ -2364,6 +2366,9 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 .rating-row-score{color:#d7b56f;font:600 14px "Roboto Slab",serif;white-space:nowrap}
 .rating-row-score small{color:#81745f;font-size:8px;font-weight:400}
 .rating-empty{padding:30px;text-align:center;color:#8f8068;font-size:12px}
+@media(max-width:900px){
+  .rating-columns{grid-template-columns:1fr}
+}
 @media(max-width:760px){
   .rating-section-head{padding:18px 16px;align-items:flex-start;flex-direction:column}
   .rating-note{text-align:left;max-width:none}
