@@ -232,7 +232,7 @@ const loadUpcomingBattles=async()=>{
       const dt=d.split('.'),day=dt[0]||d;
       const month={10:'ОКТЯБРЯ',11:'НОЯБРЯ',12:'ДЕКАБРЯ'}[Number(dt[1])]||'';
       const status=getStatus(record),battleUrl='battle.html?id='+encodeURIComponent(record.id||'');
-      return '<div class="battle home-battle-link" data-battle-url="'+battleUrl+'"><div class="home-battle-cover"><a class="home-battle-half home-battle-left regiment-link" href="'+leftHref+'"><img src="'+leftImg+'" alt=""></a><a class="home-battle-half home-battle-right regiment-link" href="'+rightHref+'"><img src="'+rightImg+'" alt=""></a><div class="home-battle-overlay"><div class="home-battle-date">'+day+'<span>'+month+'</span></div><div class="home-battle-status">'+(statusLabels[status]||'')+'</div><div class="home-battle-versus"><span>'+leftName+'</span><b>VS</b><span>'+rightName+'</span></div></div></div></div>';
+      return '<div class="battle home-battle-link" data-battle-url="'+battleUrl+'"><div class="home-battle-cover"><a class="home-battle-half home-battle-left" href="'+battleUrl+'" aria-label="Открыть сражение"><img src="'+leftImg+'" alt=""></a><a class="home-battle-half home-battle-right" href="'+battleUrl+'" aria-label="Открыть сражение"><img src="'+rightImg+'" alt=""></a><div class="home-battle-overlay"><div class="home-battle-date">'+day+'<span>'+month+'</span></div><div class="home-battle-status">'+(statusLabels[status]||'')+'</div><div class="home-battle-versus"><span>'+leftName+'</span><b>VS</b><span>'+rightName+'</span></div></div></div></div>';
     }).join('');
     box.querySelectorAll('.home-battle-link').forEach(row=>row.addEventListener('click',event=>{
       if(event.target.closest('.regiment-link'))return;
