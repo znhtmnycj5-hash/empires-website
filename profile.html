@@ -11,7 +11,7 @@
 <header>
   <div class="container">
     <div class="brand">
-      <a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a>
+      <a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE" decoding="async"></a>
       <div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div>
     </div>
   </div>
@@ -31,7 +31,7 @@
   <main class="profile-page">
     <a class="back-link" href="index.html">← Вернуться на главную</a>
     <section class="card profile-header">
-      <div class="profile-avatar-wrap"><img id="profileAvatar" class="profile-avatar" src="assets/default-soldier.jpg" alt=""><span id="profileRoleBadge" class="profile-role-badge" hidden></span></div>
+      <div class="profile-avatar-wrap"><img id="profileAvatar" class="profile-avatar" src="assets/default-soldier.jpg" alt="" loading="lazy" decoding="async"><span id="profileRoleBadge" class="profile-role-badge" hidden></span></div>
       <div class="profile-main">
         <div class="page-kicker">ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ</div>
         <h1 id="profileName">Пользователь</h1>
@@ -166,7 +166,7 @@ const guestBox=document.getElementById("profileGuests");
 if(visibleGuests.length){
   guestBox.innerHTML=visibleGuests.map(name=>{
     const p=profiles[name]||fallback;
-    return '<a class="profile-friend" href="profile.html?v=20261108-guests&user='+encodeURIComponent(name)+'"><img src="'+p.avatar+'" alt=""><span>'+name+'</span></a>';
+    return '<a class="profile-friend" href="profile.html?v=20261108-guests&user='+encodeURIComponent(name)+'"><img src="'+p.avatar+'" alt="" loading="lazy" decoding="async"><span>'+name+'</span></a>';
   }).join("");
   if(guestsTotalPages>1){
     const pagination=document.createElement("div");
@@ -197,7 +197,7 @@ const messageArea=document.getElementById("messageArea");
 if(history){
  messageArea.innerHTML='<div class="message-history">'+history.map(m=>{
   const me=m.from==="Kalashnikov";
-  return '<div class="private-message '+(me?'mine':'')+'"><img src="'+(profiles[m.from]||fallback).avatar+'" alt=""><div><b>'+m.from+'</b><p>'+m.text+'</p><span>'+m.time+'</span></div></div>';
+  return '<div class="private-message '+(me?'mine':'')+'"><img src="'+(profiles[m.from]||fallback).avatar+'" alt="" loading="lazy" decoding="async"><div><b>'+m.from+'</b><p>'+m.text+'</p><span>'+m.time+'</span></div></div>';
  }).join("")+'</div><div class="message-compose"><input id="privateMessageInput" placeholder="Написать сообщение..."><button id="privateMessageSend">Отправить</button></div>';
 }else{
  messageArea.innerHTML='<div class="no-conversation"><p>Переписки с пользователем пока нет.</p><button class="btn primary" id="startConversation">Написать сообщение</button></div>';
@@ -205,7 +205,7 @@ if(history){
 }
 function bindPrivateSend(){
  const input=document.getElementById("privateMessageInput"),button=document.getElementById("privateMessageSend");
- button.onclick=()=>{const text=input.value.trim();if(!text)return;messageArea.innerHTML='<div class="message-history"><div class="private-message mine"><img src="'+profiles.Kalashnikov.avatar+'" alt=""><div><b>Kalashnikov</b><p>'+text.replace(/</g,"&lt;")+'</p><span>сейчас</span></div></div></div><div class="message-compose"><input id="privateMessageInput" placeholder="Написать сообщение..."><button id="privateMessageSend">Отправить</button></div>';bindPrivateSend();};
+ button.onclick=()=>{const text=input.value.trim();if(!text)return;messageArea.innerHTML='<div class="message-history"><div class="private-message mine"><img src="'+profiles.Kalashnikov.avatar+'" alt="" loading="lazy" decoding="async"><div><b>Kalashnikov</b><p>'+text.replace(/</g,"&lt;")+'</p><span>сейчас</span></div></div></div><div class="message-compose"><input id="privateMessageInput" placeholder="Написать сообщение..."><button id="privateMessageSend">Отправить</button></div>';bindPrivateSend();};
  input.onkeydown=e=>{if(e.key==="Enter")button.click();};
 }
 if(history)bindPrivateSend();
