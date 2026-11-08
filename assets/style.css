@@ -2481,3 +2481,17 @@ nav a,.btn{font-family:"Roboto Slab",serif}
     padding:6px 8px;
   }
 }
+
+
+/* 1st Regiment experimental hero: vertical information stack */
+.regiment-main-info.regiment-test-hero .regiment-main-meta{
+  width:min(100%,420px)!important;
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:8px!important;
+  text-align:center!important;
+}
+.regiment-main-info.regiment-test-hero .regiment-main-meta div{
+  width:100%;
+  box-sizing:border-box;
+}
