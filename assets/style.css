@@ -539,3 +539,9 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-side.result-winner strong{text-decoration:underline;text-decoration-color:#63b36f;text-decoration-thickness:3px;text-underline-offset:4px}
 .battle-side.result-loser strong{text-decoration:underline;text-decoration-color:#d85a52;text-decoration-thickness:3px;text-underline-offset:4px}
 .battle-side.result-draw strong{text-decoration:underline;text-decoration-color:#8f8f8f;text-decoration-thickness:3px;text-underline-offset:4px}
+
+
+/* Profile guests pagination */
+.guest-pagination{display:flex;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap;width:100%;grid-column:1/-1;margin-top:6px;padding-top:12px;border-top:1px solid #493823}
+.guest-pagination a{min-width:30px;height:30px;padding:0 9px;display:flex;align-items:center;justify-content:center;border:1px solid #5d4930;background:#17130f;color:#bba783;text-decoration:none;font:600 10px Cinzel}
+.guest-pagination a:hover,.guest-pagination a.current{background:#641e1b;border-color:#9a6d3c;color:#efd49a}
