@@ -2319,3 +2319,10 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 .profile-page .private-message img{
   border-radius:0!important;
 }
+/* Square avatars: profile guests and homepage online users */
+.profile-page .profile-friend img{
+  border-radius:0!important;
+}
+#onlineUsersStrip .online-user-avatar{
+  border-radius:0!important;
+}
