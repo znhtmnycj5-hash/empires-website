@@ -627,3 +627,46 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 #communityRegiments .regiment-flag{width:42px;height:42px;max-width:42px;max-height:42px;object-fit:cover;float:left;margin:0 10px 8px 0;border:1px solid #87663b}
 #communityRegiments .regiment-card h4{color:#ddc07e}
 @media(max-width:600px){#communityRegiments{grid-template-columns:1fr}}
+
+
+/* Mobile community regiment cards: keep flags and full names inside the card */
+@media(max-width:600px){
+  #regiments{padding:12px!important;overflow:hidden}
+  #communityRegiments{grid-template-columns:1fr!important;gap:0!important;min-width:0}
+  #communityRegiments .regiment-card{display:grid!important;grid-template-columns:38px minmax(0,1fr);grid-template-rows:auto auto;column-gap:10px;align-items:center;padding:11px 4px;min-width:0;overflow:hidden}
+  #communityRegiments .regiment-flag{float:none!important;grid-column:1;grid-row:1/3;width:38px!important;height:38px!important;max-width:38px!important;max-height:38px!important;margin:0!important;object-fit:cover}
+  #communityRegiments .regiment-card h4{grid-column:2;grid-row:1;min-width:0;margin:0 0 3px!important;font-size:12px!important;line-height:1.3;overflow-wrap:anywhere;word-break:normal}
+  #communityRegiments .regiment-card p{grid-column:2;grid-row:2;min-width:0;font-size:9px!important;line-height:1.35;overflow-wrap:anywhere}
+}
+
+/* Mini-chat: consistent typography, spacing and readable online roster */
+#chat .regiment-chat-status{display:flex;align-items:center;min-height:34px;margin:0;padding:8px 11px;border-bottom:1px solid #493823;background:rgba(15,13,10,.45);font-size:10px;line-height:1.4}
+#chat .chat-access-ok{color:#83c78a;font-weight:600}
+#chat .chat-access-locked{color:#d7a17d;font-weight:600}
+#chat #regimentMessages{padding:5px 10px}
+#chat #regimentMessages .msg{display:flex;gap:9px;min-width:0;padding:9px 0;border-bottom:1px solid rgba(90,70,45,.45)}
+#chat #regimentMessages .msg>div:nth-child(2){flex:1;min-width:0}
+#chat #regimentMessages .msg b{display:block;margin-bottom:3px;font:600 11px "Roboto Slab",Georgia,serif;color:#dfc17f!important}
+#chat #regimentMessages .msg p{margin:0;color:#c9b99d;font-size:11px;line-height:1.45;overflow-wrap:anywhere}
+#chat #regimentMessages .msg .time{flex:0 0 auto;color:#88785f;font-size:9px;white-space:nowrap}
+#chat .regiment-chat-locked{padding:18px 14px;text-align:center}
+#chat .regiment-chat-locked .lock-icon{margin-bottom:7px;font-size:22px}
+#chat .regiment-chat-locked strong{display:block;color:#dfc17f;font:600 12px "Roboto Slab",Georgia,serif}
+#chat .regiment-chat-locked p{max-width:340px;margin:7px auto 12px;color:#a99a80;font-size:11px;line-height:1.5}
+#chat .online-list{display:grid;gap:0;padding:3px 11px}
+#chat .online-user{display:grid;grid-template-columns:8px 32px minmax(0,1fr);align-items:center;column-gap:9px;min-width:0;padding:9px 2px;border-bottom:1px solid rgba(90,70,45,.45)}
+#chat .online-user:last-child{border-bottom:0}
+#chat .online-user .online-dot{width:7px;height:7px;border-radius:50%;background:#65b975;box-shadow:0 0 6px rgba(101,185,117,.55)}
+#chat .online-user>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+#chat .online-user b{display:block;min-width:0;color:#dfc17f;font:600 11px "Roboto Slab",Georgia,serif;line-height:1.3;overflow-wrap:anywhere}
+#chat .online-user small{display:block;min-width:0;color:#9e917b;font-size:9px;line-height:1.3;overflow-wrap:anywhere}
+#chat .online-user .chat-user-link{color:inherit!important;text-decoration:none!important}
+#chat .online-count{margin:0;padding:9px 12px;border-top:1px solid #493823;background:rgba(15,13,10,.35);color:#a99a80;font-size:10px;text-align:center}
+#chat .online-count strong{color:#83c78a;font-size:11px}
+@media(max-width:600px){
+  #chat .chat-tabs{display:grid;grid-template-columns:1.15fr 1.25fr .8fr;gap:0}
+  #chat .chat-tab{min-width:0;padding:10px 3px;font-size:10px;line-height:1.25;white-space:normal}
+  #chat .online-list{padding-right:9px;padding-left:9px}
+  #chat #regimentMessages{padding-right:8px;padding-left:8px}
+  #chat .online-user{padding:10px 1px}
+}
