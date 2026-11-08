@@ -775,3 +775,27 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
     flex-basis:36px!important;
   }
 }
+
+
+/* Threaded battle discussion */
+.battle-comment-count{display:inline-flex;align-items:center;justify-content:center;min-width:23px;height:23px;margin-left:8px;padding:0 7px;border:1px solid #705632;background:#17130f;color:#dfc17f;font:700 10px "Roboto Slab",serif}
+.battle-comments{display:grid;gap:0;max-height:none;overflow:visible}
+.battle-thread-item{min-width:0}
+.battle-thread-item>.battle-comment{padding:13px 0}
+.battle-thread-replies{margin:0 0 4px 24px;padding-left:16px;border-left:2px solid rgba(137,103,57,.45)}
+.battle-thread-item.is-reply>.battle-comment{padding:9px 0}
+.battle-reply-button{display:inline-flex;align-items:center;margin-top:8px;padding:4px 0;border:0;background:none;color:#b99a65;font:600 10px "Roboto Slab",serif;cursor:pointer}
+.battle-reply-button:hover{color:#f0d18b;text-decoration:underline}
+.battle-reply-form{display:flex;gap:7px;margin-top:8px}
+.battle-reply-form[hidden]{display:none}
+.battle-reply-form input{flex:1;min-width:0;height:34px;padding:7px 9px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:11px Georgia,serif}
+.battle-reply-form button{padding:6px 10px;border:1px solid #8b6739;background:#641e1b;color:#ead19c;font:600 9px Cinzel;cursor:pointer}
+.battle-comment-image-link{display:block;width:min(100%,520px);margin-top:10px;overflow:hidden;border:1px solid #765a34;background:#0b0a08}
+.battle-comment-image{display:block;width:100%;max-height:300px;aspect-ratio:16/9;object-fit:cover;object-position:center}
+@media(max-width:600px){
+ .battle-thread-replies{margin-left:12px;padding-left:10px}
+ .battle-reply-form{flex-wrap:wrap}
+ .battle-reply-form input{flex:1 1 100%}
+ .battle-reply-form button{min-height:32px}
+ .battle-comment-image{max-height:210px}
+}
