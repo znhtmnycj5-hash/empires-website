@@ -120,7 +120,8 @@ const ensureTestComments=n=>{
 };
 function renderComments(n){
  const box=$('siteNewsComments');if(!box)return;
- ensureTestComments(n);\n const map=getComments(),arr=Array.isArray(map[n.id])?map[n.id]:[];
+ ensureTestComments(n);
+ const map=getComments(),arr=Array.isArray(map[n.id])?map[n.id]:[];
  const card=(c,depth=0)=>{
   const cid=String(c.id||""),author=String(c.author||"Пользователь"),kids=arr.filter(x=>String(x.parentId||"")===cid),likes=getCommentLikes('site-news:'+n.id+':'+cid);
   const like='<div class="comment-reactions"><button type="button" class="comment-like-button'+(likes.includes(user.name)?' is-liked':'')+'" data-like-comment="'+esc(cid)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+likes.slice(0,2).map(esc).join(', ')+'</span><button type="button" class="comment-like-all" data-show-likes="'+esc(cid)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(x=>'<a href="'+esc(profile(x))+'">'+esc(x)+'</a>').join('')+'</div></div>':'')+'</div>';
