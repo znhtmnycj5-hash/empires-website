@@ -268,15 +268,16 @@ const updateHomeRanking=async()=>{
     const rows=[...table.querySelectorAll('.rank-row')];
     const byName=Object.fromEntries(rows.map(row=>[row.dataset.regimentName,row]));
     const topFive=ratings.slice(0,5);
-    topFive.forEach((item,index)=>{
+    const header='<tr><td class="pos">#</td><td>Полк</td><td class="points">Очки</td></tr>';
+    const body=topFive.map((item,index)=>{
       const row=byName[item.name];
-      if(!row)return;
-      row.querySelector('.pos').textContent=(index+1)+'.';
-      row.querySelector('.points').textContent=item.score;
-      table.appendChild(row);
-    });
+      if(!row)return '';
+      const cells=row.querySelectorAll('td');
+      return '<tr class="rank-row" data-regiment-name="'+item.name.replace(/"/g,'&quot;')+'"><td class="pos">'+(index+1)+'.</td><td>'+cells[1].innerHTML+'</td><td class="points">'+item.score+'</td></tr>';
+    }).join('');
+    table.innerHTML=header+body;
   }catch(error){}
-};
+}
 updateHomeRanking();
 setInterval(loadUpcomingBattles,1000);
 const currentUser={name:'Kalashnikov',regiment:'1st Regiment'};
