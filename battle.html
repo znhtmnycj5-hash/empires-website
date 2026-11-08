@@ -74,7 +74,7 @@
   </section>
 
   <section class="card battle-comments-card">
-    <div class="card-title">💬 &nbsp; Комментарии</div>
+    <div class="card-title">💬 &nbsp; Комментарии <span class="battle-comment-count" id="commentCount">0</span></div>
     <div id="commentList" class="battle-comments"></div>
     <form id="commentForm" class="battle-comment-form">
       <input id="commentInput" type="text" maxlength="500" placeholder="Написать комментарий…" autocomplete="off">
@@ -231,24 +231,58 @@ if(!battle){
   setInterval(renderBattleState,1000);
 
   const storageKey="empire-battle-comments-"+battleId;
-  const seed=[{name:"Kalashnikov",text:"Удачи обеим сторонам! ",time:"08.11.2026 01:20",avatar:empireUserAvatar("Kalashnikov")}];
+  const demoShot="https://games-cdn.softpedia.com/screenshots/Mount-and-Blade-Napoleonic-Wars_4.jpg";
+  const demoComments=battleId==="battle-001"?[
+    {id:"demo-1",parentId:null,name:"Mel",text:"Нашёл отличный скриншот с решающего момента. Здесь как раз начинается обход британского фланга!",time:"26.10.2026 21:14",avatar:empireUserAvatar("Mel"),image:demoShot},
+    {id:"demo-2",parentId:"demo-1",name:"Kalashnikov",text:"Красивый момент! Жаль, что тогда не удержали левый фланг.",time:"26.10.2026 21:19",avatar:empireUserAvatar("Kalashnikov")},
+    {id:"demo-3",parentId:"demo-1",name:"Ankord",text:"На этом участке нужно было раньше дать команду на перестроение.",time:"26.10.2026 21:23",avatar:empireUserAvatar("Ankord")},
+    {id:"demo-4",parentId:"demo-2",name:"Veli4estvo",text:"Согласен. Но сам манёвр получился очень достойным.",time:"26.10.2026 21:27",avatar:empireUserAvatar("Veli4estvo")},
+    {id:"demo-5",parentId:"demo-1",name:"Kazak",text:"У кого-нибудь есть скриншот финального построения?",time:"26.10.2026 21:31",avatar:empireUserAvatar("Kazak")},
+    {id:"demo-6",parentId:"demo-5",name:"MeGusta",text:"У меня есть, позже добавлю в альбом полка.",time:"26.10.2026 21:36",avatar:empireUserAvatar("MeGusta")},
+    {id:"demo-7",parentId:"demo-1",name:"Flashkodr",text:"Отличная битва. Особенно понравилась работа артиллерии.",time:"26.10.2026 21:42",avatar:empireUserAvatar("Flashkodr")},
+    {id:"demo-8",parentId:"demo-3",name:"MrDixon",text:"Да, британцы хорошо закрыли проход, пришлось менять направление атаки.",time:"26.10.2026 21:48",avatar:empireUserAvatar("MrDixon")},
+    {id:"demo-9",parentId:"demo-1",name:"Theodor",text:"Спасибо за скрин! Такие моменты нужно сохранять после каждого матча.",time:"26.10.2026 21:55",avatar:empireUserAvatar("Theodor")},
+    {id:"demo-10",parentId:"demo-7",name:"Grenadier87",text:"Поддерживаю. Ждём реванш!",time:"26.10.2026 22:02",avatar:empireUserAvatar("Grenadier87")}
+  ]:[];
   const escapeCommentHtml=value=>String(value??"").replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]));
-  const renderComments=()=>{
-    let comments=[]; try{comments=JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){}
-    const all=[...seed,...comments];
-    $("commentList").innerHTML=all.length?all.map(c=>{
-      const name=String(c.name||"Пользователь");
-      const avatar=c.avatar||empireUserAvatar(name);
-      return '<article class="battle-comment"><a class="battle-comment-avatar-link" href="'+empireProfileUrl(name)+'"><img class="battle-comment-avatar" src="'+escapeCommentHtml(avatar)+'" alt="'+escapeCommentHtml(name)+'" loading="lazy"></a><div class="battle-comment-content"><div class="battle-comment-head"><a href="'+empireProfileUrl(name)+'"><strong>'+escapeCommentHtml(name)+'</strong></a><span>'+escapeCommentHtml(c.time||"")+'</span></div><p>'+escapeCommentHtml(c.text||"")+'</p></div></article>';
-    }).join(""):'<div class="battle-comments-empty">Комментариев пока нет.</div>';
+  const getComments=()=>{
+    let saved=[];try{saved=JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){}
+    return [...demoComments,...(Array.isArray(saved)?saved:[])];
   };
-  renderComments();
-  $("commentForm").addEventListener("submit",e=>{
-    e.preventDefault(); const input=$("commentInput"); const text=input.value.trim(); if(!text)return;
-    let comments=[]; try{comments=JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(err){}
-    comments.push({name:currentUser.name,avatar:empireUserAvatar(currentUser.name),text,time:new Date().toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})});
-    localStorage.setItem(storageKey,JSON.stringify(comments)); input.value=""; renderComments();
+  const commentCard=(c,all,depth=0)=>{
+    const name=String(c.name||"Пользователь");
+    const avatar=c.avatar||empireUserAvatar(name);
+    const children=all.filter(x=>x.parentId===c.id);
+    const image=c.image?'<a class="battle-comment-image-link" href="'+escapeCommentHtml(c.image)+'" target="_blank" rel="noopener"><img class="battle-comment-image" src="'+escapeCommentHtml(c.image)+'" alt="Скриншот сражения" loading="lazy"></a>':"";
+    const replies=children.map(child=>commentCard(child,all,depth+1)).join("");
+    return '<article class="battle-thread-item'+(depth?' is-reply':'')+'" data-comment-id="'+escapeCommentHtml(c.id)+'"><div class="battle-comment"><a class="battle-comment-avatar-link" href="'+empireProfileUrl(name)+'"><img class="battle-comment-avatar" src="'+escapeCommentHtml(avatar)+'" alt="'+escapeCommentHtml(name)+'" loading="lazy"></a><div class="battle-comment-content"><div class="battle-comment-head"><a href="'+empireProfileUrl(name)+'"><strong>'+escapeCommentHtml(name)+'</strong></a><span>'+escapeCommentHtml(c.time||"")+'</span></div><p>'+escapeCommentHtml(c.text||"")+'</p>'+image+'<button class="battle-reply-button" type="button" data-reply-to="'+escapeCommentHtml(c.id)+'">Ответить</button><form class="battle-reply-form" data-parent-id="'+escapeCommentHtml(c.id)+'" hidden><input type="text" maxlength="500" placeholder="Ответить '+escapeCommentHtml(name)+'…" required><button type="submit">Ответить</button></form></div></div>'+ (children.length?'<div class="battle-thread-replies">'+replies+'</div>':"")+'</article>';
+  };
+  const renderComments=()=>{
+    const all=getComments();
+    const roots=all.filter(c=>!c.parentId||!all.some(p=>p.id===c.parentId));
+    $("commentList").innerHTML=roots.length?roots.map(c=>commentCard(c,all)).join(""):'<div class="battle-comments-empty">Комментариев пока нет.</div>';
+    $("commentCount").textContent=all.length;
+  };
+  const saveComment=comment=>{
+    let comments=[];try{comments=JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){}
+    comments.push(comment);localStorage.setItem(storageKey,JSON.stringify(comments));renderComments();
+  };
+  const nowLabel=()=>new Date().toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
+  $("commentList").addEventListener("click",e=>{
+    const button=e.target.closest("[data-reply-to]");if(!button)return;
+    const card=button.closest(".battle-thread-item");const form=card.querySelector(":scope > .battle-comment .battle-reply-form");
+    if(form){form.hidden=!form.hidden;if(!form.hidden)form.querySelector("input").focus();}
   });
+  $("commentList").addEventListener("submit",e=>{
+    const form=e.target.closest(".battle-reply-form");if(!form)return;
+    e.preventDefault();const input=form.querySelector("input");const text=input.value.trim();if(!text)return;
+    saveComment({id:"comment-"+Date.now()+"-"+Math.random().toString(36).slice(2,7),parentId:form.dataset.parentId,name:currentUser.name,avatar:empireUserAvatar(currentUser.name),text,time:nowLabel()});
+  });
+  $("commentForm").addEventListener("submit",e=>{
+    e.preventDefault();const input=$("commentInput");const text=input.value.trim();if(!text)return;
+    saveComment({id:"comment-"+Date.now()+"-"+Math.random().toString(36).slice(2,7),parentId:null,name:currentUser.name,avatar:empireUserAvatar(currentUser.name),text,time:nowLabel()});input.value="";
+  });
+  renderComments();
 }
 </script>
 </body>
