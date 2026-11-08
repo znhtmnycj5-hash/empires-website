@@ -716,3 +716,24 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
   .regiments-list .regiment-tile .regiment-meta>span{padding:7px 8px}
   .regiments-list .regiment-tile .regiment-meta>span:first-child b{font-size:14px}
 }
+
+
+/* User avatars and profile links in all comment feeds */
+.news-comment{align-items:flex-start;min-width:0}
+.news-comment-avatar-link,.battle-comment-avatar-link{display:block;flex:0 0 42px;width:42px;height:42px;border-radius:50%;overflow:hidden;border:1px solid #87663b;background:#251d15}
+.news-comment-avatar{display:block;width:42px!important;height:42px!important;min-width:42px;max-width:42px;min-height:42px;max-height:42px;object-fit:cover;border:0;border-radius:50%}
+.news-comment-content{min-width:0;flex:1}
+.news-comment-author,.battle-comment-head>a{color:#d8b86f;text-decoration:none}
+.news-comment-author:hover,.battle-comment-head>a:hover{color:#f0d18b;text-decoration:underline}
+.battle-comment{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid #3a3023;min-width:0}
+.battle-comment-content{flex:1;min-width:0}
+.battle-comment-head{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0}
+.battle-comment-head strong{font-size:11px}
+.battle-comment-head span{flex:0 0 auto;color:#827258;font-size:9px}
+.battle-comment-content p{margin:6px 0 0;color:#c9b99d;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
+@media(max-width:600px){
+ .news-comment,.battle-comment{gap:9px;padding:9px}
+ .news-comment-avatar-link,.battle-comment-avatar-link{width:36px;height:36px;flex-basis:36px}
+ .news-comment-avatar{width:36px!important;height:36px!important;min-width:36px;max-width:36px;min-height:36px;max-height:36px}
+ .battle-comment-head{flex-wrap:wrap;gap:3px 8px}
+}
