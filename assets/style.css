@@ -577,3 +577,9 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
   #communityRegiments .regiment-card h4{font-size:10px;letter-spacing:.2px}
   #communityRegiments .regiment-card p{font-size:8px;line-height:1.35}
 }
+
+
+/* Clickable regiment battle history */
+.battle-history-link{display:block;color:inherit;text-decoration:none}
+.battle-history-link:hover .battle-history-item{border-color:#8a6538;background:rgba(100,30,27,.14);transform:translateY(-1px)}
+.battle-history-link .battle-history-item{cursor:pointer;transition:border-color .18s ease,background .18s ease,transform .18s ease}
