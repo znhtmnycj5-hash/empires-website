@@ -535,3 +535,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-participant.battle-draw strong{text-decoration:underline;text-decoration-color:#8f8f8f;text-decoration-thickness:3px;text-underline-offset:4px}
 .battle-winner-result{color:#72c27f!important;text-decoration:underline;text-decoration-color:#63b36f;text-decoration-thickness:2px;text-underline-offset:3px}
 .battle-draw-result{color:#a3a3a3!important}
+
+.battle-side.result-winner strong{text-decoration:underline;text-decoration-color:#63b36f;text-decoration-thickness:3px;text-underline-offset:4px}
+.battle-side.result-loser strong{text-decoration:underline;text-decoration-color:#d85a52;text-decoration-thickness:3px;text-underline-offset:4px}
+.battle-side.result-draw strong{text-decoration:underline;text-decoration-color:#8f8f8f;text-decoration-thickness:3px;text-underline-offset:4px}
