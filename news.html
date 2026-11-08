@@ -12,7 +12,7 @@
 <header>
   <div class="container">
     <div class="brand">
-      <a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a>
+      <a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE" decoding="async"></a>
       <div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div>
     </div>
     <nav>
@@ -99,7 +99,7 @@ function renderList(){
     const safePage=Math.min(newsPage,totalPages);
     const pageItems=visible.slice((safePage-1)*20,safePage*20);
     const pageLinks=totalPages>1?'<div class="news-pagination">'+(safePage>1?'<a href="news.html?regiment='+encodeURIComponent(regiment)+'&page='+(safePage-1)+'">‹</a>':'')+Array.from({length:totalPages},(_,i)=>'<a href="news.html?regiment='+encodeURIComponent(regiment)+'&page='+(i+1)+'" class="'+(i+1===safePage?'current':'')+'">'+(i+1)+'</a>').join('')+(safePage<totalPages?'<a href="news.html?regiment='+encodeURIComponent(regiment)+'&page='+(safePage+1)+'">›</a>':'')+'</div>':'';
-    document.getElementById('newsDetail').innerHTML='<div class="news-list-head"><div><div class="page-kicker">НОВОСТИ ПОЛКА</div><h1>'+escapeHtml(regiment)+'</h1><p>'+escapeHtml(d.faction)+' · '+visible.length+' публикаций</p></div><a class="btn primary" href="news.html?regiment='+encodeURIComponent(regiment)+'&create=1" '+(isOfficer?'':'hidden')+'>+ Создать новость</a></div><div class="regiment-news-list news-full-list">'+pageItems.map(n=>'<a class="regiment-news-item news-clickable" href="news.html?regiment='+encodeURIComponent(regiment)+'&id='+encodeURIComponent(n.id)+'"><img src="'+n.image+'" alt=""><div class="regiment-news-body"><div class="regiment-news-date">'+n.date+' · '+(n.private?'🔒 Приватная':'🌐 Открытая')+'</div><h3>'+escapeHtml(n.title)+'</h3><p>'+escapeHtml(n.body)+'</p><small>Автор: '+escapeHtml(n.author)+'</small><span class="preview-comment-count" aria-label="Комментарии: '+(window.EMPIRE_COMMENT_COUNTS&&typeof window.EMPIRE_COMMENT_COUNTS.getNewsCommentCount==='function'?window.EMPIRE_COMMENT_COUNTS.getNewsCommentCount(n.id):0)+'"><span class=\"preview-comment-icon\" aria-hidden=\"true\">💬</span> <span>'+(window.EMPIRE_COMMENT_COUNTS&&typeof window.EMPIRE_COMMENT_COUNTS.getNewsCommentCount==='function'?window.EMPIRE_COMMENT_COUNTS.getNewsCommentCount(n.id):0)+'</span></span></div></a>').join('')+'</div>'+pageLinks;
+    document.getElementById('newsDetail').innerHTML='<div class="news-list-head"><div><div class="page-kicker">НОВОСТИ ПОЛКА</div><h1>'+escapeHtml(regiment)+'</h1><p>'+escapeHtml(d.faction)+' · '+visible.length+' публикаций</p></div><a class="btn primary" href="news.html?regiment='+encodeURIComponent(regiment)+'&create=1" '+(isOfficer?'':'hidden')+'>+ Создать новость</a></div><div class="regiment-news-list news-full-list">'+pageItems.map(n=>'<a class="regiment-news-item news-clickable" href="news.html?regiment='+encodeURIComponent(regiment)+'&id='+encodeURIComponent(n.id)+'"><img src="'+n.image+'" alt="" loading="lazy" decoding="async"><div class="regiment-news-body"><div class="regiment-news-date">'+n.date+' · '+(n.private?'🔒 Приватная':'🌐 Открытая')+'</div><h3>'+escapeHtml(n.title)+'</h3><p>'+escapeHtml(n.body)+'</p><small>Автор: '+escapeHtml(n.author)+'</small><span class="preview-comment-count" aria-label="Комментарии: '+(window.EMPIRE_COMMENT_COUNTS&&typeof window.EMPIRE_COMMENT_COUNTS.getNewsCommentCount==='function'?window.EMPIRE_COMMENT_COUNTS.getNewsCommentCount(n.id):0)+'"><span class=\"preview-comment-icon\" aria-hidden=\"true\">💬</span> <span>'+(window.EMPIRE_COMMENT_COUNTS&&typeof window.EMPIRE_COMMENT_COUNTS.getNewsCommentCount==='function'?window.EMPIRE_COMMENT_COUNTS.getNewsCommentCount(n.id):0)+'</span></span></div></a>').join('')+'</div>'+pageLinks;
     document.getElementById('commentsSection').hidden=true;
     return;
   }
@@ -117,7 +117,7 @@ function renderList(){
     document.getElementById('commentsSection').hidden=true;
     return;
   }
-  document.getElementById('newsDetail').innerHTML='<div class="news-detail-head"><div><div class="page-kicker">НОВОСТЬ ПОЛКА</div><h1>'+escapeHtml(news.title||'Новости полка')+'</h1><div class="news-meta">'+escapeHtml(news.date||'')+' · '+escapeHtml(news.author||'Командование')+' · '+(news.private?'🔒 Только для членов полка':'🌐 Открытая')+'</div></div><a class="btn" href="news.html?regiment='+encodeURIComponent(regiment)+'">← Все новости</a></div>'+(news.image?'<img class="news-cover" src="'+escapeHtml(news.image)+'" alt="">':'')+'<div class="news-content">'+(news.body||'<p>Подробности этой публикации пока не добавлены.</p>')+'</div>';
+  document.getElementById('newsDetail').innerHTML='<div class="news-detail-head"><div><div class="page-kicker">НОВОСТЬ ПОЛКА</div><h1>'+escapeHtml(news.title||'Новости полка')+'</h1><div class="news-meta">'+escapeHtml(news.date||'')+' · '+escapeHtml(news.author||'Командование')+' · '+(news.private?'🔒 Только для членов полка':'🌐 Открытая')+'</div></div><a class="btn" href="news.html?regiment='+encodeURIComponent(regiment)+'">← Все новости</a></div>'+(news.image?'<img class="news-cover" src="'+escapeHtml(news.image)+'" alt="" loading="lazy" decoding="async">':'')+'<div class="news-content">'+(news.body||'<p>Подробности этой публикации пока не добавлены.</p>')+'</div>';
   document.getElementById('commentsSection').hidden=false;renderComments(news);
 }
 const reportComment=(commentId,commentText,author)=>{
@@ -157,7 +157,7 @@ const bindRichEditor=(form,editor)=>{
   if(["bold","italic","underline"].includes(cmd))document.execCommand(cmd,false,null);
   else if(cmd==="quote")document.execCommand("formatBlock",false,"blockquote");
   else if(cmd==="spoiler"){const sel=getSelection(),txt=sel&&sel.toString();insert('<span data-spoiler="true">'+(txt?escapeRichComment(txt):"Спойлер")+'</span>');}
-  else if(cmd==="image"){const url=prompt("Вставьте прямую ссылку на картинку:");if(url&&/^https?:\/\//i.test(url.trim()))insert('<img src="'+escapeRichComment(url.trim())+'" alt="Вставленная картинка">');}
+  else if(cmd==="image"){const url=prompt("Вставьте прямую ссылку на картинку:");if(url&&/^https?:\/\//i.test(url.trim()))insert('<img src="'+escapeRichComment(url.trim())+'" alt="Вставленная картинка" loading="lazy" decoding="async">');}
   else if(cmd==="video"){const url=prompt("Вставьте прямую ссылку на видео:");if(url&&/^https?:\/\//i.test(url.trim()))insert('<video src="'+escapeRichComment(url.trim())+'" controls preload="metadata"></video>');}
   save();
  });
@@ -175,7 +175,7 @@ const ensureTestComments=news=>{
     {id:prefix+"-comment-03",author:"Mel",text:"Кстати, можно отдельно собрать отзывы участников после завершения события.",date:"08.11.2026, 10:32"},
     {id:prefix+"-comment-04",author:"Kazak",text:"Предлагаю заранее согласовать время, чтобы все желающие успели подготовиться.",date:"08.11.2026, 10:45"},
     {id:prefix+"-comment-05",author:"MeGusta",text:"Хорошая идея. Чем больше полков подключится, тем интереснее получится.",date:"08.11.2026, 11:02"},
-    {id:prefix+"-comment-06",author:"Flashkodr",text:"Я бы ещё добавил несколько скриншотов в комментарии, чтобы сохранить лучшие моменты.",date:"08.11.2026, 11:18",html:'Я бы ещё добавил несколько скриншотов в комментарии, чтобы сохранить лучшие моменты.<br><img src="assets/battlefield.jpg" alt="Вложенная картинка">'},
+    {id:prefix+"-comment-06",author:"Flashkodr",text:"Я бы ещё добавил несколько скриншотов в комментарии, чтобы сохранить лучшие моменты.",date:"08.11.2026, 11:18",html:'Я бы ещё добавил несколько скриншотов в комментарии, чтобы сохранить лучшие моменты.<br><img src="assets/battlefield.jpg" alt="Вложенная картинка" loading="lazy" decoding="async">'},
     {id:prefix+"-comment-07",author:"MrDixon",text:"Цитата из объявления хорошо показывает, что организаторы хотят получить от участников.",date:"08.11.2026, 11:26",html:'<blockquote>Главное — участие, слаженность и уважение к сопернику.</blockquote><br>Полностью согласен с этим подходом.'},
     {id:prefix+"-comment-08",author:"Theodor",text:"Готов принять участие. Если нужна помощь с организацией, обращайтесь.",date:"08.11.2026, 11:39"},
     {id:prefix+"-comment-09",author:"Grenadier87",text:"Будет интересно сравнить тактики разных полков. Жду продолжения.",date:"08.11.2026, 11:47"},
