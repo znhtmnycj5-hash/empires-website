@@ -1168,3 +1168,41 @@ nav a,.btn{font-family:"Roboto Slab",serif}
     font-size:7px
   }
 }
+
+
+/* Final profile role badge layout */
+.profile-avatar-wrap{
+  width:116px;
+  flex:0 0 116px;
+  height:auto;
+  align-items:stretch
+}
+.profile-avatar-wrap .profile-role-badge{
+  display:flex;
+  width:100%;
+  min-width:0;
+  margin:6px 0 0;
+  padding:5px 3px;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  font-size:8px;
+  line-height:1.2;
+  letter-spacing:.7px
+}
+.profile-avatar-wrap .profile-role-badge:before{content:none}
+@media(max-width:650px){
+  .profile-avatar-wrap{
+    width:84px;
+    flex:0 0 84px;
+    height:auto
+  }
+  .profile-avatar-wrap .profile-role-badge{
+    width:100%;
+    min-width:0;
+    margin:6px 0 0;
+    padding:4px 2px;
+    font-size:7px;
+    line-height:1.15
+  }
+}
