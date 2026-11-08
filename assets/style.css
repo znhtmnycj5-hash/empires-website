@@ -2342,10 +2342,6 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 .rating-podium.gold{border-color:#b78a39;box-shadow:inset 0 0 35px rgba(183,138,57,.08)}
 .rating-podium.silver{border-color:#858585;box-shadow:inset 0 0 35px rgba(170,170,170,.06)}
 .rating-podium.bronze{border-color:#8b5a35;box-shadow:inset 0 0 35px rgba(139,90,53,.07)}
-.rating-wreath{position:absolute;top:8px;left:0;right:0;text-align:center;font-size:34px;line-height:1;letter-spacing:34px;padding-left:34px;opacity:.95;text-shadow:0 2px 10px #000}
-.rating-podium.gold .rating-wreath{color:#e0b94f}
-.rating-podium.silver .rating-wreath{color:#bfc1c3}
-.rating-podium.bronze .rating-wreath{color:#b87543}
 .rating-position{position:absolute;top:20px;right:18px;font:700 18px "Roboto Slab",serif;color:#bda878}
 .rating-avatar{width:128px;height:128px;margin-top:22px;padding:7px;background:#251d15;display:flex;align-items:center;justify-content:center}
 .rating-podium.gold .rating-avatar{border:4px solid #d4ad4e;box-shadow:0 0 0 2px rgba(212,173,78,.25),0 8px 22px rgba(0,0,0,.55)}
