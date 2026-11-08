@@ -178,10 +178,9 @@ const loadAutomaticSiteCounters=async()=>{
     const regimentCount=regimentsDoc.querySelectorAll('.regiment-tile').length;
     if(regimentCount) siteCounters.regiments=regimentCount;
 
-    const profileMatch=profileHtml.match(/const\\s+profiles\\s*=\\s*\\{([\\s\\S]*?)\\};/);
+    const profileMatch=profileHtml.match(/const\s+profiles\s*=\s*\{([\s\S]*?)\};/);
     if(profileMatch){
-      const userKeys=profileMatch[1].match(/(?:^|\
-)\\s*"[^"]+"\\s*:/g);
+      const userKeys=profileMatch[1].match(/"[^"]+"\s*:/g);
       if(userKeys) siteCounters.users=userKeys.length;
     }
 
@@ -274,7 +273,7 @@ const updateHomeRanking=async()=>{
   }catch(error){}
 }
 updateHomeRanking();
-setInterval(loadUpcomingBattles,1000);
+setInterval(loadUpcomingBattles,30000);
 const currentUser={name:'Kalashnikov',regiment:'1st Regiment'};
 
 const communityRegiments=[
@@ -299,13 +298,17 @@ const renderCommunityRegiments=(ratings)=>{
     return '<a class="regiment-card regiment-link" data-regiment="'+r.name+'" href="regiment.html?name='+encodeURIComponent(r.name)+'"><img class="regiment-flag" src="'+r.avatar+'" alt="Флаг '+r.name+'"><h4>'+r.name+'</h4><p>'+r.faction+' · '+r.count+' бойцов · Рейтинг '+liveRating+'</p></a>';
   }).join("");
 };
-calculateRegimentRatings().then(renderCommunityRegiments).catch(()=>renderCommunityRegiments([]));
-document.querySelectorAll('.chat-tab').forEach(b=>b.onclick=()=>{
- document.querySelectorAll('.chat-tab').forEach(x=>x.classList.remove('active'));
- document.querySelectorAll('.chat-panel').forEach(x=>x.classList.remove('active'));
- b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');
- const isRegiment=b.dataset.tab==='regiments-chat';
- document.getElementById('chatInputWrap').style.display=isRegiment&& !currentUser.regiment?'none':'flex';
+renderCommunityRegiments([]);\ncalculateRegimentRatings().then(renderCommunityRegiments).catch(()=>renderCommunityRegiments([]));
+document.querySelectorAll('.chat-tab').forEach(button=>{
+ button.addEventListener('click',()=>{
+  const target=document.getElementById(button.dataset.tab);
+  if(!target)return;
+  document.querySelectorAll('.chat-tab').forEach(tab=>tab.classList.toggle('active',tab===button));
+  document.querySelectorAll('.chat-panel').forEach(panel=>panel.classList.toggle('active',panel===target));
+  const isRegiment=button.dataset.tab==='regiments-chat';
+  const inputWrap=document.getElementById('chatInputWrap');
+  if(inputWrap)inputWrap.style.display=isRegiment&&!currentUser.regiment?'none':'flex';
+ });
 });
 const regimentStatus=document.getElementById('regimentChatStatus');
 const regimentLocked=document.getElementById('regimentChatLocked');
