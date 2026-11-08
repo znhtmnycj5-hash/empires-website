@@ -461,3 +461,14 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 #news .news-item .thumb{display:block;width:130px!important;height:76px!important;min-width:130px;max-width:130px;max-height:76px;box-sizing:border-box;object-fit:cover}
 #home .btn,#home button{box-sizing:border-box}
 #home .btn{padding:11px 18px;font-size:12px}
+
+
+/* Compact typography for news cards on regiment pages */
+.regiment-news-item.news-clickable .regiment-news-body{font-size:11px;line-height:1.4}
+.regiment-news-item.news-clickable .regiment-news-date{font-size:9px;line-height:1.35;color:#93836a;margin-bottom:3px}
+.regiment-news-item.news-clickable .regiment-news-body h3{font-size:13px;line-height:1.35;font-weight:600;margin:2px 0 4px}
+.regiment-news-item.news-clickable .regiment-news-body p{font-size:10px;line-height:1.4;color:#aa9d87;margin:0}
+@media(max-width:600px){
+ .regiment-news-item.news-clickable .regiment-news-body h3{font-size:12px}
+ .regiment-news-item.news-clickable .regiment-news-body p{font-size:10px}
+}
