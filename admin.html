@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Администратор — заявки на полки</title>
+<link rel="stylesheet" href="assets/style.css?v=20261108-admin-regiment1">
+</head>
+<body>
+<header><div class="container"><div class="brand"><a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a><div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div></div></div></header>
+<div class="container">
+<nav><a href="index.html">Главная</a><a href="regiments.html">Полки</a><a class="active" href="admin.html">Администратор</a></nav>
+<main class="admin-page">
+<section class="card"><div class="page-kicker">ПАНЕЛЬ АДМИНИСТРАТОРА</div><h1>Заявки на создание полков</h1><p class="admin-note">Здесь отображаются заявки, сохранённые в браузере. Для демонстрационного статического сайта это локальные данные.</p><div id="regimentRequests"></div></section>
+</main>
+</div>
+<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div><div class="motto">Vive l’Empire!</div></div></footer>
+<script>
+(() => {
+const RK="empire_regiment_creation_requests_v1", AK="empire_approved_regiments_v1";
+const get=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}},set=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const box=document.getElementById("regimentRequests");
+function render(){
+ const requests=get(RK), pending=requests.filter(x=>x.status==="pending");
+ if(!pending.length){box.innerHTML='<div class="admin-empty">Новых заявок нет.</div>';return}
+ box.innerHTML=pending.map(r=>'<article class="admin-request"><img src="'+r.logo+'" alt=""><div class="admin-request-info"><h2>'+r.name+'</h2><p><b>Заявитель:</b> '+r.user+'</p><p><b>Фракция:</b> '+r.faction+'</p><small>'+new Date(r.createdAt).toLocaleString("ru-RU")+'</small></div><div class="admin-request-actions"><button class="btn primary" data-action="approve" data-id="'+r.id+'">Принять</button><button class="btn admin-reject" data-action="reject" data-id="'+r.id+'">Отклонить</button></div></article>').join("");
+}
+box.addEventListener("click",e=>{
+ const btn=e.target.closest("button");if(!btn)return;
+ const id=btn.dataset.id,action=btn.dataset.action;
+ const requests=get(RK),i=requests.findIndex(x=>x.id===id);if(i<0)return;
+ if(action==="approve"){
+  const r=requests[i];
+  const approved=get(AK);
+  approved.push({id:"reg-"+Date.now(),name:r.name,faction:r.faction,logo:r.logo,commander:r.user,members:1,rating:1000,createdAt:r.createdAt});
+  set(AK,approved);requests[i].status="approved";requests[i].processedAt=new Date().toISOString();
+ }else{requests[i].status="rejected";requests[i].processedAt=new Date().toISOString()}
+ set(RK,requests);render();
+});
+render();
+})();
+</script>
+</body></html>
