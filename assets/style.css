@@ -469,3 +469,54 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-countdown{margin-top:8px;color:#d7b66e;font:600 11px "Roboto Slab",serif;letter-spacing:.2px;white-space:nowrap}
 .battle-countdown.started{color:#8db48a}
 @media(max-width:760px){.battle-countdown{white-space:normal}}
+
+/* Battle detail page */
+.battle-page{padding:18px 0 55px}
+.battle-hero-card{padding:24px 28px;text-align:center}
+.battle-page-kicker{color:#a9987b;font:600 10px Cinzel;letter-spacing:2px}
+.battle-hero-card h1{font-size:34px;letter-spacing:2px;margin:7px 0 26px}
+.battle-participants{display:grid;grid-template-columns:minmax(0,1fr) 280px minmax(0,1fr);align-items:center;gap:24px}
+.battle-participant{display:grid;grid-template-columns:96px 1fr;grid-template-rows:auto auto auto;column-gap:16px;align-items:center;text-align:left;text-decoration:none;padding:16px;border:1px solid #4e402e;background:rgba(15,13,10,.62)}
+.battle-participant:hover{border-color:#96713f}
+.battle-participant img{grid-row:1/4;width:96px;height:96px;object-fit:contain;padding:5px;border:1px solid #87663b;background:#251d15}
+.battle-participant strong{color:#dfc17f;font:700 18px Cinzel}
+.battle-participant small{color:#9d907c;font-size:10px;margin-top:5px}
+.battle-role{color:#786b58;font-size:9px;margin-top:8px;text-transform:uppercase;letter-spacing:.5px}
+.battle-center{padding:10px}
+.battle-page-countdown{color:#e0bd76;font:700 30px Cinzel;letter-spacing:1px;white-space:nowrap;text-shadow:0 2px 8px #000}
+.battle-page-countdown.finished{color:#8db48a}
+.battle-countdown-label{margin-top:7px;color:#97886f;font-size:10px}
+.battle-info-card,.battle-result-card,.battle-comments-card{margin-top:14px}
+.battle-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#3f3325}
+.battle-info-grid>div{padding:17px;background:rgba(15,13,10,.72)}
+.battle-info-grid span,.battle-final-grid span{display:block;color:#887a65;font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
+.battle-info-grid strong,.battle-final-grid strong{color:#d8c39e;font-size:13px}
+.secret-field{color:#756b5c!important;filter:blur(4px);user-select:none}
+.battle-access-notice{padding:12px 16px;border-top:1px solid #3d3023;font-size:10px}
+.access-ok{color:#8db48a}.access-locked{color:#d19a72}
+.battle-final-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#3f3325}
+.battle-final-grid>div{padding:22px;background:rgba(15,13,10,.72)}
+.battle-final-grid strong{font:700 18px Cinzel;color:#dfc17f}
+.battle-media{padding:14px;display:flex;gap:12px;flex-wrap:wrap}
+.battle-media img{width:240px;height:150px;object-fit:cover;border:1px solid #6b5232}
+.battle-media a{display:inline-block;border:1px solid #6b5232;background:#241b13;color:#d8bd86;text-decoration:none;padding:11px 15px;font-size:10px}
+.battle-media-empty{color:#8f8068;font-size:10px;padding:4px}
+.battle-comments{padding:14px;display:flex;flex-direction:column;gap:10px}
+.battle-comment{padding:12px;border:1px solid #4e402e;background:rgba(15,13,10,.62)}
+.battle-comment>div{display:flex;justify-content:space-between;gap:10px}
+.battle-comment strong{color:#d2b16f;font:600 11px Cinzel}
+.battle-comment span{color:#746957;font-size:9px}
+.battle-comment p{margin:7px 0 0;color:#b6a68e;font-size:11px;line-height:1.5}
+.battle-comments-empty{padding:18px;text-align:center;color:#8f8068;font-size:10px}
+.battle-comment-form{display:flex;gap:8px;padding:0 14px 14px}
+.battle-comment-form input{flex:1;min-width:0;padding:11px 12px;border:1px solid #4e402e;background:#15120e;color:#d8c8aa;font:11px "Roboto Slab",serif}
+.battle-comment-form button{border:1px solid #87663b;background:#4d3922;color:#e0c17d;padding:0 18px;font:600 10px Cinzel;cursor:pointer}
+.battle-open-link{display:block;padding:11px 16px;border-top:1px solid #3d3023;color:#b99559;text-decoration:none;text-align:right;font-size:10px}
+.battle-open-link:hover{color:#e0c17d;background:rgba(100,30,27,.18)}
+@media(max-width:760px){
+ .battle-hero-card{padding:20px 14px}.battle-hero-card h1{font-size:25px}
+ .battle-participants{grid-template-columns:1fr;gap:12px}.battle-center{order:2}.battle-participant{grid-template-columns:72px 1fr}.battle-participant img{width:72px;height:72px}
+ .battle-page-countdown{font-size:23px}.battle-info-grid{grid-template-columns:1fr 1fr}
+ .battle-final-grid{grid-template-columns:1fr}.battle-comment-form{padding:0 10px 10px}
+}
+@media(max-width:480px){.battle-info-grid{grid-template-columns:1fr}.battle-page-countdown{font-size:20px}.battle-participant strong{font-size:15px}}
