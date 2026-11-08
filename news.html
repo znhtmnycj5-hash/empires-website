@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Новости полка — EMPIRE</title>
+<link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
+<link rel="stylesheet" href="assets/style.css?v=20261108-news1">
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="brand">
+      <a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a>
+      <div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div>
+    </div>
+    <nav>
+      <a href="index.html">Главная</a>
+      <div class="dropdown"><a class="active" href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a></div></div>
+      <a href="index.html#battles">Кампании</a><a href="index.html#ranking">Рейтинг</a><a href="index.html#news">Форум</a><a href="index.html#alliances">Союзы</a>
+      <a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+    </nav>
+  </div>
+</header>
+<main class="container news-page">
+  <a class="back-link" id="backToRegiment" href="regiments.html">← Полк</a>
+  <section class="card news-detail-card" id="newsDetail"></section>
+  <section class="card news-editor-card" id="newsEditor" hidden></section>
+  <section class="card news-comments-card" id="commentsSection" hidden></section>
+</main>
+<footer><div class="container footer-inner"><div>© 2026 EMPIRE Napoleonic Wars</div><div class="motto">Сражайся и побеждай</div></div></footer>
+
+<script>
+const regimentData={
+"1st Regiment":{avatar:"assets/1st.jpg",commander:"Ankord",faction:"Французская Империя",officers:["Veli4estvo","Mel","Kazak"]},
+"95th Rifles":{avatar:"assets/95.webp",commander:"Richard Hawthorne",faction:"Британская Империя",officers:["Edward Blake","George Miller"]},
+"84e Régiment":{avatar:"assets/84e.png",commander:"Pierre Delacroix",faction:"Французская Империя",officers:["Jean Moreau","Henri Dubois"]},
+"Preobrazhensky":{avatar:"assets/preobraz.webp",commander:"Алексей Воронцов",faction:"Российская Империя",officers:["Иван Петров","Михаил Соколов"]},
+"7th Hussars":{avatar:"assets/hussars.png",commander:"William Harrington",faction:"Британская Империя",officers:["Henry Smith","Arthur Cole"]},
+"13e Léger":{avatar:"assets/1st.jpg",commander:"Étienne Morel",faction:"Французская Империя",officers:["Louis Martin","Paul Renard"]},
+"33e Ligne":{avatar:"assets/95.webp",commander:"Thomas Clarke",faction:"Британская Империя",officers:["James Wilson","Robert Hall"]},
+"92nd Gordon Highlanders":{avatar:"assets/84e.png",commander:"Alexander MacLeod",faction:"Британская Империя",officers:["Andrew Fraser","Duncan Ross"]},
+"Semenovsky":{avatar:"assets/preobraz.webp",commander:"Николай Орлов",faction:"Российская Империя",officers:["Сергей Волков","Андрей Беляев"]},
+"King's German Legion":{avatar:"assets/kgr.png",commander:"Friedrich von Keller",faction:"Британская Империя",officers:["Otto Weber","Karl Schmidt"]},
+"6e Hussards":{avatar:"assets/1st.jpg",commander:"Louis Beaumont",faction:"Французская Империя",officers:["Henri Laurent","Marc Petit"]},
+"Royal Scots":{avatar:"assets/95.webp",commander:"James Campbell",faction:"Британская Империя",officers:["William Fraser","Thomas Reid"]}
+};
+
+const newsTemplates={
+"1st Regiment":[
+["Большие полковые учения","01.11.2026","Ankord","Открытая","Сегодня полк провёл масштабные учения. Отряды отработали построения, залповую стрельбу и совместную атаку.","assets/73f84f86-e210-42f1-8105-81ffb0b393be.png",false],
+["Новый порядок построения","03.11.2026","Veli4estvo","Открытая","Офицеры утвердили новый порядок построения батальона перед сражениями. Схема будет использоваться на ближайших тренировках.","assets/1st.jpg",false],
+["Тактический разбор следующего боя","06.11.2026","Ankord","Приватная","Командование подготовило закрытый разбор предполагаемой тактики противника. Материал предназначен только для участников полка.","assets/battlefield.jpg",true],
+["Набор в тренировочную группу","07.11.2026","Kazak","Открытая","Открыта новая тренировочная группа для новобранцев. Первые занятия проведут офицеры полка.","assets/hussars.png",false]
+],
+"95th Rifles":[["Новая программа стрелковой подготовки","02.11.2026","Richard Hawthorne","Открытая","Командование обновило программу подготовки стрелков и добавило отдельный блок по действиям малых групп.","assets/95.webp",false],["План закрытой тренировки","04.11.2026","Edward Blake","Приватная","Офицеры подготовили закрытую тренировку перед ближайшим матчем. Детали доступны только членам полка.","assets/battlefield.jpg",true],["Победа в полковом состязании","06.11.2026","George Miller","Открытая","Наши стрелки показали лучший результат на внутреннем состязании недели.","assets/95.webp",false],["Обновление состава","07.11.2026","Richard Hawthorne","Открытая","В состав полка приняты новые бойцы. Добро пожаловать в строй!","assets/95.webp",false]],
+"84e Régiment":[["Подготовка к следующему сражению","01.11.2026","Pierre Delacroix","Открытая","Полк завершил подготовку к ближайшему сражению и провёл совместную тренировку.","assets/84e.png",false],["Приказ офицерского совета","03.11.2026","Jean Moreau","Приватная","Опубликованы внутренние распоряжения офицерского совета. Запись доступна только участникам полка.","assets/battlefield.jpg",true],["Итоги тренировки","05.11.2026","Henri Dubois","Открытая","Отработаны перестроения и взаимодействие пехоты с кавалерией.","assets/84e.png",false],["Новый рекрутский набор","07.11.2026","Pierre Delacroix","Открытая","Полк объявляет дополнительный набор бойцов на вечерние тренировки.","assets/84e.png",false]],
+"Preobrazhensky":[["Полковой смотр","01.11.2026","Алексей Воронцов","Открытая","Командование провело полковой смотр и проверило готовность подразделений.","assets/preobraz.webp",false],["Закрытый приказ перед боем","04.11.2026","Алексей Воронцов","Приватная","Внутренний приказ командования перед ближайшим сражением.","assets/battlefield.jpg",true],["Новые учебные построения","06.11.2026","Иван Петров","Открытая","Офицеры представили новые схемы построений для тренировок.","assets/preobraz.webp",false],["Вечерняя тренировка","07.11.2026","Михаил Соколов","Открытая","Сегодня состоится дополнительная тренировка для всего состава.","assets/preobraz.webp",false]],
+"7th Hussars":[["Гусарские манёвры","02.11.2026","William Harrington","Открытая","Проведены манёвры кавалерии с отработкой фланговых атак.","assets/hussars.png",false],["Маршрут закрытого манёвра","04.11.2026","Henry Smith","Приватная","Закрытая информация о маршруте и составе ближайшего манёвра.","assets/battlefield.jpg",true],["Новые тактические упражнения","06.11.2026","Arthur Cole","Открытая","Офицеры добавили несколько упражнений на быстрое перестроение.","assets/hussars.png",false],["Приём новых всадников","07.11.2026","William Harrington","Открытая","Полк пополнился новыми всадниками.","assets/hussars.png",false]],
+"13e Léger":[["Учебный марш","02.11.2026","Étienne Morel","Открытая","Полк завершил учебный марш и проверил выносливость состава.","assets/1st.jpg",false],["Внутренний план обороны","04.11.2026","Louis Martin","Приватная","Закрытый план действий оборонительной линии.","assets/battlefield.jpg",true],["Новая форма построения","06.11.2026","Paul Renard","Открытая","Введена новая схема построения для совместных тренировок.","assets/1st.jpg",false],["Вечерний сбор","07.11.2026","Étienne Morel","Открытая","Командование объявило обязательный вечерний сбор.","assets/1st.jpg",false]],
+"33e Ligne":[["Полевая тренировка","02.11.2026","Thomas Clarke","Открытая","Отряд провёл полевую тренировку с акцентом на взаимодействие подразделений.","assets/95.webp",false],["Закрытый тактический брифинг","04.11.2026","James Wilson","Приватная","Тактический брифинг для членов полка перед следующей игрой.","assets/battlefield.jpg",true],["Результаты недели","06.11.2026","Robert Hall","Открытая","Подведены итоги тренировок и отмечены лучшие бойцы.","assets/95.webp",false],["Новый распорядок","07.11.2026","Thomas Clarke","Открытая","Обновлён недельный распорядок полка.","assets/95.webp",false]],
+"92nd Gordon Highlanders":[["Горная подготовка","02.11.2026","Alexander MacLeod","Открытая","Проведена тренировка по действиям в сложной местности.","assets/84e.png",false],["Закрытая схема обороны","04.11.2026","Andrew Fraser","Приватная","Офицеры подготовили внутреннюю схему обороны на ближайший бой.","assets/battlefield.jpg",true],["Полковой марш","06.11.2026","Duncan Ross","Открытая","Состав завершил тренировочный марш и проверку дисциплины.","assets/84e.png",false],["Набор добровольцев","07.11.2026","Alexander MacLeod","Открытая","Открыт набор добровольцев в тренировочное отделение.","assets/84e.png",false]],
+"Semenovsky":[["Полковой смотр","02.11.2026","Николай Орлов","Открытая","Командование проверило готовность личного состава.","assets/preobraz.webp",false],["Закрытый план атаки","04.11.2026","Сергей Волков","Приватная","Внутренний план атаки перед ближайшим сражением.","assets/battlefield.jpg",true],["Новая тренировка","06.11.2026","Андрей Беляев","Открытая","Добавлена новая тренировочная программа.","assets/preobraz.webp",false],["Сбор офицеров","07.11.2026","Николай Орлов","Открытая","Офицеры обсудили планы на следующую неделю.","assets/preobraz.webp",false]],
+"King's German Legion":[["Подготовка легиона","02.11.2026","Friedrich von Keller","Открытая","Проведена общая тренировка с акцентом на дисциплину строя.","assets/kgr.png",false],["Внутренний приказ","04.11.2026","Otto Weber","Приватная","Закрытая запись для участников легиона.","assets/battlefield.jpg",true],["Совместная тренировка","06.11.2026","Karl Schmidt","Открытая","Отряды провели совместную тренировку.","assets/kgr.png",false],["Новые бойцы","07.11.2026","Friedrich von Keller","Открытая","В легион приняты новые участники.","assets/kgr.png",false]],
+"6e Hussards":[["Манёвры эскадрона","02.11.2026","Louis Beaumont","Открытая","Кавалерия провела тренировку быстрых манёвров.","assets/1st.jpg",false],["Закрытый приказ эскадрона","04.11.2026","Henri Laurent","Приватная","Внутренние распоряжения офицеров перед ближайшей игрой.","assets/battlefield.jpg",true],["Тренировка атаки","06.11.2026","Marc Petit","Открытая","Отработаны атаки на фланг и отход после удара.","assets/1st.jpg",false],["Новый набор","07.11.2026","Louis Beaumont","Открытая","Объявлен новый набор в эскадрон.","assets/1st.jpg",false]],
+"Royal Scots":[["Полковой сбор","02.11.2026","James Campbell","Открытая","Командование провело общий сбор и тренировку.","assets/95.webp",false],["Закрытая подготовка","04.11.2026","William Fraser","Приватная","Тактическая подготовка для участников полка.","assets/battlefield.jpg",true],["Итоги тренировок","06.11.2026","Thomas Reid","Открытая","Опубликованы результаты тренировочной недели.","assets/95.webp",false],["Набор в строй","07.11.2026","James Campbell","Открытая","Полк открыт для новых бойцов.","assets/95.webp",false]]
+};
+
+const params=new URLSearchParams(location.search);
+const regiment=params.get('regiment')||'1st Regiment';
+const id=params.get('id')||'';
+const d=regimentData[regiment]||regimentData['1st Regiment'];
+const samples=(newsTemplates[regiment]||newsTemplates['1st Regiment']).map((n,i)=>({id:'sample-'+(i+1),regiment,title:n[0],date:n[1],author:n[2],privacy:n[3],body:n[4],image:n[5],private:n[6]}));
+const storageKey='empire_regiment_news_v1_'+regiment;
+const commentsKey='empire_news_comments_v1';
+const getStored=()=>{try{return JSON.parse(localStorage.getItem(storageKey)||'[]')||[];}catch(e){return[];}};
+const getComments=()=>{try{return JSON.parse(localStorage.getItem(commentsKey)||'{}')||{};}catch(e){return{};}};
+const saveStored=v=>localStorage.setItem(storageKey,JSON.stringify(v));
+const currentUser=JSON.parse(localStorage.getItem('empire_current_user')||'null')||{name:'Ankord',regiment:'1st Regiment',role:'commander'};
+const isMember=currentUser.regiment===regiment;
+const isOfficer=isMember&&(currentUser.role==='officer'||currentUser.role==='commander');
+const allNews=()=>[...getStored(),...samples].sort((a,b)=>new Date(b.date.split('.').reverse().join('-'))-new Date(a.date.split('.').reverse().join('-')));
+const escapeHtml=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+document.getElementById('backToRegiment').href='regiment.html?name='+encodeURIComponent(regiment);
+function renderList(){
+  const visible=allNews().filter(n=>!n.private||isMember);
+  if(!id){
+    document.getElementById('newsDetail').innerHTML='<div class="news-list-head"><div><div class="page-kicker">НОВОСТИ ПОЛКА</div><h1>'+escapeHtml(regiment)+'</h1><p>'+escapeHtml(d.faction)+' · '+visible.length+' публикаций</p></div><a class="btn primary" href="news.html?regiment='+encodeURIComponent(regiment)+'&create=1" '+(isOfficer?'':'hidden')+'>+ Создать новость</a></div><div class="regiment-news-list news-full-list">'+visible.map(n=>'<a class="regiment-news-item news-clickable" href="news.html?regiment='+encodeURIComponent(regiment)+'&id='+encodeURIComponent(n.id)+'"><img src="'+n.image+'" alt=""><div class="regiment-news-body"><div class="regiment-news-date">'+n.date+' · '+(n.private?'🔒 Приватная':'🌐 Открытая')+'</div><h3>'+escapeHtml(n.title)+'</h3><p>'+escapeHtml(n.body)+'</p><small>Автор: '+escapeHtml(n.author)+' · Комментарии: '+((getComments()[n.id]||[]).length)+'</small></div></a>').join('')+'</div>';
+    document.getElementById('commentsSection').hidden=true;
+    return;
+  }
+  const news=allNews().find(n=>n.id===id);
+  if(!news){document.getElementById('newsDetail').innerHTML='<div class="empty-note">Новость не найдена.</div>';return;}
+  document.getElementById('newsDetail').innerHTML='<div class="news-detail-head"><div><div class="page-kicker">НОВОСТЬ ПОЛКА</div><h1>'+escapeHtml(news.title)+'</h1><div class="news-meta">'+news.date+' · '+escapeHtml(news.author)+' · '+(news.private?'🔒 Только для членов полка':'🌐 Открытая')+'</div></div><a class="btn" href="news.html?regiment='+encodeURIComponent(regiment)+'">← Все новости</a></div><img class="news-cover" src="'+news.image+'" alt=""><div class="news-content">'+news.body+'</div>';
+  document.getElementById('commentsSection').hidden=false;renderComments(news);
+}
+function renderComments(news){
+  const comments=getComments()[news.id]||[];
+  document.getElementById('commentsSection').innerHTML='<div class="card-title">💬 Комментарии <span>'+comments.length+'</span></div><div class="news-comments-list">'+(comments.length?comments.map(c=>'<div class="news-comment"><div class="news-comment-avatar">'+escapeHtml(c.author.slice(0,1))+'</div><div><strong>'+escapeHtml(c.author)+'</strong><small>'+escapeHtml(c.date)+'</small><p>'+escapeHtml(c.text)+'</p></div></div>').join(''):'<p class="empty-note">Пока нет комментариев.</p>')+'</div><form class="news-comment-form" id="commentForm"><textarea required placeholder="Напишите комментарий..."></textarea><button class="btn primary">Оставить комментарий</button></form>';
+  document.getElementById('commentForm').addEventListener('submit',e=>{e.preventDefault();const map=getComments();const arr=map[news.id]||[];arr.push({author:currentUser.name,date:new Date().toLocaleString('ru-RU'),text:e.currentTarget.querySelector('textarea').value});map[news.id]=arr;localStorage.setItem(commentsKey,JSON.stringify(map));renderComments(news);});
+}
+function renderEditor(){
+  const editor=document.getElementById('newsEditor');editor.hidden=false;
+  editor.innerHTML='<div class="card-title">✒ Создание новости</div><div class="news-editor-inner"><label>Заголовок<input id="newsTitle" type="text" placeholder="Название новости"></label><label>Видимость<select id="newsPrivacy"><option value="public">Открытая — видят все</option><option value="private">Приватная — только члены полка</option></select></label><div class="editor-toolbar"><button type="button" data-cmd="bold"><b>B</b></button><button type="button" data-cmd="italic"><i>I</i></button><button type="button" data-cmd="underline"><u>U</u></button><button type="button" data-cmd="formatBlock" data-value="h2">H2</button><button type="button" data-cmd="insertUnorderedList">☷</button><button type="button" data-cmd="insertOrderedList">1.</button><button type="button" data-cmd="justifyLeft">←</button><button type="button" data-cmd="justifyCenter">↔</button><button type="button" data-cmd="justifyRight">→</button><button type="button" id="insertLink">🔗</button><button type="button" id="insertImage">🖼</button><button type="button" id="clearFormat">Tx</button></div><div id="newsBodyEditor" class="news-body-editor" contenteditable="true" data-placeholder="Напишите текст новости..."></div><div class="editor-actions"><button class="btn primary" id="publishNews">Опубликовать</button><a class="btn" href="news.html?regiment='+encodeURIComponent(regiment)+'">Отмена</a></div></div>';
+  editor.querySelectorAll('[data-cmd]').forEach(b=>b.addEventListener('click',()=>document.execCommand(b.dataset.cmd,false,b.dataset.value||null)));
+  editor.querySelector('#insertLink').addEventListener('click',()=>{const url=prompt('Ссылка:');if(url)document.execCommand('createLink',false,url);});
+  editor.querySelector('#insertImage').addEventListener('click',()=>{const url=prompt('URL изображения:');if(url)document.execCommand('insertImage',false,url);});
+  editor.querySelector('#clearFormat').addEventListener('click',()=>document.execCommand('removeFormat'));
+  editor.querySelector('#publishNews').addEventListener('click',()=>{
+    const title=editor.querySelector('#newsTitle').value.trim();const body=editor.querySelector('#newsBodyEditor').innerHTML.trim();if(!title||!body){alert('Заполните заголовок и текст новости.');return;}
+    const arr=getStored();arr.unshift({id:'news-'+Date.now(),regiment,title,date:new Date().toLocaleDateString('ru-RU'),author:currentUser.name,privacy:editor.querySelector('#newsPrivacy').value==='private'?'Приватная':'Открытая',private:editor.querySelector('#newsPrivacy').value==='private',body,image:d.avatar});saveStored(arr);location.href='news.html?regiment='+encodeURIComponent(regiment);
+  });
+}
+if(params.get('create')==='1'){if(isOfficer)renderEditor();else document.getElementById('newsDetail').innerHTML='<div class="empty-note">Создавать новости могут только командир и офицеры этого полка.</div>';}
+else renderList();
+if(id)renderList();
+</script>
+</body>
+</html>
