@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empire — Napoleonic Wars Community</title>
+<link rel="stylesheet" href="assets/style.css?v=20261108-square-avatars1">
+  <script src="assets/comment-counts.js?v=20261108-1"></script>
+<script src="assets/rating.js"></script>
+</head>
+<body>
+<header>
+  <div class="container brand">
+    <a class="brand-logo-link" href="#home"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a><div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div>
+    <div class="header-copy">
+      <div class="tagline">Сражайся и побеждай</div>
+      <div class="buttons"><a class="btn primary" href="#">Войти в сообщество</a><a class="btn" href="#">Найти полк</a></div>
+      <div class="stats">
+        <div class="stat"><strong data-site-count="regiments">12</strong><span>полков</span></div>
+        <div class="stat"><strong data-site-count="users">13</strong><span>пользователей</span></div>
+        <div class="stat"><strong data-site-count="battles">9</strong><span>сражений</span></div>
+        <div class="stat"><strong>12</strong><span>кампаний</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+<nav>
+  <a class="active" href="#home">Главная</a>
+  <div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a><a href="#">Мои полки</a></div></div>
+  <div class="dropdown"><a href="battles.html">Сражения</a><div class="dropdown-menu"><a href="battles.html#planned">Предстоящие</a><a href="battles.html#completed">Завершённые</a><a href="battles.html#all">Все сражения</a></div></div>
+  <div class="dropdown"><a href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html#upcoming">Предстоящие</a><a href="campaigns.html#completed">Завершённые</a></div></div>
+  <a href="rating.html">Рейтинг</a>
+  <div class="dropdown"><a href="#news">Форум</a><div class="dropdown-menu"><a href="#news">Обсуждения</a><a href="#news">Гайды</a><a href="#news">Объявления</a></div></div>
+  <a href="https://znhtmnycj5-hash.github.io/empires-website/alliances.html">Союзы</a>
+  <a class="login" href="#" id="openLogin">♙ &nbsp; Войти</a>
+</nav>
+
+<main id="home">
+<div class="grid">
+  <section class="card chat" id="chat">
+  <div class="card-title">◉ &nbsp; Мини-чат <span style="font:10px 'Roboto Slab';color:#6db86d">● Online: 24</span></div>
+  <div class="chat-tabs">
+    <button class="chat-tab active" data-tab="general">Общий чат</button>
+    <button class="chat-tab" data-tab="regiments-chat">Полковой чат</button>
+    <button class="chat-tab" data-tab="online-users">Онлайн</button>
+  </div>
+
+  <div id="general" class="chat-panel active">
+    <div class="messages">
+      <div class="msg"><a class="chat-avatar-link" href="profile.html?v=20261108-msg&user=Grenadier87"><img class="chat-avatar" src="assets/images.jpg" alt="Grenadier87"></a><div><b><a class="chat-user-link" href="profile.html?v=20261108-msg&user=Grenadier87">Grenadier87</a></b><p>Отличный бой был!</p></div><div class="time">19:42</div></div>
+      <div class="msg"><a class="chat-avatar-link" href="profile.html?v=20261108-msg&user=Marquis"><img class="chat-avatar" src="assets/images (1).jpg" alt="Marquis"></a><div><b><a class="chat-user-link" href="profile.html?v=20261108-msg&user=Marquis">Marquis</a></b><p>Когда следующая кампания?</p></div><div class="time">19:40</div></div>
+      <div class="msg"><a class="chat-avatar-link" href="profile.html?v=20261108-msg&user=Volk"><img class="chat-avatar" src="assets/images (4).jpg" alt="Volk"></a><div><b><a class="chat-user-link" href="profile.html?v=20261108-msg&user=Volk">Volk</a></b><p>В субботу, следите за новостями.</p></div><div class="time">19:39</div></div>
+      <div class="msg"><a class="chat-avatar-link" href="profile.html?v=20261108-msg&user=Fusilier"><img class="chat-avatar" src="assets/images (2).jpg" alt="Fusilier"></a><div><b><a class="chat-user-link" href="profile.html?v=20261108-msg&user=Fusilier">Fusilier</a></b><p>Есть кто на тренировку?</p></div><div class="time">19:37</div></div>
+      <div class="msg"><img class="chat-avatar" src="assets/avatar.jpg" alt="Grenadier87"><div><b>Grenadier87</b><p>За Империю! ♛</p></div><div class="time">19:35</div></div>
+    </div>
+  </div>
+
+  <div id="regiments-chat" class="chat-panel">
+    <div class="regiment-chat-status" id="regimentChatStatus"></div>
+    <div class="messages" id="regimentMessages">
+      <div class="msg"><a class="chat-avatar-link" href="profile.html?v=20261108-msg&user=Veli4estvo"><img class="chat-avatar" src="assets/images (4).jpg" alt="Veli4estvo"></a><div><b><a class="chat-user-link" href="profile.html?v=20261108-msg&user=Veli4estvo">Veli4estvo</a></b><p>Набор открыт до воскресенья.</p></div><div class="time">19:41</div></div>
+      <div class="msg"><a class="chat-avatar-link" href="profile.html?v=20261108-msg&user=Flashkodr"><img class="chat-avatar" src="assets/images (3).jpg" alt="Flashkodr"></a><div><b><a class="chat-user-link" href="profile.html?v=20261108-msg&user=Flashkodr">Flashkodr</a></b><p>Тренировка сегодня в 21:00.</p></div><div class="time">19:36</div></div>
+    </div>
+    <div class="regiment-chat-locked" id="regimentChatLocked">
+      <div class="lock-icon">🔒</div>
+      <strong>Полковой чат заблокирован</strong>
+      <p>Вы не состоите ни в одном полку. Вступите в полк, чтобы получить доступ к полковому чату.</p>
+      <a class="btn" href="regiments.html">Найти полк</a>
+    </div>
+  </div>
+
+  <div id="online-users" class="chat-panel">
+    <div class="online-list">
+      <div class="online-user"><span class="online-dot"></span><img class="chat-avatar" src="assets/images.jpg" alt="Grenadier87"><div><b>Grenadier87</b><small>1st Regiment</small></div></div>
+      <div class="online-user"><span class="online-dot"></span><img class="chat-avatar" src="assets/images (1).jpg" alt="Marquis"><div><b>Marquis</b><small>95th Rifles</small></div></div>
+      <div class="online-user"><span class="online-dot"></span><img class="chat-avatar" src="assets/images (4).jpg" alt="Veli4estvo"><div><b>Veli4estvo</b><small>1st Regiment</small></div></div>
+      <div class="online-user"><span class="online-dot"></span><img class="chat-avatar" src="assets/images (2).jpg" alt="Fusilier"><div><b>Fusilier</b><small>Без полка</small></div></div>
+      <div class="online-user"><span class="online-dot"></span><a class="chat-avatar-link" href="profile.html?v=20261108-msg&user=Kalashnikov"><img class="chat-avatar" src="assets/avatar.jpg" alt="Kalashnikov"></a><div><b><a class="chat-user-link" href="profile.html?v=20261108-msg&user=Kalashnikov">Kalashnikov</a></b><small>1st Regiment</small></div></div>
+    </div>
+    <div class="online-count">Сейчас в общем чате: <strong>24</strong></div>
+  </div>
+
+  <div class="chat-input" id="chatInputWrap"><input id="chatInput" name="empire-mini-chat-message" type="text" autocomplete="off" autocapitalize="sentences" spellcheck="true" readonly data-lpignore="true" data-form-type="other" placeholder="Написать сообщение..."><button id="sendChat">➤</button></div>
+</section>
+
+<section class="card" id="news">
+    <div class="card-title">▣ &nbsp; Новости сайта <a href="site-news.html">Все новости →</a></div>
+    <div id="homeNewsPreview"></div>
+  </section>
+
+  <aside class="card profile">
+    <div class="card-title" style="margin:-18px -18px 18px">♙ &nbsp; Личный кабинет</div>
+    <div class="profile-top"><img class="profile-avatar" src="assets/avatar.jpg" alt="Аватар Imperator"><div><h3>Kalashnikov</h3><small>Маршал · 1st Regiment</small></div></div>
+    <dl><dt>Сообщений</dt><dd>124</dd><dt>Сражений</dt><dd>37</dd><dt>Рейтинг</dt><dd>1520</dd></dl>
+    <a class="btn" style="display:block;text-align:center" href="#">Перейти в профиль</a>
+  </aside>
+</div>
+
+<div class="full">
+  <section class="card">
+    <div class="card-title">⚔ &nbsp; Предстоящие полковые сражения <a href="battles.html">Все сражения →</a></div>
+    <div id="upcomingBattlesHome">
+      <div class="battle"><div style="padding:12px;text-align:center;color:#8f8068;font-size:11px;width:100%">Загрузка предстоящих сражений…</div></div>
+    </div>
+  </section>
+
+  <section class="card online-users-home" id="onlineUsers">
+    <div class="card-title">● &nbsp; Пользователи в сети <span id="onlineUsersCount" class="online-users-count">0</span></div>
+    <div id="onlineUsersStrip" class="online-users-strip" aria-label="Пользователи в сети"></div>
+  </section>
+
+  <section class="card ranking" id="ranking">
+    <div class="card-title">♜ &nbsp; Рейтинг полков <a href="#">Полный рейтинг →</a></div>
+    <table>
+      <tr><td class="pos">#</td><td>Полк</td><td class="points">Очки</td></tr>
+      <tr class="rank-row" data-regiment-name="1st Regiment"><td class="pos">1.</td><td><a class="ranking-regiment-link" href="regiment.html?name=1st%20Regiment"><img class="rank-flag" src="assets/1st.jpg" alt="Флаг 1st Regiment">1st Regiment</a></td><td class="points">530</td></tr>
+      <tr class="rank-row" data-regiment-name="95th Rifles"><td class="pos">2.</td><td><a class="ranking-regiment-link" href="regiment.html?name=95th%20Rifles"><img class="rank-flag" src="assets/95.webp" alt="Флаг 95th Rifles">95th Rifles</a></td><td class="points">415</td></tr>
+      <tr class="rank-row" data-regiment-name="84e Régiment"><td class="pos">3.</td><td><a class="ranking-regiment-link" href="regiment.html?name=84e%20R%C3%A9giment"><img class="rank-flag" src="assets/84e.png" alt="Флаг 84e Régiment">84e Régiment</a></td><td class="points">340</td></tr>
+      <tr class="rank-row" data-regiment-name="Preobrazhensky"><td class="pos">4.</td><td><a class="ranking-regiment-link" href="regiment.html?name=Preobrazhensky"><img class="rank-flag" src="assets/preobraz.webp" alt="Флаг Preobrazhensky">Preobrazhensky</a></td><td class="points">300</td></tr>
+      <tr class="rank-row" data-regiment-name="7th Hussars"><td class="pos">5.</td><td><a class="ranking-regiment-link" href="regiment.html?name=7th%20Hussars"><img class="rank-flag" src="assets/hussars.png" alt="Флаг 7th Hussars">7th Hussars</a></td><td class="points">290</td></tr>
+    </table>
+  </section>
+</div>
+
+</main>
+</div>
+
+<footer>
+  <div class="container footer-inner">
+    <div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div>
+    <div>Главная &nbsp;|&nbsp; Полки &nbsp;|&nbsp; Кампании &nbsp;|&nbsp; Рейтинг &nbsp;|&nbsp; Форум &nbsp;|&nbsp; Союзы</div><div class="motto">Vive l’Empire!</div>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="loginModal"><div class="modal">
+<button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь, чтобы открыть личный кабинет, чат и функции полка.</p>
+<label>Логин или email</label><input id="loginName" placeholder="Введите логин">
+<label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль">
+<div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
+<script>
+(() => {
+const toast=(msg)=>{const e=document.getElementById('toast');e.textContent=msg;e.classList.add('show');clearTimeout(window.__t);window.__t=setTimeout(()=>e.classList.remove('show'),2400)};
+const modal=document.getElementById('loginModal');
+document.getElementById('openLogin').onclick=e=>{e.preventDefault();modal.classList.add('show')};
+document.getElementById('closeLogin').onclick=()=>modal.classList.remove('show');
+modal.onclick=e=>{if(e.target===modal)modal.classList.remove('show')};
+document.getElementById('demoLogin').onclick=()=>{const n=document.getElementById('loginName').value.trim()||'Император';try{localStorage.setItem('empire_current_user_v1',n)}catch(error){}modal.classList.remove('show');toast('Добро пожаловать, '+n+'!')};
+
+const siteCounters={regiments:12,battles:11,users:13};
+const applySiteCounters=()=>{
+  Object.entries(siteCounters).forEach(([key,value])=>{
+    document.querySelectorAll('[data-site-count="'+key+'"]').forEach(el=>el.textContent=value);
+  });
+};
+const loadAutomaticSiteCounters=async()=>{
+  try{
+    const [regimentsHtml,profileHtml,battlesHtml]=await Promise.all([
+      fetch('regiments.html',{cache:'no-store'}).then(r=>r.text()),
+      fetch('profile.html',{cache:'no-store'}).then(r=>r.text()),
+      fetch('battles.html',{cache:'no-store'}).then(r=>r.text())
+    ]);
+    const regimentsDoc=new DOMParser().parseFromString(regimentsHtml,'text/html');
+    const regimentCount=regimentsDoc.querySelectorAll('.regiment-tile').length;
+    if(regimentCount) siteCounters.regiments=regimentCount;
+
+    const profileMatch=profileHtml.match(/const\s+profiles\s*=\s*\{([\s\S]*?)\};/);
+    if(profileMatch){
+      const userKeys=profileMatch[1].match(/"[^"]+"\s*:/g);
+      if(userKeys) siteCounters.users=userKeys.length;
+    }
+
+    const battlesDoc=new DOMParser().parseFromString(battlesHtml,'text/html');
+    const battleCount=battlesDoc.querySelectorAll('.battle-record').length;
+    if(battleCount) siteCounters.battles=battleCount;
+
+    applySiteCounters();
+  }catch(error){
+    applySiteCounters();
+  }
+};
+applySiteCounters();
+loadAutomaticSiteCounters();
+const loadUpcomingBattles=async()=>{
+  const box=document.getElementById('upcomingBattlesHome');
+  if(!box)return;
+  try{
+    const sourceUrl=new URL('battles.html',document.baseURI).href;
+    const response=await fetch(sourceUrl,{cache:'no-store'});
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const html=await response.text();
+    const doc=new DOMParser().parseFromString(html,'text/html');
+    const records=[...doc.querySelectorAll('article.battle-record, .battle-record')];
+    const now=Date.now();
+    const getStatus=record=>{
+      const base=(record.dataset.status||'').trim().toLowerCase();
+      if(base==='completed')return base;
+      const startRaw=record.querySelector('.battle-countdown')?.dataset.start||'';
+      const start=startRaw?new Date(startRaw).getTime():NaN;
+      if(Number.isFinite(start)){
+        if(now<start)return base;
+        if(now<start+3600000)return 'ongoing';
+        return 'awaiting_confirmation';
+      }
+      return base;
+    };
+    const allowed=['challenged','accepted','ongoing'];
+    const upcoming=records.filter(record=>allowed.includes(getStatus(record)))
+      .sort((a,b)=>{
+        const aStart=new Date(a.querySelector('.battle-countdown')?.dataset.start||'9999-12-31').getTime();
+        const bStart=new Date(b.querySelector('.battle-countdown')?.dataset.start||'9999-12-31').getTime();
+        return aStart-bStart;
+      }).slice(0,3);
+    if(!upcoming.length){
+      box.innerHTML='<div class="battle"><div class="home-battles-empty">Предстоящих сражений пока нет.</div></div>';
+      return;
+    }
+    const statusLabels={challenged:'ВЫЗОВ БРОШЕН',accepted:'ВЫЗОВ ПРИНЯТ',ongoing:'ИДЁТ БОЙ'};
+    box.innerHTML=upcoming.map((record,index)=>{
+      const top=record.querySelector('.battle-record-top');
+      const date=(top?.querySelectorAll('span')[1]?.textContent||'').trim();
+      const sides=record.querySelectorAll('.battle-side');
+      const left=sides[0],right=sides[1];
+      const leftHref=left?.getAttribute('href')||'#',rightHref=right?.getAttribute('href')||'#';
+      const leftImg=left?.querySelector('img')?.getAttribute('src')||'',rightImg=right?.querySelector('img')?.getAttribute('src')||'';
+      const leftName=left?.querySelector('strong')?.textContent.trim()||'Полк',rightName=right?.querySelector('strong')?.textContent.trim()||'Полк';
+      const parts=date.split('·').map(s=>s.trim()),d=parts[0]||date,tm=parts[1]||'';
+      const dt=d.split('.'),day=dt[0]||d;
+      const month={10:'ОКТЯБРЯ',11:'НОЯБРЯ',12:'ДЕКАБРЯ'}[Number(dt[1])]||'';
+      const status=getStatus(record),battleUrl='battle.html?id='+encodeURIComponent(record.id||'');
+      const commentCount=window.EMPIRE_COMMENT_COUNTS.getBattleCommentCount(record.id);
+      return '<div class="battle home-battle-link" data-battle-url="'+battleUrl+'"'+(index?' style="border-top:1px solid #332b21"':'')+'><div class="datebox">'+day+'<br><small>'+month+(tm?'<br>'+tm:'')+'</small><span class="battle-type">'+(statusLabels[status]||'')+'</span></div><div><a class="team regiment-link" href="'+leftHref+'"><img class="battle-flag" src="'+leftImg+'" alt="">'+leftName+'</a></div><div class="vs">VS</div><div><a class="team regiment-link" href="'+rightHref+'"><img class="battle-flag" src="'+rightImg+'" alt="">'+rightName+'</a></div>'+window.EMPIRE_COMMENT_COUNTS.badge(commentCount,battleUrl)+'</div>';
+    }).join('');
+    box.querySelectorAll('.home-battle-link').forEach(row=>row.addEventListener('click',event=>{
+      if(event.target.closest('.regiment-link'))return;
+      if(row.dataset.battleUrl)window.location.href=row.dataset.battleUrl;
+    }));
+  }catch(error){
+    box.innerHTML='<div class="battle"><div class="home-battles-empty">Не удалось загрузить сражения. <a href="battles.html">Открыть список</a></div></div>';
+  }
+};;
+loadUpcomingBattles();
+
+const updateHomeRanking=async()=>{
+  try{
+    const ratings=await calculateRegimentRatings();
+    const table=document.querySelector('.ranking table');
+    if(!table)return;
+    const rows=[...table.querySelectorAll('.rank-row')];
+    const byName=Object.fromEntries(rows.map(row=>[row.dataset.regimentName,row]));
+    const topFive=ratings.slice(0,5);
+    const header='<tr><td class="pos">#</td><td>Полк</td><td class="points">Очки</td></tr>';
+    const body=topFive.map((item,index)=>{
+      const row=byName[item.name];
+      if(!row)return '';
+      const cells=row.querySelectorAll('td');
+      return '<tr class="rank-row" data-regiment-name="'+item.name.replace(/"/g,'&quot;')+'"><td class="pos">'+(index+1)+'.</td><td>'+cells[1].innerHTML+'</td><td class="points">'+item.score+'</td></tr>';
+    }).join('');
+    table.innerHTML=header+body;
+  }catch(error){}
+}
+updateHomeRanking();
+setInterval(loadUpcomingBattles,30000);
+const currentUser={name:'Kalashnikov',regiment:'1st Regiment'};
+
+const communityRegiments=[
+  {name:"1st Regiment",avatar:"assets/1st.jpg",faction:"Французская Империя",count:42,rating:1840},
+  {name:"95th Rifles",avatar:"assets/95.webp",faction:"Британская Империя",count:37,rating:1715},
+  {name:"84e Régiment",avatar:"assets/84e.png",faction:"Французская Империя",count:35,rating:1630},
+  {name:"Preobrazhensky",avatar:"assets/preobraz.webp",faction:"Российская Империя",count:31,rating:1590},
+  {name:"7th Hussars",avatar:"assets/hussars.png",faction:"Британская Империя",count:29,rating:1565},
+  {name:"13e Léger",avatar:"assets/1st.jpg",faction:"Французская Империя",count:28,rating:1510},
+  {name:"33e Ligne",avatar:"assets/95.webp",faction:"Британская Империя",count:26,rating:1475},
+  {name:"92nd Gordon Highlanders",avatar:"assets/84e.png",faction:"Британская Империя",count:24,rating:1420},
+  {name:"Semenovsky",avatar:"assets/preobraz.webp",faction:"Российская Империя",count:23,rating:1385},
+  {name:"King's German Legion",avatar:"assets/kgr.png",faction:"Британская Империя",count:21,rating:1320},
+  {name:"6e Hussards",avatar:"assets/1st.jpg",faction:"Французская Империя",count:19,rating:1260},
+  {name:"Royal Scots",avatar:"assets/95.webp",faction:"Британская Империя",count:17,rating:1195}
+];
+const renderCommunityRegiments=(ratings)=>{
+  const container=document.getElementById("communityRegiments");
+  if(!container)return;
+  const ratingMap=Object.fromEntries((Array.isArray(ratings)?ratings:[]).map(item=>[item.name,item.score]));
+  const shuffled=[...communityRegiments].sort(()=>Math.random()-0.5).slice(0,3);
+  container.innerHTML=shuffled.map(r=>{
+    const liveRating=ratingMap[r.name]??r.rating;
+    return '<a class="regiment-card regiment-link" data-regiment="'+r.name+'" href="regiment.html?name='+encodeURIComponent(r.name)+'"><img class="regiment-flag" src="'+r.avatar+'" alt="Флаг '+r.name+'"><h4>'+r.name+'</h4><p>'+r.faction+' · '+r.count+' бойцов · Рейтинг '+liveRating+'</p></a>';
+  }).join("");
+};
+// Сначала сразу показываем три полка, не ожидая загрузки рейтинга.
+renderCommunityRegiments([]);
+if(typeof calculateRegimentRatings==="function"){
+  calculateRegimentRatings().then(renderCommunityRegiments).catch(()=>{});
+}
+document.querySelectorAll('.chat-tab').forEach(button=>{
+ button.addEventListener('click',()=>{
+  const target=document.getElementById(button.dataset.tab);
+  if(!target)return;
+  document.querySelectorAll('.chat-tab').forEach(tab=>tab.classList.toggle('active',tab===button));
+  document.querySelectorAll('.chat-panel').forEach(panel=>panel.classList.toggle('active',panel===target));
+  const isRegiment=button.dataset.tab==='regiments-chat';
+  const inputWrap=document.getElementById('chatInputWrap');
+  if(inputWrap)inputWrap.style.display=isRegiment&&!currentUser.regiment?'none':'flex';
+ });
+});
+const regimentStatus=document.getElementById('regimentChatStatus');
+const regimentLocked=document.getElementById('regimentChatLocked');
+if(currentUser.regiment){
+ regimentStatus.innerHTML='<span class="chat-access-ok">● Полковой чат: '+currentUser.regiment+'</span>';
+ regimentLocked.style.display='none';
+}else{
+ regimentStatus.innerHTML='<span class="chat-access-locked">● Доступ закрыт</span>';
+ document.getElementById('regimentMessages').style.display='none';
+}
+function send(){const i=document.getElementById('chatInput'),v=i.value.trim();if(!v)return;
+ const active=document.querySelector('.chat-panel.active'),box=active?.querySelector('.messages')||document.querySelector('#general .messages'),r=document.createElement('div');r.className='msg';
+ r.innerHTML='<img class="chat-avatar" src="assets/avatar.jpg" alt="Вы"><div><b>'+currentUser.name+'</b><p></p></div><div class="time">сейчас</div>';r.querySelector('p').textContent=v;box.appendChild(r);i.value='';toast('Сообщение добавлено в чат')}
+const chatInput=document.getElementById('chatInput');chatInput.addEventListener('focus',()=>{chatInput.readOnly=false},{once:true});document.getElementById('sendChat').onclick=send;chatInput.onkeydown=e=>{if(e.key==='Enter')send()};
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.onclick=e=>{const id=a.getAttribute('href');if(id.length>1&&document.querySelector(id)){e.preventDefault();document.querySelector(id).scrollIntoView({behavior:'smooth',block:'start'})}});
+})();
+</script>
+
+<script src="assets/online-users.js?v=20261108-1"></script>
+<script src="assets/site-news.js?v=20261108-home-news4"></script>
+</body>
+</html>
