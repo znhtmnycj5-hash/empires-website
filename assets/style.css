@@ -1109,3 +1109,15 @@ nav a,.btn{font-family:"Roboto Slab",serif}
  .admin-pagination{gap:8px}
  .admin-pagination .btn{padding:9px 12px}
 }
+
+/* Temporary ban duration controls */
+.admin-temp-form{display:flex;align-items:flex-end;gap:7px;flex-wrap:wrap;margin-top:6px;padding:8px;border:1px solid rgba(125,94,54,.4);background:rgba(15,12,9,.65)}
+.admin-temp-form[hidden]{display:none}
+.admin-temp-form label{display:flex;flex-direction:column;gap:3px;color:#9e917b;font-size:8px;text-transform:uppercase;letter-spacing:.5px}
+.admin-temp-form input{width:70px;padding:7px 6px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:11px "Roboto Slab",serif}
+.admin-temp-form button{padding:8px 10px;font-size:9px}
+@media(max-width:600px){
+ .admin-temp-form{width:100%}
+ .admin-temp-form input{width:64px}
+ .admin-temp-form button{flex:1}
+}
