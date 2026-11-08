@@ -293,7 +293,11 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 }
 
 
-.news-pagination{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:15px;flex-wrap:wrap}\n.news-pagination a,.news-pagination a:visited,.news-pagination a:focus,.news-pagination a:active{min-width:30px;height:30px;padding:0 8px;display:flex;align-items:center;justify-content:center;border:1px solid #5d4930;background:#17130f;color:#bba783;text-decoration:none;font:600 10px Cinzel;outline:none}\n.news-pagination a:hover,.news-pagination a.current{background:#641e1b;border-color:#9a6d3c;color:#efd49a}\n.regiment-news-section .news-pagination a:visited,.regiment-news-section .news-pagination a:focus,.regiment-news-section .news-pagination a:active{color:#bba783;background:#17130f;text-decoration:none}\n
+.news-pagination{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:15px;flex-wrap:wrap}
+.news-pagination a,.news-pagination a:visited,.news-pagination a:focus,.news-pagination a:active{min-width:30px;height:30px;padding:0 8px;display:flex;align-items:center;justify-content:center;border:1px solid #5d4930;background:#17130f;color:#bba783;text-decoration:none;font:600 10px Cinzel;outline:none}
+.news-pagination a:hover,.news-pagination a.current{background:#641e1b;border-color:#9a6d3c;color:#efd49a}
+.regiment-news-section .news-pagination a:visited,.regiment-news-section .news-pagination a:focus,.regiment-news-section .news-pagination a:active{color:#bba783;background:#17130f;text-decoration:none}
+
 
 /* Regiment news */
 .regiment-news-item.news-clickable{display:flex;color:inherit;text-decoration:none;cursor:pointer;transition:border-color .18s ease,background .18s ease,transform .18s ease}
