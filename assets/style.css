@@ -1693,3 +1693,54 @@ nav a,.btn{font-family:"Roboto Slab",serif}
     font-size:7px!important;
   }
 }
+
+/* Battle comments: keep avatar fully inside the row and separate the divider */
+.battle-thread-item{
+  width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+  border-bottom:1px solid #3a3023!important;
+}
+.battle-thread-item>.battle-comment{
+  border-bottom:0!important;
+  padding-bottom:18px!important;
+}
+.battle-thread-item>.battle-comment .battle-comment-avatar-link{
+  position:relative!important;
+  z-index:1!important;
+  margin:0!important;
+  align-self:flex-start!important;
+}
+.battle-thread-item>.battle-comment .battle-comment-content{
+  align-self:flex-start!important;
+}
+.battle-thread-item>.battle-comment .battle-comment-head{
+  min-height:17px!important;
+}
+.battle-thread-item>.battle-comment .battle-comment-head>a{
+  line-height:1.35!important;
+}
+.battle-thread-item>.battle-comment .battle-comment-head>span{
+  line-height:1.35!important;
+}
+.battle-thread-item>.battle-comment .battle-comment-content>p{
+  margin-top:6px!important;
+  margin-bottom:8px!important;
+}
+.battle-thread-item.is-reply{
+  border-bottom:0!important;
+}
+.battle-thread-item.is-reply>.battle-comment{
+  padding-bottom:14px!important;
+}
+@media(max-width:600px){
+  .battle-thread-item>.battle-comment{
+    padding-bottom:15px!important;
+  }
+  .battle-thread-item>.battle-comment .battle-comment-head{
+    min-height:15px!important;
+  }
+  .battle-thread-item.is-reply>.battle-comment{
+    padding-bottom:12px!important;
+  }
+}
