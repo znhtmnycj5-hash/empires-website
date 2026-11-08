@@ -30,6 +30,7 @@
 </main>
 <footer><div class="container footer-inner"><div>© 2026 EMPIRE Napoleonic Wars</div><div class="motto">Сражайся и побеждай</div></div></footer>
 
+<script src="assets/user-avatars.js?v=20261108-comments1"></script>
 <script>
 const regimentData={
 "1st Regiment":{avatar:"assets/1st.jpg",commander:"Ankord",faction:"Французская Империя",officers:["Veli4estvo","Mel","Kazak"]},
@@ -107,8 +108,13 @@ function renderList(){
 }
 function renderComments(news){
   const comments=getComments()[news.id]||[];
-  document.getElementById('commentsSection').innerHTML='<div class="card-title">💬 Комментарии <span>'+comments.length+'</span></div><div class="news-comments-list">'+(comments.length?comments.map(c=>'<div class="news-comment"><div class="news-comment-avatar">'+escapeHtml(c.author.slice(0,1))+'</div><div><strong>'+escapeHtml(c.author)+'</strong><small>'+escapeHtml(c.date)+'</small><p>'+escapeHtml(c.text)+'</p></div></div>').join(''):'<p class="empty-note">Пока нет комментариев.</p>')+'</div><form class="news-comment-form" id="commentForm"><textarea required placeholder="Напишите комментарий..."></textarea><button class="btn primary">Оставить комментарий</button></form>';
-  document.getElementById('commentForm').addEventListener('submit',e=>{e.preventDefault();const map=getComments();const arr=map[news.id]||[];arr.push({author:currentUser.name,date:new Date().toLocaleString('ru-RU'),text:e.currentTarget.querySelector('textarea').value});map[news.id]=arr;localStorage.setItem(commentsKey,JSON.stringify(map));renderComments(news);});
+  const commentHtml=comments.length?comments.map(c=>{
+    const author=String(c.author||'Пользователь');
+    const avatar=c.avatar||empireUserAvatar(author);
+    return '<article class="news-comment"><a class="news-comment-avatar-link" href="'+empireProfileUrl(author)+'"><img class="news-comment-avatar" src="'+escapeHtml(avatar)+'" alt="'+escapeHtml(author)+'" loading="lazy"></a><div class="news-comment-content"><a class="news-comment-author" href="'+empireProfileUrl(author)+'"><strong>'+escapeHtml(author)+'</strong></a><small>'+escapeHtml(c.date||'')+'</small><p>'+escapeHtml(c.text||'')+'</p></div></article>';
+  }).join(''):'<p class="empty-note">Пока нет комментариев.</p>';
+  document.getElementById('commentsSection').innerHTML='<div class="card-title">💬 Комментарии <span>'+comments.length+'</span></div><div class="news-comments-list">'+commentHtml+'</div><form class="news-comment-form" id="commentForm"><textarea required placeholder="Напишите комментарий..."></textarea><button class="btn primary">Оставить комментарий</button></form>';
+  document.getElementById('commentForm').addEventListener('submit',e=>{e.preventDefault();const map=getComments();const arr=map[news.id]||[];arr.push({author:currentUser.name,avatar:empireUserAvatar(currentUser.name),date:new Date().toLocaleString('ru-RU'),text:e.currentTarget.querySelector('textarea').value});map[news.id]=arr;localStorage.setItem(commentsKey,JSON.stringify(map));renderComments(news);});
 }
 function renderEditor(){
   const editor=document.getElementById('newsEditor');editor.hidden=false;
