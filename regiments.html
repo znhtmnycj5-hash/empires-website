@@ -116,6 +116,24 @@ const updateRegimentListRatings=async()=>{
   }catch(error){}
 };
 updateRegimentListRatings();
+
+const renderApprovedRegiments=()=>{
+  try{
+    const approved=JSON.parse(localStorage.getItem("empire_approved_regiments_v1")||"[]");
+    const list=document.querySelector(".regiments-list");
+    if(!list)return;
+    approved.forEach(item=>{
+      if(list.querySelector('[data-regiment-name="'+CSS.escape(item.name)+'"]'))return;
+      const tile=document.createElement("a");
+      tile.className="regiment-tile regiment-link";
+      tile.dataset.regimentName=item.name;
+      tile.href="regiment.html?name="+encodeURIComponent(item.name);
+      tile.innerHTML='<img src="'+item.logo+'" alt="Логотип '+item.name+'"><div class="regiment-info"><h2>'+item.name.replace(/</g,"&lt;")+'</h2><div class="regiment-meta"><span>Рейтинг <b>'+(item.rating||1000)+'</b></span><span>'+(item.members||1)+' человек</span></div></div>';
+      list.appendChild(tile);
+    });
+  }catch(error){}
+};
+renderApprovedRegiments();
 </script>
 </body>
 </html>
