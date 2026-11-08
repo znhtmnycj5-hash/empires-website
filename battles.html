@@ -35,7 +35,7 @@
   <section class="card battle-filters">
     <button class="battle-filter active" data-filter="all">Все <span id="count-all">11</span></button>
     <button class="battle-filter" data-filter="challenged">Вызов брошен <span id="count-challenged">0</span></button>
-    <button class="battle-filter" data-filter="preparation">Подготовка к сражению <span id="count-preparation">2</span></button>
+    <button class="battle-filter" data-filter="accepted">Вызов принят <span id="count-accepted">2</span></button>
     <button class="battle-filter" data-filter="ongoing">Идёт бой <span id="count-ongoing">0</span></button>
     <button class="battle-filter" data-filter="awaiting_confirmation">Ожидает подтверждения <span id="count-awaiting_confirmation">0</span></button>
     <button class="battle-filter" data-filter="completed">Завершённые <span id="count-completed">9</span></button>
@@ -123,20 +123,20 @@
       </div>
     <a class="battle-open-link" href="battle.html?id=battle-009">Открыть страницу сражения →</a></article>
 
-    <article class="battle-record card" data-status="preparation" id="battle-010">
-      <div class="battle-record-top"><span class="battle-status preparation">Подготовка к сражению</span><span>10.11.2026 · 21:00</span><span>Полковое сражение</span></div>
+    <article class="battle-record card" data-status="accepted" id="battle-010">
+      <div class="battle-record-top"><span class="battle-status accepted">Вызов принят</span><span>10.11.2026 · 21:00</span><span>Полковое сражение</span></div>
       <div class="battle-record-main">
         <a class="battle-side regiment-link" href="regiment.html?name=7th%20Hussars"><img src="assets/hussars.png" alt="7th Hussars"><strong>7th Hussars</strong><small>Британская Империя</small></a>
-        <div class="battle-result-box planned-result"><b>VS</b><span>Подготовка к сражению</span><div class="battle-countdown" data-start="2026-11-10T21:00:00"></div></div>
+        <div class="battle-result-box planned-result"><b>VS</b><span>Вызов принят</span><div class="battle-countdown" data-start="2026-11-10T21:00:00"></div></div>
         <a class="battle-side regiment-link" href="regiment.html?name=95th%20Rifles"><img src="assets/95.webp" alt="95th Rifles"><strong>95th Rifles</strong><small>Британская Империя</small></a>
       </div>
     <a class="battle-open-link" href="battle.html?id=battle-010">Открыть страницу сражения →</a></article>
 
-    <article class="battle-record card" data-status="preparation" id="battle-011">
-      <div class="battle-record-top"><span class="battle-status preparation">Подготовка к сражению</span><span>08.11.2026 · 20:00</span><span>Полковое сражение</span></div>
+    <article class="battle-record card" data-status="accepted" id="battle-011">
+      <div class="battle-record-top"><span class="battle-status accepted">Вызов принят</span><span>08.11.2026 · 20:00</span><span>Полковое сражение</span></div>
       <div class="battle-record-main">
         <a class="battle-side regiment-link" href="regiment.html?name=1st%20Regiment"><img src="assets/1st.jpg" alt="1st Regiment"><strong>1st Regiment</strong><small>Французская Империя</small></a>
-        <div class="battle-result-box planned-result"><b>VS</b><span>Подготовка к сражению</span><div class="battle-countdown" data-start="2026-11-08T20:00:00"></div></div>
+        <div class="battle-result-box planned-result"><b>VS</b><span>Вызов принят</span><div class="battle-countdown" data-start="2026-11-08T20:00:00"></div></div>
         <a class="battle-side regiment-link" href="regiment.html?name=84e%20R%C3%A9giment"><img src="assets/84e.png" alt="84e Régiment"><strong>84e Régiment</strong><small>Французская Империя</small></a>
       </div>
     <a class="battle-open-link" href="battle.html?id=battle-011">Открыть страницу сражения →</a></article>
@@ -171,20 +171,20 @@ const getDynamicStatus=record=>{
 };
 const statusNames={
   challenged:'Вызов брошен',
-  preparation:'Подготовка к сражению',
+  accepted:'Вызов принят',
   ongoing:'Идёт бой',
   awaiting_confirmation:'Ожидает подтверждения',
   completed:'Завершено'
 };
 const statusClasses={
   challenged:'challenged',
-  preparation:'preparation',
+  accepted:'accepted',
   ongoing:'ongoing',
   awaiting_confirmation:'awaiting-confirmation',
   completed:'completed'
 };
 const applyDynamicStatuses=()=>{
-  const counts={all:records.length,challenged:0,preparation:0,ongoing:0,awaiting_confirmation:0,completed:0};
+  const counts={all:records.length,challenged:0,accepted:0,ongoing:0,awaiting_confirmation:0,completed:0};
   records.forEach(record=>{
     const status=getDynamicStatus(record);
     record.dataset.dynamicStatus=status;
