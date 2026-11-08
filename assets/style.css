@@ -2128,3 +2128,59 @@ nav a,.btn{font-family:"Roboto Slab",serif}
     max-width:27px!important;
   }
 }
+
+
+/* Unified threaded comments and rich editor on news pages (matches battle page) */
+.news-comments-card,.site-news-comments{padding:18px 20px;margin:14px 0;min-width:0}
+.news-comments-card>.card-title,.site-news-comments>.card-title{margin:-18px -20px 14px;padding:13px 16px}
+.battle-comments{display:grid;gap:0;max-height:none;overflow:visible}
+.battle-thread-item{min-width:0}
+.battle-thread-item>.battle-comment{display:grid!important;grid-template-columns:94px minmax(0,1fr)!important;align-items:start!important;gap:16px!important;padding:16px 0!important;border:0!important;border-bottom:1px solid rgba(137,103,57,.22)!important;background:transparent!important}
+.battle-comment-author{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;gap:7px!important;width:94px!important;min-width:94px!important;text-align:center!important}
+.battle-comment-avatar-link{display:block!important;width:76px!important;height:76px!important;min-width:76px!important;min-height:76px!important;overflow:hidden!important;border:1px solid #87663b!important;background:#251d15!important}
+.battle-comment-avatar{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;margin:0!important;border:0!important}
+.battle-comment-identity{display:flex!important;flex-direction:column!important;align-items:center!important;gap:4px!important;min-width:0!important;width:100%!important}
+.battle-comment-head{display:block!important;min-width:0!important}
+.battle-comment-head a,.battle-comment-head strong{color:#dfc17f!important;font:600 10px/1.3 "Roboto Slab",serif!important;text-decoration:none!important;overflow-wrap:anywhere!important}
+.battle-comment-regiment{color:#a9987b!important;font-size:8px!important;line-height:1.3!important;overflow-wrap:anywhere!important}
+.battle-comment-time{display:block!important;color:#81745f!important;font-size:8px!important;line-height:1.3!important;text-align:center!important}
+.battle-comment-content{position:relative!important;min-width:0!important;padding:0 0 30px!important;color:#d0c1a9!important}
+.battle-comment-text{margin:0 0 9px!important;color:#d0c1a9!important;font-size:11px!important;line-height:1.6!important;overflow-wrap:anywhere!important;word-break:break-word!important}
+.battle-comment-text blockquote{margin:8px 0!important;padding:6px 10px!important;border-left:2px solid rgba(169,139,91,.5)!important;background:rgba(169,139,91,.07)!important;color:#b8aa95!important}
+.battle-comment-text img{display:block!important;width:min(100%,520px)!important;max-width:100%!important;height:auto!important;margin:9px 0!important;border:1px solid rgba(125,94,54,.45)!important}
+.battle-comment-text video{display:block!important;width:min(100%,620px)!important;max-width:100%!important;height:auto!important;margin:9px 0!important;background:#050505!important;border:1px solid rgba(125,94,54,.45)!important}
+.battle-comment-text [data-spoiler="true"]{display:inline-block!important;padding:0 5px!important;border-radius:2px!important;background:#25211c!important;color:transparent!important;cursor:pointer!important;user-select:none!important}
+.battle-comment-text [data-spoiler="true"]:hover,.battle-comment-text [data-spoiler="true"]:focus{color:#d0c1a9!important}
+.battle-thread-replies{margin:0 0 4px 28px!important;padding-left:16px!important;border-left:2px solid rgba(137,103,57,.22)!important}
+.battle-thread-item.is-reply>.battle-comment{padding-top:13px!important;padding-bottom:15px!important}
+.battle-comment-form{display:flex!important;align-items:flex-end!important;gap:10px!important;margin-top:14px!important}
+.battle-comment-editor{flex:1 1 auto!important;min-width:0!important;border:1px solid rgba(137,103,57,.42)!important;background:rgba(9,8,7,.42)!important}
+.battle-comment-toolbar{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;gap:3px!important;min-height:34px!important;padding:4px 6px!important;overflow-x:auto!important;border-bottom:1px solid rgba(137,103,57,.22)!important;background:rgba(15,12,9,.55)!important}
+.battle-comment-toolbar button{display:inline-flex!important;flex:0 0 28px!important;align-items:center!important;justify-content:center!important;width:28px!important;height:26px!important;min-width:28px!important;margin:0!important;padding:0!important;border:1px solid transparent!important;border-radius:2px!important;background:transparent!important;color:#b8a98f!important;font:600 11px "Roboto Slab",serif!important;cursor:pointer!important}
+.battle-comment-toolbar button:hover{border-color:rgba(169,139,91,.4)!important;background:rgba(169,139,91,.10)!important;color:#dfc17f!important}
+.battle-comment-input{min-height:74px!important;max-height:260px!important;overflow:auto!important;padding:10px 11px!important;color:#d0c1a9!important;font:400 11px/1.6 "Roboto Slab",serif!important;outline:none!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important}
+.battle-comment-input:empty:before{content:attr(data-placeholder)!important;color:#746b5e!important;pointer-events:none!important}
+.battle-comment-input blockquote{margin:8px 0!important;padding:6px 10px!important;border-left:2px solid rgba(169,139,91,.5)!important;background:rgba(169,139,91,.07)!important;color:#b8aa95!important}
+.battle-comment-input [data-spoiler="true"]{padding:0 5px!important;background:#25211c!important;color:transparent!important}
+.battle-comment-input [data-spoiler="true"]:hover{color:#d0c1a9!important}
+.battle-comment-form>button[type="submit"]{min-width:110px!important;min-height:40px!important;padding:8px 15px!important;border:1px solid #8b6739!important;background:#641e1b!important;color:#ead19c!important;font:600 10px "Roboto Slab"!important;cursor:pointer!important}
+.battle-reply-button,.comment-delete-button,.comment-report-button,.comment-like-button,.comment-like-all{font-family:"Roboto Slab",serif!important}
+.battle-reply-button{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:23px!important;margin:0 6px 0 0!important;padding:2px 8px!important;border:1px solid rgba(169,139,91,.28)!important;background:rgba(12,10,8,.2)!important;color:#b9aa91!important;font-size:8px!important;cursor:pointer!important}
+.battle-reply-form{display:flex!important;gap:6px!important;margin-top:8px!important}
+.battle-reply-form input{flex:1;min-width:0;padding:7px 9px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:10px "Roboto Slab",serif}
+.battle-reply-form button{padding:6px 10px;border:1px solid #8b6739;background:#641e1b;color:#ead19c;font:600 9px "Roboto Slab",serif}
+@media(max-width:600px){
+ .news-comments-card,.site-news-comments{padding:14px!important}
+ .news-comments-card>.card-title,.site-news-comments>.card-title{margin:-14px -14px 12px!important;padding:12px 14px!important}
+ .battle-thread-item>.battle-comment{grid-template-columns:58px minmax(0,1fr)!important;column-gap:13px!important}
+ .battle-comment-author{width:58px!important;min-width:58px!important}
+ .battle-comment-avatar-link{width:58px!important;height:58px!important;min-width:58px!important;min-height:58px!important}
+ .battle-comment-head a,.battle-comment-head strong{font-size:9px!important}
+ .battle-comment-regiment,.battle-comment-time{font-size:7px!important}
+ .battle-comment-text{font-size:10px!important;line-height:1.55!important}
+ .battle-thread-replies{margin-left:14px!important;padding-left:10px!important;border-left:2px solid rgba(137,103,57,.18)!important}
+ .battle-comment-form{align-items:stretch!important;flex-direction:column!important}
+ .battle-comment-form>button[type="submit"]{align-self:flex-end!important}
+ .battle-comment-toolbar button{flex-basis:27px!important;width:27px!important;min-width:27px!important}
+ .battle-comment-input{min-height:70px!important;font-size:10px!important}
+}
