@@ -1338,3 +1338,73 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   .battle-comment-content .battle-reply-button{padding:5px 7px}
   .battle-thread-replies{margin-left:14px;padding-left:10px}
 }
+
+
+/* Unified comment action buttons */
+.comment-reactions{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  flex-wrap:nowrap!important;
+  margin:8px 6px 0 0!important;
+  position:static!important;
+  vertical-align:middle;
+}
+.comment-like-button,
+.comment-report-button{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+  width:108px!important;
+  min-width:108px!important;
+  height:30px!important;
+  min-height:30px!important;
+  margin:0!important;
+  padding:4px 8px!important;
+  border:1px solid rgba(169,139,91,.28)!important;
+  border-radius:2px;
+  background:rgba(12,10,8,.20)!important;
+  color:rgba(185,170,145,.68)!important;
+  font:500 10px "Roboto Slab",serif!important;
+  line-height:1!important;
+  opacity:.72;
+  cursor:pointer;
+  position:static!important;
+  float:none!important;
+}
+.comment-like-button b{font-size:9px;color:rgba(213,189,141,.72)}
+.comment-like-button:hover,
+.comment-like-button.is-liked,
+.comment-report-button:hover{
+  opacity:.9;
+  color:#d9c7a7!important;
+  border-color:rgba(169,139,91,.45)!important;
+  background:rgba(12,10,8,.28)!important;
+}
+.comment-like-button.is-liked{color:#d9a7a5!important}
+.comment-like-button.is-liked b{color:#d9a7a5}
+.comment-report-button{gap:5px!important}
+.comment-like-popover{
+  position:static!important;
+  display:none;
+  max-width:240px;
+}
+.comment-reactions:hover .comment-like-popover,
+.comment-reactions:focus-within .comment-like-popover{display:flex}
+@media(max-width:600px){
+  .comment-reactions{
+    gap:5px!important;
+    margin-top:7px!important;
+  }
+  .comment-like-button,
+  .comment-report-button{
+    width:96px!important;
+    min-width:96px!important;
+    height:28px!important;
+    min-height:28px!important;
+    padding:4px 6px!important;
+    font-size:9px!important;
+  }
+}
+
