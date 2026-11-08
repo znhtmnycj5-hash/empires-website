@@ -91,6 +91,7 @@
   </div>
 </footer>
 
+<script src="assets/user-avatars.js?v=20261108-comments1"></script>
 <script>
 const battlesData={
   "battle-001":{status:"completed",confirmedLeft:true,confirmedRight:true,title:"1st Regiment vs 95th Rifles",date:"26.10.2026",start:"2026-10-26T20:00:00",type:"Линейная Битва (ЛБ)",size:10,allies:false,server:"EMPIRE Line #1",password:"empire001",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"95th Rifles",faction:"Британская Империя",avatar:"assets/95.webp",href:"regiment.html?name=95th%20Rifles"},winner:"95th Rifles",score:"2 : 3",media:[]},
@@ -230,17 +231,22 @@ if(!battle){
   setInterval(renderBattleState,1000);
 
   const storageKey="empire-battle-comments-"+battleId;
-  const seed=[{name:"Kalashnikov",text:"Удачи обеим сторонам! ",time:"08.11.2026 01:20"}];
+  const seed=[{name:"Kalashnikov",text:"Удачи обеим сторонам! ",time:"08.11.2026 01:20",avatar:empireUserAvatar("Kalashnikov")}];
+  const escapeCommentHtml=value=>String(value??"").replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]));
   const renderComments=()=>{
     let comments=[]; try{comments=JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){}
     const all=[...seed,...comments];
-    $("commentList").innerHTML=all.length?all.map(c=>'<div class="battle-comment"><div><strong>'+c.name+'</strong><span>'+c.time+'</span></div><p>'+c.text.replace(/[&<>]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[x]))+'</p></div>').join(""):'<div class="battle-comments-empty">Комментариев пока нет.</div>';
+    $("commentList").innerHTML=all.length?all.map(c=>{
+      const name=String(c.name||"Пользователь");
+      const avatar=c.avatar||empireUserAvatar(name);
+      return '<article class="battle-comment"><a class="battle-comment-avatar-link" href="'+empireProfileUrl(name)+'"><img class="battle-comment-avatar" src="'+escapeCommentHtml(avatar)+'" alt="'+escapeCommentHtml(name)+'" loading="lazy"></a><div class="battle-comment-content"><div class="battle-comment-head"><a href="'+empireProfileUrl(name)+'"><strong>'+escapeCommentHtml(name)+'</strong></a><span>'+escapeCommentHtml(c.time||"")+'</span></div><p>'+escapeCommentHtml(c.text||"")+'</p></div></article>';
+    }).join(""):'<div class="battle-comments-empty">Комментариев пока нет.</div>';
   };
   renderComments();
   $("commentForm").addEventListener("submit",e=>{
     e.preventDefault(); const input=$("commentInput"); const text=input.value.trim(); if(!text)return;
     let comments=[]; try{comments=JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(err){}
-    comments.push({name:currentUser.name,text,time:new Date().toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})});
+    comments.push({name:currentUser.name,avatar:empireUserAvatar(currentUser.name),text,time:new Date().toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})});
     localStorage.setItem(storageKey,JSON.stringify(comments)); input.value=""; renderComments();
   });
 }
