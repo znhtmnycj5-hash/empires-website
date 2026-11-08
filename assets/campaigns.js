@@ -13,6 +13,7 @@ const formatDate=v=>new Date(v).toLocaleString('ru-RU',{day:'2-digit',month:'2-d
 const countdown=v=>{const d=Math.max(0,new Date(v).getTime()-Date.now());const h=Math.floor(d/3600000),m=Math.floor(d%3600000/60000),s=Math.floor(d%60000/1000);return h+'ч '+String(m).padStart(2,'0')+'м '+String(s).padStart(2,'0')+'с'};
 const seed=()=>{
  let all=read(K);
+ if(!Array.isArray(all)) all=[];
  const testCampaign={id:'campaign-001',title:'Имперская кампания: Освобождение Европы',server:'EMPIRE_NW_Official',password:'EMPIRE1815',startAt:'2026-11-15T20:00:00',factions:['Французская армия','Британская армия'],organizer:'Kalashnikov',status:'published',applications:[],createdAt:'2026-11-08T18:00:00',preview:'assets/IMG_2745.png',cover:'assets/IMG_2745.png'};
  const existingIndex=all.findIndex(x=>x.id==='campaign-001');
  if(existingIndex<0){
