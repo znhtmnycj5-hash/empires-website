@@ -6,12 +6,12 @@
 <link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
 <title>Рейтинг — EMPIRE</title>
 <link rel="stylesheet" href="assets/style.css?v=20261108-rating2">
-<script src="assets/rating.js"></script>
-<script src="assets/alliances.js?v=20261108-1"></script>
+<script src="assets/rating.js?v=20261108-lazy1"></script>
+<script src="assets/alliances.js?v=20261108-lazy1"></script>
 </head>
 <body>
 <header class="inner-header"><div class="container">
-  <div class="brand"><a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a><div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div></div>
+  <div class="brand"><a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE" decoding="async"></a><div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div></div>
   <nav>
     <a href="index.html">Главная</a>
     <div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a></div></div>
@@ -78,7 +78,7 @@
       return '<a class="rating-podium '+podiumClass(position)+'" href="'+link+'">'+
         ''+
         '<div class="rating-position">'+position+'</div>'+
-        '<div class="rating-avatar"><img src="'+esc(image)+'" alt=""></div>'+
+        '<div class="rating-avatar"><img src="'+esc(image)+'" alt="" loading="lazy" decoding="async"></div>'+
         '<div class="rating-name">'+esc(item.name)+'</div>'+
         '<div class="rating-sub">'+esc(sub)+'</div>'+
         '<div class="rating-score">'+esc(item.score)+'</div>'+
@@ -96,7 +96,7 @@
         : ((item.membersCount||0)+' полков');
       return '<a class="rating-row" href="'+link+'">'+
         '<span class="rating-row-position">'+position+'</span>'+
-        '<img class="rating-row-avatar" src="'+esc(image)+'" alt="">'+
+        '<img class="rating-row-avatar" src="'+esc(image)+'" alt="" loading="lazy" decoding="async">'+
         '<span class="rating-row-main"><strong>'+esc(item.name)+'</strong><small>'+esc(sub)+'</small></span>'+
         '<span class="rating-row-score">'+esc(item.score)+' <small>очков</small></span>'+
       '</a>';
