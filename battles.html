@@ -125,7 +125,7 @@
       <div class="battle-record-top"><span class="battle-status planned">Запланировано</span><span>10.11.2026 · 21:00</span><span>Полковое сражение</span></div>
       <div class="battle-record-main">
         <a class="battle-side regiment-link" href="regiment.html?name=7th%20Hussars"><img src="assets/hussars.png" alt="7th Hussars"><strong>7th Hussars</strong><small>Британская Империя</small></a>
-        <div class="battle-result-box planned-result"><b>VS</b><span>Сражение ещё не началось</span></div>
+        <div class="battle-result-box planned-result"><b>VS</b><span>Сражение ещё не началось</span><div class="battle-countdown" data-start="2026-11-10T21:00:00"></div></div>
         <a class="battle-side regiment-link" href="regiment.html?name=95th%20Rifles"><img src="assets/95.webp" alt="95th Rifles"><strong>95th Rifles</strong><small>Британская Империя</small></a>
       </div>
     </article>
@@ -134,7 +134,7 @@
       <div class="battle-record-top"><span class="battle-status planned">Запланировано</span><span>08.11.2026 · 20:00</span><span>Полковое сражение</span></div>
       <div class="battle-record-main">
         <a class="battle-side regiment-link" href="regiment.html?name=1st%20Regiment"><img src="assets/1st.jpg" alt="1st Regiment"><strong>1st Regiment</strong><small>Французская Империя</small></a>
-        <div class="battle-result-box planned-result"><b>VS</b><span>Сражение ещё не началось</span></div>
+        <div class="battle-result-box planned-result"><b>VS</b><span>Сражение ещё не началось</span><div class="battle-countdown" data-start="2026-11-08T20:00:00"></div></div>
         <a class="battle-side regiment-link" href="regiment.html?name=84e%20R%C3%A9giment"><img src="assets/84e.png" alt="84e Régiment"><strong>84e Régiment</strong><small>Французская Империя</small></a>
       </div>
     </article>
@@ -169,6 +169,27 @@ filters.forEach(button=>button.addEventListener('click',()=>{
   });
   empty.style.display=visible?'none':'block';
 }));
+const countdowns=[...document.querySelectorAll('.battle-countdown')];
+const updateCountdowns=()=>{
+  const now=Date.now();
+  countdowns.forEach(el=>{
+    const start=new Date(el.dataset.start).getTime();
+    const diff=start-now;
+    if(diff<=0){
+      el.textContent='Сражение началось';
+      el.classList.add('started');
+      return;
+    }
+    const totalSeconds=Math.floor(diff/1000);
+    const days=Math.floor(totalSeconds/86400);
+    const hours=Math.floor((totalSeconds%86400)/3600);
+    const minutes=Math.floor((totalSeconds%3600)/60);
+    const seconds=totalSeconds%60;
+    el.textContent=(days?days+'д ':'')+String(hours).padStart(2,'0')+'ч '+String(minutes).padStart(2,'0')+'м '+String(seconds).padStart(2,'0')+'с';
+  });
+};
+updateCountdowns();
+setInterval(updateCountdowns,1000);
 </script>
 </body>
 </html>
