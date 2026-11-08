@@ -2720,3 +2720,74 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   .campaign-card-main p{font-size:8px}
   .campaign-card-arrow{font-size:16px}
 }
+
+
+/* Homepage upcoming battles: split regiment-avatar cover with centered details */
+#upcomingBattlesHome .battle.home-battle-link{
+  display:block;padding:0;overflow:hidden;cursor:pointer;border-bottom:1px solid rgba(93,73,48,.48)
+}
+#upcomingBattlesHome .home-battle-cover{
+  position:relative;display:grid;grid-template-columns:1fr 1fr;min-height:205px;isolation:isolate;overflow:hidden;background:#100e0b
+}
+#upcomingBattlesHome .home-battle-half{
+  position:relative;display:block;min-width:0;min-height:205px;overflow:hidden;background:#17130f
+}
+#upcomingBattlesHome .home-battle-half img{
+  display:block;width:100%;height:100%;min-height:205px;position:absolute;inset:0;object-fit:cover;object-position:center;
+  opacity:.48;filter:brightness(.48) saturate(.78);transition:opacity .2s,filter .2s,transform .3s
+}
+#upcomingBattlesHome .home-battle-half:hover img{opacity:.62;filter:brightness(.58) saturate(.9);transform:scale(1.025)}
+#upcomingBattlesHome .home-battle-left:after,#upcomingBattlesHome .home-battle-right:after{
+  content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(8,7,6,.18),rgba(8,7,6,.34))
+}
+#upcomingBattlesHome .home-battle-overlay{
+  position:absolute;z-index:2;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  padding:18px 16px;text-align:center;pointer-events:none;text-shadow:0 2px 5px #000,0 0 12px #000
+}
+#upcomingBattlesHome .home-battle-date{
+  display:flex;flex-direction:column;align-items:center;color:#f0d18b;font:700 28px/1.05 "Roboto Slab",serif
+}
+#upcomingBattlesHome .home-battle-date span{margin-top:4px;color:#e2d0ad;font-size:17px;text-transform:uppercase}
+#upcomingBattlesHome .home-battle-status{
+  color:#f0d18b;font:700 12px "Roboto Slab",serif;letter-spacing:1.5px;text-transform:uppercase
+}
+#upcomingBattlesHome .home-battle-versus{
+  display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px;width:100%;
+  color:#fff0d1;font:600 19px/1.25 "Roboto Slab",serif
+}
+#upcomingBattlesHome .home-battle-versus span{overflow-wrap:anywhere}
+#upcomingBattlesHome .home-battle-versus span:first-child{text-align:right}
+#upcomingBattlesHome .home-battle-versus span:last-child{text-align:left}
+#upcomingBattlesHome .home-battle-versus b{color:#e0bd76;font:700 17px Cinzel,serif}
+#upcomingBattlesHome .home-battle-details{
+  display:grid;grid-template-columns:100px minmax(0,1fr) 42px minmax(0,1fr) auto;align-items:center;gap:12px;
+  min-height:112px;padding:14px 18px;background:rgba(10,9,7,.72)
+}
+#upcomingBattlesHome .home-battle-details .datebox{font-size:20px}
+#upcomingBattlesHome .home-battle-details .team{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;text-align:center}
+#upcomingBattlesHome .home-battle-details .battle-flag{width:64px!important;height:64px!important;max-width:64px!important;max-height:64px!important;object-fit:contain!important;padding:3px!important}
+#upcomingBattlesHome .home-battle-details .vs{font-size:14px}
+#upcomingBattlesHome .home-battle-details .comment-count-badge,
+#upcomingBattlesHome .home-battle-details .comment-count,
+#upcomingBattlesHome .home-battle-details a.comment-count-badge{justify-self:end}
+#upcomingBattlesHome .home-battle-details .team:hover{color:#f0d18b}
+@media(max-width:700px){
+  #upcomingBattlesHome .home-battle-cover,#upcomingBattlesHome .home-battle-half{min-height:170px}
+  #upcomingBattlesHome .home-battle-half img{min-height:170px}
+  #upcomingBattlesHome .home-battle-overlay{gap:8px;padding:12px 9px}
+  #upcomingBattlesHome .home-battle-date{font-size:23px}
+  #upcomingBattlesHome .home-battle-date span{font-size:13px}
+  #upcomingBattlesHome .home-battle-status{font-size:10px;letter-spacing:1px}
+  #upcomingBattlesHome .home-battle-versus{gap:6px;font-size:clamp(11px,3.3vw,16px)}
+  #upcomingBattlesHome .home-battle-versus b{font-size:13px}
+  #upcomingBattlesHome .home-battle-details{grid-template-columns:62px minmax(0,1fr) 22px minmax(0,1fr);gap:7px;padding:11px 9px}
+  #upcomingBattlesHome .home-battle-details .datebox{font-size:16px}
+  #upcomingBattlesHome .home-battle-details .datebox small{font-size:9px}
+  #upcomingBattlesHome .home-battle-details .battle-type{font-size:8px}
+  #upcomingBattlesHome .home-battle-details .team{font-size:10px;overflow-wrap:anywhere}
+  #upcomingBattlesHome .home-battle-details .battle-flag{width:48px!important;height:48px!important;max-width:48px!important;max-height:48px!important}
+  #upcomingBattlesHome .home-battle-details .vs{font-size:11px}
+  #upcomingBattlesHome .home-battle-details .comment-count-badge,
+  #upcomingBattlesHome .home-battle-details .comment-count,
+  #upcomingBattlesHome .home-battle-details a.comment-count-badge{grid-column:1/-1;justify-self:center}
+}
