@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Empire — Napoleonic Wars Community</title>
-<link rel="stylesheet" href="assets/style.css?v=20261108-homefix2">
+<link rel="stylesheet" href="assets/style.css?v=20261108-homefix3">
 <script src="assets/rating.js"></script>
 </head>
 <body>
@@ -298,7 +298,8 @@ const renderCommunityRegiments=(ratings)=>{
     return '<a class="regiment-card regiment-link" data-regiment="'+r.name+'" href="regiment.html?name='+encodeURIComponent(r.name)+'"><img class="regiment-flag" src="'+r.avatar+'" alt="Флаг '+r.name+'"><h4>'+r.name+'</h4><p>'+r.faction+' · '+r.count+' бойцов · Рейтинг '+liveRating+'</p></a>';
   }).join("");
 };
-renderCommunityRegiments([]);\ncalculateRegimentRatings().then(renderCommunityRegiments).catch(()=>renderCommunityRegiments([]));
+renderCommunityRegiments([]);
+calculateRegimentRatings().then(renderCommunityRegiments).catch(()=>renderCommunityRegiments([]));
 document.querySelectorAll('.chat-tab').forEach(button=>{
  button.addEventListener('click',()=>{
   const target=document.getElementById(button.dataset.tab);
