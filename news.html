@@ -129,39 +129,68 @@ const reportComment=(commentId,commentText,author)=>{
   localStorage.setItem(key,JSON.stringify(reports));
   alert('Жалоба отправлена модераторам.');
 };
+
+
+const escapeRichComment=value=>String(value??"").replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]));
+const cleanRichComment=html=>{
+ const doc=new DOMParser().parseFromString(String(html||""),"text/html"),allowed=new Set(["B","STRONG","I","EM","U","BLOCKQUOTE","BR","SPAN","IMG","VIDEO"]);
+ const safeUrl=value=>{try{const u=new URL(String(value||""),location.href);return ["http:","https:"].includes(u.protocol)?u.href:"";}catch(e){return "";}};
+ const walk=node=>[...node.childNodes].forEach(ch=>{
+  if(ch.nodeType===Node.TEXT_NODE)return;
+  if(ch.nodeType!==Node.ELEMENT_NODE||!allowed.has(ch.tagName)){const p=ch.parentNode;if(p){while(ch.firstChild)p.insertBefore(ch.firstChild,ch);p.removeChild(ch);}return;}
+  [...ch.attributes].forEach(a=>ch.removeAttribute(a.name));
+  if(ch.tagName==="IMG"||ch.tagName==="VIDEO"){const src=safeUrl(ch.getAttribute("src"));if(!src){ch.remove();return;}ch.setAttribute("src",src);if(ch.tagName==="IMG"){ch.setAttribute("alt","Вставленная картинка");ch.setAttribute("loading","lazy");}else{ch.setAttribute("controls","");ch.setAttribute("preload","metadata");}}
+  if(ch.tagName==="SPAN"&&ch.dataset.spoiler!=="true"){ch.replaceWith(...ch.childNodes);return;}walk(ch);
+ });walk(doc.body);return doc.body.innerHTML;
+};
+const richCommentHtml=c=>c.html?cleanRichComment(c.html):escapeRichComment(c.text||"").replace(/\n/g,"<br>");
+const bindRichEditor=(form,editor)=>{
+ const toolbar=form.querySelector(".battle-comment-toolbar");let savedRange=null;
+ editor.addEventListener("keyup",save);editor.addEventListener("mouseup",save);editor.addEventListener("input",save);
+ function save(){const sel=getSelection();if(sel&&sel.rangeCount&&editor.contains(sel.anchorNode))savedRange=sel.getRangeAt(0).cloneRange();}
+ function restore(){editor.focus();const sel=getSelection();if(savedRange){sel.removeAllRanges();sel.addRange(savedRange);}else{const r=document.createRange();r.selectNodeContents(editor);r.collapse(false);sel.removeAllRanges();sel.addRange(r);}}
+ function insert(html){restore();document.execCommand("insertHTML",false,html);save();}
+ toolbar.addEventListener("mousedown",e=>{if(e.target.closest("[data-editor-command]"))e.preventDefault();});
+ toolbar.addEventListener("click",e=>{const b=e.target.closest("[data-editor-command]");if(!b)return;const cmd=b.dataset.editorCommand;restore();
+  if(["bold","italic","underline"].includes(cmd))document.execCommand(cmd,false,null);
+  else if(cmd==="quote")document.execCommand("formatBlock",false,"blockquote");
+  else if(cmd==="spoiler"){const sel=getSelection(),txt=sel&&sel.toString();insert('<span data-spoiler="true">'+(txt?escapeRichComment(txt):"Спойлер")+'</span>');}
+  else if(cmd==="image"){const url=prompt("Вставьте прямую ссылку на картинку:");if(url&&/^https?:\/\//i.test(url.trim()))insert('<img src="'+escapeRichComment(url.trim())+'" alt="Вставленная картинка">');}
+  else if(cmd==="video"){const url=prompt("Вставьте прямую ссылку на видео:");if(url&&/^https?:\/\//i.test(url.trim()))insert('<video src="'+escapeRichComment(url.trim())+'" controls preload="metadata"></video>');}
+  save();
+ });
+};
+const richToolbarHtml='<div class="battle-comment-toolbar" role="toolbar" aria-label="Форматирование комментария"><button type="button" data-editor-command="bold" title="Жирный"><strong>B</strong></button><button type="button" data-editor-command="italic" title="Курсив"><em>I</em></button><button type="button" data-editor-command="underline" title="Подчёркивание"><u>U</u></button><button type="button" data-editor-command="quote" title="Цитата">❝</button><button type="button" data-editor-command="spoiler" title="Спойлер">S</button><button type="button" data-editor-command="image" title="Вставить картинку">▧</button><button type="button" data-editor-command="video" title="Вставить видео">▶</button></div>';
 function renderComments(news){
-  const comments=getComments()[news.id]||[];
-  const commentHtml=comments.length?comments.map((c,index)=>{
-    const author=String(c.author||'Пользователь');
-    const avatar=c.avatar||empireUserAvatar(author);
-    const commentId=String(c.id||('comment-'+index));
-    const likes=getLikes('news:'+news.id+':'+commentId);
-    const preview=likes.slice(0,2).map(escapeHtml).join(', ');
-    const likeControls='<div class="comment-reactions"><button class="comment-like-button'+(likes.includes(currentUser.name)?' is-liked':'')+'" type="button" data-like-comment="'+escapeHtml(commentId)+'" aria-pressed="'+likes.includes(currentUser.name)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+preview+(likes.length>2?' и ещё':'')+'</span><button type="button" class="comment-like-all" data-show-likes="'+escapeHtml(commentId)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(n=>'<a href="'+empireProfileUrl(n)+'">'+escapeHtml(n)+'</a>').join('')+'</div></div>':'')+'</div>';
-    const reportControls='<button class="comment-report-button" type="button" data-report-comment="'+escapeHtml(commentId)+'">⚑ Пожаловаться</button>';
-    return '<article class="news-comment" data-news-comment-id="'+escapeHtml(commentId)+'"><a class="news-comment-avatar-link" href="'+empireProfileUrl(author)+'"><img class="news-comment-avatar" src="'+escapeHtml(avatar)+'" alt="'+escapeHtml(author)+'" loading="lazy"></a><div class="news-comment-content"><a class="news-comment-author" href="'+empireProfileUrl(author)+'"><strong>'+escapeHtml(author)+'</strong></a><small>'+escapeHtml(c.date||'')+'</small><p>'+escapeHtml(c.text||'')+'</p>'+likeControls+reportControls+'</div></article>';
-  }).join(''):'<p class="empty-note">Пока нет комментариев.</p>';
-  document.getElementById('commentsSection').innerHTML='<div class="card-title">💬 Комментарии <span>'+comments.length+'</span></div><div class="news-comments-list">'+commentHtml+'</div><form class="news-comment-form" id="commentForm"><textarea required placeholder="Напишите комментарий..."></textarea><button class="btn primary">Оставить комментарий</button></form>';
-  const commentsSection=document.getElementById('commentsSection');
-  if(!commentsSection.dataset.likesBound){
-    commentsSection.dataset.likesBound='1';
-    commentsSection.addEventListener('click',e=>{
-      const reportButton=e.target.closest('[data-report-comment]');
-      if(reportButton){
-        const card=reportButton.closest('[data-news-comment-id]');
-        const text=card?.querySelector('.news-comment-content > p')?.textContent||'';
-        const author=card?.querySelector('.news-comment-author strong')?.textContent||'Пользователь';
-        reportComment(reportButton.dataset.reportComment,text,author);
-        return;
-      }
-      const likeButton=e.target.closest('[data-like-comment]');
-      if(likeButton){toggleLike('news:'+news.id+':'+likeButton.dataset.likeComment);renderComments(news);return;}
-      const allButton=e.target.closest('[data-show-likes]');
-      if(allButton){const panel=allButton.parentElement.querySelector('.comment-like-full');if(panel)panel.hidden=!panel.hidden;}
-    });
-  }
-  document.getElementById('commentForm').addEventListener('submit',e=>{e.preventDefault();const map=getComments();const arr=map[news.id]||[];arr.push({id:'comment-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),author:currentUser.name,avatar:empireUserAvatar(currentUser.name),date:new Date().toLocaleString('ru-RU'),text:e.currentTarget.querySelector('textarea').value});map[news.id]=arr;localStorage.setItem(commentsKey,JSON.stringify(map));renderComments(news);});
+ const map=getComments(),comments=Array.isArray(map[news.id])?map[news.id]:[];
+ const commentRegiments={"Kalashnikov":"1st Regiment","Ankord":"1st Regiment","Veli4estvo":"1st Regiment","Mel":"1st Regiment","Kazak":"1st Regiment","MeGusta":"1st Regiment","Flashkodr":"1st Regiment","MrDixon":"1st Regiment","Theodor":"1st Regiment","Grenadier87":"1st Regiment","Marquis":"95th Rifles"};
+ const card=(c,depth=0)=>{
+  const author=String(c.author||c.name||"Пользователь"),cid=String(c.id||""),kids=comments.filter(x=>String(x.parentId||"")===cid);
+  const regiment=String(c.regiment||commentRegiments[author]||regiment||"");
+  const likes=getLikes("news:"+news.id+":"+cid),preview=likes.slice(0,2).map(escapeHtml).join(", ");
+  const like='<div class="comment-reactions"><button class="comment-like-button'+(likes.includes(currentUser.name)?" is-liked":"")+'" type="button" data-like-comment="'+escapeHtml(cid)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+preview+'</span><button type="button" class="comment-like-all" data-show-likes="'+escapeHtml(cid)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(x=>'<a href="'+empireProfileUrl(x)+'">'+escapeHtml(x)+'</a>').join("")+'</div></div>':"")+'</div>';
+  const own=author===currentUser.name?'<button class="comment-delete-button" type="button" data-delete-comment="'+escapeHtml(cid)+'">Удалить</button>':"";
+  return '<article class="battle-thread-item'+(depth?' is-reply':'')+'" data-comment-id="'+escapeHtml(cid)+'"><div class="battle-comment"><div class="battle-comment-author"><a class="battle-comment-avatar-link" href="'+empireProfileUrl(author)+'"><img class="battle-comment-avatar" src="'+escapeHtml(c.avatar||empireUserAvatar(author))+'" alt="'+escapeHtml(author)+'" loading="lazy"></a><div class="battle-comment-identity"><div class="battle-comment-head"><a href="'+empireProfileUrl(author)+'"><strong>'+escapeHtml(author)+'</strong></a></div>'+(regiment?'<div class="battle-comment-regiment">'+escapeHtml(regiment)+'</div>':"")+'<span class="battle-comment-time">'+escapeHtml(c.date||"")+'</span></div></div><div class="battle-comment-content"><div class="battle-comment-text">'+richCommentHtml(c)+'</div>'+like+'<button class="comment-report-button" type="button" data-report-comment="'+escapeHtml(cid)+'">⚑ Пожаловаться</button>'+own+'<button class="battle-reply-button" type="button" data-reply-to="'+escapeHtml(cid)+'">Ответить</button><form class="battle-reply-form" data-parent-id="'+escapeHtml(cid)+'" hidden><input type="text" maxlength="500" placeholder="Ответить '+escapeHtml(author)+'…" required><button type="submit">Ответить</button></form></div></div>'+(kids.length?'<div class="battle-thread-replies">'+kids.map(x=>card(x,depth+1)).join("")+'</div>':"")+'</article>';
+ };
+ const roots=comments.filter(c=>!c.parentId||!comments.some(p=>String(p.id)===String(c.parentId)));
+ const html=roots.map(c=>card(c)).join("")||'<div class="battle-comments-empty">Комментариев пока нет.</div>';
+ const box=document.getElementById("commentsSection");
+ box.innerHTML='<div class="card-title">💬 Комментарии <span class="battle-comment-count">'+comments.length+'</span></div><div class="battle-comments" id="newsCommentList">'+html+'</div><form id="commentForm" class="battle-comment-form"><div class="battle-comment-editor">'+richToolbarHtml+'<div id="newsCommentInput" class="battle-comment-input" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Написать комментарий…"></div></div><button type="submit">Отправить</button></form>';
+ const list=box.querySelector("#newsCommentList"),form=box.querySelector("#commentForm"),editor=box.querySelector("#newsCommentInput");
+ bindRichEditor(form,editor);
+ const saveComment=item=>{const latest=getComments(),items=Array.isArray(latest[news.id])?latest[news.id]:[];items.push(item);latest[news.id]=items;localStorage.setItem(commentsKey,JSON.stringify(latest));renderComments(news);};
+ list.addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.likeComment){toggleLike("news:"+news.id+":"+b.dataset.likeComment);renderComments(news);}
+  else if(b.dataset.showLikes){const p=b.parentElement.querySelector(".comment-like-full");if(p)p.hidden=!p.hidden;}
+  else if(b.dataset.reportComment){const c=b.closest("[data-comment-id]");reportComment(b.dataset.reportComment,c?.querySelector(".battle-comment-text")?.textContent||"",c?.querySelector(".battle-comment-head strong")?.textContent||"Пользователь");}
+  else if(b.dataset.deleteComment){const target=comments.find(x=>String(x.id)===b.dataset.deleteComment);if(target&&String(target.author||target.name)===currentUser.name&&confirm("Удалить этот комментарий?")){const next=comments.filter(x=>String(x.id)!==b.dataset.deleteComment);next.forEach(x=>{if(x.parentId===b.dataset.deleteComment)delete x.parentId;});const latest=getComments();latest[news.id]=next;localStorage.setItem(commentsKey,JSON.stringify(latest));renderComments(news);}}
+  else if(b.dataset.replyTo){const f=b.closest(".battle-thread-item")?.querySelector(":scope > .battle-comment .battle-reply-form");if(f){f.hidden=!f.hidden;if(!f.hidden)f.querySelector("input").focus();}}
+ });
+ list.addEventListener("submit",e=>{const f=e.target.closest(".battle-reply-form");if(!f)return;e.preventDefault();const input=f.querySelector("input"),value=input.value.trim();if(!value)return;saveComment({id:"comment-"+Date.now(),parentId:f.dataset.parentId,author:currentUser.name,avatar:empireUserAvatar(currentUser.name),date:new Date().toLocaleString("ru-RU"),text:value});});
+ form.addEventListener("submit",e=>{e.preventDefault();const html=cleanRichComment(editor.innerHTML),textValue=editor.textContent.trim();if(!textValue&&!html.replace(/<[^>]*>/g,"").trim())return;saveComment({id:"comment-"+Date.now(),author:currentUser.name,avatar:empireUserAvatar(currentUser.name),date:new Date().toLocaleString("ru-RU"),html,text:textValue});});
 }
+
 function renderEditor(){
   const editor=document.getElementById('newsEditor');editor.hidden=false;
   editor.innerHTML='<div class="card-title">✒ Создание новости</div><div class="news-editor-inner"><label>Заголовок<input id="newsTitle" type="text" placeholder="Название новости"></label><label>Видимость<select id="newsPrivacy"><option value="public">Открытая — видят все</option><option value="private">Приватная — только члены полка</option></select></label><div class="editor-toolbar"><button type="button" data-cmd="bold"><b>B</b></button><button type="button" data-cmd="italic"><i>I</i></button><button type="button" data-cmd="underline"><u>U</u></button><button type="button" data-cmd="formatBlock" data-value="h2">H2</button><button type="button" data-cmd="insertUnorderedList">☷</button><button type="button" data-cmd="insertOrderedList">1.</button><button type="button" data-cmd="justifyLeft">←</button><button type="button" data-cmd="justifyCenter">↔</button><button type="button" data-cmd="justifyRight">→</button><button type="button" id="insertLink">🔗</button><button type="button" id="insertImage">🖼</button><button type="button" id="clearFormat">Tx</button></div><div id="newsBodyEditor" class="news-body-editor" contenteditable="true" data-placeholder="Напишите текст новости..."></div><div class="editor-actions"><button class="btn primary" id="publishNews">Опубликовать</button><a class="btn" href="news.html?regiment='+encodeURIComponent(regiment)+'">Отмена</a></div></div>';
