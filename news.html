@@ -105,7 +105,7 @@ function renderList(){
   let news=allNews().find(n=>String(n.id)===String(id));
   // Восстанавливаем демонстрационную публикацию по её sample-N ID, если ссылка ведёт на старый индекс.
   if(!news){
-    const sampleMatch=String(id).match(/^sample-(\\d+)$/);
+    const sampleMatch=String(id).match(/^sample-(\d+)$/);
     const sampleIndex=sampleMatch?Number(sampleMatch[1])-1:-1;
     const template=(newsTemplates[regiment]||newsTemplates['1st Regiment'])[sampleIndex];
     if(template)news={id,regiment,title:template[0],date:template[1],author:template[2],privacy:template[3],body:template[4],image:template[5],private:template[6]};
