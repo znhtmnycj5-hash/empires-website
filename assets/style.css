@@ -1499,12 +1499,12 @@ nav a,.btn{font-family:"Roboto Slab",serif}
     height:34px!important;
   }
 
-/* Battle comments: move date/time slightly left */
-.battle-thread-item>.battle-comment .battle-comment-head>span{
-  transform:translateX(-10px)!important;
+/* Battle comments: increase text offset from avatar */
+.battle-thread-item>.battle-comment{
+  column-gap:22px!important;
 }
 @media(max-width:600px){
-  .battle-thread-item>.battle-comment .battle-comment-head>span{
-    transform:translateX(-7px)!important;
+  .battle-thread-item>.battle-comment{
+    column-gap:16px!important;
   }
 }
