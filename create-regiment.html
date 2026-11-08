@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Создать полк — EMPIRE</title>
+  <link rel="stylesheet" href="assets/style.css?v=20261108-create-regiment1">
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="brand">
+      <a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a>
+      <div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div>
+    </div>
+  </div>
+</header>
+<div class="container">
+  <nav>
+    <a href="index.html">Главная</a>
+    <div class="dropdown"><a class="active" href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a><a href="#">Мои полки</a></div></div>
+    <div class="dropdown"><a href="battles.html">Сражения</a><div class="dropdown-menu"><a href="battles.html#planned">Предстоящие</a><a href="battles.html#completed">Завершённые</a><a href="battles.html#all">Все сражения</a></div></div>
+    <a href="index.html#ranking">Рейтинг</a>
+    <div class="dropdown"><a href="index.html#news">Форум</a><div class="dropdown-menu"><a href="index.html#news">Обсуждения</a><a href="#">Гайды</a><a href="#">Объявления</a></div></div>
+    <a href="https://znhtmnycj5-hash.github.io/empires-website/alliances.html">Союзы</a>
+    <a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+  </nav>
+
+  <main class="create-regiment-page">
+    <section class="card create-regiment-card">
+      <div class="page-kicker">ПОЛКИ · ЗАЯВКА</div>
+      <h1>Создать полк</h1>
+      <p class="create-regiment-intro">Укажите название, логотип и фракцию. После отправки заявка поступит администратору на рассмотрение.</p>
+
+      <div id="createRegimentNotice" class="create-regiment-notice" hidden></div>
+
+      <form id="createRegimentForm" class="create-regiment-form">
+        <label>Название полка
+          <input id="regimentName" name="name" type="text" maxlength="60" required placeholder="Например: 1st Imperial Guard">
+        </label>
+
+        <label>Логотип полка
+          <input id="regimentLogo" name="logo" type="file" accept="image/png,image/jpeg,image/webp,image/gif" required>
+          <small>Рекомендуется квадратное изображение. Файл будет сохранён вместе с заявкой.</small>
+        </label>
+
+        <div class="create-logo-preview-wrap">
+          <img id="regimentLogoPreview" class="create-logo-preview" src="assets/default-soldier.jpg" alt="Предпросмотр логотипа">
+        </div>
+
+        <label>Фракция
+          <select id="regimentFaction" name="faction" required>
+            <option value="">Выберите фракцию</option>
+            <option>Французская Империя</option>
+            <option>Великобритания</option>
+            <option>Пруссия</option>
+            <option>Россия</option>
+            <option>Австрия</option>
+            <option>Бавария</option>
+            <option>Рейнская конфедерация</option>
+            <option>Османская империя</option>
+          </select>
+        </label>
+
+        <div class="create-regiment-condition">
+          <strong>Условие создания</strong>
+          <span>Создать полк может только пользователь, который не состоит в другом полку.</span>
+        </div>
+
+        <button class="btn primary create-regiment-submit" type="submit">Создать</button>
+      </form>
+    </section>
+  </main>
+</div>
+<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div><div class="motto">Vive l’Empire!</div></div></footer>
+<script src="assets/create-regiment.js?v=20261108-1"></script>
+</body>
+</html>
