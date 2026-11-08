@@ -52,11 +52,35 @@ function renderPage(){
  if(list){list.hidden=false;list.innerHTML='<div class="site-news-list-head"><div><div class="page-kicker">EMPIRE · ОБЪЯВЛЕНИЯ И СОБЫТИЯ</div><h1>Новости сообщества</h1><p>Главные события, объявления и новости полков</p></div>'+(canPublish?'<button class="btn primary" id="siteNewsCreate">＋ Опубликовать новость</button>':'')+'</div>'+getNews().map(n=>card(n,false)).join('');bindLikes(list);const create=$('siteNewsCreate');if(create)create.addEventListener('click',()=>{if(editor){editor.hidden=false;editor.scrollIntoView({behavior:'smooth'});}});}
  if(editor&&canPublish){editor.innerHTML='<div class="card-title">✒ Новая публикация</div><form id="siteNewsForm" class="site-news-form"><label>Заголовок<input name="title" maxlength="140" required placeholder="Заголовок новости"></label><label>Изображение (ссылка)<input name="image" type="url" placeholder="https://..."></label><label>Текст новости<textarea name="body" rows="7" required placeholder="Текст публикации..."></textarea></label><button class="btn primary" type="submit">Опубликовать</button></form>';editor.hidden=true;$('siteNewsForm').addEventListener('submit',e=>{e.preventDefault();const f=e.currentTarget,title=f.elements.title.value.trim(),body=f.elements.body.value.trim();if(!title||!body)return;const arr=getNews();arr.unshift({id:'site-news-'+Date.now(),title,date:fmtDate(),author:user.name,roleLabel:role==='commander'?'Командир полка':role==='moderator'?'Модератор':'Администратор',image:f.elements.image.value.trim()||'assets/battlefield.jpg',body,created:Date.now()});write(NEWS_KEY,arr);location.href='site-news.html';});}
 }
+const COMMENT_LIKES_KEY='empire-comment-likes-v1';
+const getCommentLikes=key=>{const map=read(COMMENT_LIKES_KEY,{})||{};return Array.isArray(map[key])?map[key]:[]};
+const toggleCommentLike=(key)=>{const map=read(COMMENT_LIKES_KEY,{})||{};const names=Array.isArray(map[key])?map[key]:[];const i=names.indexOf(user.name);if(i>=0)names.splice(i,1);else names.push(user.name);map[key]=names;write(COMMENT_LIKES_KEY,map);};
+const reportComment=(newsId,commentId,textValue,author)=>{
+ const key='empire_comment_reports_v1';
+ let reports=read(key,[]);if(!Array.isArray(reports))reports=[];
+ const location='site-news.html?id='+newsId;
+ const duplicate=reports.some(r=>r.status==='pending'&&r.location===location&&String(r.commentId)===String(commentId)&&r.reporter===user.name);
+ if(duplicate){alert('Вы уже пожаловались на этот комментарий.');return;}
+ reports.push({id:'comment-report-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),status:'pending',reporter:user.name,target:author,location,commentId:String(commentId),comment:String(textValue||''),reason:'Жалоба пользователя',createdAt:new Date().toISOString()});
+ write(key,reports);alert('Жалоба отправлена модераторам.');
+};
 function renderComments(n){
  const box=$('siteNewsComments');if(!box)return;
  const map=getComments(),arr=Array.isArray(map[n.id])?map[n.id]:[];
- box.innerHTML='<div class="card-title">Комментарии <span class="battle-comment-count">'+arr.length+'</span></div><div class="site-news-comment-list">'+arr.map(c=>'<div class="site-news-comment"><a href="'+esc(profile(c.author))+'"><img src="'+esc(c.avatar||avatar(c.author))+'" alt=""></a><div><b><a href="'+esc(profile(c.author))+'">'+esc(c.author)+'</a></b><small>'+esc(c.date||'')+'</small><p>'+esc(c.text)+'</p></div></div>').join('')+'</div><form id="siteNewsCommentForm" class="site-news-comment-form"><textarea name="text" rows="3" required placeholder="Написать комментарий..."></textarea><button class="btn primary" type="submit">Отправить</button></form>';
- $('siteNewsCommentForm').addEventListener('submit',e=>{e.preventDefault();const textValue=e.currentTarget.elements.text.value.trim();if(!textValue)return;const latest=getComments(),items=Array.isArray(latest[n.id])?latest[n.id]:[];items.push({id:'comment-'+Date.now(),author:user.name,avatar:avatar(user.name),date:new Date().toLocaleString('ru-RU'),text:textValue});latest[n.id]=items;write(COMMENTS_KEY,latest);renderComments(n);});
+ const commentHtml=arr.map((c,index)=>{
+   const commentId=String(c.id||('comment-'+index)),author=String(c.author||'Пользователь');
+   const likes=getCommentLikes('site-news:'+n.id+':'+commentId);
+   const preview=likes.slice(0,2).map(x=>esc(x)).join(', ');
+   const likeControls='<div class="comment-reactions"><button type="button" class="comment-like-button'+(likes.includes(user.name)?' is-liked':'')+'" data-like-comment="'+esc(commentId)+'" aria-pressed="'+likes.includes(user.name)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+preview+(likes.length>2?' и ещё':'')+'</span><button type="button" class="comment-like-all" data-show-likes="'+esc(commentId)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(x=>'<a href="'+esc(profile(x))+'">'+esc(x)+'</a>').join('')+'</div></div>':'')+'</div>';
+   const reportButton='<button type="button" class="comment-report-button" data-report-comment="'+esc(commentId)+'">⚑ Пожаловаться</button>';
+   return '<div class="site-news-comment" data-news-comment-id="'+esc(commentId)+'"><a href="'+esc(profile(author))+'"><img src="'+esc(c.avatar||avatar(author))+'" alt=""></a><div><b><a href="'+esc(profile(author))+'">'+esc(author)+'</a></b><small>'+esc(c.date||'')+'</small><p>'+esc(c.text||'')+'</p>'+likeControls+reportButton+'</div></div>';
+ }).join('')||'<p class="empty-note">Пока нет комментариев.</p>';
+ box.innerHTML='<div class="card-title">Комментарии <span class="battle-comment-count">'+arr.length+'</span></div><div class="site-news-comment-list">'+commentHtml+'</div><form id="siteNewsCommentForm" class="site-news-comment-form"><textarea name="text" rows="3" required placeholder="Написать комментарий..."></textarea><button class="btn primary" type="submit">Отправить</button></form>';
+ const form=$('siteNewsCommentForm');
+ box.querySelectorAll('[data-like-comment]').forEach(btn=>btn.addEventListener('click',()=>{toggleCommentLike('site-news:'+n.id+':'+btn.dataset.likeComment);renderComments(n);}));
+ box.querySelectorAll('[data-show-likes]').forEach(btn=>btn.addEventListener('click',()=>{const panel=btn.parentElement.querySelector('.comment-like-full');if(panel)panel.hidden=!panel.hidden;}));
+ box.querySelectorAll('[data-report-comment]').forEach(btn=>btn.addEventListener('click',()=>{const card=btn.closest('[data-news-comment-id]');reportComment(n.id,btn.dataset.reportComment,card?.querySelector('p')?.textContent||'',card?.querySelector('b a')?.textContent||'Пользователь');}));
+ form.addEventListener('submit',e=>{e.preventDefault();const textValue=e.currentTarget.elements.text.value.trim();if(!textValue)return;const latest=getComments(),items=Array.isArray(latest[n.id])?latest[n.id]:[];items.push({id:'comment-'+Date.now(),author:user.name,avatar:avatar(user.name),date:new Date().toLocaleString('ru-RU'),text:textValue});latest[n.id]=items;write(COMMENTS_KEY,latest);renderComments(n);});
 }
 renderHome();renderPage();
 })();
