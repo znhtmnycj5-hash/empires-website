@@ -15,9 +15,9 @@
       <div class="tagline">Сражайся и побеждай</div>
       <div class="buttons"><a class="btn primary" href="#">Войти в сообщество</a><a class="btn" href="#">Найти полк</a></div>
       <div class="stats">
-        <div class="stat"><strong>127</strong><span>полков</span></div>
-        <div class="stat"><strong>1 842</strong><span>игрока</span></div>
-        <div class="stat"><strong>326</strong><span>боёв</span></div>
+        <div class="stat"><strong data-site-count="regiments">12</strong><span>полков</span></div>
+        <div class="stat"><strong data-site-count="users">13</strong><span>пользователей</span></div>
+        <div class="stat"><strong data-site-count="battles">9</strong><span>проведённых сражений</span></div>
         <div class="stat"><strong>12</strong><span>кампаний</span></div>
       </div>
     </div>
@@ -130,9 +130,9 @@
 <section class="card community" id="alliances" style="margin-top:14px">
   <div class="card-title" style="padding:0 0 10px;border:0">◈ &nbsp; Статистика сообщества</div>
   <div class="community-grid">
-    <div><strong>127</strong><span>полков</span></div>
-    <div><strong>1 842</strong><span>игрока</span></div>
-    <div><strong>326</strong><span>боёв</span></div>
+    <div><strong data-site-count="regiments">12</strong><span>полков</span></div>
+    <div><strong data-site-count="users">13</strong><span>пользователей</span></div>
+    <div><strong data-site-count="battles">9</strong><span>проведённых сражений</span></div>
     <div><strong>12</strong><span>кампаний</span></div>
   </div>
 </section>
@@ -163,6 +163,8 @@ document.getElementById('closeLogin').onclick=()=>modal.classList.remove('show')
 modal.onclick=e=>{if(e.target===modal)modal.classList.remove('show')};
 document.getElementById('demoLogin').onclick=()=>{const n=document.getElementById('loginName').value.trim()||'Император';modal.classList.remove('show');toast('Добро пожаловать, '+n+'!')};
 
+const siteCounters={regiments:12,battles:9,users:13};
+Object.entries(siteCounters).forEach(([key,value])=>document.querySelectorAll('[data-site-count="'+key+'"]').forEach(el=>el.textContent=value));
 const currentUser={name:'Kalashnikov',regiment:'1st Regiment'};
 
 const communityRegiments=[
