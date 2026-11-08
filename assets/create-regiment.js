@@ -19,7 +19,8 @@
   const getApproved=()=>{try{return JSON.parse(localStorage.getItem(APPROVED_KEY)||"[]")}catch(e){return[]}};
   const setNotice=(text,type)=>{notice.hidden=false;notice.className="create-regiment-notice "+type;notice.textContent=text};
 
-  const userRegiment=profiles[currentUser]||"";
+  const approvedRegiment=getApproved().find(r=>r.commander===currentUser)?.name||"";
+  const userRegiment=profiles[currentUser]||approvedRegiment;
   if(userRegiment){
     form.innerHTML='<div class="create-regiment-blocked"><strong>Создание полка недоступно</strong><p>Вы уже состоите в полку <b>'+userRegiment+'</b>. Сначала выйдите из текущего полка.</p><a class="btn" href="regiment.html?name='+encodeURIComponent(userRegiment)+'">Открыть полк</a></div>';
   }
