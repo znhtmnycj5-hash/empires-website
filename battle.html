@@ -266,7 +266,14 @@ if(!battle){
   const toggleLike=key=>{const map=getLikeMap(),names=Array.isArray(map[key])?map[key]:[],index=names.indexOf(currentUser.name);if(index>=0)names.splice(index,1);else names.push(currentUser.name);map[key]=names;localStorage.setItem(likesStorageKey,JSON.stringify(map));};
   const getComments=()=>{
     let saved=[];try{saved=JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){}
-    return [...demoComments,...(Array.isArray(saved)?saved:[])];
+    const combined=[...demoComments,...(Array.isArray(saved)?saved:[])];
+    const seen=new Set();
+    return combined.filter(comment=>{
+      const id=String(comment?.id||"");
+      if(!id||seen.has(id))return false;
+      seen.add(id);
+      return true;
+    });
   };
   const commentRegiments={
     Kalashnikov:"1st Regiment",
