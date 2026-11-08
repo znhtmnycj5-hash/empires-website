@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Новости полка — EMPIRE</title>
 <link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
-<link rel="stylesheet" href="assets/style.css?v=20261108-commentavatars1">
+<link rel="stylesheet" href="assets/style.css?v=20261108-commentlikes1">
 </head>
 <body>
 <header>
@@ -123,12 +123,16 @@ function renderComments(news){
     return '<article class="news-comment" data-news-comment-id="'+escapeHtml(commentId)+'"><a class="news-comment-avatar-link" href="'+empireProfileUrl(author)+'"><img class="news-comment-avatar" src="'+escapeHtml(avatar)+'" alt="'+escapeHtml(author)+'" loading="lazy"></a><div class="news-comment-content"><a class="news-comment-author" href="'+empireProfileUrl(author)+'"><strong>'+escapeHtml(author)+'</strong></a><small>'+escapeHtml(c.date||'')+'</small><p>'+escapeHtml(c.text||'')+'</p>'+likeControls+'</div></article>';
   }).join(''):'<p class="empty-note">Пока нет комментариев.</p>';
   document.getElementById('commentsSection').innerHTML='<div class="card-title">💬 Комментарии <span>'+comments.length+'</span></div><div class="news-comments-list">'+commentHtml+'</div><form class="news-comment-form" id="commentForm"><textarea required placeholder="Напишите комментарий..."></textarea><button class="btn primary">Оставить комментарий</button></form>';
-  document.getElementById('commentsSection').addEventListener('click',e=>{
-    const likeButton=e.target.closest('[data-like-comment]');
-    if(likeButton){toggleLike('news:'+news.id+':'+likeButton.dataset.likeComment);renderComments(news);return;}
-    const allButton=e.target.closest('[data-show-likes]');
-    if(allButton){const panel=allButton.parentElement.querySelector('.comment-like-full');if(panel)panel.hidden=!panel.hidden;}
-  });
+  const commentsSection=document.getElementById('commentsSection');
+  if(!commentsSection.dataset.likesBound){
+    commentsSection.dataset.likesBound='1';
+    commentsSection.addEventListener('click',e=>{
+      const likeButton=e.target.closest('[data-like-comment]');
+      if(likeButton){toggleLike('news:'+news.id+':'+likeButton.dataset.likeComment);renderComments(news);return;}
+      const allButton=e.target.closest('[data-show-likes]');
+      if(allButton){const panel=allButton.parentElement.querySelector('.comment-like-full');if(panel)panel.hidden=!panel.hidden;}
+    });
+  }
   document.getElementById('commentForm').addEventListener('submit',e=>{e.preventDefault();const map=getComments();const arr=map[news.id]||[];arr.push({id:'comment-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),author:currentUser.name,avatar:empireUserAvatar(currentUser.name),date:new Date().toLocaleString('ru-RU'),text:e.currentTarget.querySelector('textarea').value});map[news.id]=arr;localStorage.setItem(commentsKey,JSON.stringify(map));renderComments(news);});
 }
 function renderEditor(){
