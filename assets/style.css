@@ -2552,7 +2552,7 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 .campaign-section-title h2{margin:4px 0 0;color:#dfc17f;font:600 22px "Roboto Slab",serif}
 .campaign-section-title>span{color:#a99675;font-size:10px}
 .campaign-list{border:1px solid #5d4930;border-top:0;background:rgba(12,10,8,.72)}
-.campaign-card{display:grid;grid-template-columns:100px minmax(0,1fr) 48px;gap:18px;align-items:center;padding:18px 20px;border-bottom:1px solid #332b21;color:inherit;text-decoration:none;transition:background .18s,transform .18s}
+.campaign-card{display:grid;grid-template-columns:100px 100px minmax(0,1fr) 48px;gap:18px;align-items:center;padding:18px 20px;border-bottom:1px solid #332b21;color:inherit;text-decoration:none;transition:background .18s,transform .18s}
 .campaign-card:last-child{border-bottom:0}
 .campaign-card:hover{background:rgba(111,75,35,.12);transform:translateX(2px)}
 .campaign-card-date{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:76px;border:1px solid #765a37;background:rgba(28,22,16,.85);box-shadow:inset 0 0 18px rgba(183,138,57,.05)}
@@ -2628,7 +2628,7 @@ nav a,.btn{font-family:"Roboto Slab",serif}
  .campaign-request-actions{justify-content:flex-start}
 }
 @media(max-width:600px){
- .campaign-card{grid-template-columns:70px minmax(0,1fr) 25px;gap:10px;padding:13px 10px}
+ .campaign-card{grid-template-columns:70px 70px minmax(0,1fr) 25px;gap:10px;padding:13px 10px}
  .campaign-card-date{min-height:65px}
  .campaign-card-date strong{font-size:18px}
  .campaign-card-main h3{font-size:13px}
