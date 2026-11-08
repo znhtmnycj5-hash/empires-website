@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Сражение — EMPIRE</title>
-  <link rel="stylesheet" href="assets/style.css?v=20261108-comment-redesign1">
+  <link rel="stylesheet" href="assets/style.css?v=20261108-comment-redesign2">
 </head>
 <body>
 <header class="inner-header">
@@ -107,6 +107,22 @@ const battlesData={
 };
 
 const currentUser={name:"Kalashnikov",regiment:"1st Regiment"};
+const presenceStorageKey="empire_profile_presence_v1";
+const getPresenceMap=()=>{try{return JSON.parse(localStorage.getItem(presenceStorageKey)||"{}");}catch(e){return {};}};
+const savePresenceMap=map=>{try{localStorage.setItem(presenceStorageKey,JSON.stringify(map));}catch(e){}};
+const setUserOnline=name=>{
+  if(!name)return;
+  const map=getPresenceMap();
+  map[name]=Date.now();
+  savePresenceMap(map);
+};
+const isUserOnline=name=>{
+  const last=getPresenceMap()[name];
+  return typeof last==="number" && Date.now()-last<5*60*1000;
+};
+setUserOnline(currentUser.name);
+const presenceHeartbeat=setInterval(()=>setUserOnline(currentUser.name),30000);
+window.addEventListener("beforeunload",()=>clearInterval(presenceHeartbeat));
 const params=new URLSearchParams(location.search);
 const battleId=params.get("id")||"battle-011";
 const battle=battlesData[battleId];
@@ -281,7 +297,9 @@ if(!battle){
     const likeControls='<div class="comment-reactions"><button class="comment-like-button'+(likes.includes(currentUser.name)?' is-liked':'')+'" type="button" data-like-comment="'+escapeCommentHtml(c.id)+'" aria-pressed="'+likes.includes(currentUser.name)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+(likePreview||'')+(likes.length>2?' и ещё':'')+'</span><button type="button" class="comment-like-all" data-show-likes="'+escapeCommentHtml(c.id)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(n=>'<a href="'+empireProfileUrl(n)+'">'+escapeCommentHtml(n)+'</a>').join('')+'</div></div>':'')+'</div>';
     const reportControls='<button class="comment-report-button" type="button" data-report-comment="'+escapeCommentHtml(c.id)+'">⚑ Пожаловаться</button>';
     const regimentLine=regiment?'<div class="battle-comment-regiment">'+escapeCommentHtml(regiment)+'</div>':"";
-    return '<article class="battle-thread-item'+(depth?' is-reply':'')+'" data-comment-id="'+escapeCommentHtml(c.id)+'"><div class="battle-comment"><a class="battle-comment-avatar-link" href="'+empireProfileUrl(name)+'"><img class="battle-comment-avatar" src="'+escapeCommentHtml(avatar)+'" alt="'+escapeCommentHtml(name)+'" loading="lazy"></a><div class="battle-comment-identity"><div class="battle-comment-head"><a href="'+empireProfileUrl(name)+'"><strong>'+escapeCommentHtml(name)+'</strong></a><span>'+escapeCommentHtml(c.time||"")+'</span></div>'+regimentLine+'</div><div class="battle-comment-content"><p>'+escapeCommentHtml(c.text||"")+'</p>'+image+likeControls+reportControls+'<button class="battle-reply-button" type="button" data-reply-to="'+escapeCommentHtml(c.id)+'">Ответить</button><form class="battle-reply-form" data-parent-id="'+escapeCommentHtml(c.id)+'" hidden><input type="text" maxlength="500" placeholder="Ответить '+escapeCommentHtml(name)+'…" required><button type="submit">Ответить</button></form></div></div>'+ (children.length?'<div class="battle-thread-replies">'+replies+'</div>':"")+'</article>';
+    const online=isUserOnline(name);
+    const onlineLine='<div class="battle-comment-status '+(online?'is-online':'is-offline')+'"><i></i><span>'+(online?'В сети':'Не в сети')+'</span></div>';
+    return '<article class="battle-thread-item'+(depth?' is-reply':'')+'" data-comment-id="'+escapeCommentHtml(c.id)+'"><div class="battle-comment"><a class="battle-comment-avatar-link" href="'+empireProfileUrl(name)+'"><img class="battle-comment-avatar" src="'+escapeCommentHtml(avatar)+'" alt="'+escapeCommentHtml(name)+'" loading="lazy"></a><div class="battle-comment-identity"><div class="battle-comment-head"><a href="'+empireProfileUrl(name)+'"><strong>'+escapeCommentHtml(name)+'</strong></a><span>'+escapeCommentHtml(c.time||"")+'</span></div>'+regimentLine+onlineLine+'</div><div class="battle-comment-content"><p>'+escapeCommentHtml(c.text||"")+'</p>'+image+likeControls+reportControls+'<button class="battle-reply-button" type="button" data-reply-to="'+escapeCommentHtml(c.id)+'">Ответить</button><form class="battle-reply-form" data-parent-id="'+escapeCommentHtml(c.id)+'" hidden><input type="text" maxlength="500" placeholder="Ответить '+escapeCommentHtml(name)+'…" required><button type="submit">Ответить</button></form></div></div>'+ (children.length?'<div class="battle-thread-replies">'+replies+'</div>':"")+'</article>';
   };
   const renderComments=()=>{
     const all=getComments();
