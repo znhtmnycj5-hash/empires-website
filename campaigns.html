@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
 <title>Кампании — EMPIRE</title>
-<link rel="stylesheet" href="assets/style.css?v=20261108-campaign2">
+<link rel="stylesheet" href="assets/style.css?v=20261108-campaign7">
 </head>
 <body>
 <header class="inner-header"><div class="container">
@@ -30,9 +30,9 @@
   if(!u)return;
   if(!u.children.length){
     var items=[
-      {id:'campaign-test-01',title:'Битва за Ватерлоо',date:'12 ноября 2026',time:'20:00',factions:'Французская армия · Британская армия',server:'EMPIRE_WATERLOO_01'},
-      {id:'campaign-test-02',title:'Кампания на Рейне',date:'18 ноября 2026',time:'19:30',factions:'Французская армия · Прусская армия',server:'EMPIRE_RHEIN_02'},
-      {id:'campaign-test-03',title:'Освобождение Испании',date:'22 ноября 2026',time:'20:00',factions:'Французская армия · Британская армия',server:'EMPIRE_SPAIN_03'}
+      {id:'campaign-test-01',title:'Битва за Ватерлоо',date:'12.11.2026',time:'20:00',factions:'Французская армия · Британская армия',server:'EMPIRE_WATERLOO_01'},
+      {id:'campaign-test-02',title:'Кампания на Рейне',date:'18.11.2026',time:'19:30',factions:'Французская армия · Прусская армия',server:'EMPIRE_RHEIN_02'},
+      {id:'campaign-test-03',title:'Освобождение Испании',date:'22.11.2026',time:'20:00',factions:'Французская армия · Британская армия',server:'EMPIRE_SPAIN_03'}
     ];
     u.innerHTML=items.map(function(x){
       return '<a class="campaign-card" href="campaign.html?id='+x.id+'"><div class="campaign-card-preview" style="background-image:url(\'assets/IMG_2745.png\')"></div><div class="campaign-card-date"><strong>'+x.date+'</strong><span>'+x.time+'</span></div><div class="campaign-card-main"><div class="campaign-status upcoming">ПРЕДСТОИТ</div><h3>'+x.title+'</h3><p>Фракции: '+x.factions+'</p><small>Сервер: '+x.server+'</small></div><div class="campaign-card-arrow">→</div></a>';
