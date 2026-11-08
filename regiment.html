@@ -68,7 +68,7 @@ const renderRegimentNews=()=>{
   const samples=(newsSampleTemplates[name]||[]).map((n,i)=>({id:'sample-'+(i+1),title:n[0],date:n[1],author:n[2],image:n[3],private:n[4]}));
   const items=[...stored.map(n=>({...n})),...samples].sort((a,b)=>String(b.date).localeCompare(String(a.date)));
   const visible=items.filter(n=>!n.private||newsCurrentUser.regiment===name);
-  list.innerHTML=visible.slice(0,5).map(n=>'<a class="regiment-news-item news-clickable" href="news.html?regiment='+encodeURIComponent(name)+'&id='+encodeURIComponent(n.id)+'"><img src="'+n.image+'" alt=""><div class="regiment-news-body"><div class="regiment-news-date">'+n.date+' · '+(n.private?'🔒 Приватная':'🌐 Открытая')+'</div><h3>'+n.title+'</h3><p>'+(n.body||'Полковая новость. Нажмите, чтобы открыть публикацию и комментарии.')+'</p></div></a>').join('');
+  list.innerHTML=visible.slice(0,3).map(n=>'<a class="regiment-news-item news-clickable" href="news.html?regiment='+encodeURIComponent(name)+'&id='+encodeURIComponent(n.id)+'"><img src="'+n.image+'" alt=""><div class="regiment-news-body"><div class="regiment-news-date">'+n.date+' · '+(n.private?'🔒 Приватная':'🌐 Открытая')+'</div><h3>'+n.title+'</h3><p>'+(n.body||'Полковая новость. Нажмите, чтобы открыть публикацию и комментарии.')+'</p></div></a>').join('');
 };
 renderRegimentNews();
 
