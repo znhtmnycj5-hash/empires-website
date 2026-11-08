@@ -2095,3 +2095,36 @@ nav a,.btn{font-family:"Roboto Slab",serif}
     line-height:1.55!important;
   }
 }
+
+/* Keep rich-text controls in one horizontal row above the editor */
+.battle-comment-editor .battle-comment-toolbar{
+  display:flex!important;
+  flex-direction:row!important;
+  flex-wrap:nowrap!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  width:100%!important;
+  overflow-x:auto!important;
+}
+.battle-comment-editor .battle-comment-toolbar button{
+  display:inline-flex!important;
+  flex:0 0 28px!important;
+  width:28px!important;
+  min-width:28px!important;
+  max-width:28px!important;
+  height:26px!important;
+  margin:0!important;
+  white-space:nowrap!important;
+}
+@media(max-width:600px){
+  .battle-comment-editor .battle-comment-toolbar{
+    flex-direction:row!important;
+    flex-wrap:nowrap!important;
+  }
+  .battle-comment-editor .battle-comment-toolbar button{
+    flex:0 0 27px!important;
+    width:27px!important;
+    min-width:27px!important;
+    max-width:27px!important;
+  }
+}
