@@ -2844,3 +2844,18 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 @media(max-width:700px){
   #chat .messages{height:340px;max-height:45vh;max-height:45dvh;min-height:220px;overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y}
 }
+
+
+/* Dark radial center gradient between the two regiment portraits */
+#upcomingBattlesHome .home-battle-cover:after{
+  content:"";position:absolute;z-index:1;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,
+    rgba(8,7,6,0) 0%,
+    rgba(8,7,6,.10) 28%,
+    rgba(8,7,6,.48) 42%,
+    rgba(8,7,6,.82) 50%,
+    rgba(8,7,6,.48) 58%,
+    rgba(8,7,6,.10) 72%,
+    rgba(8,7,6,0) 100%);
+}
+#upcomingBattlesHome .home-battle-overlay{z-index:2}
