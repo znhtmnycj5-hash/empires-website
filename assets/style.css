@@ -109,6 +109,7 @@ nav a:hover:after,nav a.active:after{transform:scaleX(1)}
 .regiment-card .crest-mini{width:42px;height:42px;float:left;margin-right:12px;border:1px solid #87663b;display:grid;place-items:center;background:#251d15;color:#d9b56e}
 .regiment-flag{width:42px;height:42px;float:left;margin-right:12px;border:1px solid #87663b;display:block;object-fit:cover;background:#251d15}
 .battle-flag,.rank-flag{width:28px;height:20px;object-fit:cover;display:inline-block;vertical-align:middle;margin-right:8px;border:1px solid #87663b;background:#251d15}
+.ranking .rank-flag{width:28px;height:20px;min-width:28px;max-width:28px;min-height:20px;max-height:20px;object-fit:cover;display:inline-block;vertical-align:middle;margin:0 8px 0 0;border:1px solid #87663b;background:#251d15}
 
 .regiment-card h4{margin:0 0 4px;color:#ddc07e;font:600 14px Cinzel}.regiment-card p{margin:0;color:#9e917b;font-size:11px}
 .rank-row{cursor:pointer;transition:background .18s,transform .18s}.rank-row:hover{background:rgba(111,75,35,.15);transform:translateX(2px)}.rank-row.selected{background:rgba(120,34,30,.22);box-shadow:inset 3px 0 #c79a51}
