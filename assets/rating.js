@@ -27,6 +27,18 @@
       if (name) ratings[name] = {name, count, score: count * 10, wins:0, losses:0, draws:0};
     });
 
+    let campaignPoints = {};
+    try {
+      const campaigns = JSON.parse(localStorage.getItem('empire_campaigns_v1') || '[]');
+      campaigns.forEach(campaign => {
+        (campaign.applications || []).forEach(app => {
+          if (app.status === 'accepted' && app.attended === true) {
+            campaignPoints[app.regiment] = (campaignPoints[app.regiment] || 0) + 50;
+          }
+        });
+      });
+    } catch (error) {}
+
     battlesDoc.querySelectorAll('.battle-record').forEach(record => {
       const result = parseBattleResult(record);
       if (!result) return;
@@ -40,6 +52,7 @@
       }
     });
 
+    Object.values(ratings).forEach(item => { item.campaignPoints = campaignPoints[item.name] || 0; item.score += item.campaignPoints; });
     return Object.values(ratings).sort((a,b) => b.score - a.score || a.name.localeCompare(b.name));
   };
 })();
