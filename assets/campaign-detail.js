@@ -27,12 +27,12 @@
 {id:'rc3',author:'Grenadier87',regiment:'7th Hussars',text:'Будем держать кавалерийский фланг.',createdAt:'2026-11-08T18:39:00'},
 {id:'rc4',author:'Veli4estvo',regiment:'84e Régiment',text:'Состав предварительно подтверждён командованием.',createdAt:'2026-11-08T18:46:00'},
 {id:'rc5',author:'Kalashnikov',regiment:'1st Regiment',text:'Время сбора уточним перед началом боя.',createdAt:'2026-11-08T18:54:00'}]},
-    {id:'campaign-test-03',title:'Освобождение Испании',server:'EMPIRE_SPAIN_03',password:'SPAIN1812',startAt:'2026-11-22T20:00:00',factions:['Французская армия','Испанская армия','Британская армия'],organizer:'Kalashnikov',preview:'assets/IMG_2745.png',cover:'assets/IMG_2745.png',applications:[
+    {id:'campaign-test-03',title:'Освобождение Испании',server:'EMPIRE_SPAIN_03',password:'SPAIN1812',startAt:'2026-11-22T20:00:00',factions:['Французская армия','Британская армия'],organizer:'Kalashnikov',preview:'assets/IMG_2745.png',cover:'assets/IMG_2745.png',applications:[
 {id:'s1',regiment:'1st Regiment',people:34,faction:'Французская армия',troopType:'Пехота',attended:false},
 {id:'s2',regiment:'84e Régiment',people:25,faction:'Французская армия',troopType:'Пехота',attended:false},
 {id:'s3',regiment:'95th Rifles',people:21,faction:'Британская армия',troopType:'Стрелки',attended:false},
 {id:'s4',regiment:'7th Hussars',people:17,faction:'Британская армия',troopType:'Кавалерия',attended:false},
-{id:'s5',regiment:'Preobrazhensky',people:23,faction:'Испанская армия',troopType:'Пехота',attended:false}],comments:[
+{id:'s5',regiment:'Preobrazhensky',people:23,faction:'Британская армия',troopType:'Пехота',attended:false}],comments:[
 {id:'sc1',author:'Kalashnikov',regiment:'1st Regiment',text:'Подготовка к испанской кампании началась. Проверяем составы.',createdAt:'2026-11-08T18:22:00'},
 {id:'sc2',author:'Marquis',regiment:'95th Rifles',text:'Британская сторона готова. В этот раз без опозданий.',createdAt:'2026-11-08T18:31:00'},
 {id:'sc3',author:'Fusilier',regiment:'Preobrazhensky',text:'Наш отряд присоединится к кампании.',createdAt:'2026-11-08T18:38:00'},
@@ -73,9 +73,13 @@
       '<div class="card campaign-info-card"><div class="campaign-card-label">ФРАКЦИИ</div><strong>'+esc((c.factions||[]).join(' · '))+'</strong><span>Фракция назначается организатором полку</span></div>'+
     '</section>'+
     '<section class="card campaign-participants"><div class="campaign-section-title"><div><div class="page-kicker">УЧАСТНИКИ</div><h2>Полки кампании</h2></div><span>'+accepted.length+'</span></div>'+
-      '<div class="campaign-participant-list">'+(accepted.length?accepted.map(a=>'<div class="campaign-participant"><img src="'+esc(a.logo||'assets/empire_logo_top_right.png')+'" alt=""><div><strong>'+esc(a.regiment)+'</strong><small>'+esc(a.people||0)+' человек · '+esc(a.faction||'Фракция не назначена')+' · '+esc(a.troopType||'Род войск не назначен')+'</small></div><span class="campaign-attendance '+(a.attended?'present':'pending')+'">'+(a.attended?'ЯВИЛСЯ · +50':'ОЖИДАЕТ')+'</span></div>').join(''):'<div class="campaign-empty">Пока нет принятых заявок.</div>')+'</div>'+
-    '</section>'+
-    '<section class="card campaign-comments"><div class="card-title">💬 &nbsp; Комментарии <span id="campaignSafeCommentCount">0</span></div><div id="campaignSafeComments" class="battle-comments"></div></section>';
+      '<div class="campaign-faction-columns">'+
+        '<div class="campaign-faction-side"><div class="campaign-faction-title">'+esc((c.factions||[])[0]||'Первая фракция')+'</div><div class="campaign-participant-list">'+
+          accepted.filter(a=>a.faction===(c.factions||[])[0]).map(a=>'<div class="campaign-participant"><img src="'+esc(a.logo||'assets/empire_logo_top_right.png')+'" alt=""><div><strong>'+esc(a.regiment)+'</strong><small>'+esc(a.people||0)+' человек · '+esc(a.troopType||'Род войск не назначен')+'</small></div><span class="campaign-attendance '+(a.attended?'present':'pending')+'">'+(a.attended?'ЯВИЛСЯ · +50':'ОЖИДАЕТ')+'</span></div>').join('')+'</div></div>'+
+        '<div class="campaign-faction-side"><div class="campaign-faction-title">'+esc((c.factions||[])[1]||'Вторая фракция')+'</div><div class="campaign-participant-list">'+
+          accepted.filter(a=>a.faction===(c.factions||[])[1]).map(a=>'<div class="campaign-participant"><img src="'+esc(a.logo||'assets/empire_logo_top_right.png')+'" alt=""><div><strong>'+esc(a.regiment)+'</strong><small>'+esc(a.people||0)+' человек · '+esc(a.troopType||'Род войск не назначен')+'</small></div><span class="campaign-attendance '+(a.attended?'present':'pending')+'">'+(a.attended?'ЯВИЛСЯ · +50':'ОЖИДАЕТ')+'</span></div>').join('')+'</div></div>'+
+      '</div></section>'+
+    '<section class="card campaign-comments"><div class="card-title">💬 &nbsp; Комментарии <span class="battle-comment-count" id="campaignSafeCommentCount">0</span></div><div id="campaignSafeComments" class="battle-comments"></div><form id="campaignCommentForm" class="battle-comment-form"><div class="battle-comment-editor" id="campaignCommentEditorWrap"><div class="battle-comment-toolbar" role="toolbar" aria-label="Форматирование комментария"><button type="button" data-editor-command="bold" title="Жирный"><strong>B</strong></button><button type="button" data-editor-command="italic" title="Курсив"><em>I</em></button><button type="button" data-editor-command="underline" title="Подчёркивание"><u>U</u></button><button type="button" data-editor-command="quote" title="Цитата">❝</button><button type="button" data-editor-command="spoiler" title="Спойлер">S</button><button type="button" data-editor-command="image" title="Вставить картинку">▧</button><button type="button" data-editor-command="video" title="Вставить видео">▶</button></div><div id="campaignCommentInput" class="battle-comment-input" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Написать комментарий…"></div></div><button type="submit">Отправить</button></form></section>';
   const countdown=document.getElementById('campaignSafeCountdown');
   const tick=()=>{const st=status(c),end=new Date(new Date(c.startAt).getTime()+3600000);if(st==='upcoming'){const d=Math.max(0,new Date(c.startAt).getTime()-Date.now());const h=Math.floor(d/3600000),m=Math.floor(d%3600000/60000),sec=Math.floor(d%60000/1000);countdown.textContent='До начала: '+h+'ч '+String(m).padStart(2,'0')+'м '+String(sec).padStart(2,'0')+'с'}else if(st==='ongoing'){const d=Math.max(0,end-Date.now());countdown.textContent='Сражение идёт · до окончания: '+Math.floor(d/60000)+'м '+String(Math.floor(d%60000/1000)).padStart(2,'0')+'с'}else if(st==='awaiting')countdown.textContent='Сражение завершено. Организатор вносит результаты.';else countdown.textContent='Кампания завершена';};
   tick();setInterval(tick,1000);
@@ -83,8 +87,76 @@
   const storedComments=read(COMMENTS,[]).filter(x=>x.campaignId===c.id);
   const comments=storedComments.length?storedComments:seededComments;
   const cb=document.getElementById('campaignSafeComments');
-  const names={Kalashnikov:'1st Regiment',Ankord:'1st Regiment',Veli4estvo:'84e Régiment',Marquis:'95th Rifles',Fusilier:'Preobrazhensky',Grenadier87:'7th Hussars'};
-  const commentHtml=x=>'<article class="battle-thread-item"><div class="battle-comment"><div class="battle-comment-author"><div class="battle-comment-avatar-link"><img class="battle-comment-avatar" src="'+esc(x.avatar||'assets/empire_logo_top_right.png')+'" alt=""></div><div class="battle-comment-identity"><div class="battle-comment-head"><strong>'+esc(x.author||'Пользователь')+'</strong></div><div class="battle-comment-regiment">'+esc(x.regiment||names[x.author]||'Без полка')+'</div><span class="battle-comment-time">'+esc(x.time||date(x.createdAt))+'</span></div></div><div class="battle-comment-content"><div class="battle-comment-text">'+esc(x.text||'')+'</div></div></div></article>';
-  cb.innerHTML=comments.length?comments.map(commentHtml).join(''):'<div class="battle-comments-empty">Комментариев пока нет.</div>';
-  const cc=document.getElementById('campaignSafeCommentCount');if(cc)cc.textContent=comments.length;
+  const currentUser={name:'Kalashnikov',regiment:'1st Regiment'};
+  const presenceKey='empire_profile_presence_v1';
+  const getPresence=()=>{try{return JSON.parse(localStorage.getItem(presenceKey)||'{}')||{}}catch(e){return {}}};
+  const setOnline=name=>{if(!name)return;const m=getPresence();m[name]=Date.now();try{localStorage.setItem(presenceKey,JSON.stringify(m))}catch(e){}};
+  const isOnline=name=>{const t=getPresence()[name];return typeof t==='number'&&Date.now()-t<5*60*1000};
+  setOnline(currentUser.name);
+  setInterval(()=>setOnline(currentUser.name),30000);
+  const names={Kalashnikov:'1st Regiment',Ankord:'1st Regiment',Veli4estvo:'84e Régiment',Marquis:'95th Rifles',Fusilier:'Preobrazhensky',Grenadier87:'7th Hussars',Mel:'1st Regiment',Kazak:'1st Regiment',MeGusta:'1st Regiment',Flashkodr:'1st Regiment',MrDixon:'1st Regiment',Theodor:'1st Regiment'};
+  const escapeHtml=v=>String(v??'').replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+  const sanitizeHtml=html=>{
+    const doc=new DOMParser().parseFromString(String(html||''),'text/html');
+    const allowed=new Set(['B','STRONG','I','EM','U','BLOCKQUOTE','BR','SPAN','IMG','VIDEO']);
+    const cleanUrl=value=>{try{const u=new URL(String(value||''),location.href);return ['http:','https:'].includes(u.protocol)?u.href:''}catch(e){return ''}};
+    const walk=node=>[...node.childNodes].forEach(ch=>{
+      if(ch.nodeType===Node.TEXT_NODE)return;
+      if(ch.nodeType!==Node.ELEMENT_NODE||!allowed.has(ch.tagName)){const p=ch.parentNode;if(p){while(ch.firstChild)p.insertBefore(ch.firstChild,ch);p.removeChild(ch)}return}
+      [...ch.attributes].forEach(a=>ch.removeAttribute(a.name));
+      if(ch.tagName==='IMG'){const src=cleanUrl(ch.getAttribute('src'));if(!src){ch.remove();return}ch.setAttribute('src',src);ch.setAttribute('alt','Вставленная картинка');ch.setAttribute('loading','lazy')}
+      if(ch.tagName==='VIDEO'){const src=cleanUrl(ch.getAttribute('src'));if(!src){ch.remove();return}ch.setAttribute('src',src);ch.setAttribute('controls','');ch.setAttribute('preload','metadata')}
+      if(ch.tagName==='SPAN'&&ch.dataset.spoiler!=='true'){ch.replaceWith(...ch.childNodes);return}
+      walk(ch);
+    });
+    walk(doc.body);return doc.body.innerHTML;
+  };
+  const renderText=x=>x.html?sanitizeHtml(x.html):escapeHtml(x.text||'').replace(/\\n/g,'<br>');
+  const likeKey='empire-comment-likes-v1';
+  const getLikeMap=()=>{try{return JSON.parse(localStorage.getItem(likeKey)||'{}')||{}}catch(e){return {}}};
+  const likesFor=id=>Array.isArray(getLikeMap()['campaign:'+c.id+':'+id])?getLikeMap()['campaign:'+c.id+':'+id]:[];
+  const toggleLike=id=>{const m=getLikeMap(),key='campaign:'+c.id+':'+id,a=Array.isArray(m[key])?m[key]:[],i=a.indexOf(currentUser.name);if(i>=0)a.splice(i,1);else a.push(currentUser.name);m[key]=a;localStorage.setItem(likeKey,JSON.stringify(m))};
+  const commentCard=(x,all,depth=0)=>{
+    const name=String(x.author||x.name||'Пользователь'),regiment=String(x.regiment||names[name]||'Без полка'),avatar=x.avatar||empireUserAvatar(name),children=all.filter(y=>y.parentId===x.id),likes=likesFor(x.id),online=isOnline(name);
+    const likePreview=likes.slice(0,2).map(escapeHtml).join(', ');
+    const likeControls='<div class="comment-reactions"><button class="comment-like-button'+(likes.includes(currentUser.name)?' is-liked':'')+'" type="button" data-like-comment="'+escapeHtml(x.id)+'" aria-pressed="'+likes.includes(currentUser.name)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+likePreview+(likes.length>2?' и ещё':'')+'</span><button type="button" class="comment-like-all" data-show-likes="'+escapeHtml(x.id)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(n=>'<a href="'+empireProfileUrl(n)+'">'+escapeHtml(n)+'</a>').join('')+'</div></div>':'')+'</div>';
+    const report='<button class="comment-report-button" type="button" data-report-comment="'+escapeHtml(x.id)+'">⚑ Пожаловаться</button>';
+    const del=name===currentUser.name?'<button class="comment-delete-button" type="button" data-delete-comment="'+escapeHtml(x.id)+'">Удалить</button>':'';
+    const reply='<a href="#" class="battle-reply-link" data-reply-to="'+escapeHtml(x.id)+'">Ответить</a><form class="battle-reply-form" data-parent-id="'+escapeHtml(x.id)+'" hidden><input type="text" maxlength="500" placeholder="Ответить '+escapeHtml(name)+'…" required><button type="submit">Ответить</button></form>';
+    const status='<div class="battle-comment-status '+(online?'is-online':'is-offline')+'"><i></i><span>'+(online?'В сети':'Не в сети')+'</span></div>';
+    const media=x.image?'<a class="battle-comment-image-link" href="'+escapeHtml(x.image)+'" target="_blank" rel="noopener"><img class="battle-comment-image" src="'+escapeHtml(x.image)+'" alt="Вставленная картинка" loading="lazy"></a>':'';
+    return '<article class="battle-thread-item'+(depth?' is-reply':'')+'" data-comment-id="'+escapeHtml(x.id)+'"><div class="battle-comment"><div class="battle-comment-author"><a class="battle-comment-avatar-link" href="'+empireProfileUrl(name)+'"><img class="battle-comment-avatar" src="'+escapeHtml(avatar)+'" alt="'+escapeHtml(name)+'" loading="lazy"></a><div class="battle-comment-identity"><div class="battle-comment-head"><a href="'+empireProfileUrl(name)+'"><strong>'+escapeHtml(name)+'</strong></a></div><div class="battle-comment-regiment">'+escapeHtml(regiment)+'</div>'+status+'<span class="battle-comment-time">'+escapeHtml(x.time||date(x.createdAt))+'</span></div></div><div class="battle-comment-content"><div class="battle-comment-text">'+renderText(x)+'</div>'+media+likeControls+report+del+reply+'</div></div>'+(children.length?'<div class="battle-thread-replies">'+children.map(y=>commentCard(y,all,depth+1)).join('')+'</div>':'')+'</article>';
+  };
+  const renderComments=()=>{
+    const all=comments.concat([]);
+    const roots=all.filter(x=>!x.parentId||!all.some(p=>p.id===x.parentId));
+    cb.innerHTML=roots.length?roots.map(x=>commentCard(x,all)).join(''):'<div class="battle-comments-empty">Комментариев пока нет.</div>';
+    const cc=document.getElementById('campaignSafeCommentCount');if(cc)cc.textContent=all.length;
+  };
+  const saveComment=x=>{let arr=read(COMMENTS,[]);if(!Array.isArray(arr))arr=[];arr.push({...x,campaignId:c.id});localStorage.setItem(COMMENTS,JSON.stringify(arr));renderComments()};
+  cb.addEventListener('click',e=>{
+    const reply=e.target.closest('[data-reply-to]');if(reply){e.preventDefault();const card=reply.closest('.battle-thread-item');const form=card?.querySelector(':scope > .battle-comment .battle-reply-form');if(form){form.hidden=!form.hidden;form.style.display=form.hidden?'none':'flex';if(!form.hidden)form.querySelector('input').focus()}return}
+    const like=e.target.closest('[data-like-comment]');if(like){toggleLike(like.dataset.likeComment);renderComments();return}
+    const show=e.target.closest('[data-show-likes]');if(show){const p=show.parentElement.querySelector('.comment-like-full');if(p)p.hidden=!p.hidden;return}
+    const del=e.target.closest('[data-delete-comment]');if(del){const arr=read(COMMENTS,[]),target=arr.find(x=>String(x.id)===String(del.dataset.deleteComment)&&x.campaignId===c.id);if(!target||target.author!==currentUser.name)return;if(confirm('Удалить этот комментарий?')){localStorage.setItem(COMMENTS,JSON.stringify(arr.filter(x=>x!==target)));renderComments()}return}
+    const report=e.target.closest('[data-report-comment]');if(report){let arr=read('empire_comment_reports_v1',[]);if(!Array.isArray(arr))arr=[];if(!arr.some(x=>x.campaignId===c.id&&x.commentId===report.dataset.reportComment&&x.reporter===currentUser.name&&x.status==='pending')){arr.push({id:'campaign-report-'+Date.now(),status:'pending',reporter:currentUser.name,campaignId:c.id,commentId:report.dataset.reportComment,reason:'Жалоба пользователя',createdAt:new Date().toISOString()});localStorage.setItem('empire_comment_reports_v1',JSON.stringify(arr));alert('Жалоба отправлена модераторам.')}else alert('Вы уже пожаловались на этот комментарий.');return}
+  });
+  cb.addEventListener('submit',e=>{const form=e.target.closest('.battle-reply-form');if(!form)return;e.preventDefault();const input=form.querySelector('input'),text=input.value.trim();if(!text)return;saveComment({id:'campaign-comment-'+Date.now(),parentId:form.dataset.parentId,author:currentUser.name,regiment:currentUser.regiment,avatar:empireUserAvatar(currentUser.name),text,time:new Date().toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})});});
+  const editor=document.getElementById('campaignCommentInput');
+  const restore=()=>{editor.focus();const sel=window.getSelection();if(sel&&sel.rangeCount)return;const r=document.createRange();r.selectNodeContents(editor);r.collapse(false);sel.removeAllRanges();sel.addRange(r)};
+  const insert=html=>{restore();document.execCommand('insertHTML',false,html);editor.focus()};
+  document.querySelector('#campaignCommentForm .battle-comment-toolbar').addEventListener('mousedown',e=>{if(e.target.closest('[data-editor-command]'))e.preventDefault()});
+  document.querySelector('#campaignCommentForm .battle-comment-toolbar').addEventListener('click',e=>{
+    const b=e.target.closest('[data-editor-command]');if(!b)return;restore();const cmd=b.dataset.editorCommand;
+    if(['bold','italic','underline'].includes(cmd))document.execCommand(cmd,false,null);
+    else if(cmd==='quote')document.execCommand('formatBlock',false,'blockquote');
+    else if(cmd==='spoiler'){const sel=window.getSelection(),t=sel&&sel.toString();insert('<span data-spoiler="true">'+escapeHtml(t||'Спойлер')+'</span>')}
+    else if(cmd==='image'){const u=prompt('Вставьте прямую ссылку на картинку:');if(u&&/^https?:\\/\\//i.test(u.trim()))insert('<img src="'+escapeHtml(u.trim())+'" alt="Вставленная картинка">')}
+    else if(cmd==='video'){const u=prompt('Вставьте прямую ссылку на видео:');if(u&&/^https?:\\/\\//i.test(u.trim()))insert('<video src="'+escapeHtml(u.trim())+'" controls preload="metadata"></video>')}
+  });
+  document.getElementById('campaignCommentForm').addEventListener('submit',e=>{
+    e.preventDefault();const html=sanitizeHtml(editor.innerHTML),text=editor.textContent.trim();if(!text&&!html.replace(/<[^>]*>/g,'').trim())return;
+    saveComment({id:'campaign-comment-'+Date.now(),parentId:null,author:currentUser.name,regiment:currentUser.regiment,avatar:empireUserAvatar(currentUser.name),html,text,time:new Date().toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})});editor.innerHTML='';
+  });
+  renderComments();
 })();
