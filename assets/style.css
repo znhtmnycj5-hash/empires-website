@@ -373,12 +373,19 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-stat.wins strong{color:#6dbb7d}
 .battle-stat.losses strong{color:#e16b62}
 .battle-stat.draws strong{color:#aaa}
-.regiment-news-item.news-clickable img{width:100px;height:62px;min-width:100px;max-width:100px;flex:0 0 100px;object-fit:cover}
-.regiment-news-item.news-clickable .regiment-news-body{flex:1;min-width:0}
+
+/* Regiment news thumbnails: fixed left column, text stays in its own column */
+.regiment-news-list{display:flex;flex-direction:column;gap:10px;width:100%;min-width:0}
+.regiment-news-item.news-clickable{display:flex;flex-direction:row;align-items:flex-start;gap:14px;width:100%;min-width:0;box-sizing:border-box;overflow:hidden}
+.regiment-news-item.news-clickable img{display:block;position:static;float:none;width:112px;height:70px;min-width:112px;max-width:112px;flex:0 0 112px;box-sizing:border-box;object-fit:cover;object-position:center;border:1px solid #765a36;background:#251d15;margin:0}
+.regiment-news-item.news-clickable .regiment-news-body{display:block;flex:1 1 auto;width:auto;min-width:0;max-width:none;overflow-wrap:anywhere}
+.regiment-news-item.news-clickable .regiment-news-body h3{margin-top:2px}
+.regiment-news-item.news-clickable .regiment-news-body p{margin-bottom:0}
 @media(max-width:600px){
  .battle-statistics{gap:6px}
  .battle-stat{padding:9px 4px}
  .battle-stat strong{font-size:19px}
  .battle-stat span{font-size:9px}
- .regiment-news-item.news-clickable img{width:88px;height:56px;min-width:88px;max-width:88px;flex-basis:88px}
+ .regiment-news-item.news-clickable{gap:9px}
+ .regiment-news-item.news-clickable img{width:92px;height:60px;min-width:92px;max-width:92px;flex-basis:92px}
 }
