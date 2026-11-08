@@ -1932,3 +1932,36 @@ nav a,.btn{font-family:"Roboto Slab",serif}
     box-sizing:border-box!important;
   }
 }
+
+/* Battle comments: delete own comment */
+.battle-thread-item>.battle-comment .comment-delete-button{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  height:23px!important;
+  min-height:23px!important;
+  margin:0 6px 0 0!important;
+  padding:2px 8px!important;
+  border:1px solid rgba(169,139,91,.28)!important;
+  border-radius:2px!important;
+  background:rgba(12,10,8,.20)!important;
+  color:rgba(185,170,145,.58)!important;
+  font:500 8px "Roboto Slab",serif!important;
+  line-height:1!important;
+  cursor:pointer!important;
+  opacity:.58!important;
+}
+.battle-thread-item>.battle-comment .comment-delete-button:hover{
+  color:#d9c7a7!important;
+  border-color:rgba(169,139,91,.45)!important;
+  background:rgba(12,10,8,.28)!important;
+  opacity:.82!important;
+}
+@media(max-width:600px){
+  .battle-thread-item>.battle-comment .comment-delete-button{
+    height:22px!important;
+    min-height:22px!important;
+    padding:2px 7px!important;
+    font-size:7px!important;
+  }
+}
