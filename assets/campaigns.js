@@ -17,10 +17,10 @@ const seed=()=>{
  const testCampaigns=[
   {id:'campaign-test-01',title:'Битва за Ватерлоо',server:'EMPIRE_WATERLOO_01',password:'WATERLOO1815',startAt:'2026-11-12T20:00:00',factions:['Французская армия','Британская армия'],organizer:'Kalashnikov',status:'published',applications:[],createdAt:'2026-11-08T18:00:00',preview:'assets/IMG_2745.png',cover:'assets/IMG_2745.png'},
   {id:'campaign-test-02',title:'Кампания на Рейне',server:'EMPIRE_RHEIN_02',password:'RHEIN1813',startAt:'2026-11-18T19:30:00',factions:['Французская армия','Прусская армия'],organizer:'Ankord',status:'published',applications:[],createdAt:'2026-11-08T18:05:00',preview:'assets/IMG_2745.png',cover:'assets/IMG_2745.png'},
-  {id:'campaign-test-03',title:'Освобождение Испании',server:'EMPIRE_SPAIN_03',password:'SPAIN1812',startAt:'2026-11-22T20:00:00',factions:['Французская армия','Испанская армия','Британская армия'],organizer:'Kalashnikov',status:'published',applications:[],createdAt:'2026-11-08T18:10:00',preview:'assets/IMG_2745.png',cover:'assets/IMG_2745.png'}
+  {id:'campaign-test-03',title:'Освобождение Испании',server:'EMPIRE_SPAIN_03',password:'SPAIN1812',startAt:'2026-11-22T20:00:00',factions:['Французская армия','Британская армия'],organizer:'Kalashnikov',status:'published',applications:[],createdAt:'2026-11-08T18:10:00',preview:'assets/IMG_2745.png',cover:'assets/IMG_2745.png'}
  ];
  all=all.filter(x=>x.id!=='campaign-001');
- testCampaigns.forEach(tc=>{if(!all.some(x=>x.id===tc.id))all.unshift(tc);});
+ testCampaigns.forEach(tc=>{const existing=all.find(x=>x.id===tc.id);if(existing){existing.factions=tc.factions;existing.preview=existing.preview||tc.preview;existing.cover=existing.cover||tc.cover}else all.unshift(tc);});
  write(K,all);
 
  const c=all.find(x=>x.id==='campaign-001');
@@ -74,7 +74,7 @@ const seed=()=>{
 const badgeStatus=s=>({upcoming:'ПРЕДСТОИТ',ongoing:'ИДЁТ БОЙ',awaiting:'ЖДЁТ ПОДТВЕРЖДЕНИЯ',completed:'ЗАВЕРШЕНА'}[s]||s);
 function campaignCard(c){
  const s=statusOf(c), accepted=(c.applications||[]).filter(a=>a.status==='accepted').length;
- return '<a class="campaign-card" href="campaign.html?id='+encodeURIComponent(c.id)+'"><div class="campaign-card-preview" style="background-image:url(&quot;'+esc(c.preview||'assets/IMG_2745.png')+'&quot;)"></div><div class="campaign-card-date"><strong>'+new Date(c.startAt).toLocaleDateString('ru-RU',{day:'2-digit',month:'short'})+'</strong><span>'+new Date(c.startAt).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+'</span></div><div class="campaign-card-main"><div class="campaign-status '+s+'">'+badgeStatus(s)+'</div><h3>'+esc(c.title)+'</h3><p>Фракции: '+esc((c.factions||[]).join(' · '))+'</p><small>Участников-полков: '+accepted+' · Организатор: '+esc(c.organizer)+'</small></div><div class="campaign-card-arrow">→</div></a>';
+ return '<a class="campaign-card" href="campaign.html?id='+encodeURIComponent(c.id)+'"><div class="campaign-card-preview" style="background-image:url(&quot;'+esc(c.preview||'assets/IMG_2745.png')+'&quot;)"></div><div class="campaign-card-date"><strong>'+new Date(c.startAt).toLocaleDateString('ru-RU',{day:'2-digit',month:'short',year:'numeric'})+'</strong><span>'+new Date(c.startAt).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+'</span></div><div class="campaign-card-main"><div class="campaign-status '+s+'">'+badgeStatus(s)+'</div><h3>'+esc(c.title)+'</h3><p>Фракции: '+esc((c.factions||[]).join(' · '))+'</p><small>Участников-полков: '+accepted+' · Организатор: '+esc(c.organizer)+'</small></div><div class="campaign-card-arrow">→</div></a>';
 }
 function renderList(){
  const all=seed().sort((a,b)=>new Date(a.startAt)-new Date(b.startAt));
