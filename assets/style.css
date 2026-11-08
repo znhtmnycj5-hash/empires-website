@@ -1499,38 +1499,12 @@ nav a,.btn{font-family:"Roboto Slab",serif}
     height:34px!important;
   }
 
-/* Battle comments: larger avatars with a small right shift */
-.battle-thread-item>.battle-comment .battle-comment-avatar-link{
-  width:52px!important;
-  height:52px!important;
-  flex-basis:52px!important;
-  min-width:52px!important;
-  min-height:52px!important;
-  transform:translateX(10px)!important;
-}
-.battle-thread-item>.battle-comment .battle-comment-avatar{
-  width:52px!important;
-  height:52px!important;
-  min-width:52px!important;
-  min-height:52px!important;
-  max-width:52px!important;
-  max-height:52px!important;
+/* Battle comments: move date/time slightly left */
+.battle-thread-item>.battle-comment .battle-comment-head>span{
+  transform:translateX(-10px)!important;
 }
 @media(max-width:600px){
-  .battle-thread-item>.battle-comment .battle-comment-avatar-link{
-    width:42px!important;
-    height:42px!important;
-    flex-basis:42px!important;
-    min-width:42px!important;
-    min-height:42px!important;
-    transform:translateX(7px)!important;
-  }
-  .battle-thread-item>.battle-comment .battle-comment-avatar{
-    width:42px!important;
-    height:42px!important;
-    min-width:42px!important;
-    min-height:42px!important;
-    max-width:42px!important;
-    max-height:42px!important;
+  .battle-thread-item>.battle-comment .battle-comment-head>span{
+    transform:translateX(-7px)!important;
   }
 }
