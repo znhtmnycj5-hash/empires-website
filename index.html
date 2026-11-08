@@ -101,12 +101,9 @@
 <div class="full">
   <section class="card">
     <div class="card-title">⚔ &nbsp; Предстоящие полковые сражения <a href="battles.html">Все сражения →</a></div>
-    <div class="battle">
-      <div class="datebox">8<br><small>НОЯБРЯ<br>20:00</small><span class="battle-type">⚔ БОЙ</span></div>
-      <div><a class="team regiment-link" href="regiment.html?name=1st%20Regiment"><img class="battle-flag" src="assets/1st.jpg" alt="Флаг 1st Regiment">1st Regiment</a></div><div class="vs">VS</div><div><a class="team regiment-link" href="regiment.html?name=84e%20R%C3%A9giment"><img class="battle-flag" src="assets/84e.png" alt="Флаг 84e Régiment">84e Régiment</a></div></div>
-    <div class="battle" style="border-top:1px solid #332b21">
-      <div class="datebox">10<br><small>НОЯБРЯ<br>21:00</small><span class="battle-type">⚔ БОЙ</span></div>
-      <div><a class="team regiment-link" href="regiment.html?name=7th%20Hussars"><img class="battle-flag" src="assets/hussars.png" alt="Флаг 7th Hussars">7th Hussars</a></div><div class="vs">VS</div><div><a class="team regiment-link" href="regiment.html?name=95th%20Rifles"><img class="battle-flag" src="assets/95.webp" alt="Флаг 95th Rifles">95th Rifles</a></div></div>
+    <div id="upcomingBattlesHome">
+      <div class="battle"><div style="padding:12px;text-align:center;color:#8f8068;font-size:11px;width:100%">Загрузка предстоящих сражений…</div></div>
+    </div>
   </section>
 
   <section class="card ranking" id="ranking">
@@ -197,6 +194,32 @@ const loadAutomaticSiteCounters=async()=>{
 };
 applySiteCounters();
 loadAutomaticSiteCounters();
+const loadUpcomingBattles=async()=>{
+  try{
+    const html=await fetch('battles.html',{cache:'no-store'}).then(r=>r.text());
+    const doc=new DOMParser().parseFromString(html,'text/html');
+    const planned=[...doc.querySelectorAll('.battle-record[data-status="planned"]')].slice(0,3);
+    const box=document.getElementById('upcomingBattlesHome');
+    if(!box)return;
+    if(!planned.length){box.innerHTML='<div class="battle"><div style="padding:18px;text-align:center;color:#8f8068;font-size:11px;width:100%">Предстоящих сражений пока нет.</div></div>';return;}
+    box.innerHTML=planned.map((record,index)=>{
+      const top=record.querySelector('.battle-record-top');
+      const date=(top?.querySelectorAll('span')[1]?.textContent||'').trim();
+      const sides=record.querySelectorAll('.battle-side');
+      const left=sides[0],right=sides[1];
+      const leftHref=left?.getAttribute('href')||'#',rightHref=right?.getAttribute('href')||'#';
+      const leftImg=left?.querySelector('img')?.getAttribute('src')||'',rightImg=right?.querySelector('img')?.getAttribute('src')||'';
+      const leftName=left?.querySelector('strong')?.textContent.trim()||'',rightName=right?.querySelector('strong')?.textContent.trim()||'';
+      const parts=date.split('·').map(s=>s.trim());
+      const d=parts[0]||date;
+      const tm=parts[1]||'';
+      const dt=d.split('.');
+      const day=dt[0]||d, month=dt[1]==='11'?'НОЯБРЯ':dt[1]==='10'?'ОКТЯБРЯ':dt[1]==='12'?'ДЕКАБРЯ':'';
+      return '<div class="battle"'+(index?' style="border-top:1px solid #332b21"':'')+'><div class="datebox">'+day+'<br><small>'+month+'<br>'+tm+'</small><span class="battle-type">⚔ БОЙ</span></div><div><a class="team regiment-link" href="'+leftHref+'"><img class="battle-flag" src="'+leftImg+'" alt="Флаг '+leftName+'">'+leftName+'</a></div><div class="vs">VS</div><div><a class="team regiment-link" href="'+rightHref+'"><img class="battle-flag" src="'+rightImg+'" alt="Флаг '+rightName+'">'+rightName+'</a></div></div>';
+    }).join('');
+  }catch(error){}
+};
+loadUpcomingBattles();
 const currentUser={name:'Kalashnikov',regiment:'1st Regiment'};
 
 const communityRegiments=[
