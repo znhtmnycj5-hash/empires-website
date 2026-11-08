@@ -118,7 +118,12 @@ const ensureTestComments=n=>{
   {id:"site-news-test-01-comment-09",author:"Grenadier87",text:"Будет интересно посмотреть, как покажут себя разные подразделения. Жду подробностей!",date:"08.11.2026, 11:47"},
   {id:"site-news-test-01-comment-10",author:"Marquis",text:"Отличная возможность проверить взаимодействие между полками перед кампанией.",date:"08.11.2026, 11:54"}
  ];
- const additions=samples.filter(x=>!existing.has(x.id)).map(x=>({...x,avatar:avatar(x.author)}));
+ const threadedSamples=[
+  {id:"site-news-test-01-reply-01",parentId:"site-news-test-01-comment-02",author:"Kazak",text:"Согласен. Могу подготовить список команд для проверки.",date:"08.11.2026, 12:06"},
+  {id:"site-news-test-01-reply-02",parentId:"site-news-test-01-reply-01",author:"Mel",text:"Отлично, тогда новичкам будет проще ориентироваться.",date:"08.11.2026, 12:09"},
+  {id:"site-news-test-01-reply-03",parentId:"site-news-test-01-comment-04",author:"Ankord",text:"Поддерживаю предложение. Обсудим детали перед построением.",date:"08.11.2026, 12:12"}
+ ];
+ const additions=[...samples,...threadedSamples].filter(x=>!existing.has(x.id)).map(x=>({...x,avatar:avatar(x.author)}));
  if(additions.length){map[n.id]=[...items,...additions];write(COMMENTS_KEY,map);}
 };
 function renderComments(n){
