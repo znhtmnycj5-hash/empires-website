@@ -311,6 +311,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 @media(max-width:600px){
  .regiment-news-item{grid-template-columns:100px minmax(0,1fr);gap:11px;padding:10px}
  .regiment-news-preview{width:100px;height:76px}
+ .regiment-news-item.news-clickable img{width:100px;height:76px;min-width:100px}
  .regiment-news-body h3{font-size:12px}
  .regiment-news-body p{font-size:10px;line-height:1.5}
 }
@@ -636,6 +637,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 
 /* Regiment news */
 .regiment-news-item.news-clickable{display:flex;color:inherit;text-decoration:none;cursor:pointer;transition:border-color .18s ease,background .18s ease,transform .18s ease}
+.regiment-news-item.news-clickable img{width:150px;height:92px;min-width:150px;object-fit:cover;border:1px solid #765a36;background:#251d15;display:block}
 .regiment-news-item.news-clickable:hover{border-color:#a77b43;background:rgba(100,30,27,.14);transform:translateY(-1px)}
 .news-section-link{float:right;color:#b4935c;text-decoration:none;font:600 10px Cinzel}
 .news-section-link:hover{color:#e0c27f;text-decoration:underline}
