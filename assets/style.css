@@ -799,3 +799,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  .battle-reply-form button{min-height:32px}
  .battle-comment-image{max-height:210px}
 }
+
+/* Override legacy single-level comment header layout inside threaded discussions */
+.battle-comment>.battle-comment-content{display:block;min-width:0;flex:1}
+.battle-comment .battle-comment-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
