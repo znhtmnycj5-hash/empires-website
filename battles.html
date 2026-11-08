@@ -195,6 +195,20 @@ const applyDynamicStatuses=()=>{
       badge.textContent=statusNames[status];
     }
     const result=record.querySelector('.battle-result-box');
+    const sides=record.querySelectorAll('.battle-side');
+    sides.forEach(side=>side.classList.remove('result-winner','result-loser','result-draw'));
+    if(status==='completed'&&result){
+      const summary=result.querySelector('span')?.textContent||'';
+      if(summary.includes('Ничья')){
+        sides.forEach(side=>side.classList.add('result-draw'));
+      }else if(summary.includes('Победа')){
+        sides[0]?.classList.add('result-winner');
+        sides[1]?.classList.add('result-loser');
+      }else if(summary.includes('Поражение')){
+        sides[0]?.classList.add('result-loser');
+        sides[1]?.classList.add('result-winner');
+      }
+    }
     if(result&&status==='ongoing') result.querySelector('span').textContent='Сражение идёт';
     if(result&&status==='awaiting_confirmation') result.querySelector('span').textContent='Ожидается подтверждение командиров';
   });
