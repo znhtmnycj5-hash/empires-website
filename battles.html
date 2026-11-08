@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сражения — EMPIRE</title>
+  <link rel="stylesheet" href="assets/style.css?v=20261108-battles1">
+</head>
+<body>
+<header class="inner-header">
+  <div class="container">
+    <div class="brand"><a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a><div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div></div>
+    <nav>
+      <a href="index.html">Главная</a>
+      <div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="#">Создать полк</a><a href="#">Мои полки</a></div></div>
+      <div class="dropdown"><a class="active" href="battles.html">Сражения</a><div class="dropdown-menu"><a href="#planned">Предстоящие</a><a href="#completed">Завершённые</a><a href="#all">Все сражения</a></div></div>
+      <a href="index.html#ranking">Рейтинг</a>
+      <div class="dropdown"><a href="index.html#news">Форум</a><div class="dropdown-menu"><a href="index.html#news">Обсуждения</a><a href="#">Гайды</a><a href="#">Объявления</a></div></div>
+      <a href="index.html#alliances">Союзы</a>
+      <a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container battles-page">
+  <section class="page-heading card">
+    <div>
+      <div class="kicker">Военная хроника EMPIRE</div>
+      <h1>СРАЖЕНИЯ</h1>
+      <p>Все полковые сражения сообщества: запланированные, текущие и завершённые. Каждая запись учитывается в общем количестве сражений на главной странице.</p>
+    </div>
+  </section>
+
+  <section class="card battle-filters">
+    <button class="battle-filter active" data-filter="all">Все <span>11</span></button>
+    <button class="battle-filter" data-filter="planned">Запланированные <span>2</span></button>
+    <button class="battle-filter" data-filter="ongoing">Идут сейчас <span>0</span></button>
+    <button class="battle-filter" data-filter="completed">Завершённые <span>9</span></button>
+  </section>
+
+  <section class="battle-list" id="all">
+    <article class="battle-record card" data-status="completed" id="battle-001">
+      <div class="battle-record-top"><span class="battle-status completed">Завершено</span><span>26.10.2026</span><span>Тестовый бой</span></div>
+      <div class="battle-record-main">
+        <a class="battle-side regiment-link" href="regiment.html?name=1st%20Regiment"><img src="assets/1st.jpg" alt="1st Regiment"><strong>1st Regiment</strong><small>Французская Империя</small></a>
+        <div class="battle-result-box"><b>2 : 3</b><span>Поражение 1st Regiment</span></div>
+        <a class="battle-side regiment-link" href="regiment.html?name=95th%20Rifles"><img src="assets/95.webp" alt="95th Rifles"><strong>95th Rifles</strong><small>Британская Империя</small></a>
+      </div>
+    </article>
+
+    <article class="battle-record card" data-status="completed" id="battle-002">
+      <div class="battle-record-top"><span class="battle-status completed">Завершено</span><span>29.10.2026</span><span>Тестовый бой</span></div>
+      <div class="battle-record-main">
+        <a class="battle-side regiment-link" href="regiment.html?name=1st%20Regiment"><img src="assets/1st.jpg" alt="1st Regiment"><strong>1st Regiment</strong><small>Французская Империя</small></a>
+        <div class="battle-result-box"><b>4 : 2</b><span>Победа 1st Regiment</span></div>
+        <a class="battle-side regiment-link" href="regiment.html?name=84e%20R%C3%A9giment"><img src="assets/84e.png" alt="84e Régiment"><strong>84e Régiment</strong><small>Французская Империя</small></a>
+      </div>
+    </article>
+
+    <article class="battle-record card" data-status="completed" id="battle-003">
+      <div class="battle-record-top"><span class="battle-status completed">Завершено</span><span>02.11.2026</span><span>Тестовый бой</span></div>
+      <div class="battle-record-main">
+        <a class="battle-side regiment-link" href="regiment.html?name=1st%20Regiment"><img src="assets/1st.jpg" alt="1st Regiment"><strong>1st Regiment</strong><small>Французская Империя</small></a>
+        <div class="battle-result-box"><b>3 : 3</b><span>Ничья</span></div>
+        <a class="battle-side regiment-link" href="regiment.html?name=Preobrazhensky"><img src="assets/preobraz.webp" alt="Preobrazhensky"><strong>Preobrazhensky</strong><small>Российская Империя</small></a>
+      </div>
+    </article>
+
+    <article class="battle-record card" data-status="completed" id="battle-004">
+      <div class="battle-record-top"><span class="battle-status completed">Завершено</span><span>04.11.2026</span><span>Тестовый бой</span></div>
+      <div class="battle-record-main">
+        <a class="battle-side regiment-link" href="regiment.html?name=1st%20Regiment"><img src="assets/1st.jpg" alt="1st Regiment"><strong>1st Regiment</strong><small>Французская Империя</small></a>
+        <div class="battle-result-box"><b>3 : 1</b><span>Победа 1st Regiment</span></div>
+        <a class="battle-side regiment-link" href="regiment.html?name=95th%20Rifles"><img src="assets/95.webp" alt="95th Rifles"><strong>95th Rifles</strong><small>Британская Империя</small></a>
+      </div>
+    </article>
+
+    <article class="battle-record card" data-status="completed" id="battle-005">
+      <div class="battle-record-top"><span class="battle-status completed">Завершено</span><span>05.11.2026</span><span>Тестовый бой</span></div>
+      <div class="battle-record-main">
+        <a class="battle-side regiment-link" href="regiment.html?name=1st%20Regiment"><img src="assets/1st.jpg" alt="1st Regiment"><strong>1st Regiment</strong><small>Французская Империя</small></a>
+        <div class="battle-result-box"><b>1 : 2</b><span>Поражение 1st Regiment</span></div>
+        <a class="battle-side regiment-link" href="regiment.html?name=84e%20R%C3%A9giment"><img src="assets/84e.png" alt="84e Régiment"><strong>84e Régiment</strong><small>Французская Империя</small></a>
+      </div>
+    </article>
+
+    <article class="battle-record card" data-status="completed" id="battle-006">
+      <div class="battle-record-top"><span class="battle-status completed">Завершено</span><span>06.11.2026</span><span>Тестовый бой</span></div>
+      <div class="battle-record-main">
+        <a class="battle-side regiment-link" href="regiment.html?name=1st%20Regiment"><img src="assets/1st.jpg" alt="1st Regiment"><strong>1st Regiment</strong><small>Французская Империя</small></a>
+        <div class="battle-result-box"><b>4 : 2</b><span>Победа 1st Regiment</span></div>
+        <a class="battle-side regiment-link" href="regiment.html?name=Preobrazhensky"><img src="assets/preobraz.webp" alt="Preobrazhensky"><strong>Preobrazhensky</strong><small>Российская Империя</small></a>
+      </div>
+    </article>
+
+    <article class="battle-record card" data-status="completed" id="battle-007">
+      <div class="battle-record-top"><span class="battle-status completed">Завершено</span><span>07.11.2026</span><span>Тестовый бой</span></div>
+      <div class="battle-record-main">
+        <a class="battle-side regiment-link" href="regiment.html?name=1st%20Regiment"><img src="assets/1st.jpg" alt="1st Regiment"><strong>1st Regiment</strong><small>Французская Империя</small></a>
+        <div class="battle-result-box"><b>2 : 2</b><span>Ничья</span></div>
+        <a class="battle-side regiment-link" href="regiment.html?name=95th%20Rifles"><img src="assets/95.webp" alt="95th Rifles"><strong>95th Rifles</strong><small>Британская Империя</small></a>
+      </div>
+    </article>
+
+    <article class="battle-record card" data-status="completed" id="battle-008">
+      <div class="battle-record-top"><span class="battle-status completed">Завершено</span><span>08.11.2026</span><span>Тестовый бой</span></div>
+      <div class="battle-record-main">
+        <a class="battle-side regiment-link" href="regiment.html?name=1st%20Regiment"><img src="assets/1st.jpg" alt="1st Regiment"><strong>1st Regiment</strong><small>Французская Империя</small></a>
+        <div class="battle-result-box"><b>3 : 0</b><span>Победа 1st Regiment</span></div>
+        <a class="battle-side regiment-link" href="regiment.html?name=84e%20R%C3%A9giment"><img src="assets/84e.png" alt="84e Régiment"><strong>84e Régiment</strong><small>Французская Империя</small></a>
+      </div>
+    </article>
+
+    <article class="battle-record card" data-status="completed" id="battle-009">
+      <div class="battle-record-top"><span class="battle-status completed">Завершено</span><span>09.11.2026</span><span>Тестовый бой</span></div>
+      <div class="battle-record-main">
+        <a class="battle-side regiment-link" href="regiment.html?name=1st%20Regiment"><img src="assets/1st.jpg" alt="1st Regiment"><strong>1st Regiment</strong><small>Французская Империя</small></a>
+        <div class="battle-result-box"><b>1 : 3</b><span>Поражение 1st Regiment</span></div>
+        <a class="battle-side regiment-link" href="regiment.html?name=Preobrazhensky"><img src="assets/preobraz.webp" alt="Preobrazhensky"><strong>Preobrazhensky</strong><small>Российская Империя</small></a>
+      </div>
+    </article>
+
+    <article class="battle-record card" data-status="planned" id="battle-010">
+      <div class="battle-record-top"><span class="battle-status planned">Запланировано</span><span>10.11.2026 · 21:00</span><span>Полковое сражение</span></div>
+      <div class="battle-record-main">
+        <a class="battle-side regiment-link" href="regiment.html?name=7th%20Hussars"><img src="assets/hussars.png" alt="7th Hussars"><strong>7th Hussars</strong><small>Британская Империя</small></a>
+        <div class="battle-result-box planned-result"><b>VS</b><span>Сражение ещё не началось</span></div>
+        <a class="battle-side regiment-link" href="regiment.html?name=95th%20Rifles"><img src="assets/95.webp" alt="95th Rifles"><strong>95th Rifles</strong><small>Британская Империя</small></a>
+      </div>
+    </article>
+
+    <article class="battle-record card" data-status="planned" id="battle-011">
+      <div class="battle-record-top"><span class="battle-status planned">Запланировано</span><span>08.11.2026 · 20:00</span><span>Полковое сражение</span></div>
+      <div class="battle-record-main">
+        <a class="battle-side regiment-link" href="regiment.html?name=1st%20Regiment"><img src="assets/1st.jpg" alt="1st Regiment"><strong>1st Regiment</strong><small>Французская Империя</small></a>
+        <div class="battle-result-box planned-result"><b>VS</b><span>Сражение ещё не началось</span></div>
+        <a class="battle-side regiment-link" href="regiment.html?name=84e%20R%C3%A9giment"><img src="assets/84e.png" alt="84e Régiment"><strong>84e Régiment</strong><small>Французская Империя</small></a>
+      </div>
+    </article>
+  </section>
+
+  <section class="battle-empty card" id="battleEmpty" style="display:none">
+    <strong>Нет сражений в выбранной категории.</strong>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div>
+    <div>Главная &nbsp;|&nbsp; Полки &nbsp;|&nbsp; Сражения &nbsp;|&nbsp; Рейтинг &nbsp;|&nbsp; Форум &nbsp;|&nbsp; Союзы</div>
+    <div class="motto">Vive l’Empire!</div>
+  </div>
+</footer>
+
+<script>
+const records=[...document.querySelectorAll('.battle-record')];
+const filters=[...document.querySelectorAll('.battle-filter')];
+const empty=document.getElementById('battleEmpty');
+filters.forEach(button=>button.addEventListener('click',()=>{
+  filters.forEach(x=>x.classList.remove('active'));
+  button.classList.add('active');
+  const filter=button.dataset.filter;
+  let visible=0;
+  records.forEach(record=>{
+    const show=filter==='all'||record.dataset.status===filter;
+    record.style.display=show?'block':'none';
+    if(show) visible++;
+  });
+  empty.style.display=visible?'none':'block';
+}));
+</script>
+</body>
+</html>
