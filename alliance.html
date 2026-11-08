@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="assets/empire_logo_top_right.png"><title>Союз — EMPIRE</title>
+<link rel="stylesheet" href="assets/style.css?v=20261108-alliances1"><script src="assets/alliances.js?v=20261108-1"></script>
+</head>
+<body>
+<header class="inner-header"><div class="container">
+<div class="brand"><a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a><div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div></div>
+<nav><a href="index.html">Главная</a><a href="regiments.html">Полки</a><a href="battles.html">Сражения</a><a href="index.html#ranking">Рейтинг</a><a href="index.html#news">Форум</a><a class="active" href="alliances.html">Союзы</a><a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a></nav>
+</div></header>
+<main class="container alliance-page">
+<a class="back-link" href="alliances.html">← Все союзы</a>
+<section class="card alliance-hero"><img id="allianceAvatar" src="" alt=""><div><div class="page-kicker">СОЮЗ EMPIRE</div><h1 id="allianceName">Союз</h1><p id="allianceLeader"></p><div class="alliance-hero-stats"><div><span>Рейтинг</span><strong id="allianceRating">0</strong></div><div><span>Полков</span><strong id="allianceCount">0</strong></div></div></div></section>
+<div class="alliance-columns">
+<section class="card alliance-section"><div class="card-title">♜ &nbsp; Состав союза</div><div id="allianceMembers" class="alliance-members"></div></section>
+<section class="card alliance-section"><div class="card-title">⚔ &nbsp; Проведённые сражения</div><div id="allianceBattles" class="alliance-battles"></div></section>
+</div>
+<section class="card alliance-section"><div class="card-title">✦ &nbsp; Заявки в союз</div><div id="allianceApplications"></div></section>
+<section class="card alliance-section alliance-join"><div class="card-title">➕ &nbsp; Подать заявку</div>
+<form id="joinForm" class="alliance-form"><select id="joinRegiment"></select><input id="joinCommander" placeholder="Имя командира" value="Kalashnikov"><button class="btn primary">Подать заявку</button></form>
+<p class="alliance-note" id="joinNote"></p></section>
+</main>
+<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div><div>Главная &nbsp;|&nbsp; Полки &nbsp;|&nbsp; Сражения &nbsp;|&nbsp; Рейтинг &nbsp;|&nbsp; Форум &nbsp;|&nbsp; Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
+<script>
+(function(){
+  const id=new URLSearchParams(location.search).get('id'),a=window.EMPIRE_ALLIANCES.getById(id);
+  if(!a){document.querySelector('main').innerHTML='<section class="card"><h1>Союз не найден</h1><a class="back-link" href="alliances.html">← Вернуться к союзам</a></section>';return;}
+  const rating=window.EMPIRE_ALLIANCES.calcRating(a);
+  document.getElementById('allianceAvatar').src=a.avatar||'assets/empire_logo_top_right.png';
+  document.getElementById('allianceName').textContent=a.name;
+  document.getElementById('allianceLeader').textContent='Глава союза: '+a.leader;
+  document.getElementById('allianceRating').textContent=rating;
+  document.getElementById('allianceCount').textContent=a.members.length;
+  document.getElementById('allianceMembers').innerHTML=a.members.length?a.members.map(name=>{
+    const r=window.EMPIRE_ALLIANCES.defaultRegiments[name];
+    return '<a class="alliance-member" href="regiment.html?name='+encodeURIComponent(name)+'"><img src="'+(r?.img||'assets/empire_logo_top_right.png')+'" alt=""><div><strong>'+name+'</strong><span>Рейтинг полка: '+(r?.rating||0)+'</span></div></a>';
+  }).join(''):'<p class="empty-note">В союзе пока нет полков.</p>';
+  document.getElementById('allianceBattles').innerHTML=a.battles.length?a.battles.map(b=>{
+    return '<a class="alliance-battle" href="battle.html?id='+encodeURIComponent(b.id)+'"><div><strong>'+b.title+'</strong><span>'+b.date+' · Помощь вызвана полком '+b.calledBy+'</span></div><b class="alliance-result '+b.result+'">'+window.EMPIRE_ALLIANCES.statusForBattle(b)+'</b></a>';
+  }).join(''):'<p class="empty-note">Союзных сражений пока нет.</p>';
+  const all=window.EMPIRE_ALLIANCES.getAll();
+  const taken=new Set(all.filter(x=>x.id!==a.id).flatMap(x=>x.members));
+  const select=document.getElementById('joinRegiment');
+  Object.keys(window.EMPIRE_ALLIANCES.defaultRegiments).filter(n=>!taken.has(n)&&!a.members.includes(n)).forEach(n=>{
+    const o=document.createElement('option');o.value=n;o.textContent=n;select.appendChild(o);
+  });
+  if(!select.options.length){select.disabled=true;document.getElementById('joinNote').textContent='Все доступные полки уже состоят в союзе.';}
+  const apps=a.applications||[];
+  document.getElementById('allianceApplications').innerHTML=apps.length?apps.map(app=>{
+    const controls=app.status==='pending'?'<button type="button" class="alliance-app-btn" data-regiment="'+app.regiment+'" data-action="accept">Принять</button><button type="button" class="alliance-app-btn reject" data-regiment="'+app.regiment+'" data-action="reject">Отклонить</button>':'<span class="alliance-app-status">'+(app.status==='accepted'?'Принята':'Отклонена')+'</span>';
+    return '<div class="alliance-application"><div><strong>'+app.regiment+'</strong><span>Командир: '+app.commander+' · '+app.date+'</span></div>'+controls+'</div>';
+  }).join(''):'<p class="empty-note">Заявок пока нет.</p>';
+  document.getElementById('joinForm').addEventListener('submit',e=>{
+    e.preventDefault();if(!select.value)return;
+    const ok=window.EMPIRE_ALLIANCES.apply(a.id,select.value,document.getElementById('joinCommander').value.trim()||'Командир');
+    document.getElementById('joinNote').textContent=ok?'Заявка отправлена главе союза.':'Заявку нельзя отправить: полк уже состоит в союзе или заявка уже подана.';
+    if(ok) setTimeout(()=>location.reload(),500);
+  });
+  document.getElementById('allianceApplications').addEventListener('click',e=>{
+    const btn=e.target.closest('.alliance-app-btn');if(!btn)return;
+    window.EMPIRE_ALLIANCES.decide(a.id,btn.dataset.regiment,btn.dataset.action==='accept');location.reload();
+  });
+})();
+</script>
+</body></html>
