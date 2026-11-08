@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
 <title>Кампании — EMPIRE</title>
-<link rel="stylesheet" href="assets/style.css?v=20261108-campaign1">
+<link rel="stylesheet" href="assets/style.css?v=20261108-campaign2">
 </head>
 <body>
 <header class="inner-header"><div class="container">
@@ -14,34 +14,19 @@
     <a href="index.html">Главная</a>
     <div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a></div></div>
     <div class="dropdown"><a class="active" href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html#upcoming">Предстоящие</a><a href="campaigns.html#completed">Завершённые</a></div></div>
-    <a href="rating.html">Рейтинг</a>
-    <a href="index.html#news">Форум</a>
-    <a href="alliances.html">Союзы</a>
-    <a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+    <a href="rating.html">Рейтинг</a><a href="index.html#news">Форум</a><a href="alliances.html">Союзы</a><a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
   </nav>
 </div></header>
-
 <main class="container campaigns-page">
-  <section class="page-heading card">
-    <div><div class="kicker">Военные мероприятия EMPIRE</div><h1>КАМПАНИИ</h1><p>Сражения длительностью ровно один час. Полк получает <strong>+50 очков</strong>, если его участие подтверждено организатором после боя.</p></div>
-  </section>
-
-  <section class="campaign-list-section" id="upcoming">
-    <div class="campaign-section-title"><div><div class="page-kicker">01</div><h2>Предстоящие кампании</h2></div><span id="upcomingCampaignsCount"></span></div>
-    <div id="upcomingCampaigns" class="campaign-list"></div>
-  </section>
-
-  <section class="campaign-list-section" id="completed">
-    <div class="campaign-section-title"><div><div class="page-kicker">02</div><h2>Завершённые кампании</h2></div><span id="completedCampaignsCount"></span></div>
-    <div id="completedCampaigns" class="campaign-list"></div>
-  </section>
+  <section class="page-heading card"><div><div class="kicker">Военные мероприятия EMPIRE</div><h1>КАМПАНИИ</h1><p>Сражения длительностью ровно один час. Полк получает <strong>+50 очков</strong>, если его участие подтверждено организатором после боя.</p></div></section>
+  <section class="campaign-list-section" id="upcoming"><div class="campaign-section-title"><div><div class="page-kicker">01</div><h2>Предстоящие кампании</h2></div><span id="upcomingCampaignsCount"></span></div><div id="upcomingCampaigns" class="campaign-list"></div></section>
+  <section class="campaign-list-section" id="completed"><div class="campaign-section-title"><div><div class="page-kicker">02</div><h2>Завершённые кампании</h2></div><span id="completedCampaignsCount"></span></div><div id="completedCampaigns" class="campaign-list"></div></section>
 </main>
-
 <footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div><div>Главная &nbsp;|&nbsp; Полки &nbsp;|&nbsp; Кампании &nbsp;|&nbsp; Рейтинг &nbsp;|&nbsp; Форум &nbsp;|&nbsp; Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
-<script src="assets/campaigns.js?v=20261108-campaign9"></script>
+<script src="assets/campaigns.js?v=20261108-campaign10"></script>
 <script>
 (function(){
-  var u=document.getElementById('upcomingCampaigns'), d=document.getElementById('completedCampaigns');
+  var u=document.getElementById('upcomingCampaigns');
   if(!u)return;
   if(!u.children.length){
     var items=[
@@ -50,7 +35,7 @@
       {id:'campaign-test-03',title:'Освобождение Испании',date:'22 ноября 2026',time:'20:00',factions:'Французская армия · Испанская армия · Британская армия',server:'EMPIRE_SPAIN_03'}
     ];
     u.innerHTML=items.map(function(x){
-      return '<a class="campaign-card" href="campaign.html?id='+x.id+'"><div class="campaign-card-preview" style="background-image:url("assets/IMG_2745.png")"></div><div class="campaign-card-date"><strong>'+x.date+'</strong><span>'+x.time+'</span></div><div class="campaign-card-main"><div class="campaign-status upcoming">ПРЕДСТОИТ</div><h3>'+x.title+'</h3><p>Фракции: '+x.factions+'</p><small>Сервер: '+x.server+'</small></div><div class="campaign-card-arrow">→</div></a>';
+      return '<a class="campaign-card" href="campaign.html?id='+x.id+'"><div class="campaign-card-preview" style="background-image:url(\'assets/IMG_2745.png\')"></div><div class="campaign-card-date"><strong>'+x.date+'</strong><span>'+x.time+'</span></div><div class="campaign-card-main"><div class="campaign-status upcoming">ПРЕДСТОИТ</div><h3>'+x.title+'</h3><p>Фракции: '+x.factions+'</p><small>Сервер: '+x.server+'</small></div><div class="campaign-card-arrow">→</div></a>';
     }).join('');
     var n=document.getElementById('upcomingCampaignsCount');if(n)n.textContent=items.length;
   }
