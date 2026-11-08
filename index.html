@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Empire — Napoleonic Wars Community</title>
-<link rel="stylesheet" href="assets/style.css?v=20261108-homefix3">
+<link rel="stylesheet" href="assets/style.css?v=20261108-homefix4">
 <script src="assets/rating.js"></script>
 </head>
 <body>
@@ -291,15 +291,20 @@ const communityRegiments=[
   {name:"Royal Scots",avatar:"assets/95.webp",faction:"Британская Империя",count:17,rating:1195}
 ];
 const renderCommunityRegiments=(ratings)=>{
-  const ratingMap=Object.fromEntries((ratings||[]).map(item=>[item.name,item.score]));
-  const shuffledCommunityRegiments=[...communityRegiments].sort(()=>Math.random()-0.5).slice(0,3);
-  document.getElementById("communityRegiments").innerHTML=shuffledCommunityRegiments.map(r=>{
+  const container=document.getElementById("communityRegiments");
+  if(!container)return;
+  const ratingMap=Object.fromEntries((Array.isArray(ratings)?ratings:[]).map(item=>[item.name,item.score]));
+  const shuffled=[...communityRegiments].sort(()=>Math.random()-0.5).slice(0,3);
+  container.innerHTML=shuffled.map(r=>{
     const liveRating=ratingMap[r.name]??r.rating;
     return '<a class="regiment-card regiment-link" data-regiment="'+r.name+'" href="regiment.html?name='+encodeURIComponent(r.name)+'"><img class="regiment-flag" src="'+r.avatar+'" alt="Флаг '+r.name+'"><h4>'+r.name+'</h4><p>'+r.faction+' · '+r.count+' бойцов · Рейтинг '+liveRating+'</p></a>';
   }).join("");
 };
+// Сначала сразу показываем три полка, не ожидая загрузки рейтинга.
 renderCommunityRegiments([]);
-calculateRegimentRatings().then(renderCommunityRegiments).catch(()=>renderCommunityRegiments([]));
+if(typeof calculateRegimentRatings==="function"){
+  calculateRegimentRatings().then(renderCommunityRegiments).catch(()=>{});
+}
 document.querySelectorAll('.chat-tab').forEach(button=>{
  button.addEventListener('click',()=>{
   const target=document.getElementById(button.dataset.tab);
