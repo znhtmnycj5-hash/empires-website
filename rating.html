@@ -28,7 +28,7 @@
     <div>
       <div class="kicker">Таблица лидеров EMPIRE</div>
       <h1>РЕЙТИНГ</h1>
-      <p>Рейтинг полков и союзов. Первые три места отмечены венками и особой рамкой аватара.</p>
+      <p>Рейтинг полков и союзов. Первые три места отмечены особой рамкой аватара.</p>
     </div>
   </section>
 
@@ -74,7 +74,7 @@
         ? ((item.count||0)+' человек')
         : ((item.membersCount||0)+' полков');
       return '<a class="rating-podium '+podiumClass(position)+'" href="'+link+'">'+
-        '<div class="rating-wreath" aria-hidden="true">❦</div>'+
+        ''+
         '<div class="rating-position">'+position+'</div>'+
         '<div class="rating-avatar"><img src="'+esc(image)+'" alt=""></div>'+
         '<div class="rating-name">'+esc(item.name)+'</div>'+
