@@ -2288,3 +2288,29 @@ nav a,.btn{font-family:"Roboto Slab",serif}
     flex-wrap:nowrap!important;
   }
 }
+
+/* Final battle reply-link override */
+.battle-thread-item .battle-comment-content a.battle-reply-link{
+  display:inline-block!important;
+  color:#b99a65!important;
+  background:transparent!important;
+  border:0!important;
+  text-decoration:none!important;
+  font:600 9px/1.3 "Roboto Slab",serif!important;
+  padding:4px 0!important;
+  margin:0 7px 0 0!important;
+  cursor:pointer!important;
+}
+.battle-thread-item .battle-comment-content a.battle-reply-link:visited{
+  color:#b99a65!important;
+}
+.battle-thread-item .battle-comment-content a.battle-reply-link:hover{
+  color:#f0d18b!important;
+  text-decoration:underline!important;
+}
+.battle-thread-item .battle-comment-content .battle-reply-form[hidden]{
+  display:none!important;
+}
+.battle-thread-item .battle-comment-content .battle-reply-form{
+  display:flex!important;
+}
