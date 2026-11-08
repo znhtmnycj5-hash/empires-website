@@ -2878,3 +2878,10 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 #upcomingBattlesHome .home-battle-half.home-battle-loser:before{content:"ПРОИГРАВШИЙ";position:absolute;z-index:2;left:50%;top:12px;transform:translateX(-50%);padding:5px 9px;border:1px solid rgba(205,91,82,.78);background:rgba(67,17,17,.9);color:#ffaaa2;font:700 9px "Roboto Slab",serif;letter-spacing:1px;white-space:nowrap}
 #upcomingBattlesHome .home-battle-versus .home-battle-loser-name{color:#ff9b91;text-shadow:0 2px 5px #000,0 0 10px rgba(170,45,38,.75)}
 #upcomingBattlesHome .home-battle-draw{display:inline-block;padding:5px 14px;border:1px solid rgba(180,180,180,.55);background:rgba(65,65,65,.88);color:#e0e0e0;font:700 11px "Roboto Slab",serif;letter-spacing:1.5px}
+
+
+/* Completed battle score presentation on homepage */
+#upcomingBattlesHome .home-battle-result{display:inline-block;min-width:72px;padding:6px 14px;border:1px solid rgba(130,190,112,.7);background:rgba(17,48,22,.9);color:#b9e4a7;font:700 17px "Roboto Slab",serif;letter-spacing:1.5px;text-shadow:0 1px 4px #000}
+#upcomingBattlesHome .home-battle-draw{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:72px;padding:6px 14px;border:1px solid rgba(180,180,180,.55);background:rgba(45,45,45,.9);color:#e0e0e0;font:700 10px "Roboto Slab",serif;letter-spacing:1.5px}
+#upcomingBattlesHome .home-battle-draw strong{font-size:17px;color:#e0e0e0;letter-spacing:1.5px}
+#upcomingBattlesHome .home-battle-draw span{font-size:10px;color:#c8c8c8}
