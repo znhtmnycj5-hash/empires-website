@@ -2677,3 +2677,12 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   .campaign-faction-columns{grid-template-columns:1fr;gap:12px}
   .campaign-faction-side{padding:9px}
 }
+
+
+/* Campaign detail: cover image behind the title block */
+.campaign-hero.has-cover{min-height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center;background-position:center 42%;background-size:cover;background-repeat:no-repeat;}
+.campaign-hero.has-cover:before{background:linear-gradient(90deg,rgba(8,7,6,.78),rgba(8,7,6,.52),rgba(8,7,6,.78)),linear-gradient(0deg,rgba(8,7,6,.55),rgba(8,7,6,.12));}
+.campaign-hero.has-cover h1,.campaign-hero.has-cover .campaign-organizer,.campaign-hero.has-cover .campaign-countdown{position:relative;z-index:1;text-shadow:0 3px 12px #000;}
+.campaign-hero.has-cover .campaign-countdown{margin-top:16px;}
+.campaign-participant img{flex:0 0 42px;width:42px;height:42px;object-fit:contain;background:rgba(8,7,6,.78);padding:2px;box-sizing:border-box;border:1px solid #987344;box-shadow:0 2px 8px rgba(0,0,0,.45);}
+@media(max-width:600px){.campaign-hero.has-cover{min-height:210px;padding:24px 14px;background-position:center;background-size:cover;}}
