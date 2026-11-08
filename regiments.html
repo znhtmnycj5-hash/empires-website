@@ -117,12 +117,12 @@ const updateRegimentListRatings=async()=>{
 };
 updateRegimentListRatings();
 
-const renderApprovedRegiments=()=>{
+const renderApprovedRegiments=()=>{ try{const deleted=JSON.parse(localStorage.getItem("empire_deleted_regiments_v1")||"[]");document.querySelectorAll(".regiment-tile[data-regiment-name]").forEach(tile=>{if(deleted.includes(tile.dataset.regimentName))tile.remove()})}catch(error){}
   try{
     const approved=JSON.parse(localStorage.getItem("empire_approved_regiments_v1")||"[]");
     const list=document.querySelector(".regiments-list");
     if(!list)return;
-    approved.forEach(item=>{
+    approved.filter(item=>{try{return !JSON.parse(localStorage.getItem("empire_deleted_regiments_v1")||"[]").includes(item.name)}catch(e){return true}}).forEach(item=>{
       if(list.querySelector('[data-regiment-name="'+CSS.escape(item.name)+'"]'))return;
       const tile=document.createElement("a");
       tile.className="regiment-tile regiment-link";
