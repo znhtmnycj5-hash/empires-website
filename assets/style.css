@@ -2886,6 +2886,6 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 #upcomingBattlesHome .home-battle-draw strong{font-size:17px;color:#e0e0e0;letter-spacing:1.5px}
 #upcomingBattlesHome .home-battle-draw span{font-size:10px;color:#c8c8c8}
 
-/* Keep regiment flags fully visible regardless of battle outcome */
-#upcomingBattlesHome .home-battle-half.home-battle-winner img,
-#upcomingBattlesHome .home-battle-half.home-battle-loser img{opacity:1!important;filter:none!important}
+/* Subtle outcome-based flag dimming */
+#upcomingBattlesHome .home-battle-half.home-battle-winner img{opacity:.88!important;filter:brightness(.88) saturate(1.05)!important}
+#upcomingBattlesHome .home-battle-half.home-battle-loser img{opacity:.76!important;filter:brightness(.72) saturate(.9)!important}
