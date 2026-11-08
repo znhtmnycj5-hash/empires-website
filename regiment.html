@@ -92,16 +92,29 @@ const albumStorageKey='empire_regiment_album_v1_'+name;
 const sampleAlbum=Array.from({length:16},(_,i)=>({src:albumSamples[i%albumSamples.length],title:'Скриншот из Napoleonic Wars'}));
 const getUploadedAlbum=()=>{try{const v=JSON.parse(localStorage.getItem(albumStorageKey)||'[]');return Array.isArray(v)?v:[];}catch(e){return [];}};
 const saveUploadedAlbum=v=>{try{localStorage.setItem(albumStorageKey,JSON.stringify(v));}catch(e){}};
-let albumPage=Math.max(1,parseInt(new URLSearchParams(location.search).get('albumPage')||'1',10)||1);
+let albumExpanded=false;
 const renderAlbum=()=>{
  const uploaded=getUploadedAlbum();
  const items=uploaded.length?uploaded:sampleAlbum;
- const totalPages=Math.max(1,Math.ceil(items.length/6));
- if(albumPage>totalPages) albumPage=totalPages;
- const pageItems=items.slice((albumPage-1)*6,albumPage*6);
- document.getElementById('albumGrid').innerHTML=pageItems.map((item,i)=>'<a class="album-item" href="'+item.src+'" target="_blank" rel="noopener"><img src="'+item.src+'" alt="'+(item.title||'Скриншот')+'" loading="lazy"></a>').join('');
+ const visibleItems=albumExpanded?items:items.slice(0,6);
+ document.getElementById('albumGrid').innerHTML=visibleItems.map(item=>'<a class="album-item" href="'+item.src+'" target="_blank" rel="noopener"><img src="'+item.src+'" alt="'+(item.title||'Скриншот')+'" loading="lazy"></a>').join('');
  const p=document.getElementById('albumPagination');
- if(p){p.innerHTML='';p.style.display='none';}
+ if(p){
+   p.innerHTML='';
+   p.style.display=items.length>6?'flex':'none';
+   if(items.length>6){
+     const button=document.createElement('button');
+     button.type='button';
+     button.className='btn album-more-button';
+     button.textContent=albumExpanded?'Свернуть скриншоты':'Показать остальные скриншоты ('+(items.length-6)+')';
+     button.addEventListener('click',()=>{
+       albumExpanded=!albumExpanded;
+       renderAlbum();
+       if(!albumExpanded)document.querySelector('.regiment-album-section').scrollIntoView({behavior:'smooth',block:'nearest'});
+     });
+     p.appendChild(button);
+   }
+ }
 };
 const currentUser='Kalashnikov';
 const commanderControls=document.getElementById('albumCommanderControls');
