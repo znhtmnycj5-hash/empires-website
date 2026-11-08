@@ -57,16 +57,16 @@
   if(!c){box.innerHTML='<section class="card"><h1>Кампания не найдена</h1><a class="btn" href="campaigns.html">Вернуться к кампаниям</a></section>';return;}
   const s=status(c), accepted=(c.applications||[]).filter(a=>a.status==='accepted');
   const preview=esc(c.preview||c.cover||'assets/IMG_2745.png');
+  const regimentAvatars={'1st Regiment':'assets/1st.jpg','84e Régiment':'assets/84e.png','95th Rifles':'assets/95.webp','7th Hussars':'assets/hussars.png','Preobrazhensky':'assets/preobraz.webp',"King's German Legion":'assets/kgr.png','13e Léger':'assets/1st.jpg','33e Ligne':'assets/95.webp','92nd Gordon Highlanders':'assets/84e.png','Semenovsky':'assets/preobraz.webp','6e Hussards':'assets/1st.jpg','Royal Scots':'assets/95.webp'};
   const secure=true;
   box.innerHTML=
-    '<section class="campaign-hero card">'+
+    '<section class="campaign-hero card has-cover" style="background-image:url(\''+preview+'\')">'+
       '<div class="campaign-status '+s+'">'+labels[s]+'</div>'+
       '<div class="page-kicker">ВОЕННАЯ КАМПАНИЯ</div>'+
       '<h1>'+esc(c.title)+'</h1>'+
       '<p class="campaign-organizer">Организатор: <strong>'+esc(c.organizer||'—')+'</strong></p>'+
       '<div class="campaign-countdown" id="campaignSafeCountdown"></div>'+
     '</section>'+
-    '<section class="campaign-preview card"><img src="'+preview+'" alt="Превью кампании"></section>'+
     '<section class="campaign-info-grid">'+
       '<div class="card campaign-info-card"><div class="campaign-card-label">ВРЕМЯ ПРОВЕДЕНИЯ</div><strong class="campaign-start-date">'+date(c.startAt)+'</strong><span>Продолжительность — ровно 1 час</span></div>'+
       '<div class="card campaign-info-card"><div class="campaign-card-label">СЕРВЕР</div><strong>'+esc(c.server||'—')+'</strong><span>Пароль: <b>'+esc(c.password||'—')+'</b></span></div>'+
@@ -75,7 +75,7 @@
     '<section class="card campaign-participants"><div class="campaign-section-title"><div><div class="page-kicker">УЧАСТНИКИ</div><h2>Полки кампании</h2></div><span>'+accepted.length+'</span></div>'+
       '<div class="campaign-faction-columns">'+
         '<div class="campaign-faction-side"><div class="campaign-faction-title">'+esc((c.factions||[])[0]||'Первая фракция')+'</div><div class="campaign-participant-list">'+
-          accepted.filter(a=>a.faction===(c.factions||[])[0]).map(a=>'<div class="campaign-participant"><img src="'+esc(a.logo||'assets/empire_logo_top_right.png')+'" alt=""><div><strong>'+esc(a.regiment)+'</strong><small>'+esc(a.people||0)+' человек · '+esc(a.troopType||'Род войск не назначен')+'</small></div><span class="campaign-attendance '+(a.attended?'present':'pending')+'">'+(a.attended?'ЯВИЛСЯ · +50':'ОЖИДАЕТ')+'</span></div>').join('')+'</div></div>'+
+          accepted.filter(a=>a.faction===(c.factions||[])[0]).map(a=>'<div class="campaign-participant"><img src="'+esc(a.logo||regimentAvatars[a.regiment]||'assets/empire_logo_top_right.png')+'" alt="Эмблема '+esc(a.regiment)+'"><div><strong>'+esc(a.regiment)+'</strong><small>'+esc(a.people||0)+' человек · '+esc(a.troopType||'Род войск не назначен')+'</small></div><span class="campaign-attendance '+(a.attended?'present':'pending')+'">'+(a.attended?'ЯВИЛСЯ · +50':'ОЖИДАЕТ')+'</span></div>').join('')+'</div></div>'+
         '<div class="campaign-faction-side"><div class="campaign-faction-title">'+esc((c.factions||[])[1]||'Вторая фракция')+'</div><div class="campaign-participant-list">'+
           accepted.filter(a=>a.faction===(c.factions||[])[1]).map(a=>'<div class="campaign-participant"><img src="'+esc(a.logo||'assets/empire_logo_top_right.png')+'" alt=""><div><strong>'+esc(a.regiment)+'</strong><small>'+esc(a.people||0)+' человек · '+esc(a.troopType||'Род войск не назначен')+'</small></div><span class="campaign-attendance '+(a.attended?'present':'pending')+'">'+(a.attended?'ЯВИЛСЯ · +50':'ОЖИДАЕТ')+'</span></div>').join('')+'</div></div>'+
       '</div></section>'+
