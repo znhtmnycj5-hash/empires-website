@@ -82,7 +82,7 @@
     <div class="online-count">Сейчас в общем чате: <strong>24</strong></div>
   </div>
 
-  <div class="chat-input" id="chatInputWrap"><input id="chatInput" name="chat-message" type="text" autocomplete="new-password" autocapitalize="sentences" spellcheck="true" placeholder="Написать сообщение..."><button id="sendChat">➤</button></div>
+  <div class="chat-input" id="chatInputWrap"><input id="chatInput" name="empire-mini-chat-message" type="text" autocomplete="off" autocapitalize="sentences" spellcheck="true" readonly data-lpignore="true" data-form-type="other" placeholder="Написать сообщение..."><button id="sendChat">➤</button></div>
 </section>
 
 <section class="card" id="news">
@@ -318,7 +318,7 @@ if(currentUser.regiment){
 function send(){const i=document.getElementById('chatInput'),v=i.value.trim();if(!v)return;
  const active=document.querySelector('.chat-panel.active'),box=active?.querySelector('.messages')||document.querySelector('#general .messages'),r=document.createElement('div');r.className='msg';
  r.innerHTML='<img class="chat-avatar" src="assets/avatar.jpg" alt="Вы"><div><b>'+currentUser.name+'</b><p></p></div><div class="time">сейчас</div>';r.querySelector('p').textContent=v;box.appendChild(r);i.value='';toast('Сообщение добавлено в чат')}
-document.getElementById('sendChat').onclick=send;document.getElementById('chatInput').onkeydown=e=>{if(e.key==='Enter')send()};
+const chatInput=document.getElementById('chatInput');chatInput.addEventListener('focus',()=>{chatInput.readOnly=false},{once:true});document.getElementById('sendChat').onclick=send;chatInput.onkeydown=e=>{if(e.key==='Enter')send()};
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.onclick=e=>{const id=a.getAttribute('href');if(id.length>1&&document.querySelector(id)){e.preventDefault();document.querySelector(id).scrollIntoView({behavior:'smooth',block:'start'})}});
 })();
 </script>
