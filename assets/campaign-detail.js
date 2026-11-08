@@ -3,7 +3,7 @@
   const COMMENTS='empire_campaign_comments_v1';
   const read=(k,f)=>{try{const v=JSON.parse(localStorage.getItem(k)||'null');return v==null?f:v}catch(e){return f}};
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const date=v=>new Date(v).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  const date=v=>{const d=new Date(v);return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear()};
   const status=c=>{const t=new Date(c.startAt).getTime(),n=Date.now();if(c.status==='completed')return 'completed';if(n<t)return 'upcoming';if(n<t+3600000)return 'ongoing';return 'awaiting'};
   const labels={upcoming:'ПРЕДСТОИТ',ongoing:'ИДЁТ БОЙ',awaiting:'ЖДЁТ ПОДТВЕРЖДЕНИЯ',completed:'ЗАВЕРШЕНА'};
   const fallback=[
