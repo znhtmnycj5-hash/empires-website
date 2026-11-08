@@ -670,3 +670,49 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
   #chat #regimentMessages{padding-right:8px;padding-left:8px}
   #chat .online-user{padding:10px 1px}
 }
+
+
+/* Clear separation of regiment rating and member count on the all-regiments page */
+.regiments-list .regiment-tile .regiment-meta{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  align-items:stretch;
+  gap:8px;
+  margin-top:4px;
+  font-size:10px;
+  line-height:1.35;
+}
+.regiments-list .regiment-tile .regiment-meta>span{
+  display:flex;
+  min-width:0;
+  flex-direction:column;
+  justify-content:center;
+  gap:3px;
+  padding:8px 9px;
+  border:1px solid rgba(110,85,51,.55);
+  background:rgba(8,7,6,.42);
+  overflow-wrap:anywhere;
+}
+.regiments-list .regiment-tile .regiment-meta>span:first-child{
+  color:#a99a80;
+}
+.regiments-list .regiment-tile .regiment-meta>span:first-child b{
+  display:block;
+  color:#e0bd76;
+  font:700 15px Cinzel,serif;
+  line-height:1.2;
+}
+.regiments-list .regiment-tile .regiment-meta>span:last-child{
+  color:#d0bd98;
+  font-size:11px;
+}
+@media(max-width:760px){
+  .regiments-list .regiment-tile .regiment-meta{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:6px;
+    line-height:1.35;
+  }
+  .regiments-list .regiment-tile .regiment-meta>span{padding:7px 8px}
+  .regiments-list .regiment-tile .regiment-meta>span:first-child b{font-size:14px}
+}
