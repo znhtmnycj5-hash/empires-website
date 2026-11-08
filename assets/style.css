@@ -1127,3 +1127,14 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 .profile-role-badge{display:inline-flex;align-items:center;gap:6px;margin-left:10px;padding:5px 9px;border:1px solid #8b6a36;background:rgba(38,29,18,.9);color:#e0bd76;font:700 9px "Roboto Slab",serif;letter-spacing:1px;vertical-align:middle;box-shadow:0 2px 8px rgba(0,0,0,.35)}
 .profile-role-badge:before{content:"◆";font-size:7px;color:#d9b875}
 @media(max-width:600px){.profile-role-badge{display:flex;width:max-content;margin:7px 0 0;padding:4px 8px;font-size:8px}}
+
+
+/* User reports alignment */
+#userReports .admin-report{align-items:center;text-align:center}
+#userReports .admin-report-main{display:flex;flex-direction:column;align-items:center;text-align:center}
+#userReports .admin-report-title{justify-content:center}
+#userReports .admin-report-main p,#userReports .admin-report-main small{max-width:760px;text-align:center}
+#userReports .admin-report-details{line-height:1.6}
+#userReports .admin-report-actions{align-items:center}
+#userReports .admin-temp-form{justify-content:center}
+@media(max-width:800px){#userReports .admin-report-main{grid-column:1/-1}#userReports .admin-report-actions{justify-content:center}}
