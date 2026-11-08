@@ -248,7 +248,16 @@ if(!battle){
   const getLikeMap=()=>{try{return JSON.parse(localStorage.getItem(likesStorageKey)||"{}")||{}}catch(e){return {}}};
   const getLikes=key=>{const value=getLikeMap()[key];return Array.isArray(value)?value:[]};
   const toggleLike=key=>{const map=getLikeMap(),names=Array.isArray(map[key])?map[key]:[],index=names.indexOf(currentUser.name);if(index>=0)names.splice(index,1);else names.push(currentUser.name);map[key]=names;localStorage.setItem(likesStorageKey,JSON.stringify(map));};
-  const reportComment=(commentId,commentText,author)=>{\n    const key='empire_comment_reports_v1';\n    let reports=[];try{reports=JSON.parse(localStorage.getItem(key)||'[]')}catch(e){}\n    const duplicate=reports.some(r=>r.status==='pending'&&r.location==='battle.html?battle='+battleId&&String(r.commentId)===String(commentId)&&r.reporter===currentUser.name);\n    if(duplicate){alert('Вы уже пожаловались на этот комментарий.');return;}\n    reports.push({id:'comment-report-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),status:'pending',reporter:currentUser.name,target:author,location:'battle.html?battle='+battleId,commentId:String(commentId),comment:String(commentText||''),reason:'Жалоба пользователя',createdAt:new Date().toISOString()});\n    localStorage.setItem(key,JSON.stringify(reports));\n    alert('Жалоба отправлена модераторам.');\n  };\n  const getComments=()=>{
+  const reportComment=(commentId,commentText,author)=>{
+    const key='empire_comment_reports_v1';
+    let reports=[];try{reports=JSON.parse(localStorage.getItem(key)||'[]')}catch(e){}
+    const duplicate=reports.some(r=>r.status==='pending'&&r.location==='battle.html?battle='+battleId&&String(r.commentId)===String(commentId)&&r.reporter===currentUser.name);
+    if(duplicate){alert('Вы уже пожаловались на этот комментарий.');return;}
+    reports.push({id:'comment-report-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),status:'pending',reporter:currentUser.name,target:author,location:'battle.html?battle='+battleId,commentId:String(commentId),comment:String(commentText||''),reason:'Жалоба пользователя',createdAt:new Date().toISOString()});
+    localStorage.setItem(key,JSON.stringify(reports));
+    alert('Жалоба отправлена модераторам.');
+  };
+  const getComments=()=>{
     let saved=[];try{saved=JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){}
     return [...demoComments,...(Array.isArray(saved)?saved:[])];
   };
@@ -260,7 +269,8 @@ if(!battle){
     const replies=children.map(child=>commentCard(child,all,depth+1)).join("");
     const likes=getLikes("battle:"+battleId+":"+c.id);
     const likePreview=likes.slice(0,2).map(escapeCommentHtml).join(", ");
-    const likeControls='<div class="comment-reactions"><button class="comment-like-button'+(likes.includes(currentUser.name)?' is-liked':'')+'" type="button" data-like-comment="'+escapeCommentHtml(c.id)+'" aria-pressed="'+likes.includes(currentUser.name)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+(likePreview||'')+(likes.length>2?' и ещё':'')+'</span><button type="button" class="comment-like-all" data-show-likes="'+escapeCommentHtml(c.id)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(n=>'<a href="'+empireProfileUrl(n)+'">'+escapeCommentHtml(n)+'</a>').join('')+'</div></div>':'')+'</div>';\n    const reportControls='<button class="comment-report-button" type="button" data-report-comment="'+escapeCommentHtml(c.id)+'">⚑ Пожаловаться</button>';
+    const likeControls='<div class="comment-reactions"><button class="comment-like-button'+(likes.includes(currentUser.name)?' is-liked':'')+'" type="button" data-like-comment="'+escapeCommentHtml(c.id)+'" aria-pressed="'+likes.includes(currentUser.name)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+(likePreview||'')+(likes.length>2?' и ещё':'')+'</span><button type="button" class="comment-like-all" data-show-likes="'+escapeCommentHtml(c.id)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(n=>'<a href="'+empireProfileUrl(n)+'">'+escapeCommentHtml(n)+'</a>').join('')+'</div></div>':'')+'</div>';
+    const reportControls='<button class="comment-report-button" type="button" data-report-comment="'+escapeCommentHtml(c.id)+'">⚑ Пожаловаться</button>';
     return '<article class="battle-thread-item'+(depth?' is-reply':'')+'" data-comment-id="'+escapeCommentHtml(c.id)+'"><div class="battle-comment"><a class="battle-comment-avatar-link" href="'+empireProfileUrl(name)+'"><img class="battle-comment-avatar" src="'+escapeCommentHtml(avatar)+'" alt="'+escapeCommentHtml(name)+'" loading="lazy"></a><div class="battle-comment-content"><div class="battle-comment-head"><a href="'+empireProfileUrl(name)+'"><strong>'+escapeCommentHtml(name)+'</strong></a><span>'+escapeCommentHtml(c.time||"")+'</span></div><p>'+escapeCommentHtml(c.text||"")+'</p>'+image+likeControls+'<button class="battle-reply-button" type="button" data-reply-to="'+escapeCommentHtml(c.id)+'">Ответить</button><form class="battle-reply-form" data-parent-id="'+escapeCommentHtml(c.id)+'" hidden><input type="text" maxlength="500" placeholder="Ответить '+escapeCommentHtml(name)+'…" required><button type="submit">Ответить</button></form></div></div>'+ (children.length?'<div class="battle-thread-replies">'+replies+'</div>':"")+'</article>';
   };
   const renderComments=()=>{
@@ -275,7 +285,15 @@ if(!battle){
   };
   const nowLabel=()=>new Date().toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
   $("commentList").addEventListener("click",e=>{
-    const reportButton=e.target.closest("[data-report-comment]");\n    if(reportButton){\n      const card=reportButton.closest("[data-comment-id]");\n      const text=card?.querySelector(".battle-comment-content > p")?.textContent||"";\n      const author=card?.querySelector(".battle-comment-head strong")?.textContent||"Пользователь";\n      reportComment(reportButton.dataset.reportComment,text,author);\n      return;\n    }\n    const likeButton=e.target.closest("[data-like-comment]");
+    const reportButton=e.target.closest("[data-report-comment]");
+    if(reportButton){
+      const card=reportButton.closest("[data-comment-id]");
+      const text=card?.querySelector(".battle-comment-content > p")?.textContent||"";
+      const author=card?.querySelector(".battle-comment-head strong")?.textContent||"Пользователь";
+      reportComment(reportButton.dataset.reportComment,text,author);
+      return;
+    }
+    const likeButton=e.target.closest("[data-like-comment]");
     if(likeButton){toggleLike("battle:"+battleId+":"+likeButton.dataset.likeComment);renderComments();return;}
     const allButton=e.target.closest("[data-show-likes]");
     if(allButton){const panel=allButton.parentElement.querySelector(".comment-like-full");if(panel)panel.hidden=!panel.hidden;return;}
