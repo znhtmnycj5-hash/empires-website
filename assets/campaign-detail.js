@@ -46,6 +46,14 @@
   if(!Array.isArray(all))all=[];
   let c=all.find(x=>x.id===id);
   if(!c)c=fallback.find(x=>x.id===id);
+  if(c){
+    const seeded=fallback.find(x=>x.id===c.id);
+    if(seeded){
+      if(!Array.isArray(c.applications)||!c.applications.length)c.applications=seeded.applications||[];
+      if(!Array.isArray(c.comments)||!c.comments.length)c.comments=seeded.comments||[];
+      if(!c.preview)c.preview=seeded.preview;
+    }
+  }
   if(!c){box.innerHTML='<section class="card"><h1>Кампания не найдена</h1><a class="btn" href="campaigns.html">Вернуться к кампаниям</a></section>';return;}
   const s=status(c), accepted=(c.applications||[]).filter(a=>a.status==='accepted');
   const preview=esc(c.preview||c.cover||'assets/IMG_2745.png');
