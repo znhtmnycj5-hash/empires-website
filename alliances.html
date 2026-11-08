@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
+<title>Союзы — EMPIRE</title>
+<link rel="stylesheet" href="assets/style.css?v=20261108-alliances1">
+<script src="assets/alliances.js?v=20261108-1"></script>
+</head>
+<body>
+<header class="inner-header"><div class="container">
+  <div class="brand"><a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a><div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div></div>
+  <nav>
+    <a href="index.html">Главная</a>
+    <div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="#">Создать полк</a></div></div>
+    <div class="dropdown"><a href="battles.html">Сражения</a><div class="dropdown-menu"><a href="battles.html#all">Все сражения</a></div></div>
+    <a href="index.html#ranking">Рейтинг</a><a href="index.html#news">Форум</a><a class="active" href="alliances.html">Союзы</a><a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+  </nav>
+</div></header>
+<main class="container alliances-page">
+  <section class="page-heading card">
+    <div><div class="kicker">Договоры между полками</div><h1>СОЮЗЫ</h1>
+    <p>Союз — соглашение между полками о взаимной помощи на поле боя. Полк может состоять только в одном союзе.</p></div>
+  </section>
+  <section class="card alliance-create">
+    <div class="card-title">◈ &nbsp; Создать союз</div>
+    <form id="allianceCreateForm" class="alliance-form">
+      <input id="allianceName" required maxlength="50" placeholder="Название союза">
+      <input id="allianceLeader" maxlength="30" placeholder="Командир-создатель">
+      <input id="allianceAvatar" placeholder="Путь к аватару, например assets/84e.png">
+      <button class="btn primary" type="submit">Создать союз</button>
+    </form>
+    <p class="alliance-note">В текущей статической версии создатель указывается вручную. Реальная проверка роли командира требует серверной авторизации.</p>
+  </section>
+  <section id="alliancesList" class="alliances-list"></section>
+</main>
+<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div><div>Главная &nbsp;|&nbsp; Полки &nbsp;|&nbsp; Сражения &nbsp;|&nbsp; Рейтинг &nbsp;|&nbsp; Форум &nbsp;|&nbsp; Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
+<script>
+(function(){
+  const list=document.getElementById('alliancesList');
+  const render=()=>{
+    const all=window.EMPIRE_ALLIANCES.getAll().sort((a,b)=>window.EMPIRE_ALLIANCES.calcRating(b)-window.EMPIRE_ALLIANCES.calcRating(a));
+    list.innerHTML=all.map(a=>{
+      const rating=window.EMPIRE_ALLIANCES.calcRating(a),count=a.members.length;
+      return '<a class="alliance-tile" href="alliance.html?id='+encodeURIComponent(a.id)+'"><img src="'+(a.avatar||'assets/empire_logo_top_right.png')+'" alt=""><div class="alliance-tile-info"><h2>'+a.name+'</h2><div class="alliance-meta"><span>Рейтинг <b>'+rating+'</b></span><span>'+count+' '+(count===1?'полк':'полков')+'</span></div></div></a>';
+    }).join('');
+  };
+  document.getElementById('allianceCreateForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    const name=document.getElementById('allianceName').value.trim();
+    const leader=document.getElementById('allianceLeader').value.trim()||'Kalashnikov';
+    const avatar=document.getElementById('allianceAvatar').value.trim()||'assets/empire_logo_top_right.png';
+    if(!name)return;
+    const item=window.EMPIRE_ALLIANCES.create(name,leader,avatar);
+    location.href='alliance.html?id='+encodeURIComponent(item.id);
+  });
+  render();
+})();
+</script>
+</body>
+</html>
