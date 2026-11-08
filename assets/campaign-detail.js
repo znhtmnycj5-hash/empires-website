@@ -152,8 +152,8 @@
     if(['bold','italic','underline'].includes(cmd))document.execCommand(cmd,false,null);
     else if(cmd==='quote')document.execCommand('formatBlock',false,'blockquote');
     else if(cmd==='spoiler'){const sel=window.getSelection(),t=sel&&sel.toString();insert('<span data-spoiler="true">'+escapeHtml(t||'Спойлер')+'</span>')}
-    else if(cmd==='image'){const u=prompt('Вставьте прямую ссылку на картинку:');if(u&&/^https?:\\/\\//i.test(u.trim()))insert('<img src="'+escapeHtml(u.trim())+'" alt="Вставленная картинка">')}
-    else if(cmd==='video'){const u=prompt('Вставьте прямую ссылку на видео:');if(u&&/^https?:\\/\\//i.test(u.trim()))insert('<video src="'+escapeHtml(u.trim())+'" controls preload="metadata"></video>')}
+    else if(cmd==='image'){const u=prompt('Вставьте прямую ссылку на картинку:');if(u&&/^https?:\/\//i.test(u.trim()))insert('<img src="'+escapeHtml(u.trim())+'" alt="Вставленная картинка">')}
+    else if(cmd==='video'){const u=prompt('Вставьте прямую ссылку на видео:');if(u&&/^https?:\/\//i.test(u.trim()))insert('<video src="'+escapeHtml(u.trim())+'" controls preload="metadata"></video>')}
   });
   document.getElementById('campaignCommentForm').addEventListener('submit',e=>{
     e.preventDefault();const html=sanitizeHtml(editor.innerHTML),text=editor.textContent.trim();if(!text&&!html.replace(/<[^>]*>/g,'').trim())return;
