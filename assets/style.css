@@ -1879,9 +1879,9 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   bottom:0!important;
 }
 .battle-thread-replies{
-  margin:0 0 4px 0!important;
-  padding-left:0!important;
-  border-left:0!important;
+  margin:0 0 4px 28px!important;
+  padding-left:16px!important;
+  border-left:2px solid rgba(137,103,57,.22)!important;
 }
 .battle-thread-item.is-reply>.battle-comment{
   padding-top:13px!important;
