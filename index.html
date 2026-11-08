@@ -164,7 +164,39 @@ modal.onclick=e=>{if(e.target===modal)modal.classList.remove('show')};
 document.getElementById('demoLogin').onclick=()=>{const n=document.getElementById('loginName').value.trim()||'Император';modal.classList.remove('show');toast('Добро пожаловать, '+n+'!')};
 
 const siteCounters={regiments:12,battles:9,users:13};
-Object.entries(siteCounters).forEach(([key,value])=>document.querySelectorAll('[data-site-count="'+key+'"]').forEach(el=>el.textContent=value));
+const applySiteCounters=()=>{
+  Object.entries(siteCounters).forEach(([key,value])=>{
+    document.querySelectorAll('[data-site-count="'+key+'"]').forEach(el=>el.textContent=value);
+  });
+};
+const loadAutomaticSiteCounters=async()=>{
+  try{
+    const [regimentsHtml,profileHtml,regimentHtml]=await Promise.all([
+      fetch('regiments.html',{cache:'no-store'}).then(r=>r.text()),
+      fetch('profile.html',{cache:'no-store'}).then(r=>r.text()),
+      fetch('regiment.html',{cache:'no-store'}).then(r=>r.text())
+    ]);
+    const regimentsDoc=new DOMParser().parseFromString(regimentsHtml,'text/html');
+    const regimentCount=regimentsDoc.querySelectorAll('.regiment-tile').length;
+    if(regimentCount) siteCounters.regiments=regimentCount;
+
+    const profileMatch=profileHtml.match(/const\\s+profiles\\s*=\\s*\\{([\\s\\S]*?)\\};/);
+    if(profileMatch){
+      const userKeys=profileMatch[1].match(/(?:^|\\n)\\s*"[^"]+"\\s*:/g);
+      if(userKeys) siteCounters.users=userKeys.length;
+    }
+
+    const regimentDoc=new DOMParser().parseFromString(regimentHtml,'text/html');
+    const battleCount=regimentDoc.querySelectorAll('.battle-history-item').length;
+    if(battleCount) siteCounters.battles=battleCount;
+
+    applySiteCounters();
+  }catch(error){
+    applySiteCounters();
+  }
+};
+applySiteCounters();
+loadAutomaticSiteCounters();
 const currentUser={name:'Kalashnikov',regiment:'1st Regiment'};
 
 const communityRegiments=[
