@@ -87,7 +87,8 @@ const getLikeMap=()=>{try{return JSON.parse(localStorage.getItem(likesStorageKey
 const getLikes=key=>{const value=getLikeMap()[key];return Array.isArray(value)?value:[];};
 const toggleLike=key=>{const map=getLikeMap(),names=Array.isArray(map[key])?map[key]:[],index=names.indexOf(currentUser.name);if(index>=0)names.splice(index,1);else names.push(currentUser.name);map[key]=names;localStorage.setItem(likesStorageKey,JSON.stringify(map));};
 
-const newsDateValue=value=>{const parts=String(value||'').match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);if(parts)return new Date(Number(parts[3]),Number(parts[2])-1,Number(parts[1])).getTime()||0;const parsed=Date.parse(value||'');return Number.isFinite(parsed)?parsed:0;};\nconst allNews=()=>[...getStored(),...samples].sort((a,b)=>newsDateValue(b.date)-newsDateValue(a.date));
+const newsDateValue=value=>{const parts=String(value||'').match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);if(parts)return new Date(Number(parts[3]),Number(parts[2])-1,Number(parts[1])).getTime()||0;const parsed=Date.parse(value||'');return Number.isFinite(parsed)?parsed:0;};
+const allNews=()=>[...getStored(),...samples].sort((a,b)=>newsDateValue(b.date)-newsDateValue(a.date));
 const escapeHtml=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 document.getElementById('backToRegiment').href='regiment.html?name='+encodeURIComponent(regiment);
