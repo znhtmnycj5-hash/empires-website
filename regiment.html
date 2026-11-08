@@ -76,7 +76,7 @@ const renderRegimentNews=()=>{
   const totalPages=Math.max(1,Math.ceil(visible.length/3));
   if(regimentNewsPage>totalPages)regimentNewsPage=totalPages;
   const pageItems=visible.slice((regimentNewsPage-1)*3,regimentNewsPage*3);
-  list.innerHTML=pageItems.map(n=>'<a class="regiment-news-item news-clickable" href="news.html?regiment='+encodeURIComponent(name)+'&id='+encodeURIComponent(n.id)+'"><img src="'+n.image+'" alt=""><div class="regiment-news-body"><div class="regiment-news-date">'+n.date+' · '+(n.private?'🔒 Приватная':'🌐 Открытая')+'</div><h3>'+n.title+'</h3><p>'+(n.body||'Полковая новость. Нажмите, чтобы открыть публикацию и комментарии.')+'</p>'+'</div></a>').join('');
+  list.innerHTML=pageItems.map(n=>'<a class="regiment-news-item news-clickable" href="news.html?regiment='+encodeURIComponent(name)+'&id='+encodeURIComponent(n.id)+'"><img src="'+n.image+'" alt=""><div class="regiment-news-body"><div class="regiment-news-date">'+n.date+' · '+(n.private?'🔒 Приватная':'🌐 Открытая')+'</div><h3>'+n.title+'</h3><p>'+(n.body||'Полковая новость. Нажмите, чтобы открыть публикацию и комментарии.')+'</p>'+'<span class="preview-comment-count" aria-label="Комментарии: '+(window.EMPIRE_COMMENT_COUNTS&&typeof window.EMPIRE_COMMENT_COUNTS.getNewsCommentCount==='function'?window.EMPIRE_COMMENT_COUNTS.getNewsCommentCount(n.id):0)+'">💬 <span>'+(window.EMPIRE_COMMENT_COUNTS&&typeof window.EMPIRE_COMMENT_COUNTS.getNewsCommentCount==='function'?window.EMPIRE_COMMENT_COUNTS.getNewsCommentCount(n.id):0)+'</span></span>'+'</div></a>').join('');
   if(pagination){pagination.innerHTML='';pagination.style.display='none';}
 };
 renderRegimentNews();
