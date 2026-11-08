@@ -1138,3 +1138,33 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 #userReports .admin-report-actions{align-items:center}
 #userReports .admin-temp-form{justify-content:center}
 @media(max-width:800px){#userReports .admin-report-main{grid-column:1/-1}#userReports .admin-report-actions{justify-content:center}}
+
+
+/* Profile role badge under avatar */
+.profile-avatar-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  width:68px;
+  flex:0 0 68px
+}
+.profile-avatar-wrap .profile-role-badge{
+  width:68px;
+  min-width:68px;
+  margin:6px 0 0;
+  padding:4px 3px;
+  justify-content:center;
+  text-align:center;
+  font-size:7px;
+  letter-spacing:.7px
+}
+@media(max-width:600px){
+  .profile-avatar-wrap{width:68px;flex-basis:68px}
+  .profile-avatar-wrap .profile-role-badge{
+    width:68px;
+    min-width:68px;
+    margin:6px 0 0;
+    padding:4px 2px;
+    font-size:7px
+  }
+}
