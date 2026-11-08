@@ -92,6 +92,11 @@ function renderList(){
   }
   const news=allNews().find(n=>n.id===id);
   if(!news){document.getElementById('newsDetail').innerHTML='<div class="empty-note">Новость не найдена.</div>';return;}
+  if(news.private&&!isMember){
+    document.getElementById('newsDetail').innerHTML='<div class="empty-note">🔒 Эта новость приватная. Она доступна только участникам полка <strong>'+escapeHtml(regiment)+'</strong>.</div>';
+    document.getElementById('commentsSection').hidden=true;
+    return;
+  }
   document.getElementById('newsDetail').innerHTML='<div class="news-detail-head"><div><div class="page-kicker">НОВОСТЬ ПОЛКА</div><h1>'+escapeHtml(news.title)+'</h1><div class="news-meta">'+news.date+' · '+escapeHtml(news.author)+' · '+(news.private?'🔒 Только для членов полка':'🌐 Открытая')+'</div></div><a class="btn" href="news.html?regiment='+encodeURIComponent(regiment)+'">← Все новости</a></div><img class="news-cover" src="'+news.image+'" alt=""><div class="news-content">'+news.body+'</div>';
   document.getElementById('commentsSection').hidden=false;renderComments(news);
 }
