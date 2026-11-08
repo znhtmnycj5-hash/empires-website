@@ -28,15 +28,17 @@
     <div>
       <div class="kicker">Военная хроника EMPIRE</div>
       <h1>СРАЖЕНИЯ</h1>
-      <p>Все полковые сражения сообщества: запланированные, текущие и завершённые. Каждая запись учитывается в общем количестве сражений на главной странице.</p>
+      <p>Все полковые сражения сообщества: вызовы, подготовка, текущие, ожидающие подтверждения и завершённые.</p>
     </div>
   </section>
 
   <section class="card battle-filters">
-    <button class="battle-filter active" data-filter="all">Все <span>11</span></button>
-    <button class="battle-filter" data-filter="planned">Запланированные <span>2</span></button>
-    <button class="battle-filter" data-filter="ongoing">Идут сейчас <span>0</span></button>
-    <button class="battle-filter" data-filter="completed">Завершённые <span>9</span></button>
+    <button class="battle-filter active" data-filter="all">Все <span id="count-all">11</span></button>
+    <button class="battle-filter" data-filter="challenged">Вызов брошен <span id="count-challenged">0</span></button>
+    <button class="battle-filter" data-filter="preparation">Подготовка к сражению <span id="count-preparation">2</span></button>
+    <button class="battle-filter" data-filter="ongoing">Идёт бой <span id="count-ongoing">0</span></button>
+    <button class="battle-filter" data-filter="awaiting_confirmation">Ожидает подтверждения <span id="count-awaiting_confirmation">0</span></button>
+    <button class="battle-filter" data-filter="completed">Завершённые <span id="count-completed">9</span></button>
   </section>
 
   <section class="battle-list" id="all">
@@ -121,20 +123,20 @@
       </div>
     <a class="battle-open-link" href="battle.html?id=battle-009">Открыть страницу сражения →</a></article>
 
-    <article class="battle-record card" data-status="planned" id="battle-010">
-      <div class="battle-record-top"><span class="battle-status planned">Запланировано</span><span>10.11.2026 · 21:00</span><span>Полковое сражение</span></div>
+    <article class="battle-record card" data-status="preparation" id="battle-010">
+      <div class="battle-record-top"><span class="battle-status preparation">Подготовка к сражению</span><span>10.11.2026 · 21:00</span><span>Полковое сражение</span></div>
       <div class="battle-record-main">
         <a class="battle-side regiment-link" href="regiment.html?name=7th%20Hussars"><img src="assets/hussars.png" alt="7th Hussars"><strong>7th Hussars</strong><small>Британская Империя</small></a>
-        <div class="battle-result-box planned-result"><b>VS</b><span>Сражение ещё не началось</span><div class="battle-countdown" data-start="2026-11-10T21:00:00"></div></div>
+        <div class="battle-result-box planned-result"><b>VS</b><span>Подготовка к сражению</span><div class="battle-countdown" data-start="2026-11-10T21:00:00"></div></div>
         <a class="battle-side regiment-link" href="regiment.html?name=95th%20Rifles"><img src="assets/95.webp" alt="95th Rifles"><strong>95th Rifles</strong><small>Британская Империя</small></a>
       </div>
     <a class="battle-open-link" href="battle.html?id=battle-010">Открыть страницу сражения →</a></article>
 
-    <article class="battle-record card" data-status="planned" id="battle-011">
-      <div class="battle-record-top"><span class="battle-status planned">Запланировано</span><span>08.11.2026 · 20:00</span><span>Полковое сражение</span></div>
+    <article class="battle-record card" data-status="preparation" id="battle-011">
+      <div class="battle-record-top"><span class="battle-status preparation">Подготовка к сражению</span><span>08.11.2026 · 20:00</span><span>Полковое сражение</span></div>
       <div class="battle-record-main">
         <a class="battle-side regiment-link" href="regiment.html?name=1st%20Regiment"><img src="assets/1st.jpg" alt="1st Regiment"><strong>1st Regiment</strong><small>Французская Империя</small></a>
-        <div class="battle-result-box planned-result"><b>VS</b><span>Сражение ещё не началось</span><div class="battle-countdown" data-start="2026-11-08T20:00:00"></div></div>
+        <div class="battle-result-box planned-result"><b>VS</b><span>Подготовка к сражению</span><div class="battle-countdown" data-start="2026-11-08T20:00:00"></div></div>
         <a class="battle-side regiment-link" href="regiment.html?name=84e%20R%C3%A9giment"><img src="assets/84e.png" alt="84e Régiment"><strong>84e Régiment</strong><small>Французская Империя</small></a>
       </div>
     <a class="battle-open-link" href="battle.html?id=battle-011">Открыть страницу сражения →</a></article>
@@ -157,17 +159,63 @@
 const records=[...document.querySelectorAll('.battle-record')];
 const filters=[...document.querySelectorAll('.battle-filter')];
 const empty=document.getElementById('battleEmpty');
-filters.forEach(button=>button.addEventListener('click',()=>{
-  filters.forEach(x=>x.classList.remove('active'));
-  button.classList.add('active');
-  const filter=button.dataset.filter;
+const getDynamicStatus=record=>{
+  const base=record.dataset.status;
+  if(base==='completed'||base==='challenged') return base;
+  const start=new Date(record.querySelector('.battle-countdown')?.dataset.start||'').getTime();
+  if(!start) return base;
+  const now=Date.now();
+  if(now<start) return base;
+  if(now<start+3600000) return 'ongoing';
+  return 'awaiting_confirmation';
+};
+const statusNames={
+  challenged:'Вызов брошен',
+  preparation:'Подготовка к сражению',
+  ongoing:'Идёт бой',
+  awaiting_confirmation:'Ожидает подтверждения',
+  completed:'Завершено'
+};
+const statusClasses={
+  challenged:'challenged',
+  preparation:'preparation',
+  ongoing:'ongoing',
+  awaiting_confirmation:'awaiting-confirmation',
+  completed:'completed'
+};
+const applyDynamicStatuses=()=>{
+  const counts={all:records.length,challenged:0,preparation:0,ongoing:0,awaiting_confirmation:0,completed:0};
+  records.forEach(record=>{
+    const status=getDynamicStatus(record);
+    record.dataset.dynamicStatus=status;
+    counts[status]=(counts[status]||0)+1;
+    const badge=record.querySelector('.battle-status');
+    if(badge){
+      badge.className='battle-status '+statusClasses[status];
+      badge.textContent=statusNames[status];
+    }
+    const result=record.querySelector('.battle-result-box');
+    if(result&&status==='ongoing') result.querySelector('span').textContent='Сражение идёт';
+    if(result&&status==='awaiting_confirmation') result.querySelector('span').textContent='Ожидается подтверждение командиров';
+  });
+  Object.keys(counts).forEach(key=>{
+    const el=document.getElementById('count-'+key);
+    if(el) el.textContent=counts[key];
+  });
+};
+const applyFilter=filter=>{
   let visible=0;
   records.forEach(record=>{
-    const show=filter==='all'||record.dataset.status===filter;
+    const show=filter==='all'||record.dataset.dynamicStatus===filter;
     record.style.display=show?'block':'none';
     if(show) visible++;
   });
   empty.style.display=visible?'none':'block';
+};
+filters.forEach(button=>button.addEventListener('click',()=>{
+  filters.forEach(x=>x.classList.remove('active'));
+  button.classList.add('active');
+  applyFilter(button.dataset.filter);
 }));
 const countdowns=[...document.querySelectorAll('.battle-countdown')];
 const updateCountdowns=()=>{
@@ -176,8 +224,19 @@ const updateCountdowns=()=>{
     const start=new Date(el.dataset.start).getTime();
     const diff=start-now;
     if(diff<=0){
-      el.textContent='Сражение началось';
-      el.classList.add('started');
+      const record=el.closest('.battle-record');
+      const status=record?record.dataset.dynamicStatus:'ongoing';
+      if(status==='ongoing'){
+        const remaining=Math.max(0,start+3600000-now);
+        const totalSeconds=Math.floor(remaining/1000);
+        const hours=Math.floor(totalSeconds/3600);
+        const minutes=Math.floor((totalSeconds%3600)/60);
+        const seconds=totalSeconds%60;
+        el.textContent='До конца боя '+String(hours).padStart(2,'0')+'ч '+String(minutes).padStart(2,'0')+'м '+String(seconds).padStart(2,'0')+'с';
+      }else{
+        el.textContent='Ожидает подтверждения';
+        el.classList.add('started');
+      }
       return;
     }
     const totalSeconds=Math.floor(diff/1000);
@@ -188,8 +247,14 @@ const updateCountdowns=()=>{
     el.textContent=(days?days+'д ':'')+String(hours).padStart(2,'0')+'ч '+String(minutes).padStart(2,'0')+'м '+String(seconds).padStart(2,'0')+'с';
   });
 };
-updateCountdowns();
-setInterval(updateCountdowns,1000);
+const updateBattleStates=()=>{
+  applyDynamicStatuses();
+  const active=[...document.querySelectorAll('.battle-filter.active')][0];
+  applyFilter(active?active.dataset.filter:'all');
+  updateCountdowns();
+};
+updateBattleStates();
+setInterval(updateBattleStates,1000);
 </script>
 </body>
 </html>
