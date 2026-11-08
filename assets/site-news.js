@@ -103,25 +103,27 @@ const reportComment=(newsId,commentId,textValue,author)=>{
 
 
 const ensureTestComments=n=>{
- if(n.id!=="site-news-test-01")return;
+ if(n.id!=="sample-4"&&n.id!=="site-news-test-01")return;
  const map=getComments(),items=Array.isArray(map[n.id])?map[n.id]:[];
  const existing=new Set(items.map(x=>String(x.id||"")));
+ const prefix=n.id==="sample-4"?"sample-4":"site-news-test-01";
  const samples=[
-  {id:"site-news-test-01-comment-01",author:"Ankord",text:"Отличная идея. Надо заранее согласовать время, чтобы все полки успели подготовить составы.",date:"08.11.2026, 10:14"},
-  {id:"site-news-test-01-comment-02",author:"Veli4estvo",text:"Поддерживаю! Особенно важно проверить перестроения и выполнение команд в линии.",date:"08.11.2026, 10:21"},
-  {id:"site-news-test-01-comment-03",author:"Mel",text:"Будет отдельная проверка для новичков? Могу помочь им освоиться перед смотром.",date:"08.11.2026, 10:32"},
-  {id:"site-news-test-01-comment-04",author:"Kazak",text:"Предлагаю после общего построения провести короткую тренировку с офицерами.",date:"08.11.2026, 10:45"},
-  {id:"site-news-test-01-comment-05",author:"MeGusta",text:"Главное — дисциплина и синхронность. Тогда смотр получится зрелищным.",date:"08.11.2026, 11:02"},
-  {id:"site-news-test-01-comment-06",author:"Flashkodr",text:"Скриншоты со смотра тоже стоит добавить в галерею сообщества.",date:"08.11.2026, 11:18"},
-  {id:"site-news-test-01-comment-07",author:"MrDixon",text:"Хорошо бы заранее опубликовать список команд и порядок выступления полков.",date:"08.11.2026, 11:26"},
-  {id:"site-news-test-01-comment-08",author:"Theodor",text:"Готов принять участие. Напишите, если нужна помощь с организацией.",date:"08.11.2026, 11:39"},
-  {id:"site-news-test-01-comment-09",author:"Grenadier87",text:"Будет интересно посмотреть, как покажут себя разные подразделения. Жду подробностей!",date:"08.11.2026, 11:47"},
-  {id:"site-news-test-01-comment-10",author:"Marquis",text:"Отличная возможность проверить взаимодействие между полками перед кампанией.",date:"08.11.2026, 11:54"}
+  {id:prefix+"-comment-01",author:"Ankord",text:"Отличная новость. Думаю, такой формат будет полезен для всех полков.",date:"08.11.2026, 10:14"},
+  {id:prefix+"-comment-02",author:"Veli4estvo",text:"Поддерживаю. Особенно интересно будет посмотреть на результаты после первых матчей.",date:"08.11.2026, 10:21"},
+  {id:prefix+"-comment-03",author:"Mel",text:"Кстати, можно отдельно собрать отзывы участников после завершения события.",date:"08.11.2026, 10:32"},
+  {id:prefix+"-comment-04",author:"Kazak",text:"Предлагаю заранее согласовать время, чтобы все желающие успели подготовиться.",date:"08.11.2026, 10:45"},
+  {id:prefix+"-comment-05",author:"MeGusta",text:"Хорошая идея. Чем больше полков подключится, тем интереснее получится.",date:"08.11.2026, 11:02"},
+  {id:prefix+"-comment-06",author:"Flashkodr",text:"Я бы ещё добавил несколько скриншотов в комментарии, чтобы сохранить лучшие моменты.",date:"08.11.2026, 11:18",html:'Я бы ещё добавил несколько скриншотов в комментарии, чтобы сохранить лучшие моменты.<br><img src="assets/battlefield.jpg" alt="Вложенная картинка">'},
+  {id:prefix+"-comment-07",author:"MrDixon",text:"Цитата из объявления хорошо показывает, что организаторы хотят получить от участников.",date:"08.11.2026, 11:26",html:'<blockquote>Главное — участие, слаженность и уважение к сопернику.</blockquote><br>Полностью согласен с этим подходом.'},
+  {id:prefix+"-comment-08",author:"Theodor",text:"Готов принять участие. Если нужна помощь с организацией, обращайтесь.",date:"08.11.2026, 11:39"},
+  {id:prefix+"-comment-09",author:"Grenadier87",text:"Будет интересно сравнить тактики разных полков. Жду продолжения.",date:"08.11.2026, 11:47"},
+  {id:prefix+"-comment-10",author:"Marquis",text:"Отличная возможность проверить взаимодействие между подразделениями перед следующей кампанией.",date:"08.11.2026, 11:54"}
  ];
  const threadedSamples=[
-  {id:"site-news-test-01-reply-01",parentId:"site-news-test-01-comment-02",author:"Kazak",text:"Согласен. Могу подготовить список команд для проверки.",date:"08.11.2026, 12:06"},
-  {id:"site-news-test-01-reply-02",parentId:"site-news-test-01-reply-01",author:"Mel",text:"Отлично, тогда новичкам будет проще ориентироваться.",date:"08.11.2026, 12:09"},
-  {id:"site-news-test-01-reply-03",parentId:"site-news-test-01-comment-04",author:"Ankord",text:"Поддерживаю предложение. Обсудим детали перед построением.",date:"08.11.2026, 12:12"}
+  {id:prefix+"-reply-01",parentId:prefix+"-comment-02",author:"Kazak",text:"Согласен. Могу подготовить список предложений и обсудить его с командиром.",date:"08.11.2026, 12:06"},
+  {id:prefix+"-reply-02",parentId:prefix+"-reply-01",author:"Mel",text:"Тогда я добавлю свои замечания. Думаю, получится хороший общий список.",date:"08.11.2026, 12:09"},
+  {id:prefix+"-reply-03",parentId:prefix+"-reply-02",author:"Ankord",text:"Отлично, после этого можно вынести итоговое предложение в полковой чат.",date:"08.11.2026, 12:12"},
+  {id:prefix+"-reply-04",parentId:prefix+"-comment-04",author:"Veli4estvo",text:"Поддерживаю. Лучше решить это заранее, чем менять расписание в последний момент.",date:"08.11.2026, 12:18"}
  ];
  const additions=[...samples,...threadedSamples].filter(x=>!existing.has(x.id)).map(x=>({...x,avatar:avatar(x.author)}));
  if(additions.length){map[n.id]=[...items,...additions];write(COMMENTS_KEY,map);}
