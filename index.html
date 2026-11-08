@@ -28,7 +28,7 @@
 <nav>
   <a class="active" href="#home">Главная</a>
   <div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="#">Создать полк</a><a href="#">Мои полки</a></div></div>
-  <div class="dropdown"><a href="#battles">Кампании</a><div class="dropdown-menu"><a href="#battles">Текущие кампании</a><a href="#battles">Архив</a><a href="#battles">Календарь</a></div></div>
+  <div class="dropdown"><a href="battles.html">Сражения</a><div class="dropdown-menu"><a href="battles.html#planned">Предстоящие</a><a href="battles.html#completed">Завершённые</a><a href="battles.html#all">Все сражения</a></div></div>
   <a href="#ranking">Рейтинг</a>
   <div class="dropdown"><a href="#news">Форум</a><div class="dropdown-menu"><a href="#news">Обсуждения</a><a href="#news">Гайды</a><a href="#news">Объявления</a></div></div>
   <a href="#alliances">Союзы</a>
@@ -100,7 +100,7 @@
 
 <div class="full">
   <section class="card">
-    <div class="card-title">⚔ &nbsp; Предстоящие полковые сражения <a href="#">Все сражения →</a></div>
+    <div class="card-title">⚔ &nbsp; Предстоящие полковые сражения <a href="battles.html">Все сражения →</a></div>
     <div class="battle">
       <div class="datebox">8<br><small>НОЯБРЯ<br>20:00</small><span class="battle-type">⚔ БОЙ</span></div>
       <div><a class="team regiment-link" href="regiment.html?name=1st%20Regiment"><img class="battle-flag" src="assets/1st.jpg" alt="Флаг 1st Regiment">1st Regiment</a></div><div class="vs">VS</div><div><a class="team regiment-link" href="regiment.html?name=84e%20R%C3%A9giment"><img class="battle-flag" src="assets/84e.png" alt="Флаг 84e Régiment">84e Régiment</a></div></div>
@@ -163,7 +163,7 @@ document.getElementById('closeLogin').onclick=()=>modal.classList.remove('show')
 modal.onclick=e=>{if(e.target===modal)modal.classList.remove('show')};
 document.getElementById('demoLogin').onclick=()=>{const n=document.getElementById('loginName').value.trim()||'Император';modal.classList.remove('show');toast('Добро пожаловать, '+n+'!')};
 
-const siteCounters={regiments:12,battles:9,users:13};
+const siteCounters={regiments:12,battles:11,users:13};
 const applySiteCounters=()=>{
   Object.entries(siteCounters).forEach(([key,value])=>{
     document.querySelectorAll('[data-site-count="'+key+'"]').forEach(el=>el.textContent=value);
@@ -171,10 +171,10 @@ const applySiteCounters=()=>{
 };
 const loadAutomaticSiteCounters=async()=>{
   try{
-    const [regimentsHtml,profileHtml,regimentHtml]=await Promise.all([
+    const [regimentsHtml,profileHtml,battlesHtml]=await Promise.all([
       fetch('regiments.html',{cache:'no-store'}).then(r=>r.text()),
       fetch('profile.html',{cache:'no-store'}).then(r=>r.text()),
-      fetch('regiment.html',{cache:'no-store'}).then(r=>r.text())
+      fetch('battles.html',{cache:'no-store'}).then(r=>r.text())
     ]);
     const regimentsDoc=new DOMParser().parseFromString(regimentsHtml,'text/html');
     const regimentCount=regimentsDoc.querySelectorAll('.regiment-tile').length;
@@ -186,8 +186,8 @@ const loadAutomaticSiteCounters=async()=>{
       if(userKeys) siteCounters.users=userKeys.length;
     }
 
-    const regimentDoc=new DOMParser().parseFromString(regimentHtml,'text/html');
-    const battleCount=regimentDoc.querySelectorAll('.battle-history-item').length;
+    const battlesDoc=new DOMParser().parseFromString(battlesHtml,'text/html');
+    const battleCount=battlesDoc.querySelectorAll('.battle-record').length;
     if(battleCount) siteCounters.battles=battleCount;
 
     applySiteCounters();
