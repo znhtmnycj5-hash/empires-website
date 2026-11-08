@@ -545,3 +545,14 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .guest-pagination{display:flex;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap;width:100%;grid-column:1/-1;margin-top:6px;padding-top:12px;border-top:1px solid #493823}
 .guest-pagination a{min-width:30px;height:30px;padding:0 9px;display:flex;align-items:center;justify-content:center;border:1px solid #5d4930;background:#17130f;color:#bba783;text-decoration:none;font:600 10px Cinzel}
 .guest-pagination a:hover,.guest-pagination a.current{background:#641e1b;border-color:#9a6d3c;color:#efd49a}
+
+
+/* Profile online status */
+.profile-online-status{display:flex!important;align-items:center;gap:7px;font:600 11px "Roboto Slab",serif!important;text-transform:none!important;letter-spacing:0!important}
+.profile-online-status i{width:8px;height:8px;display:inline-block;border-radius:50%;background:#6d6d6d;box-shadow:none}
+.profile-online-status em{font-style:normal}
+.profile-online-status.online{color:#76b979!important}
+.profile-online-status.online i{background:#65b86b;box-shadow:0 0 8px rgba(101,184,107,.75)}
+.profile-online-status.offline{color:#a08f77!important}
+.profile-online-status.offline i{background:#70695f}
+@media(max-width:700px){.profile-online-meta{align-items:center}}
