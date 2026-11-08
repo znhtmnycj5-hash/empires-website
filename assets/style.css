@@ -1086,3 +1086,13 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 /* Keep the original display font for the logo and site name */
 .brand-title{font-family:"Cinzel",serif!important}
 .brand-title span{font-family:"Cinzel",serif!important}
+
+
+/* Language switcher */
+.language-switcher{display:flex;align-items:center;gap:5px;margin-left:18px;white-space:nowrap}
+.language-switcher button{border:1px solid rgba(185,149,89,.45);background:rgba(18,14,10,.55);color:#d7c29d;padding:5px 8px;font:600 10px "Roboto Slab",serif;cursor:pointer;opacity:.68;transition:opacity .15s ease,border-color .15s ease,color .15s ease}
+.language-switcher button:hover,.language-switcher button.active{opacity:.9;border-color:#a77b43;color:#efd49a}
+.language-switcher .lang-separator{color:#806f55;opacity:.5;font-size:9px}
+body.lang-en,body.lang-en *{font-family:"Cinzel",serif!important}
+body.lang-en input,body.lang-en textarea,body.lang-en select{font-family:"Cinzel",serif!important}
+@media(max-width:760px){.language-switcher{margin-left:8px;gap:3px}.language-switcher button{padding:4px 6px;font-size:9px}}
