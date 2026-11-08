@@ -2700,3 +2700,23 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   .campaign-card-date strong{font-size:10px!important;letter-spacing:0}
   .campaign-card-date span{font-size:8px!important}
 }
+
+
+/* Campaign cards: large cover with date directly beneath it */
+.campaign-card{grid-template-columns:190px minmax(0,1fr) 40px;align-items:center;gap:18px}
+.campaign-card-media{display:flex;flex-direction:column;gap:7px;min-width:0}
+.campaign-card-preview{width:190px;height:128px}
+.campaign-card-date{min-height:0!important;width:100%;box-sizing:border-box;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:9px;padding:6px 4px;border:1px solid #765a37;background:rgba(28,22,16,.85)}
+.campaign-card-date strong{font-size:13px!important}
+.campaign-card-date span{margin:0;font-size:10px!important}
+@media(max-width:600px){
+  .campaign-card{grid-template-columns:116px minmax(0,1fr) 16px;gap:9px;padding:12px 8px}
+  .campaign-card-media{gap:5px}
+  .campaign-card-preview{width:116px;height:94px}
+  .campaign-card-date{gap:5px;padding:5px 2px;flex-wrap:wrap}
+  .campaign-card-date strong{font-size:10px!important}
+  .campaign-card-date span{font-size:9px!important}
+  .campaign-card-main h3{font-size:12px}
+  .campaign-card-main p{font-size:8px}
+  .campaign-card-arrow{font-size:16px}
+}
