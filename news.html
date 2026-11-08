@@ -189,6 +189,7 @@ const ensureTestComments=news=>{
   if(additions.length){map[news.id]=[...items,...additions];localStorage.setItem(commentsKey,JSON.stringify(map));}
 };
 function renderComments(news){
+ ensureTestComments(news);
  const map=getComments(),comments=Array.isArray(map[news.id])?map[news.id]:[];
  const commentRegiments={"Kalashnikov":"1st Regiment","Ankord":"1st Regiment","Veli4estvo":"1st Regiment","Mel":"1st Regiment","Kazak":"1st Regiment","MeGusta":"1st Regiment","Flashkodr":"1st Regiment","MrDixon":"1st Regiment","Theodor":"1st Regiment","Grenadier87":"1st Regiment","Marquis":"95th Rifles"};
  const card=(c,depth=0)=>{
