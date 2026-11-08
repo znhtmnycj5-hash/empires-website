@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Сражение — EMPIRE</title>
-  <link rel="stylesheet" href="assets/style.css?v=20261108-commentlikes1">
+  <link rel="stylesheet" href="assets/style.css?v=20261108-battlecomments2">
 </head>
 <body>
 <header class="inner-header">
@@ -278,6 +278,15 @@ if(!battle){
     const roots=all.filter(c=>!c.parentId||!all.some(p=>p.id===c.parentId));
     $("commentList").innerHTML=roots.length?roots.map(c=>commentCard(c,all)).join(""):'<div class="battle-comments-empty">Комментариев пока нет.</div>';
     $("commentCount").textContent=all.length;
+  };
+  const reportComment=(commentId,commentText,author)=>{
+    const key="empire_comment_reports_v1";
+    let reports=[];try{reports=JSON.parse(localStorage.getItem(key)||"[]")}catch(e){reports=[]}
+    const duplicate=reports.some(r=>r.status==="pending"&&r.location==="battle.html?battle="+battleId&&String(r.commentId)===String(commentId)&&r.reporter===currentUser.name);
+    if(duplicate){alert("Вы уже пожаловались на этот комментарий.");return;}
+    reports.push({id:"comment-report-"+Date.now()+"-"+Math.random().toString(36).slice(2,7),status:"pending",reporter:currentUser.name,target:author,location:"battle.html?battle="+battleId,commentId:String(commentId),comment:String(commentText||""),reason:"Жалоба пользователя",createdAt:new Date().toISOString()});
+    localStorage.setItem(key,JSON.stringify(reports));
+    alert("Жалоба отправлена модераторам.");
   };
   const saveComment=comment=>{
     let comments=[];try{comments=JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){}
