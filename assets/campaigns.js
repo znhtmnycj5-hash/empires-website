@@ -1,0 +1,79 @@
+(() => {
+const K='empire_campaigns_v1', CK='empire_campaign_comments_v1';
+const read=(key,fallback=[])=>{try{const v=JSON.parse(localStorage.getItem(key)||'null');return v==null?fallback:v}catch(e){return fallback}};
+const write=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const currentUser=()=>{try{const v=JSON.parse(localStorage.getItem('empire_current_user_v1')||'null');if(typeof v==='string'&&v)return v;if(v?.name)return String(v.name)}catch(e){}return localStorage.getItem('empire_current_user')||'Kalashnikov'};
+const roles={Kalashnikov:'admin',Ankord:'moderator'};
+const commanders={Kalashnikov:'1st Regiment',Marquis:'95th Rifles',Veli4estvo:'84e Régiment',Fusilier:'Preobrazhensky',Grenadier87:'7th Hussars'};
+const regiments=[['1st Regiment','assets/1st.jpg'],['95th Rifles','assets/95.webp'],['84e Régiment','assets/84e.png'],['Preobrazhensky','assets/preobraz.webp'],['7th Hussars','assets/hussars.png'],['13e Léger','assets/1st.jpg'],['33e Ligne','assets/95.webp'],['92nd Gordon Highlanders','assets/84e.png'],['Semenovsky','assets/preobraz.webp'],["King's German Legion",'assets/kgr.png'],['6e Hussards','assets/1st.jpg'],['Royal Scots','assets/95.webp']];
+const troopTypes=['Стрелки','Пехота','Кавалерия','Артиллерия'];
+const statusOf=c=>{const t=new Date(c.startAt).getTime(),now=Date.now();if(c.status==='completed')return 'completed';if(now<t)return 'upcoming';if(now<t+3600000)return 'ongoing';return 'awaiting';};
+const formatDate=v=>new Date(v).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+const countdown=v=>{const d=Math.max(0,new Date(v).getTime()-Date.now());const h=Math.floor(d/3600000),m=Math.floor(d%3600000/60000),s=Math.floor(d%60000/1000);return h+'ч '+String(m).padStart(2,'0')+'м '+String(s).padStart(2,'0')+'с'};
+const seed=()=>{
+ let all=read(K);
+ if(!all.length){
+  all=[{id:'campaign-001',title:'Имперская кампания: Освобождение Европы',server:'EMPIRE_NW_Official',password:'EMPIRE1815',startAt:'2026-11-15T20:00:00',factions:['Французская армия','Российская империя','Британская армия'],organizer:'Kalashnikov',status:'published',applications:[],createdAt:'2026-11-08T18:00:00'}];
+  write(K,all);
+ }
+ return all;
+};
+const badgeStatus=s=>({upcoming:'ПРЕДСТОИТ',ongoing:'ИДЁТ БОЙ',awaiting:'ЖДЁТ ПОДТВЕРЖДЕНИЯ',completed:'ЗАВЕРШЕНА'}[s]||s);
+function campaignCard(c){
+ const s=statusOf(c), accepted=(c.applications||[]).filter(a=>a.status==='accepted').length;
+ return '<a class="campaign-card" href="campaign.html?id='+encodeURIComponent(c.id)+'"><div class="campaign-card-date"><strong>'+new Date(c.startAt).toLocaleDateString('ru-RU',{day:'2-digit',month:'short'})+'</strong><span>'+new Date(c.startAt).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+'</span></div><div class="campaign-card-main"><div class="campaign-status '+s+'">'+badgeStatus(s)+'</div><h3>'+esc(c.title)+'</h3><p>Фракции: '+esc((c.factions||[]).join(' · '))+'</p><small>Участников-полков: '+accepted+' · Организатор: '+esc(c.organizer)+'</small></div><div class="campaign-card-arrow">→</div></a>';
+}
+function renderList(){
+ const all=seed().sort((a,b)=>new Date(a.startAt)-new Date(b.startAt));
+ const up=all.filter(c=>statusOf(c)!=='completed'),done=all.filter(c=>statusOf(c)==='completed').reverse();
+ const u=document.getElementById('upcomingCampaigns'),d=document.getElementById('completedCampaigns');
+ if(u){u.innerHTML=up.length?up.map(campaignCard).join(''):'<div class="campaign-empty">Предстоящих кампаний нет.</div>';document.getElementById('upcomingCampaignsCount').textContent=up.length}
+ if(d){d.innerHTML=done.length?done.map(campaignCard).join(''):'<div class="campaign-empty">Завершённых кампаний пока нет.</div>';document.getElementById('completedCampaignsCount').textContent=done.length}
+}
+function role(){return roles[currentUser()]||''}
+function renderDetail(){
+ const box=document.getElementById('campaignDetail');if(!box)return;
+ const id=new URLSearchParams(location.search).get('id');const c=seed().find(x=>x.id===id)||seed()[0];
+ if(!c){box.innerHTML='<section class="card"><h1>Кампания не найдена</h1><a class="btn" href="campaigns.html">Вернуться к кампаниям</a></section>';return}
+ const s=statusOf(c),me=currentUser(),isOrg=me===c.organizer&&!!role(),myRegiment=commanders[me],myApp=(c.applications||[]).find(a=>a.regiment===myRegiment);
+ const accepted=(c.applications||[]).filter(a=>a.status==='accepted');
+ const participant=accepted.some(a=>a.regiment===myRegiment);
+ const secure=participant||isOrg;
+ let html='<section class="campaign-hero card"><div class="campaign-status '+s+'">'+badgeStatus(s)+'</div><div class="page-kicker">ВОЕННАЯ КАМПАНИЯ</div><h1>'+esc(c.title)+'</h1><p class="campaign-organizer">Организатор: <strong>'+esc(c.organizer)+'</strong></p><div class="campaign-countdown" data-start="'+esc(c.startAt)+'"></div></section>';
+ html+='<section class="campaign-info-grid"><div class="card campaign-info-card"><div class="campaign-card-label">Время проведения</div><strong>'+formatDate(c.startAt)+'</strong><span>Продолжительность — ровно 1 час</span></div><div class="card campaign-info-card"><div class="campaign-card-label">Сервер</div><strong>'+ (secure?esc(c.server):'Доступен участникам')+'</strong><span>'+ (secure?'Пароль: <b>'+esc(c.password)+'</b>':'Сервер и пароль доступны после принятия заявки')+'</span></div><div class="card campaign-info-card"><div class="campaign-card-label">Фракции</div><strong>'+esc((c.factions||[]).join(' · '))+'</strong><span>Фракция назначается организатором полку</span></div></section>';
+ if(myRegiment&&!myApp&&s==='upcoming') html+='<section class="card campaign-apply"><div><div class="page-kicker">ЗАЯВКА ПОЛКА</div><h2>'+esc(myRegiment)+'</h2><p>Вы можете подать заявку как глава полка и указать количество бойцов.</p></div><form id="campaignApplyForm"><label>Сколько человек выставляете?<input id="campaignPeople" type="number" min="1" max="200" required value="10"></label><button class="btn primary">Подать заявку</button></form></section>';
+ if(myApp) html+='<section class="card campaign-application-status"><div><div class="page-kicker">ЗАЯВКА '+esc(myRegiment)+'</div><h2>'+({pending:'На рассмотрении',accepted:'Принята',rejected:'Отклонена'}[myApp.status]||myApp.status)+'</h2><p>Выставляемый состав: <strong>'+esc(myApp.people)+' человек</strong></p></div>'+ (myApp.status==='accepted'?'<div class="campaign-assignment"><b>Фракция:</b> '+esc(myApp.faction||'Назначается организатором')+'<br><b>Род войск:</b> '+esc(myApp.troopType||'Назначается организатором')+'</div>':'')+'</section>';
+ if(isOrg) html+=organizerPanel(c,s);
+ html+='<section class="card campaign-participants"><div class="campaign-section-title"><div><div class="page-kicker">УЧАСТНИКИ</div><h2>Полки кампании</h2></div><span>'+accepted.length+'</span></div><div class="campaign-participant-list">'+(accepted.length?accepted.map(a=>'<div class="campaign-participant"><img src="'+esc(a.logo||'assets/empire_logo_top_right.png')+'" alt=""><div><strong>'+esc(a.regiment)+'</strong><small>'+esc(a.people)+' человек · '+esc(a.faction||'Фракция не назначена')+' · '+esc(a.troopType||'Род войск не назначен')+'</small></div><span class="campaign-attendance '+(a.attended?'present':'pending')+'">'+(a.attended?'ЯВИЛСЯ · +50':'ОЖИДАЕТ')+'</span></div>').join(''):'<div class="campaign-empty">Пока нет принятых заявок.</div>')+'</div></section>';
+ html+='<section class="card campaign-comments"><div class="campaign-section-title"><div><div class="page-kicker">ОБСУЖДЕНИЕ</div><h2>Комментарии</h2></div></div><div id="campaignComments"></div><form id="campaignCommentForm" class="campaign-comment-form"><input id="campaignCommentInput" maxlength="500" placeholder="Написать комментарий..." required><button class="btn">Отправить</button></form></section>';
+ box.innerHTML=html;
+ renderComments(c.id);
+ const countdownEl=box.querySelector('.campaign-countdown');
+ const tick=()=>{const st=statusOf(c);countdownEl.textContent=st==='upcoming'?'До начала: '+countdown(c.startAt):st==='ongoing'?'Сражение идёт · до окончания: '+countdown(new Date(new Date(c.startAt).getTime()+3600000)):st==='awaiting'?'Сражение завершено. Организатор вносит результаты.':'Кампания завершена';};tick();setInterval(tick,1000);
+ const form=document.getElementById('campaignApplyForm');if(form)form.addEventListener('submit',e=>{e.preventDefault();const n=Math.max(1,Number(document.getElementById('campaignPeople').value)||0);const all=read(K),x=all.find(v=>v.id===c.id);x.applications=x.applications||[];x.applications.push({id:'app-'+Date.now(),regiment:myRegiment,commander:me,people:n,status:'pending',logo:regiments.find(r=>r[0]===myRegiment)?.[1]||'assets/empire_logo_top_right.png'});write(K,all);location.reload()});
+ const cf=document.getElementById('campaignCommentForm');if(cf)cf.addEventListener('submit',e=>{e.preventDefault();const v=document.getElementById('campaignCommentInput').value.trim();if(!v)return;const all=read(CK),list=all.filter(x=>x.campaignId===c.id);list.push({id:'cc-'+Date.now(),campaignId:c.id,author:me,text:v,createdAt:new Date().toISOString()});write(CK,all.concat(list.slice(-1)));document.getElementById('campaignCommentInput').value='';renderComments(c.id)});
+}
+function organizerPanel(c,s){
+ const pending=(c.applications||[]).filter(a=>a.status==='pending');
+ const html='<section class="card campaign-organizer-panel"><div class="campaign-section-title"><div><div class="page-kicker">ОРГАНИЗАТОР</div><h2>Управление кампанией</h2></div><span>'+pending.length+' заявок</span></div><div class="campaign-requests">'+(pending.length?pending.map(a=>'<div class="campaign-request"><div class="campaign-request-main"><img src="'+esc(a.logo||'assets/empire_logo_top_right.png')+'" alt=""><div><strong>'+esc(a.regiment)+'</strong><small>Глава: '+esc(a.commander)+' · '+esc(a.people)+' человек</small></div></div><div class="campaign-request-actions"><select data-app="'+esc(a.id)+'" data-field="faction"><option value="">Фракция</option>'+c.factions.map(f=>'<option>'+esc(f)+'</option>').join('')+'</select><select data-app="'+esc(a.id)+'" data-field="troop"><option value="">Род войск</option>'+troopTypes.map(f=>'<option>'+f+'</option>').join('')+'</select><button class="btn primary" data-campaign-action="accept" data-app="'+esc(a.id)+'">Принять</button><button class="btn" data-campaign-action="reject" data-app="'+esc(a.id)+'">Отклонить</button></div></div>').join(''):'<div class="campaign-empty">Новых заявок нет.</div>')+'</div>';
+ const accepted=(c.applications||[]).filter(a=>a.status==='accepted');
+ return html+'<div class="campaign-results"><div class="page-kicker">РЕЗУЛЬТАТЫ</div><h3>Отметить явку после боя</h3><p>Участники, отмеченные как явившиеся, получают +50 к рейтингу.</p>'+accepted.map(a=>'<label class="campaign-attendance-check"><input type="checkbox" data-attendance="'+esc(a.id)+'" '+(a.attended?'checked':'')+' '+(s==='awaiting'||s==='completed'?'':'disabled')+'> <span>'+esc(a.regiment)+' — '+esc(a.people)+' человек</span></label>').join('')+(s==='awaiting'?'<button class="btn primary" id="finishCampaign">Сохранить результаты и завершить кампанию</button>':'')+(s==='completed'?'<div class="campaign-finished-note">Результаты сохранены. Начисление +50 учитывается в рейтинге.</div>':'')+'</div></section>';
+}
+function renderComments(id){
+ const box=document.getElementById('campaignComments');if(!box)return;
+ const comments=read(CK).filter(x=>x.campaignId===id);
+ box.innerHTML=comments.length?comments.map(x=>'<div class="campaign-comment"><div><strong>'+esc(x.author)+'</strong><small>'+formatDate(x.createdAt)+'</small></div><p>'+esc(x.text)+'</p></div>').join(''):'<div class="campaign-empty">Комментариев пока нет.</div>';
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-campaign-action]');if(!b)return;
+ const me=currentUser(),all=read(K),id=new URLSearchParams(location.search).get('id'),c=all.find(x=>x.id===id);if(!c||c.organizer!==me)return;
+ const a=(c.applications||[]).find(x=>x.id===b.dataset.app);if(!a)return;
+ if(b.dataset.campaignAction==='accept'){const faction=document.querySelector('select[data-app="'+a.id+'"][data-field="faction"]').value,troop=document.querySelector('select[data-app="'+a.id+'"][data-field="troop"]').value;if(!faction||!troop){alert('Выберите фракцию и род войск.');return}a.status='accepted';a.faction=faction;a.troopType=troop}
+ else a.status='rejected';
+ write(K,all);location.reload();
+});
+document.addEventListener('change',e=>{const input=e.target.closest('[data-attendance]');if(!input)return;const all=read(K),id=new URLSearchParams(location.search).get('id'),c=all.find(x=>x.id===id),a=(c?.applications||[]).find(x=>x.id===input.dataset.attendance);if(!a)return;a.attended=input.checked;write(K,all)});
+document.addEventListener('click',e=>{if(e.target.id!=='finishCampaign')return;const all=read(K),id=new URLSearchParams(location.search).get('id'),c=all.find(x=>x.id===id);if(!c||c.organizer!==currentUser())return;c.status='completed';c.completedAt=new Date().toISOString();write(K,all);location.reload()});
+if(document.getElementById('campaignDetail'))renderDetail();else renderList();
+})();
