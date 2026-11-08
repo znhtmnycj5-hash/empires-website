@@ -816,3 +816,20 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .regiment-news-body>.preview-comment-count{margin-top:6px}
 .news-full-list .preview-comment-count{margin-top:4px}
 @media(max-width:600px){.home-battle-link>.preview-comment-count{margin:4px 8px 8px auto}.battle-record>.preview-comment-count{margin-right:4px}}
+
+
+/* Muted heraldic-gold comment counter icon */
+.preview-comment-count{
+  border-color:rgba(169,139,91,.28);
+  background:rgba(12,10,8,.38);
+  color:rgba(205,185,143,.82)!important;
+}
+.preview-comment-icon{
+  display:inline-block;
+  opacity:.58;
+  filter:grayscale(1) sepia(.55) saturate(.7);
+  transform:translateY(-.3px);
+}
+.preview-comment-count:hover .preview-comment-icon{
+  opacity:.78;
+}
