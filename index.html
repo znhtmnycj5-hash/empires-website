@@ -276,14 +276,32 @@ const renderHomeBattles=()=>{
     const leftName=left?.querySelector('strong')?.textContent.trim()||'Полк',rightName=right?.querySelector('strong')?.textContent.trim()||'Полк';
     const result=record.querySelector('.battle-result-box span')?.textContent.trim()||'';
     const score=record.querySelector('.battle-result-box b')?.textContent.trim()||'';
-    const resultLower=result.toLowerCase();
-    const leftNameLower=leftName.toLowerCase();
-    const rightNameLower=rightName.toLowerCase();
-    const isDraw=/ничья/i.test(resultLower);
-    const leftLoser=status==='completed'&&!isDraw&&/поражение/i.test(resultLower)&&resultLower.includes(leftNameLower);
-    const rightLoser=status==='completed'&&!isDraw&&/поражение/i.test(resultLower)&&resultLower.includes(rightNameLower);
-    const leftWinner=status==='completed'&&!isDraw&&((/победа/i.test(resultLower)&&resultLower.includes(leftNameLower))||rightLoser);
-    const rightWinner=status==='completed'&&!isDraw&&((/победа/i.test(resultLower)&&resultLower.includes(rightNameLower))||leftLoser);
+    const normalizeBattleName=value=>String(value||'').toLowerCase().replace(/ё/g,'е').replace(/[^\\p{L}\\p{N}]+/gu,' ').trim().replace(/\\s+/g,' ');
+    const resultLower=normalizeBattleName(result);
+    const leftNameLower=normalizeBattleName(leftName);
+    const rightNameLower=normalizeBattleName(rightName);
+    const mentionsLeft=!!leftNameLower&&resultLower.includes(leftNameLower);
+    const mentionsRight=!!rightNameLower&&resultLower.includes(rightNameLower);
+    const isDraw=/ничья|вничью/.test(resultLower);
+    let leftWinner=false,rightWinner=false,leftLoser=false,rightLoser=false;
+    if(status==='completed'&&!isDraw){
+      if(/побед|выиграл|выигрыш/.test(resultLower)){
+        if(mentionsLeft){leftWinner=true;rightLoser=true;}
+        else if(mentionsRight){rightWinner=true;leftLoser=true;}
+      }else if(/пораж|проиграл|проигрыш/.test(resultLower)){
+        if(mentionsLeft){leftLoser=true;rightWinner=true;}
+        else if(mentionsRight){rightLoser=true;leftWinner=true;}
+      }
+      if(!leftWinner&&!rightWinner&&!leftLoser&&!rightLoser){
+        const scoreMatch=score.match(/(\\d+)\\s*[:：-]\\s*(\\d+)/);
+        if(scoreMatch&&Number(scoreMatch[1])!==Number(scoreMatch[2])){
+          leftWinner=Number(scoreMatch[1])>Number(scoreMatch[2]);
+          rightWinner=!leftWinner;
+          leftLoser=!leftWinner;
+          rightLoser=leftWinner;
+        }
+      }
+    }
     const outcomeMarkup=status==='completed'?(isDraw?'<div class="home-battle-draw"><strong>'+score+'</strong><span>НИЧЬЯ</span></div>':'<div class="home-battle-result">'+score+'</div>'):'';
     const parts=date.split('·').map(s=>s.trim()),d=parts[0]||date;
     const dt=d.split('.'),day=dt[0]||d;
