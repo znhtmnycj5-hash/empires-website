@@ -737,3 +737,41 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  .news-comment-avatar{width:36px!important;height:36px!important;min-width:36px;max-width:36px;min-height:36px;max-height:36px}
  .battle-comment-head{flex-wrap:wrap;gap:3px 8px}
 }
+
+
+/* Comment avatars: square thumbnails with consistent crop on every page */
+.news-comment-avatar-link,
+.battle-comment-avatar-link{
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  max-width:42px!important;
+  flex:0 0 42px!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+}
+.news-comment-avatar,
+.battle-comment-avatar-link img,
+.news-comment-avatar-link img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  min-height:0!important;
+  max-height:100%!important;
+  object-fit:cover!important;
+  object-position:center!important;
+  border:0!important;
+  border-radius:0!important;
+}
+@media(max-width:600px){
+  .news-comment-avatar-link,
+  .battle-comment-avatar-link{
+    width:36px!important;
+    height:36px!important;
+    min-width:36px!important;
+    max-width:36px!important;
+    flex-basis:36px!important;
+  }
+}
