@@ -629,3 +629,13 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  .album-item{padding:3px}
  .album-pagination a{min-width:27px;height:27px}
 }
+
+/* Regiment block collapse */
+.regiment-page > .card{position:relative}
+.block-collapse-button{margin-left:auto;flex:0 0 auto;width:28px;height:28px;border:1px solid #6d5233;background:#17130f;color:#d8b86f;display:inline-flex;align-items:center;justify-content:center;font:700 17px/1 Arial;cursor:pointer}
+.block-collapse-button:hover{background:#641e1b;border-color:#a77b43;color:#efd49a}
+.card-title{display:flex;align-items:center;gap:6px}
+.regiment-main-info>.block-collapse-button{position:absolute;top:14px;right:14px;z-index:2}
+.regiment-main-info.is-collapsed>img,.regiment-main-info.is-collapsed>.regiment-main-copy{display:none}
+.regiment-page>.card.is-collapsed .regiment-section-content{display:none}
+.regiment-page>.card.is-collapsed .block-collapse-button{transform:none}
