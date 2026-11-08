@@ -120,7 +120,16 @@ function renderList(){
   document.getElementById('newsDetail').innerHTML='<div class="news-detail-head"><div><div class="page-kicker">НОВОСТЬ ПОЛКА</div><h1>'+escapeHtml(news.title||'Новости полка')+'</h1><div class="news-meta">'+escapeHtml(news.date||'')+' · '+escapeHtml(news.author||'Командование')+' · '+(news.private?'🔒 Только для членов полка':'🌐 Открытая')+'</div></div><a class="btn" href="news.html?regiment='+encodeURIComponent(regiment)+'">← Все новости</a></div>'+(news.image?'<img class="news-cover" src="'+escapeHtml(news.image)+'" alt="">':'')+'<div class="news-content">'+(news.body||'<p>Подробности этой публикации пока не добавлены.</p>')+'</div>';
   document.getElementById('commentsSection').hidden=false;renderComments(news);
 }
-const reportComment=(commentId,commentText,author)=>{\n  const key='empire_comment_reports_v1';\n  let reports=[];try{reports=JSON.parse(localStorage.getItem(key)||'[]')}catch(e){}\n  const duplicate=reports.some(r=>r.status==='pending'&&r.location==='news.html?regiment='+regiment+'#'+news.id&&String(r.commentId)===String(commentId)&&r.reporter===currentUser.name);\n  if(duplicate){alert('Вы уже пожаловались на этот комментарий.');return;}\n  reports.push({id:'comment-report-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),status:'pending',reporter:currentUser.name,target:author,location:'news.html?regiment='+regiment+'#'+news.id,commentId:String(commentId),comment:String(commentText||''),reason:'Жалоба пользователя',createdAt:new Date().toISOString()});\n  localStorage.setItem(key,JSON.stringify(reports));\n  alert('Жалоба отправлена модераторам.');\n};\nfunction renderComments(news){
+const reportComment=(commentId,commentText,author)=>{
+  const key='empire_comment_reports_v1';
+  let reports=[];try{reports=JSON.parse(localStorage.getItem(key)||'[]')}catch(e){}
+  const duplicate=reports.some(r=>r.status==='pending'&&r.location==='news.html?regiment='+regiment+'#'+news.id&&String(r.commentId)===String(commentId)&&r.reporter===currentUser.name);
+  if(duplicate){alert('Вы уже пожаловались на этот комментарий.');return;}
+  reports.push({id:'comment-report-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),status:'pending',reporter:currentUser.name,target:author,location:'news.html?regiment='+regiment+'#'+news.id,commentId:String(commentId),comment:String(commentText||''),reason:'Жалоба пользователя',createdAt:new Date().toISOString()});
+  localStorage.setItem(key,JSON.stringify(reports));
+  alert('Жалоба отправлена модераторам.');
+};
+function renderComments(news){
   const comments=getComments()[news.id]||[];
   const commentHtml=comments.length?comments.map((c,index)=>{
     const author=String(c.author||'Пользователь');
@@ -137,7 +146,15 @@ const reportComment=(commentId,commentText,author)=>{\n  const key='empire_comme
   if(!commentsSection.dataset.likesBound){
     commentsSection.dataset.likesBound='1';
     commentsSection.addEventListener('click',e=>{
-      const reportButton=e.target.closest('[data-report-comment]');\n      if(reportButton){\n        const card=reportButton.closest('[data-news-comment-id]');\n        const text=card?.querySelector('.news-comment-content > p')?.textContent||'';\n        const author=card?.querySelector('.news-comment-author strong')?.textContent||'Пользователь';\n        reportComment(reportButton.dataset.reportComment,text,author);\n        return;\n      }\n      const likeButton=e.target.closest('[data-like-comment]');
+      const reportButton=e.target.closest('[data-report-comment]');
+      if(reportButton){
+        const card=reportButton.closest('[data-news-comment-id]');
+        const text=card?.querySelector('.news-comment-content > p')?.textContent||'';
+        const author=card?.querySelector('.news-comment-author strong')?.textContent||'Пользователь';
+        reportComment(reportButton.dataset.reportComment,text,author);
+        return;
+      }
+      const likeButton=e.target.closest('[data-like-comment]');
       if(likeButton){toggleLike('news:'+news.id+':'+likeButton.dataset.likeComment);renderComments(news);return;}
       const allButton=e.target.closest('[data-show-likes]');
       if(allButton){const panel=allButton.parentElement.querySelector('.comment-like-full');if(panel)panel.hidden=!panel.hidden;}
