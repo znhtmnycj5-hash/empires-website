@@ -98,7 +98,10 @@ document.getElementById("profileAvatar").src=d.avatar;
 document.getElementById("profileAvatar").alt="Аватар "+user;
 document.getElementById("profileName").textContent=user;
 document.getElementById("profileRegiment").textContent=d.regiment;
-document.getElementById("profileRole").textContent=d.role;\nconst roleBadges={Kalashnikov:"АДМИНИСТРАТОР",Ankord:"МОДЕРАТОР"};\nconst roleBadge=document.getElementById("profileRoleBadge");\nif(roleBadges[user]){roleBadge.textContent=roleBadges[user];roleBadge.hidden=false;}
+document.getElementById("profileRole").textContent=d.role;
+const roleBadges={Kalashnikov:"АДМИНИСТРАТОР",Ankord:"МОДЕРАТОР"};
+const roleBadge=document.getElementById("profileRoleBadge");
+if(roleBadges[user]){roleBadge.textContent=roleBadges[user];roleBadge.hidden=false;}
 
 const currentUser="Kalashnikov";
 
