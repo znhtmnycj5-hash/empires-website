@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Empire — Napoleonic Wars Community</title>
-<link rel="stylesheet" href="assets/style.css?v=20261108-home-battle-cover1">
+<link rel="stylesheet" href="assets/style.css?v=20261108-home-battle-scroll1">
   <script src="assets/comment-counts.js?v=20261108-1"></script>
 <script src="assets/rating.js"></script>
 </head>
@@ -214,7 +214,7 @@ const loadUpcomingBattles=async()=>{
         const aStart=new Date(a.querySelector('.battle-countdown')?.dataset.start||'9999-12-31').getTime();
         const bStart=new Date(b.querySelector('.battle-countdown')?.dataset.start||'9999-12-31').getTime();
         return aStart-bStart;
-      }).slice(0,3);
+      }).slice(0,10);
     if(!upcoming.length){
       box.innerHTML='<div class="battle"><div class="home-battles-empty">Предстоящих сражений пока нет.</div></div>';
       return;
