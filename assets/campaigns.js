@@ -21,6 +21,7 @@ const seed=()=>{
  ];
  all=all.filter(x=>x.id!=='campaign-001');
  testCampaigns.forEach(tc=>{if(!all.some(x=>x.id===tc.id))all.unshift(tc);});
+ write(K,all);
 
  const c=all.find(x=>x.id==='campaign-001');
  if(c){
