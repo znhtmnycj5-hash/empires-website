@@ -618,3 +618,12 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  .battle-page-countdown{font-size:12px}
  .battle-info-grid{grid-template-columns:1fr 1fr}
 }
+
+/* Homepage ranking links: keep regiment names neutral, without link highlighting */
+.ranking .ranking-regiment-link,.ranking .ranking-regiment-link:visited,.ranking .ranking-regiment-link:hover,.ranking .ranking-regiment-link:focus,.ranking .ranking-regiment-link:active{color:inherit!important;text-decoration:none!important;outline:none}
+.ranking .ranking-regiment-link:hover{color:#dfbf7b!important}
+#communityRegiments{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;width:100%;min-height:90px}
+#communityRegiments .regiment-card{display:block;min-width:0;color:inherit;text-decoration:none;overflow:hidden}
+#communityRegiments .regiment-flag{width:42px;height:42px;max-width:42px;max-height:42px;object-fit:cover;float:left;margin:0 10px 8px 0;border:1px solid #87663b}
+#communityRegiments .regiment-card h4{color:#ddc07e}
+@media(max-width:600px){#communityRegiments{grid-template-columns:1fr}}
