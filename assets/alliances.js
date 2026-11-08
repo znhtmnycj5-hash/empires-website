@@ -28,7 +28,7 @@
   function read(){try{const v=JSON.parse(localStorage.getItem(KEY)||'null');return Array.isArray(v)?v:clone(seeds)}catch(e){return clone(seeds)}}
   function write(v){localStorage.setItem(KEY,JSON.stringify(v))}
   function ensure(){const current=read();const ids=new Set(current.map(a=>a.id));seeds.forEach(s=>{if(!ids.has(s.id))current.push(clone(s))});write(current);return current}
-  function getAll(){return ensure()}
+  function getAll(){return ensure().filter(a=>{try{return !(JSON.parse(localStorage.getItem('empire_deleted_alliances_v1')||'[]')).includes(a.id)}catch(e){return true}})}
   function getById(id){return getAll().find(a=>a.id===id)}
   function regimentRating(name){return defaultRegiments[name]?.rating||0}
   function calcBattlePoints(a){
