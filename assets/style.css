@@ -883,3 +883,18 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  #homeNewsPreview .site-news-card-main>img{width:76px;height:58px;flex-basis:76px}
  #homeNewsPreview .site-news-card-copy h2{font-size:11px}
 }
+
+
+/* Homepage community news: ten-item scroll area and comment count */
+#homeNewsPreview{max-height:720px;overflow-y:auto;overflow-x:hidden;padding-right:7px;scrollbar-width:thin;scrollbar-color:rgba(169,139,91,.55) rgba(20,16,12,.5)}
+#homeNewsPreview::-webkit-scrollbar{width:7px}
+#homeNewsPreview::-webkit-scrollbar-track{background:rgba(20,16,12,.5)}
+#homeNewsPreview::-webkit-scrollbar-thumb{background:rgba(169,139,91,.55);border-radius:6px}
+.site-news-card-actions{display:flex;align-items:center;gap:9px;flex:0 0 auto;align-self:center}
+.site-news-card-actions .site-news-interest{align-self:center}
+.site-news-card-actions .preview-comment-count{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;padding:5px 7px;border:1px solid rgba(169,139,91,.25);border-radius:3px;background:rgba(12,10,8,.32);color:rgba(205,185,143,.82);font-size:10px}
+.site-news-card-actions .preview-comment-icon{opacity:.58}
+@media(max-width:650px){
+ #homeNewsPreview{max-height:620px;padding-right:4px}
+ .site-news-card-actions{width:100%;justify-content:flex-end;gap:7px}
+}
