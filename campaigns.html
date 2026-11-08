@@ -38,6 +38,23 @@
 </main>
 
 <footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div><div>Главная &nbsp;|&nbsp; Полки &nbsp;|&nbsp; Кампании &nbsp;|&nbsp; Рейтинг &nbsp;|&nbsp; Форум &nbsp;|&nbsp; Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
-<script src="assets/campaigns.js?v=20261108-campaign8"></script>
+<script src="assets/campaigns.js?v=20261108-campaign9"></script>
+<script>
+(function(){
+  var u=document.getElementById('upcomingCampaigns'), d=document.getElementById('completedCampaigns');
+  if(!u)return;
+  if(!u.children.length){
+    var items=[
+      {id:'campaign-test-01',title:'Битва за Ватерлоо',date:'12 ноября 2026',time:'20:00',factions:'Французская армия · Британская армия',server:'EMPIRE_WATERLOO_01'},
+      {id:'campaign-test-02',title:'Кампания на Рейне',date:'18 ноября 2026',time:'19:30',factions:'Французская армия · Прусская армия',server:'EMPIRE_RHEIN_02'},
+      {id:'campaign-test-03',title:'Освобождение Испании',date:'22 ноября 2026',time:'20:00',factions:'Французская армия · Испанская армия · Британская армия',server:'EMPIRE_SPAIN_03'}
+    ];
+    u.innerHTML=items.map(function(x){
+      return '<a class="campaign-card" href="campaign.html?id='+x.id+'"><div class="campaign-card-preview" style="background-image:url("assets/IMG_2745.png")"></div><div class="campaign-card-date"><strong>'+x.date+'</strong><span>'+x.time+'</span></div><div class="campaign-card-main"><div class="campaign-status upcoming">ПРЕДСТОИТ</div><h3>'+x.title+'</h3><p>Фракции: '+x.factions+'</p><small>Сервер: '+x.server+'</small></div><div class="campaign-card-arrow">→</div></a>';
+    }).join('');
+    var n=document.getElementById('upcomingCampaignsCount');if(n)n.textContent=items.length;
+  }
+})();
+</script>
 </body>
 </html>
