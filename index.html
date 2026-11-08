@@ -276,7 +276,7 @@ const renderHomeBattles=()=>{
     const leftName=left?.querySelector('strong')?.textContent.trim()||'Полк',rightName=right?.querySelector('strong')?.textContent.trim()||'Полк';
     const result=record.querySelector('.battle-result-box span')?.textContent.trim()||'';
     const score=record.querySelector('.battle-result-box b')?.textContent.trim()||'';
-    const normalizeBattleName=value=>String(value||'').toLowerCase().replace(/ё/g,'е').replace(/[^\\p{L}\\p{N}]+/gu,' ').trim().replace(/\\s+/g,' ');
+    const normalizeBattleName=value=>String(value||'').toLowerCase().replace(/ё/g,'е').replace(/[.,:;!?]/g,' ').replace(/\\s+/g,' ').trim();
     const resultLower=normalizeBattleName(result);
     const leftNameLower=normalizeBattleName(leftName);
     const rightNameLower=normalizeBattleName(rightName);
