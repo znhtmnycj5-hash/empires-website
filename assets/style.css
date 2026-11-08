@@ -2245,3 +2245,46 @@ nav a,.btn{font-family:"Roboto Slab",serif}
  .site-news-comments .battle-reply-form{flex-wrap:nowrap!important}
  .site-news-comments .battle-reply-form input{flex:1 1 auto!important}
 }
+
+/* Battle comments: compact reply link with hidden reply form */
+.battle-thread-item>.battle-comment .battle-reply-link{
+  display:inline-block!important;
+  margin:0 7px 0 0!important;
+  padding:4px 0!important;
+  border:0!important;
+  background:none!important;
+  color:#b99a65!important;
+  font:600 9px/1.3 "Roboto Slab",serif!important;
+  text-decoration:none!important;
+  cursor:pointer!important;
+}
+.battle-thread-item>.battle-comment .battle-reply-link:hover{
+  color:#f0d18b!important;
+  text-decoration:underline!important;
+}
+.battle-thread-item>.battle-comment .battle-reply-form[hidden]{
+  display:none!important;
+}
+.battle-thread-item>.battle-comment .battle-reply-form{
+  display:flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  margin:7px 0 0!important;
+}
+.battle-thread-item>.battle-comment .battle-reply-form input{
+  flex:1 1 auto!important;
+  min-width:0!important;
+  height:30px!important;
+  padding:5px 8px!important;
+  font-size:10px!important;
+}
+.battle-thread-item>.battle-comment .battle-reply-form button{
+  flex:0 0 auto!important;
+  padding:6px 9px!important;
+  font-size:9px!important;
+}
+@media(max-width:600px){
+  .battle-thread-item>.battle-comment .battle-reply-form{
+    flex-wrap:nowrap!important;
+  }
+}
