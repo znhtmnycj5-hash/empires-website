@@ -1007,42 +1007,42 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 }
 
 /* Homepage online users strip */
-.online-users-home{overflow:hidden}
-.online-users-count{
+#onlineUsers{overflow:hidden}
+#onlineUsersCount{
   display:inline-flex;align-items:center;justify-content:center;
   min-width:24px;height:18px;margin-left:6px;padding:0 6px;
   border:1px solid rgba(109,184,109,.28);border-radius:10px;
   color:#8fc58f;background:rgba(35,75,35,.18);
   font:600 10px "Roboto Slab",serif;
 }
-.online-users-strip{
+#onlineUsersStrip{
   display:flex;align-items:center;gap:12px;width:100%;
   overflow-x:auto;overflow-y:hidden;padding:10px 3px 7px;
   scrollbar-width:thin;scrollbar-color:rgba(169,139,91,.55) rgba(20,16,12,.45);
   -webkit-overflow-scrolling:touch;
 }
-.online-users-strip::-webkit-scrollbar{height:6px}
-.online-users-strip::-webkit-scrollbar-track{background:rgba(20,16,12,.45)}
-.online-users-strip::-webkit-scrollbar-thumb{background:rgba(169,139,91,.55);border-radius:6px}
-.online-user{position:relative;flex:0 0 auto;width:58px;text-align:center;text-decoration:none}
-.online-user-avatar{
+#onlineUsersStrip::-webkit-scrollbar{height:6px}
+#onlineUsersStrip::-webkit-scrollbar-track{background:rgba(20,16,12,.45)}
+#onlineUsersStrip::-webkit-scrollbar-thumb{background:rgba(169,139,91,.55);border-radius:6px}
+#onlineUsersStrip .online-user{position:relative;flex:0 0 auto;width:58px;text-align:center;text-decoration:none}
+#onlineUsersStrip .online-user-avatar{
   display:block;width:48px;height:48px;margin:0 auto;object-fit:cover;
   border-radius:50%;border:1px solid rgba(169,139,91,.65);
   box-shadow:0 2px 8px rgba(0,0,0,.45)
 }
-.online-user-dot{
+#onlineUsersStrip .online-user-dot{
   position:absolute;width:9px;height:9px;left:calc(50% + 14px);top:39px;margin:0;
   border:2px solid #171512;border-radius:50%;background:#69b66b;
   z-index:2;pointer-events:none
 }
-.online-user-name{
+#onlineUsersStrip .online-user-name{
   display:block;margin-top:5px;color:#bfae91;font:10px "Roboto Slab",serif;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
 @media(max-width:650px){
-  .online-users-strip{gap:10px;padding:8px 2px 6px}
-  .online-user{width:52px}
-  .online-user-avatar{width:42px;height:42px}
-  .online-user-dot{left:calc(50% + 12px);top:34px;width:8px;height:8px}
-  .online-user-name{font-size:9px}
+  #onlineUsersStrip{gap:10px;padding:8px 2px 6px}
+  #onlineUsersStrip .online-user{width:52px}
+  #onlineUsersStrip .online-user-avatar{width:42px;height:42px}
+  #onlineUsersStrip .online-user-dot{left:calc(50% + 12px);top:34px;width:8px;height:8px}
+  #onlineUsersStrip .online-user-name{font-size:9px}
 }
