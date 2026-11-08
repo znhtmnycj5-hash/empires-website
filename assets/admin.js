@@ -8,6 +8,27 @@ if(!ROLES[user]){document.querySelector('main').innerHTML='<section class="card 
 const date=v=>{try{return new Date(v).toLocaleString('ru-RU')}catch(e){return String(v||'')}};
 function demo(){if(!localStorage.getItem(K.userReports))write(K.userReports,[{id:'demo-user-report-1',status:'pending',reporter:'Fusilier',target:'Grenadier87',reason:'Нарушение правил сообщества',details:'Тестовая жалоба для проверки панели модерации.',createdAt:'2026-11-08T12:00:00Z'}]);if(!localStorage.getItem(K.commentReports))write(K.commentReports,[{id:'demo-comment-report-1',status:'pending',reporter:'Marquis',target:'Grenadier87',location:'battle.html?battle=battle-001',commentId:'demo-10',comment:'Поддерживаю. Ждём реванш!',reason:'Тестовая жалоба на комментарий.',createdAt:'2026-11-08T12:10:00Z'}]);if(!localStorage.getItem(K.requests)){write(K.requests,[{id:'demo-regiment-request-rvst',status:'pending',user:'Veli4estvo',name:'RVSt',faction:'Французская армия',logo:'assets/1st.jpg',createdAt:'2026-11-08T10:20:00Z'},{id:'demo-regiment-request-5th-kiev',status:'pending',user:'Fusilier',name:'5th Kiev',faction:'Российская империя',logo:'assets/95.webp',createdAt:'2026-11-08T10:35:00Z'}])}}
 function ban(key,target,reason,days,hours){const a=read(key),x={id:'ban-'+Date.now(),user:target,reason,createdAt:new Date().toISOString()};const durationMs=((Number(days)||0)*86400000)+((Number(hours)||0)*3600000);if(durationMs>0){x.until=new Date(Date.now()+durationMs).toISOString();x.days=Number(days)||0;x.hours=Number(hours)||0}a.push(x);write(key,a)}
+function renderCampaignAdmin(){
+ const form=document.getElementById('campaignCreateForm'),box=document.getElementById('adminCampaigns');
+ if(!form||!box)return;
+ const campaigns=read('empire_campaigns_v1',[]);
+ box.innerHTML=campaigns.length?campaigns.map(c=>'<div class="admin-object-row"><div><strong>'+esc(c.title)+'</strong><small>'+esc(c.startAt)+' · '+esc(c.organizer)+'</small></div><a class="btn" href="campaign.html?id='+encodeURIComponent(c.id)+'">Открыть</a></div>').join(''):'<div class="admin-empty">Кампаний пока нет.</div>';
+ if(!form.dataset.bound){
+  form.dataset.bound='1';
+  form.addEventListener('submit',e=>{
+   e.preventDefault();
+   const factions=[...form.querySelectorAll('.campaign-factions input:checked')].map(x=>x.value);
+   if(!factions.length){alert('Выберите хотя бы одну фракцию.');return}
+   const title=document.getElementById('campaignTitle').value.trim(),server=document.getElementById('campaignServer').value.trim(),password=document.getElementById('campaignPassword').value.trim(),start=document.getElementById('campaignStart').value;
+   if(!title||!server||!password||!start)return;
+   const all=read('empire_campaigns_v1',[]);
+   all.unshift({id:'campaign-'+Date.now(),title,server,password,startAt:start,factions,organizer:user,status:'published',applications:[],createdAt:new Date().toISOString()});
+   write('empire_campaigns_v1',all);
+   form.reset();
+   renderCampaignAdmin();
+  });
+ }
+}
 function render(){
  const rq=read(K.requests).filter(x=>x.status==='pending'),ur=read(K.userReports).filter(x=>x.status==='pending'),cr=read(K.commentReports).filter(x=>x.status==='pending'),pb=read(K.permanent),tb=read(K.temporary);
  document.getElementById('adminStats').innerHTML=[['Заявки',rq.length],['Жалобы на пользователей',ur.length],['Жалобы на комментарии',cr.length],['Блокировок',pb.length+tb.length]].map(x=>'<div class="admin-stat card"><strong>'+x[1]+'</strong><span>'+x[0]+'</span></div>').join('');
@@ -32,5 +53,5 @@ document.addEventListener('click',e=>{const b=e.target.closest('button[data-type
  if(t==='regiment'){const n=b.dataset.name;if(!confirm('Удалить полк «'+n+'» со списка сайта?'))return;const x=read(K.deletedRegiments);if(!x.includes(n))x.push(n);write(K.deletedRegiments,x);write(K.approved,read(K.approved).filter(v=>v.name!==n));render();return}
  if(t==='alliance'){const x=read(K.deletedAlliances);if(!x.includes(id))x.push(id);write(K.deletedAlliances,x);render()}
 });
-demo();render();
+demo();render();renderCampaignAdmin();
 })();
