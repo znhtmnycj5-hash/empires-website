@@ -38,6 +38,7 @@
         <div class="profile-meta">
           <div><span>Полк</span><strong id="profileRegiment">Без полка</strong></div>
           <div><span>Статус</span><strong id="profileRole">Солдат</strong></div>
+          <div class="profile-online-meta"><span>В сети</span><strong id="profileOnlineStatus" class="profile-online-status offline"><i></i><em>Не в сети</em></strong></div>
         </div>
         
       </div>
@@ -100,6 +101,37 @@ document.getElementById("profileRegiment").textContent=d.regiment;
 document.getElementById("profileRole").textContent=d.role;
 
 const currentUser="Kalashnikov";
+
+// Статус присутствия. Для статического GitHub Pages сайта он хранится в localStorage.
+// Текущий пользователь отмечается онлайн, пока открыта страница профиля; остальные
+// считаются онлайн, если в этом браузере их последняя активность была не более 5 минут назад.
+const presenceStorageKey="empire_profile_presence_v1";
+const getPresenceMap=()=>{try{return JSON.parse(localStorage.getItem(presenceStorageKey)||"{}");}catch(e){return {};}};
+const savePresenceMap=map=>{try{localStorage.setItem(presenceStorageKey,JSON.stringify(map));}catch(e){}};
+const setUserOnline=name=>{
+  if(!name)return;
+  const map=getPresenceMap();
+  map[name]=Date.now();
+  savePresenceMap(map);
+};
+const isUserOnline=name=>{
+  const last=getPresenceMap()[name];
+  return typeof last==="number" && Date.now()-last<5*60*1000;
+};
+setUserOnline(currentUser);
+const renderProfileOnlineStatus=()=>{
+  const el=document.getElementById("profileOnlineStatus");
+  if(!el)return;
+  const online=isUserOnline(user);
+  el.className="profile-online-status "+(online?"online":"offline");
+  el.querySelector("em").textContent=online?"В сети":"Не в сети";
+};
+renderProfileOnlineStatus();
+const presenceHeartbeat=setInterval(()=>{
+  setUserOnline(currentUser);
+  renderProfileOnlineStatus();
+},30000);
+window.addEventListener("beforeunload",()=>clearInterval(presenceHeartbeat));
 
 // Гости профиля. Для статического GitHub Pages сайта список хранится в localStorage браузера.
 // При каждом открытии профиля текущий пользователь добавляется первым.
