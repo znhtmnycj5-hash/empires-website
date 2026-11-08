@@ -102,8 +102,8 @@ const battlesData={
   "battle-007":{status:"completed",confirmedLeft:true,confirmedRight:true,title:"1st Regiment vs 95th Rifles",date:"07.11.2026",start:"2026-11-07T20:00:00",type:"Линейная Битва (ЛБ)",size:10,allies:false,server:"EMPIRE Line #1",password:"empire007",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"95th Rifles",faction:"Британская Империя",avatar:"assets/95.webp",href:"regiment.html?name=95th%20Rifles"},winner:"Ничья",score:"2 : 2",media:[]},
   "battle-008":{status:"completed",confirmedLeft:true,confirmedRight:true,title:"1st Regiment vs 84e Régiment",date:"08.11.2026",start:"2026-11-08T20:00:00",type:"Линейная Битва (ЛБ)",size:10,allies:false,server:"EMPIRE Line #1",password:"empire008",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"84e Régiment",faction:"Французская Империя",avatar:"assets/84e.png",href:"regiment.html?name=84e%20R%C3%A9giment"},winner:"1st Regiment",score:"3 : 0",media:[]},
   "battle-009":{status:"completed",confirmedLeft:true,confirmedRight:true,title:"1st Regiment vs Preobrazhensky",date:"09.11.2026",start:"2026-11-09T20:00:00",type:"Клановая Война (КВ)",size:12,allies:true,allySize:5,server:"EMPIRE War #1",password:"empire009",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"Preobrazhensky",faction:"Российская Империя",avatar:"assets/preobraz.webp",href:"regiment.html?name=Preobrazhensky"},winner:"Preobrazhensky",score:"1 : 3",media:[]},
-  "battle-010":{status:"preparation",title:"7th Hussars vs 95th Rifles",date:"10.11.2026",start:"2026-11-10T21:00:00",type:"Линейная Битва (ЛБ)",size:10,allies:false,server:"EMPIRE Line #1",password:"empire010",left:{name:"7th Hussars",faction:"Британская Империя",avatar:"assets/hussars.png",href:"regiment.html?name=7th%20Hussars"},right:{name:"95th Rifles",faction:"Британская Империя",avatar:"assets/95.webp",href:"regiment.html?name=95th%20Rifles"},winner:"",score:"",media:[]},
-  "battle-011":{status:"preparation",title:"1st Regiment vs 84e Régiment",date:"08.11.2026",start:"2026-11-08T20:00:00",type:"Клановая Война (КВ)",size:10,allies:true,allySize:5,server:"EMPIRE War #1",password:"empire011",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"84e Régiment",faction:"Французская Империя",avatar:"assets/84e.png",href:"regiment.html?name=84e%20R%C3%A9giment"},winner:"",score:"",media:[]}
+  "battle-010":{status:"accepted",title:"7th Hussars vs 95th Rifles",date:"10.11.2026",start:"2026-11-10T21:00:00",type:"Линейная Битва (ЛБ)",size:10,allies:false,server:"EMPIRE Line #1",password:"empire010",left:{name:"7th Hussars",faction:"Британская Империя",avatar:"assets/hussars.png",href:"regiment.html?name=7th%20Hussars"},right:{name:"95th Rifles",faction:"Британская Империя",avatar:"assets/95.webp",href:"regiment.html?name=95th%20Rifles"},winner:"",score:"",media:[]},
+  "battle-011":{status:"accepted",title:"1st Regiment vs 84e Régiment",date:"08.11.2026",start:"2026-11-08T20:00:00",type:"Клановая Война (КВ)",size:10,allies:true,allySize:5,server:"EMPIRE War #1",password:"empire011",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"84e Régiment",faction:"Французская Империя",avatar:"assets/84e.png",href:"regiment.html?name=84e%20R%C3%A9giment"},winner:"",score:"",media:[]}
 };
 
 const currentUser={name:"Kalashnikov",regiment:"1st Regiment"};
@@ -133,21 +133,21 @@ if(!battle){
     if(battle.status==="challenged") return "challenged";
     const start=new Date(battle.start).getTime();
     const now=Date.now();
-    if(now<start) return "preparation";
+    if(now<start) return "accepted";
     if(now<start+3600000) return "ongoing";
     if(battle.confirmedLeft&&battle.confirmedRight) return "completed";
     return "awaiting_confirmation";
   };
   const statusNames={
     challenged:"ВЫЗОВ БРОШЕН",
-    preparation:"ПОДГОТОВКА К СРАЖЕНИЮ",
+    accepted:"ВЫЗОВ ПРИНЯТ",
     ongoing:"ИДЁТ БОЙ",
     awaiting_confirmation:"ОЖИДАЕТ ПОДТВЕРЖДЕНИЯ",
     completed:"ЗАВЕРШЁННОЕ СРАЖЕНИЕ"
   };
   const statusClasses={
     challenged:"challenged",
-    preparation:"preparation",
+    accepted:"accepted",
     ongoing:"ongoing",
     awaiting_confirmation:"awaiting-confirmation",
     completed:"completed"
@@ -181,7 +181,7 @@ if(!battle){
     }else if(status==="challenged"){
       countdown.textContent="Ожидается решение второго полка";
       label.textContent="Вызов ещё не принят";
-    }else if(status==="preparation"){
+    }else if(status==="accepted"){
       const total=Math.max(0,Math.floor(diff/1000)),d=Math.floor(total/86400),h=Math.floor(total%86400/3600),m=Math.floor(total%3600/60),s=total%60;
       countdown.textContent=(d?d+"д ":"")+String(h).padStart(2,"0")+"ч "+String(m).padStart(2,"0")+"м "+String(s).padStart(2,"0")+"с";
       label.textContent="до начала сражения";
