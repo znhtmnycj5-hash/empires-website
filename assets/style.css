@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Roboto+Slab:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto Slab:wght@500;600;700&family=Roboto+Slab:wght@400;500;600&display=swap');
 
 :root{
   --bg:#0c0b09;
@@ -33,29 +33,29 @@ header:after{content:"";position:absolute;inset:0;background:rgba(7,6,5,.62)}
 .brand{position:relative;z-index:1;height:100%;min-height:490px;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center}
 .brand-logo-link{display:flex;align-items:center;justify-content:center;text-decoration:none}
 .site-logo{display:block;width:225px;height:138px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.7))}
-.brand-title{font:700 42px Cinzel,serif;letter-spacing:3px;color:#d9b875;text-shadow:0 3px 10px #000;line-height:1.05;text-align:center}
-.brand-title span{display:block;font:700 21px Cinzel,serif;letter-spacing:1.5px;color:#d9c8aa;margin-top:6px;text-align:center}
+.brand-title{font:700 42px Roboto Slab,serif;letter-spacing:3px;color:#d9b875;text-shadow:0 3px 10px #000;line-height:1.05;text-align:center}
+.brand-title span{display:block;font:700 21px Roboto Slab,serif;letter-spacing:1.5px;color:#d9c8aa;margin-top:6px;text-align:center}
 nav{
   position:relative;z-index:3;background:rgba(12,10,8,.93);border:1px solid #684f30;
   box-shadow:var(--shadow);display:flex;align-items:center;min-height:58px
 }
-nav a{color:#d6c29d;text-decoration:none;padding:18px 24px;border-right:1px solid #332a20;font:600 15px Cinzel}
+nav a{color:#d6c29d;text-decoration:none;padding:18px 24px;border-right:1px solid #332a20;font:600 15px Roboto Slab}
 nav a:hover,nav a.active{background:linear-gradient(#7e2825,#4c1716);color:#f2d58d}
 nav .login{margin-left:auto;border-left:1px solid #332a20;border-right:0}
 main{padding:18px 0 45px}
 .hero-copy{position:relative;z-index:2;margin-left:auto;width:52%;padding:48px 48px 28px;text-align:center}
-.kicker{font:italic 24px Cinzel;color:#dcc494}
-h1{font:700 70px Cinzel;margin:0;color:#e0bb73;letter-spacing:8px;text-shadow:0 4px 14px #000}
+.kicker{font:italic 24px Roboto Slab;color:#dcc494}
+h1{font:700 70px Roboto Slab;margin:0;color:#e0bb73;letter-spacing:8px;text-shadow:0 4px 14px #000}
 .tagline{font-style:italic;color:#e1d0af;margin:4px 0 24px}
 .buttons{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-.btn{display:inline-block;padding:13px 25px;border:1px solid #b58a43;color:#ead19c;text-decoration:none;background:#251d14;font:600 13px Cinzel}
+.btn{display:inline-block;padding:13px 25px;border:1px solid #b58a43;color:#ead19c;text-decoration:none;background:#251d14;font:600 13px Roboto Slab}
 .btn.primary{background:linear-gradient(#8e2b27,#5c1716)}
 .stats{display:flex;justify-content:center;gap:35px;margin-top:28px}
 .stat strong{display:block;color:#e2c383;font-size:22px}
 .stat span{font-size:11px;color:#b7a98e;text-transform:uppercase}
 .grid{display:grid;grid-template-columns:1.05fr 1.8fr .9fr;gap:14px;margin-top:14px}
 .card{background:linear-gradient(145deg,rgba(29,25,20,.97),rgba(14,13,11,.98));border:1px solid #5d4930;box-shadow:var(--shadow)}
-.card-title{padding:13px 16px;border-bottom:1px solid #493823;color:#e0c17e;font:600 16px Cinzel;display:flex;justify-content:space-between}
+.card-title{padding:13px 16px;border-bottom:1px solid #493823;color:#e0c17e;font:600 16px Roboto Slab;display:flex;justify-content:space-between}
 .card-title a{font:12px "Roboto Slab";color:#9e8a68;text-decoration:none}
 .chat{min-height:405px}
 .messages{padding:10px 15px}
@@ -71,19 +71,19 @@ h1{font:700 70px Cinzel;margin:0;color:#e0bb73;letter-spacing:8px;text-shadow:0 
 .profile{padding:18px}
 .profile-top{display:flex;gap:14px;align-items:center}
 .crest{width:68px;height:68px;border:1px solid #9a7440;display:grid;place-items:center;font-size:30px;background:#251d15}.profile-avatar{width:68px;height:68px;object-fit:cover;border:1px solid #9a7440;display:block;background:#251d15}
-.profile h3{margin:0;color:#dfc17f;font:600 17px Cinzel}.profile small{color:#a9987b}
+.profile h3{margin:0;color:#dfc17f;font:600 17px Roboto Slab}.profile small{color:#a9987b}
 .profile dl{display:grid;grid-template-columns:1fr auto;gap:9px;margin:20px 0;font-size:12px}.profile dt{color:#97866c}.profile dd{margin:0;color:#d7c7a8}
 .full{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;margin-top:14px}
 .battle{padding:16px 20px;display:grid;grid-template-columns:85px minmax(0,1fr) 70px minmax(0,1fr);align-items:center;text-align:center;gap:10px}
-.datebox{color:#d7b66e;font:700 18px Cinzel}.datebox small{display:block;font:11px "Roboto Slab";color:#a8997e}.battle-type{display:block;margin-top:7px;color:#8e7a5d;font:10px "Roboto Slab";letter-spacing:.5px}
+.datebox{color:#d7b66e;font:700 18px Roboto Slab}.datebox small{display:block;font:11px "Roboto Slab";color:#a8997e}.battle-type{display:block;margin-top:7px;color:#8e7a5d;font:10px "Roboto Slab";letter-spacing:.5px}
 .team{color:#d8c6a7;font-weight:600}.vs{color:#806f55;font-size:12px;margin:4px}
 .ranking table{width:100%;border-collapse:collapse}.ranking td{padding:9px 14px;border-bottom:1px solid #332b21;font-size:12px}.ranking tr:first-child td{color:#dfbf7b}.pos{color:#9e895f;width:35px}.points{text-align:right;color:#c6a76d}
 .community{padding:20px;background:linear-gradient(rgba(24,20,15,.78),rgba(18,15,11,.9)),url("battlefield.jpg") center/cover;min-height:100%}
 .community-grid{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;margin-top:20px}
 .community-grid div{border-right:1px solid #493c2b}.community-grid div:last-child{border:0}
-.community-grid strong{display:block;font:600 27px Cinzel;color:#dfc07c}.community-grid span{font-size:10px;color:#9d8e75;text-transform:uppercase}
+.community-grid strong{display:block;font:600 27px Roboto Slab;color:#dfc07c}.community-grid span{font-size:10px;color:#9d8e75;text-transform:uppercase}
 footer{border-top:1px solid #4f3d28;padding:25px 0;color:#80745f;font-size:11px}
-.footer-inner{display:flex;justify-content:space-between;align-items:center}.motto{font:italic 20px Cinzel;color:#b4935c}
+.footer-inner{display:flex;justify-content:space-between;align-items:center}.motto{font:italic 20px Roboto Slab;color:#b4935c}
 @media(max-width:1050px){.grid{grid-template-columns:1fr 1.6fr}.grid>.profile{grid-column:1/-1}.full{grid-template-columns:1fr}.hero-copy{width:60%}}
 @media(max-width:760px){.logo{font-size:32px}.brand{padding:22px 0}.eagle{font-size:40px}nav{overflow:auto}nav a{padding:15px 14px;white-space:nowrap}.hero-copy{width:100%;padding:40px 20px;background:rgba(5,4,3,.5)}h1{font-size:48px}.stats{gap:15px}.grid,.full{grid-template-columns:1fr}.news-item{grid-template-columns:95px 1fr}.community-grid{grid-template-columns:repeat(2,1fr);gap:20px}.community-grid div:nth-child(2){border:0}.footer-inner{gap:15px;flex-direction:column}}
 
@@ -111,11 +111,11 @@ nav a:hover:after,nav a.active:after{transform:scaleX(1)}
 .battle-flag,.rank-flag{width:28px;height:20px;object-fit:cover;display:inline-block;vertical-align:middle;margin-right:8px;border:1px solid #87663b;background:#251d15}
 .ranking .rank-flag{width:28px;height:20px;min-width:28px;max-width:28px;min-height:20px;max-height:20px;object-fit:cover;display:inline-block;vertical-align:middle;margin:0 8px 0 0;border:1px solid #87663b;background:#251d15}
 
-.regiment-card h4{margin:0 0 4px;color:#ddc07e;font:600 14px Cinzel}.regiment-card p{margin:0;color:#9e917b;font-size:11px}
+.regiment-card h4{margin:0 0 4px;color:#ddc07e;font:600 14px Roboto Slab}.regiment-card p{margin:0;color:#9e917b;font-size:11px}
 .rank-row{cursor:pointer;transition:background .18s,transform .18s}.rank-row:hover{background:rgba(111,75,35,.15);transform:translateX(2px)}.rank-row.selected{background:rgba(120,34,30,.22);box-shadow:inset 3px 0 #c79a51}
 .toast{position:fixed;right:24px;bottom:24px;z-index:100;min-width:260px;padding:14px 17px;background:#17130f;border:1px solid #a1763e;color:#e6d09e;box-shadow:0 12px 30px rgba(0,0,0,.65);opacity:0;transform:translateY(15px);pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translateY(0)}
 .modal-backdrop{display:none;position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.76);align-items:center;justify-content:center;padding:20px}.modal-backdrop.show{display:flex}
-.modal{width:min(440px,100%);background:linear-gradient(145deg,#211c16,#100f0d);border:1px solid #8a683b;box-shadow:0 25px 70px #000;padding:26px}.modal h2{margin:0 0 8px;font:600 25px Cinzel;color:#e0bd78}.modal p{color:#9f927d;font-size:12px}
+.modal{width:min(440px,100%);background:linear-gradient(145deg,#211c16,#100f0d);border:1px solid #8a683b;box-shadow:0 25px 70px #000;padding:26px}.modal h2{margin:0 0 8px;font:600 25px Roboto Slab;color:#e0bd78}.modal p{color:#9f927d;font-size:12px}
 .modal label{display:block;color:#b9aa91;font-size:11px;margin:14px 0 5px}.modal input{width:100%;padding:12px;background:#0d0c0a;border:1px solid #51412e;color:#eee;outline:0}.modal input:focus{border-color:#b18a4e}
 .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}.close{background:none;border:0;color:#a9987b;float:right;font-size:20px;cursor:pointer}
 @media(max-width:760px){
@@ -139,11 +139,11 @@ nav a:hover:after,nav a.active:after{transform:scaleX(1)}
 .regiment-tile:hover{transform:translateY(-3px);border-color:#8b693e;box-shadow:0 18px 42px rgba(0,0,0,.62)}
 .regiment-tile>img{display:block;width:100%;height:180px;object-fit:contain;border-bottom:1px solid #5d4930;background:#251d15;padding:10px}
 .regiment-info{padding:13px 14px 15px}
-.regiment-info h2{margin:0 0 10px;color:#dfc17f;font:600 16px Cinzel;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.regiment-info h2{margin:0 0 10px;color:#dfc17f;font:600 16px Roboto Slab;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .regiment-meta{display:flex;justify-content:space-between;gap:10px;color:#9e917b;font-size:11px}
 .regiment-meta b{color:#d8b66e;font-weight:600}
 .pagination{display:flex;justify-content:center;align-items:center;gap:7px;margin:20px 0 5px}
-.pagination a,.pagination span{min-width:38px;height:38px;padding:0 12px;display:flex;align-items:center;justify-content:center;border:1px solid #5d4930;background:#17130f;color:#bba783;text-decoration:none;font:600 12px Cinzel}
+.pagination a,.pagination span{min-width:38px;height:38px;padding:0 12px;display:flex;align-items:center;justify-content:center;border:1px solid #5d4930;background:#17130f;color:#bba783;text-decoration:none;font:600 12px Roboto Slab}
 .pagination a:hover,.pagination a.current{background:#641e1b;border-color:#9a6d3c;color:#efd49a}
 .pagination span{border:0;background:transparent}
 
@@ -218,9 +218,9 @@ nav a:hover:after,nav a.active:after{transform:scaleX(1)}
 /* Regiment roster */
 .roster-group{padding:16px 0;border-bottom:1px solid #493823}
 .roster-group:last-child{border-bottom:0}
-.roster-group h3{margin:0 0 14px;color:#d8b66e;font:600 13px Cinzel;letter-spacing:1px}
+.roster-group h3{margin:0 0 14px;color:#d8b66e;font:600 13px Roboto Slab;letter-spacing:1px}
 .commander-profile{display:flex;align-items:center;gap:16px;min-height:112px}
-.member-avatar{display:flex;align-items:center;justify-content:center;flex:0 0 auto;overflow:hidden;border:1px solid #9a7440;background:linear-gradient(145deg,#4a3824,#17130f);color:#e4c47f;font:600 16px Cinzel}
+.member-avatar{display:flex;align-items:center;justify-content:center;flex:0 0 auto;overflow:hidden;border:1px solid #9a7440;background:linear-gradient(145deg,#4a3824,#17130f);color:#e4c47f;font:600 16px Roboto Slab}
 .commander-avatar{width:104px;height:104px;font-size:26px}
 .commander-profile strong{color:#e0c17e;font-size:15px}
 .members-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:14px}
@@ -252,7 +252,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-history-item.battle-loss{border-left-color:#c6534b}
 .battle-history-item.battle-draw{border-left-color:#858585}
 .battle-history-top,.battle-history-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.battle-history-top strong{color:#dfc17f;font:600 13px Cinzel}
+.battle-history-top strong{color:#dfc17f;font:600 13px Roboto Slab}
 .battle-result{font-size:11px;font-weight:700}
 .battle-win .battle-result{color:#6dbb7d}
 .battle-loss .battle-result{color:#e16b62}
@@ -279,8 +279,8 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .regiment-chronicle-section{margin-top:14px}
 .regiment-chronicle-list{display:flex;flex-direction:column;gap:10px}
 .chronicle-item{display:grid;grid-template-columns:120px minmax(0,1fr);gap:18px;padding:13px 14px;border:1px solid #51432f;border-left:4px solid #9a7440;background:rgba(15,13,10,.62);align-items:start}
-.chronicle-date{color:#d8b66e;font:600 12px Cinzel;white-space:nowrap;padding-top:2px}
-.chronicle-content strong{display:block;color:#dfc17f;font:600 13px Cinzel;margin-bottom:5px}
+.chronicle-date{color:#d8b66e;font:600 12px Roboto Slab;white-space:nowrap;padding-top:2px}
+.chronicle-content strong{display:block;color:#dfc17f;font:600 13px Roboto Slab;margin-bottom:5px}
 .chronicle-content p{margin:0;color:#a99a80;font-size:11px;line-height:1.55}
 .chronicle-more{border:1px solid #51432f;background:rgba(15,13,10,.45);color:#d8bd86}
 .chronicle-more summary{cursor:pointer;list-style:none;text-align:center;padding:12px;font-size:11px;color:#d8bd86}
@@ -295,7 +295,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 
 
 .news-pagination{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:15px;flex-wrap:wrap}
-.news-pagination a,.news-pagination a:visited,.news-pagination a:focus,.news-pagination a:active{min-width:30px;height:30px;padding:0 8px;display:flex;align-items:center;justify-content:center;border:1px solid #5d4930;background:#17130f;color:#bba783;text-decoration:none;font:600 10px Cinzel;outline:none}
+.news-pagination a,.news-pagination a:visited,.news-pagination a:focus,.news-pagination a:active{min-width:30px;height:30px;padding:0 8px;display:flex;align-items:center;justify-content:center;border:1px solid #5d4930;background:#17130f;color:#bba783;text-decoration:none;font:600 10px Roboto Slab;outline:none}
 .news-pagination a:hover,.news-pagination a.current{background:#641e1b;border-color:#9a6d3c;color:#efd49a}
 .regiment-news-section .news-pagination a:visited,.regiment-news-section .news-pagination a:focus,.regiment-news-section .news-pagination a:active{color:#bba783;background:#17130f;text-decoration:none}
 
@@ -303,7 +303,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 /* Regiment album */
 .regiment-album-section{width:100%;margin-top:18px}
 .album-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:14px}
-.album-head h2{margin:0 0 4px;color:#d8b86f;font:700 20px Cinzel}
+.album-head h2{margin:0 0 4px;color:#d8b86f;font:700 20px Roboto Slab}
 .album-head p{margin:0;color:#9f8c70;font-size:12px}
 .album-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .album-item{display:block;position:relative;min-width:0;border:1px solid #5d4930;background:#120f0c;padding:4px;color:#bba783;text-decoration:none;overflow:hidden}
@@ -311,9 +311,9 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .album-item:hover{border-color:#a77b43}
 .album-item:hover img{transform:scale(1.025);filter:brightness(1.08)}
 .album-pagination{display:flex;justify-content:center;gap:6px;margin-top:15px;flex-wrap:wrap}
-.album-pagination a{min-width:30px;height:30px;padding:0 8px;display:flex;align-items:center;justify-content:center;border:1px solid #5d4930;background:#17130f;color:#bba783;text-decoration:none;font:600 10px Cinzel}
+.album-pagination a{min-width:30px;height:30px;padding:0 8px;display:flex;align-items:center;justify-content:center;border:1px solid #5d4930;background:#17130f;color:#bba783;text-decoration:none;font:600 10px Roboto Slab}
 .album-pagination a:hover,.album-pagination a.current{background:#641e1b;border-color:#9a6d3c;color:#efd49a}
-.album-upload-button{display:inline-flex;align-items:center;justify-content:center;padding:9px 13px;border:1px solid #8b6739;background:#17130f;color:#d8b86f;cursor:pointer;font:700 10px Cinzel;text-transform:uppercase}
+.album-upload-button{display:inline-flex;align-items:center;justify-content:center;padding:9px 13px;border:1px solid #8b6739;background:#17130f;color:#d8b86f;cursor:pointer;font:700 10px Roboto Slab;text-transform:uppercase}
 .album-upload-button:hover{background:#641e1b;border-color:#b18a51}
 .album-commander-note{font-size:10px;color:#8f806c;font-style:italic}
 @media(max-width:700px){
@@ -333,20 +333,20 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .regiment-news-item.news-clickable{display:flex;color:inherit;text-decoration:none;cursor:pointer;transition:border-color .18s ease,background .18s ease,transform .18s ease}
 .regiment-news-item.news-clickable img{width:150px;height:92px;min-width:150px;object-fit:cover;border:1px solid #765a36;background:#251d15;display:block}
 .regiment-news-item.news-clickable:hover{border-color:#a77b43;background:rgba(100,30,27,.14);transform:translateY(-1px)}
-.news-section-link{float:right;color:#b4935c;text-decoration:none;font:600 10px Cinzel}
+.news-section-link{float:right;color:#b4935c;text-decoration:none;font:600 10px Roboto Slab}
 .news-section-link:hover{color:#e0c27f;text-decoration:underline}
 .news-page{padding-top:28px;padding-bottom:55px;max-width:1000px}
 .news-detail-card,.news-editor-card,.news-comments-card{padding:24px;margin-bottom:18px}
 .news-list-head,.news-detail-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:18px}
-.news-list-head h1,.news-detail-head h1{margin:4px 0 7px;font:700 28px Cinzel;color:#e0c27f}
+.news-list-head h1,.news-detail-head h1{margin:4px 0 7px;font:700 28px Roboto Slab;color:#e0c27f}
 .news-list-head p,.news-meta{margin:0;color:#9e8d74;font-size:11px}
 .news-full-list{display:grid;gap:12px}
 .news-cover{display:block;width:100%;max-height:430px;object-fit:cover;border:1px solid #5d4930;margin:5px 0 20px}
 .news-content{color:#c9b99d;font-size:14px;line-height:1.8}
-.news-content p{margin:0 0 14px}.news-content h2{font:700 21px Cinzel;color:#dfbf7b;margin:20px 0 10px}
+.news-content p{margin:0 0 14px}.news-content h2{font:700 21px Roboto Slab;color:#dfbf7b;margin:20px 0 10px}
 .news-editor-inner{display:grid;gap:13px}
-.news-editor-inner label{display:grid;gap:6px;color:#bba783;font:600 10px Cinzel;text-transform:uppercase}
-.news-editor-inner input,.news-editor-inner select{background:#120f0c;border:1px solid #5d4930;color:#e3d2b3;padding:10px;font:13px Georgia,serif}
+.news-editor-inner label{display:grid;gap:6px;color:#bba783;font:600 10px Roboto Slab;text-transform:uppercase}
+.news-editor-inner input,.news-editor-inner select{background:#120f0c;border:1px solid #5d4930;color:#e3d2b3;padding:10px;font:13px Roboto Slab,serif}
 .editor-toolbar{display:flex;flex-wrap:wrap;gap:5px;padding:8px;background:#17130f;border:1px solid #5d4930}
 .editor-toolbar button{min-width:32px;height:30px;border:1px solid #5d4930;background:#211a14;color:#d8b86f;cursor:pointer}
 .editor-toolbar button:hover{background:#641e1b;border-color:#9a6d3c}
@@ -356,9 +356,9 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .news-comments-card .card-title span{float:right;color:#9e8d74;font-size:10px}
 .news-comments-list{display:grid;gap:10px;margin:15px 0}
 .news-comment{display:flex;gap:11px;padding:12px;background:rgba(15,12,9,.65);border:1px solid #3e3225}
-.news-comment-avatar{width:34px;height:34px;border-radius:50%;background:#5f1e1b;color:#e5c889;display:flex;align-items:center;justify-content:center;font:700 15px Cinzel;flex:0 0 auto}
+.news-comment-avatar{width:34px;height:34px;border-radius:50%;background:#5f1e1b;color:#e5c889;display:flex;align-items:center;justify-content:center;font:700 15px Roboto Slab;flex:0 0 auto}
 .news-comment strong{color:#d8b86f;font-size:12px}.news-comment small{display:block;color:#7f735f;font-size:9px;margin-top:2px}.news-comment p{margin:6px 0 0;color:#c1b39b;font-size:12px;line-height:1.5}
-.news-comment-form{display:grid;gap:9px}.news-comment-form textarea{min-height:90px;resize:vertical;background:#120f0c;border:1px solid #5d4930;color:#e3d2b3;padding:10px;font:13px Georgia,serif}
+.news-comment-form{display:grid;gap:9px}.news-comment-form textarea{min-height:90px;resize:vertical;background:#120f0c;border:1px solid #5d4930;color:#e3d2b3;padding:10px;font:13px Roboto Slab,serif}
 @media(max-width:700px){.news-list-head,.news-detail-head{flex-direction:column}.news-list-head h1,.news-detail-head h1{font-size:23px}.news-detail-card,.news-editor-card,.news-comments-card{padding:15px}.news-body-editor{min-height:220px}.news-section-link{font-size:9px}}
 
 
@@ -369,7 +369,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-history-link:focus-visible{outline:1px solid #b18a4e;outline-offset:3px}
 .battle-statistics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:0 0 16px}
 .battle-stat{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-width:0;padding:11px 6px;border:1px solid #51432f;background:rgba(15,13,10,.62)}
-.battle-stat strong{font:700 22px Cinzel;color:#dfc17f}
+.battle-stat strong{font:700 22px Roboto Slab;color:#dfc17f}
 .battle-stat span{font-size:10px;color:#a99a80;text-transform:uppercase;letter-spacing:.4px}
 .battle-stat.wins strong{color:#6dbb7d}
 .battle-stat.losses strong{color:#e16b62}
@@ -399,7 +399,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .profile-avatar-wrap{flex:0 0 116px;width:116px;height:116px}
 .profile-page img.profile-avatar{display:block!important;width:116px!important;height:116px!important;max-width:116px!important;max-height:116px!important;object-fit:cover!important;padding:0!important;flex:0 0 116px;border:1px solid #9a7440;background:#251d15}
 .profile-main{min-width:0;flex:1}
-.profile-main h1{margin:5px 0 15px;color:#e0c17e;font:700 30px Cinzel;overflow-wrap:anywhere}
+.profile-main h1{margin:5px 0 15px;color:#e0c17e;font:700 30px Roboto Slab;overflow-wrap:anywhere}
 .profile-meta{display:flex;gap:28px;flex-wrap:wrap}
 .profile-meta>div{display:flex;flex-direction:column;gap:5px}
 .profile-meta span{font-size:10px;color:#99896f;text-transform:uppercase;letter-spacing:1px}
@@ -416,11 +416,11 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .profile-page .profile-friend img{display:block!important;width:48px!important;height:48px!important;max-width:48px!important;max-height:48px!important;object-fit:cover!important;padding:0!important;border:1px solid #87663b;border-radius:50%;background:#251d15}
 .profile-friend:hover{color:#e0bd76}
 .guest-pagination{grid-column:1/-1;display:flex;justify-content:center;gap:6px;margin-top:10px}
-.guest-pagination a{min-width:27px;height:27px;display:grid;place-items:center;border:1px solid #5d4930;color:#bba783;text-decoration:none;font:11px Cinzel}
+.guest-pagination a{min-width:27px;height:27px;display:grid;place-items:center;border:1px solid #5d4930;color:#bba783;text-decoration:none;font:11px Roboto Slab}
 .guest-pagination a.current{background:#641e1b;color:#efd49a}
 .service-list{display:grid;gap:9px}
 .service-item{padding:11px 12px;border:1px solid #493823;background:rgba(15,13,10,.6)}
-.service-regiment{color:#dfc17f;font:600 12px Cinzel}
+.service-regiment{color:#dfc17f;font:600 12px Roboto Slab}
 .service-dates{display:flex;justify-content:space-between;gap:10px;margin-top:6px;color:#9e917b;font-size:10px}
 .profile-messages-section{padding:0 16px 16px}
 .profile-messages-section>.card-title{margin:0 -16px 12px;padding:13px 16px}
@@ -433,8 +433,8 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .private-message p{margin:4px 0;color:#c9b99d;font-size:12px;line-height:1.5;overflow-wrap:anywhere}
 .private-message span{color:#827258;font-size:9px}
 .message-compose{display:flex;gap:8px;align-items:stretch;margin-top:8px}
-.profile-page .message-compose input{flex:1;min-width:0;height:38px;padding:8px 11px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:12px Georgia,serif}
-.profile-page .message-compose button,.profile-page .no-conversation button{min-height:36px;padding:8px 15px;border:1px solid #8b6739;background:#641e1b;color:#ead19c;font:600 10px Cinzel;cursor:pointer}
+.profile-page .message-compose input{flex:1;min-width:0;height:38px;padding:8px 11px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:12px Roboto Slab,serif}
+.profile-page .message-compose button,.profile-page .no-conversation button{min-height:36px;padding:8px 15px;border:1px solid #8b6739;background:#641e1b;color:#ead19c;font:600 10px Roboto Slab;cursor:pointer}
 .profile-page .message-compose button:hover,.profile-page .no-conversation button:hover{background:#7b2923;border-color:#d5a95f}
 .no-conversation{text-align:center;padding:12px;color:#a99a80;font-size:12px}
 .no-conversation p{margin:0 0 12px}
@@ -490,17 +490,17 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 /* Battle list and battle detail: stable sizing, layout and controls */
 .battles-page{padding-top:24px;padding-bottom:48px;max-width:1120px}
 .battles-page .page-heading{padding:22px 24px;margin-bottom:14px}
-.battles-page .page-heading h1{margin:5px 0 8px;color:#e0c17f;font:700 28px Cinzel}
+.battles-page .page-heading h1{margin:5px 0 8px;color:#e0c17f;font:700 28px Roboto Slab}
 .battles-page .page-heading p{margin:0;color:#a99a80;font-size:12px;line-height:1.55}
 .battle-filters{display:flex;flex-wrap:wrap;gap:8px;padding:12px;margin-bottom:14px}
-.battle-filter{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:36px;padding:8px 12px;border:1px solid #5d4930;background:#17130f;color:#bba783;font:600 10px Cinzel;line-height:1.25;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
-.battle-filter span{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 4px;border:1px solid #59452d;background:#0e0d0b;color:#d8bd86;font:700 10px Georgia,serif}
+.battle-filter{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:36px;padding:8px 12px;border:1px solid #5d4930;background:#17130f;color:#bba783;font:600 10px Roboto Slab;line-height:1.25;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.battle-filter span{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 4px;border:1px solid #59452d;background:#0e0d0b;color:#d8bd86;font:700 10px Roboto Slab,serif}
 .battle-filter:hover,.battle-filter.active{background:#641e1b;border-color:#a77b43;color:#efd49a}
 .battle-filter.active span{border-color:#9a6d3c;color:#efd49a}
 .battle-list{display:grid;gap:12px}
 .battle-record{min-width:0;padding:14px 16px;overflow:hidden}
 .battle-record-top{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;padding-bottom:11px;border-bottom:1px solid #3a3023;color:#96866d;font-size:10px}
-.battle-status{display:inline-flex;align-items:center;min-height:22px;padding:4px 9px;border:1px solid #6b5637;color:#d8bd86;font:700 9px Cinzel;text-transform:uppercase}
+.battle-status{display:inline-flex;align-items:center;min-height:22px;padding:4px 9px;border:1px solid #6b5637;color:#d8bd86;font:700 9px Roboto Slab;text-transform:uppercase}
 .battle-status.completed{border-color:#456c49;color:#86c18d}
 .battle-status.accepted{border-color:#8b6739;color:#e0bd76}
 .battle-status.challenged{border-color:#8b6739;color:#e0bd76}
@@ -510,39 +510,39 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-side{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:8px;color:#dfc17f;text-align:center;text-decoration:none;border:1px solid transparent;transition:border-color .15s,background .15s}
 .battle-side:hover{border-color:#795c36;background:rgba(100,30,27,.12)}
 .battle-side img{display:block!important;width:64px!important;height:64px!important;min-width:64px!important;max-width:64px!important;min-height:64px!important;max-height:64px!important;flex:0 0 64px!important;object-fit:contain!important;object-position:center!important;padding:3px!important;margin:0!important;border:1px solid #87663b!important;background:#251d15!important;box-sizing:border-box!important}
-.battle-side strong{max-width:100%;font:600 13px Cinzel;overflow-wrap:anywhere}
+.battle-side strong{max-width:100%;font:600 13px Roboto Slab;overflow-wrap:anywhere}
 .battle-side small{max-width:100%;color:#96866d;font-size:10px;line-height:1.35;overflow-wrap:anywhere}
 .battle-side.result-winner{border-color:#47784d;background:rgba(45,100,54,.10)}
 .battle-side.result-winner strong{color:#83c78a}
 .battle-side.result-loser{opacity:.7}
 .battle-side.result-draw{border-color:#666;background:rgba(120,120,120,.07)}
 .battle-result-box{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center}
-.battle-result-box>b{color:#e4c77f;font:700 25px Cinzel;white-space:nowrap}
+.battle-result-box>b{color:#e4c77f;font:700 25px Roboto Slab;white-space:nowrap}
 .battle-result-box>span{color:#a99a80;font-size:10px;line-height:1.4}
 .battle-result-box.planned-result>b{font-size:22px}
 .battle-countdown{margin-top:3px;color:#d6b46e;font-size:10px;font-variant-numeric:tabular-nums}
 .battle-countdown.started{color:#d7a17d}
-.battle-open-link{display:block;padding:10px 8px 2px;border-top:1px solid #3a3023;color:#c5a66b;text-align:center;text-decoration:none;font:600 10px Cinzel}
+.battle-open-link{display:block;padding:10px 8px 2px;border-top:1px solid #3a3023;color:#c5a66b;text-align:center;text-decoration:none;font:600 10px Roboto Slab}
 .battle-open-link:hover{color:#f0d18b;text-decoration:underline}
 .battle-empty{padding:20px;color:#a99a80;text-align:center;font-size:12px}
 .battles-page .battle-empty{margin-top:12px}
 
 /* Single battle page */
 .battle-page{max-width:1000px;padding-top:22px;padding-bottom:48px}
-.battle-page>.back-link{display:inline-flex;align-items:center;min-height:34px;margin:0 0 13px;padding:7px 11px;border:1px solid #5d4930;background:#17130f;color:#c8aa70;text-decoration:none;font:600 10px Cinzel}
+.battle-page>.back-link{display:inline-flex;align-items:center;min-height:34px;margin:0 0 13px;padding:7px 11px;border:1px solid #5d4930;background:#17130f;color:#c8aa70;text-decoration:none;font:600 10px Roboto Slab}
 .battle-page>.back-link:hover{background:#641e1b;border-color:#a77b43;color:#efd49a}
 .battle-hero-card,.battle-info-card,.battle-result-card,.battle-comments-card{min-width:0;margin-bottom:14px;padding:18px 20px}
-.battle-page-kicker{color:#c8a45e;font:700 10px Cinzel;letter-spacing:1.2px}
+.battle-page-kicker{color:#c8a45e;font:700 10px Roboto Slab;letter-spacing:1.2px}
 .battle-page-kicker.completed{color:#83c78a}
 .battle-page-kicker.accepted,.battle-page-kicker.challenged{color:#e0bd76}
 .battle-page-kicker.ongoing{color:#f0d18b}
 .battle-page-kicker.awaiting-confirmation{color:#d7a17d}
-.battle-hero-card h1{margin:7px 0 17px;color:#e0c17f;font:700 25px Cinzel;line-height:1.3;overflow-wrap:anywhere}
+.battle-hero-card h1{margin:7px 0 17px;color:#e0c17f;font:700 25px Roboto Slab;line-height:1.3;overflow-wrap:anywhere}
 .battle-participants{display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,.7fr) minmax(0,1fr);align-items:center;gap:16px}
 .battle-participant{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:12px 8px;border:1px solid #51432f;background:rgba(15,13,10,.45);color:#dfc17f;text-align:center;text-decoration:none;transition:border-color .15s,background .15s}
 .battle-participant:hover{border-color:#a77b43;background:rgba(100,30,27,.12)}
 .battle-participant img{display:block!important;width:100px!important;height:100px!important;min-width:100px!important;max-width:100px!important;min-height:100px!important;max-height:100px!important;flex:0 0 100px!important;object-fit:contain!important;object-position:center!important;padding:4px!important;margin:0!important;border:1px solid #87663b!important;background:#251d15!important;box-sizing:border-box!important}
-.battle-participant strong{max-width:100%;font:600 15px Cinzel;overflow-wrap:anywhere}
+.battle-participant strong{max-width:100%;font:600 15px Roboto Slab;overflow-wrap:anywhere}
 .battle-participant small{max-width:100%;color:#96866d;font-size:10px;overflow-wrap:anywhere}
 .battle-role{color:#9c8b70;font-size:9px;text-transform:uppercase;letter-spacing:.5px}
 .battle-participant.battle-winner{border-color:#4f925b;background:rgba(45,100,54,.12)}
@@ -550,7 +550,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-participant.battle-loser{opacity:.68}
 .battle-participant.battle-draw{border-color:#777}
 .battle-center{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}
-.battle-page-countdown{color:#e5c981;font:700 21px Cinzel;line-height:1.3;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.battle-page-countdown{color:#e5c981;font:700 21px Roboto Slab;line-height:1.3;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
 .battle-page-countdown.finished{color:#83c78a}
 .battle-countdown-label{color:#98886e;font-size:10px;line-height:1.4}
 .battle-info-card .card-title,.battle-result-card .card-title,.battle-comments-card .card-title{margin:-18px -20px 14px;padding:13px 18px}
@@ -576,8 +576,8 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-comment p{margin:6px 0 0;color:#c9b99d;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
 .battle-comments-empty{padding:12px;color:#93836a;font-size:11px;text-align:center}
 .battle-comment-form{display:flex;gap:8px;margin-top:12px}
-.battle-comment-form input{flex:1;min-width:0;height:40px;padding:8px 11px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:12px Georgia,serif}
-.battle-comment-form button{min-width:110px;min-height:40px;padding:8px 15px;border:1px solid #8b6739;background:#641e1b;color:#ead19c;font:600 10px Cinzel;cursor:pointer}
+.battle-comment-form input{flex:1;min-width:0;height:40px;padding:8px 11px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:12px Roboto Slab,serif}
+.battle-comment-form button{min-width:110px;min-height:40px;padding:8px 15px;border:1px solid #8b6739;background:#641e1b;color:#ead19c;font:600 10px Roboto Slab;cursor:pointer}
 .battle-comment-form button:hover{background:#7b2923;border-color:#d5a95f}
 @media(max-width:700px){
  .battles-page{padding-top:14px}
@@ -647,19 +647,19 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 #chat #regimentMessages{padding:5px 10px}
 #chat #regimentMessages .msg{display:flex;gap:9px;min-width:0;padding:9px 0;border-bottom:1px solid rgba(90,70,45,.45)}
 #chat #regimentMessages .msg>div:nth-child(2){flex:1;min-width:0}
-#chat #regimentMessages .msg b{display:block;margin-bottom:3px;font:600 11px "Roboto Slab",Georgia,serif;color:#dfc17f!important}
+#chat #regimentMessages .msg b{display:block;margin-bottom:3px;font:600 11px "Roboto Slab",Roboto Slab,serif;color:#dfc17f!important}
 #chat #regimentMessages .msg p{margin:0;color:#c9b99d;font-size:11px;line-height:1.45;overflow-wrap:anywhere}
 #chat #regimentMessages .msg .time{flex:0 0 auto;color:#88785f;font-size:9px;white-space:nowrap}
 #chat .regiment-chat-locked{padding:18px 14px;text-align:center}
 #chat .regiment-chat-locked .lock-icon{margin-bottom:7px;font-size:22px}
-#chat .regiment-chat-locked strong{display:block;color:#dfc17f;font:600 12px "Roboto Slab",Georgia,serif}
+#chat .regiment-chat-locked strong{display:block;color:#dfc17f;font:600 12px "Roboto Slab",Roboto Slab,serif}
 #chat .regiment-chat-locked p{max-width:340px;margin:7px auto 12px;color:#a99a80;font-size:11px;line-height:1.5}
 #chat .online-list{display:grid;gap:0;padding:3px 11px}
 #chat .online-user{display:grid;grid-template-columns:8px 32px minmax(0,1fr);align-items:center;column-gap:9px;min-width:0;padding:9px 2px;border-bottom:1px solid rgba(90,70,45,.45)}
 #chat .online-user:last-child{border-bottom:0}
 #chat .online-user .online-dot{width:7px;height:7px;border-radius:50%;background:#65b975;box-shadow:0 0 6px rgba(101,185,117,.55)}
 #chat .online-user>div{display:flex;flex-direction:column;gap:3px;min-width:0}
-#chat .online-user b{display:block;min-width:0;color:#dfc17f;font:600 11px "Roboto Slab",Georgia,serif;line-height:1.3;overflow-wrap:anywhere}
+#chat .online-user b{display:block;min-width:0;color:#dfc17f;font:600 11px "Roboto Slab",Roboto Slab,serif;line-height:1.3;overflow-wrap:anywhere}
 #chat .online-user small{display:block;min-width:0;color:#9e917b;font-size:9px;line-height:1.3;overflow-wrap:anywhere}
 #chat .online-user .chat-user-link{color:inherit!important;text-decoration:none!important}
 #chat .online-count{margin:0;padding:9px 12px;border-top:1px solid #493823;background:rgba(15,13,10,.35);color:#a99a80;font-size:10px;text-align:center}
@@ -700,7 +700,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .regiments-list .regiment-tile .regiment-meta>span:first-child b{
   display:block;
   color:#e0bd76;
-  font:700 15px Cinzel,serif;
+  font:700 15px Roboto Slab,serif;
   line-height:1.2;
 }
 .regiments-list .regiment-tile .regiment-meta>span:last-child{
@@ -789,8 +789,8 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-reply-button:hover{color:#f0d18b;text-decoration:underline}
 .battle-reply-form{display:flex;gap:7px;margin-top:8px}
 .battle-reply-form[hidden]{display:none}
-.battle-reply-form input{flex:1;min-width:0;height:34px;padding:7px 9px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:11px Georgia,serif}
-.battle-reply-form button{padding:6px 10px;border:1px solid #8b6739;background:#641e1b;color:#ead19c;font:600 9px Cinzel;cursor:pointer}
+.battle-reply-form input{flex:1;min-width:0;height:34px;padding:7px 9px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:11px Roboto Slab,serif}
+.battle-reply-form button{padding:6px 10px;border:1px solid #8b6739;background:#641e1b;color:#ead19c;font:600 9px Roboto Slab;cursor:pointer}
 .battle-comment-image-link{display:block;width:min(100%,520px);margin-top:10px;overflow:hidden;border:1px solid #765a34;background:#0b0a08}
 .battle-comment-image{display:block;width:100%;max-height:300px;aspect-ratio:16/9;object-fit:cover;object-position:center}
 @media(max-width:600px){
@@ -839,17 +839,17 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 /* Community news page and homepage feed */
 .site-news-page{padding-top:22px;padding-bottom:38px}
 .site-news-list-head{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px}
-.site-news-list-head h1,.site-news-detail h1{margin:5px 0 7px;color:#e1c17f;font:700 25px Cinzel,Georgia,serif}
+.site-news-list-head h1,.site-news-detail h1{margin:5px 0 7px;color:#e1c17f;font:700 25px Roboto Slab,Roboto Slab,serif}
 .site-news-list-head p,.site-news-meta{margin:0;color:#9f9077;font-size:11px}
 .site-news-card{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-top:1px solid rgba(125,94,54,.35)}
 .site-news-card-main{display:flex;align-items:flex-start;gap:14px;flex:1;min-width:0;color:inherit;text-decoration:none}
 .site-news-card-main>img{width:150px;height:96px;flex:0 0 150px;object-fit:cover;border:1px solid #69502f}
 .site-news-card-copy{min-width:0}
-.site-news-card-copy h2{margin:5px 0 7px;color:#dfc17f;font:600 16px Cinzel,Georgia,serif}
+.site-news-card-copy h2{margin:5px 0 7px;color:#dfc17f;font:600 16px Roboto Slab,Roboto Slab,serif}
 .site-news-card-copy p{margin:0;color:#c4b394;font-size:12px;line-height:1.55}
 .site-news-read{display:inline-block;margin-top:7px;color:#b89a68;font-size:10px}
 .site-news-interest{position:relative;flex:0 0 auto;align-self:center}
-.site-news-interest-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;border:1px solid rgba(169,139,91,.4);background:rgba(12,10,8,.4);color:#c7b38e;font:11px "Roboto Slab",Georgia,serif;cursor:pointer;white-space:nowrap}
+.site-news-interest-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 9px;border:1px solid rgba(169,139,91,.4);background:rgba(12,10,8,.4);color:#c7b38e;font:11px "Roboto Slab",Roboto Slab,serif;cursor:pointer;white-space:nowrap}
 .site-news-interest-btn b{color:#e0c17f}.site-news-interest-btn.is-active{border-color:#b89559;color:#f0d49a;background:rgba(80,57,29,.3)}
 .site-news-interest-pop{display:none;position:absolute;z-index:10;right:0;top:100%;min-width:180px;max-width:250px;padding:8px;background:#17130f;border:1px solid #705632;color:#cbb995;font-size:10px;box-shadow:0 7px 18px #0009}
 .site-news-interest:hover .site-news-interest-pop,.site-news-interest:focus-within .site-news-interest-pop{display:block}
@@ -860,7 +860,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .site-news-detail{padding:4px 0}.site-news-detail h1{font-size:27px}.site-news-detail-image{display:block;width:100%;max-height:360px;object-fit:cover;margin:18px 0;border:1px solid #705632}
 .site-news-article{color:#d2c2a5;font-size:13px;line-height:1.8;white-space:normal;margin-bottom:18px}
 .site-news-form,.site-news-comment-form{display:grid;gap:12px}.site-news-form label{display:grid;gap:6px;color:#cdb98f;font-size:11px}
-.site-news-form input,.site-news-form textarea,.site-news-comment-form textarea{width:100%;box-sizing:border-box;padding:10px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:12px Georgia,serif}
+.site-news-form input,.site-news-form textarea,.site-news-comment-form textarea{width:100%;box-sizing:border-box;padding:10px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:12px Roboto Slab,serif}
 .site-news-editor .card-title,.site-news-comments .card-title{margin-bottom:15px}
 .site-news-comment-list{display:grid;gap:0;margin-bottom:16px}
 .site-news-comment{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid rgba(125,94,54,.3)}
@@ -1056,11 +1056,28 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .alliance-tile:hover{border-color:#8d6b3d;transform:translateY(-1px)}
 .alliance-tile>img{width:72px;height:72px;flex:0 0 72px;object-fit:cover;border:1px solid #795b36;background:#100e0b}
 .alliance-tile-info{min-width:0;flex:1;display:flex;flex-direction:column;justify-content:center}
-.alliance-tile-info h2{margin:0 0 10px;color:#dfc17f;font:600 16px Cinzel,Georgia,serif;overflow-wrap:anywhere;line-height:1.3}
-.alliance-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.alliance-meta span{padding:7px 8px;border:1px solid rgba(110,85,51,.55);background:rgba(8,7,6,.42);color:#a99a80;font-size:10px;line-height:1.25}.alliance-meta b{display:block;color:#e0bd76;font:700 14px Cinzel,serif;margin-top:2px}
-.alliance-form{display:flex;gap:8px;flex-wrap:wrap}.alliance-form input,.alliance-form select{min-width:0;flex:1 1 180px;padding:9px 10px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:11px Georgia,serif}.alliance-form button{flex:0 0 auto}.alliance-note{margin:9px 0 0;color:#8f8068;font-size:9px;line-height:1.5}
-.alliance-hero{display:grid;grid-template-columns:104px minmax(0,1fr);align-items:center;gap:20px;margin-top:10px;padding:20px}.alliance-hero>img{width:104px;height:104px;flex:0 0 104px;object-fit:cover;border:1px solid #8a693d;background:#0d0b09}.alliance-hero>div{min-width:0}.alliance-hero h1{margin:3px 0 5px;color:#e1c17f;font:600 24px "Roboto Slab",serif;line-height:1.3;overflow-wrap:anywhere}.alliance-hero p{margin:0;color:#9f9077;font-size:10px}.alliance-hero-stats{display:grid;grid-template-columns:repeat(2,minmax(110px,150px));gap:9px;margin-top:13px}.alliance-hero-stats div{min-width:0;padding:8px 10px;border:1px solid rgba(110,85,51,.55);background:rgba(8,7,6,.42)}.alliance-hero-stats span{display:block;color:#9f9077;font-size:9px}.alliance-hero-stats strong{display:block;margin-top:2px;color:#dfbd75;font:700 17px Cinzel,serif}
+.alliance-tile-info h2{margin:0 0 10px;color:#dfc17f;font:600 16px Roboto Slab,Roboto Slab,serif;overflow-wrap:anywhere;line-height:1.3}
+.alliance-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.alliance-meta span{padding:7px 8px;border:1px solid rgba(110,85,51,.55);background:rgba(8,7,6,.42);color:#a99a80;font-size:10px;line-height:1.25}.alliance-meta b{display:block;color:#e0bd76;font:700 14px Roboto Slab,serif;margin-top:2px}
+.alliance-form{display:flex;gap:8px;flex-wrap:wrap}.alliance-form input,.alliance-form select{min-width:0;flex:1 1 180px;padding:9px 10px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:11px Roboto Slab,serif}.alliance-form button{flex:0 0 auto}.alliance-note{margin:9px 0 0;color:#8f8068;font-size:9px;line-height:1.5}
+.alliance-hero{display:grid;grid-template-columns:104px minmax(0,1fr);align-items:center;gap:20px;margin-top:10px;padding:20px}.alliance-hero>img{width:104px;height:104px;flex:0 0 104px;object-fit:cover;border:1px solid #8a693d;background:#0d0b09}.alliance-hero>div{min-width:0}.alliance-hero h1{margin:3px 0 5px;color:#e1c17f;font:600 24px "Roboto Slab",serif;line-height:1.3;overflow-wrap:anywhere}.alliance-hero p{margin:0;color:#9f9077;font-size:10px}.alliance-hero-stats{display:grid;grid-template-columns:repeat(2,minmax(110px,150px));gap:9px;margin-top:13px}.alliance-hero-stats div{min-width:0;padding:8px 10px;border:1px solid rgba(110,85,51,.55);background:rgba(8,7,6,.42)}.alliance-hero-stats span{display:block;color:#9f9077;font-size:9px}.alliance-hero-stats strong{display:block;margin-top:2px;color:#dfbd75;font:700 17px Roboto Slab,serif}
 .alliance-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}.alliance-section{min-width:0;padding:0 16px 4px}.alliance-section>.card-title{margin:0 -16px}.alliance-members,.alliance-battles{display:grid;gap:0}.alliance-member,.alliance-battle{display:flex;align-items:center;gap:12px;min-height:64px;padding:11px 0;border-bottom:1px solid rgba(125,94,54,.3);color:inherit;text-decoration:none;min-width:0}.alliance-member:last-child,.alliance-battle:last-child{border-bottom:0}.alliance-member img{width:42px;height:42px;object-fit:cover;border:1px solid #705632;flex:0 0 42px}.alliance-member div,.alliance-battle div{min-width:0;flex:1;display:flex;flex-direction:column;justify-content:center}.alliance-member strong,.alliance-battle strong{display:block;color:#dfc17f;font-size:11px;line-height:1.35;overflow-wrap:anywhere}.alliance-member span,.alliance-battle span{display:block;margin-top:4px;color:#8f8068;font-size:9px;line-height:1.45;overflow-wrap:anywhere}.alliance-result{flex:0 0 76px;text-align:right;font:600 10px "Roboto Slab",serif}.alliance-result.win{color:#8fc58f}.alliance-result.loss{color:#c98986}.alliance-result.draw{color:#d0b477}.alliance-application{display:flex;align-items:center;gap:12px;min-height:58px;padding:10px 0;border-bottom:1px solid rgba(125,94,54,.3)}.alliance-application>div{min-width:0;flex:1}.alliance-application strong{display:block;color:#dfc17f;font-size:11px;line-height:1.35}.alliance-application span{display:block;color:#8f8068;font-size:9px;margin-top:4px;line-height:1.4;overflow-wrap:anywhere}.alliance-app-btn{border:1px solid #765832;background:#261d14;color:#dfc17f;padding:6px 9px;font:600 9px "Roboto Slab",serif;cursor:pointer;white-space:nowrap}.alliance-app-btn.reject{color:#c98986}.alliance-app-status{flex:0 0 76px!important;text-align:right;color:#8f8068!important}.empty-note{color:#8f8068;font-size:10px;margin:10px 0}
 .alliance-join{margin-top:14px}
 @media(max-width:800px){.alliances-list{grid-template-columns:repeat(2,minmax(0,1fr))}.alliance-columns{grid-template-columns:1fr}}
 @media(max-width:600px){.alliances-list{grid-template-columns:1fr}.alliance-tile{padding:12px;gap:12px;min-height:96px}.alliance-tile>img{width:58px;height:58px;flex-basis:58px}.alliance-tile-info h2{font-size:13px;margin-bottom:8px}.alliance-meta{gap:5px}.alliance-meta span{padding:6px}.alliance-hero{grid-template-columns:72px minmax(0,1fr);align-items:start;gap:12px;padding:14px}.alliance-hero>img{width:72px;height:72px;flex-basis:72px}.alliance-hero h1{font-size:18px}.alliance-hero-stats{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:9px;gap:5px}.alliance-hero-stats div{min-width:0;padding:6px 7px}.alliance-hero-stats strong{font-size:14px}.alliance-section{padding:0 12px 3px}.alliance-section>.card-title{margin:0 -12px}.alliance-member,.alliance-battle{min-height:60px;gap:9px;padding:9px 0}.alliance-member img{width:38px;height:38px;flex-basis:38px}.alliance-result{flex-basis:64px;font-size:9px}.alliance-application{align-items:flex-start;flex-wrap:wrap;gap:8px}.alliance-application>div{flex:1 1 calc(100% - 90px)}.alliance-application .alliance-app-btn{margin-left:auto}.alliance-app-status{flex-basis:auto!important;margin-left:auto}.alliance-form{display:grid}.alliance-form input,.alliance-form select,.alliance-form button{width:100%;box-sizing:border-box}}
+
+
+/* Global typography normalization */
+body{
+  font-family:"Roboto Slab",serif;
+  font-size:13px;
+  line-height:1.6;
+}
+h1,h2,h3,h4,h5,h6,p,span,small,dt,dd,li,td,th,label,input,select,textarea,button,a{
+  font-family:"Roboto Slab",serif;
+}
+h1{font-weight:700;line-height:1.2}
+h2{font-weight:600;line-height:1.3}
+h3,h4,h5,h6{font-weight:600;line-height:1.35}
+p{line-height:1.6}
+.card-title{font-family:"Roboto Slab",serif;font-weight:600;line-height:1.35}
+nav a,.btn{font-family:"Roboto Slab",serif}
