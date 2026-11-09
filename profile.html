@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Профиль — EMPIRE</title>
   <link rel="stylesheet" href="assets/style.css?v=20261108-square-avatars1">
+  <script src="assets/user-avatars.js?v=20261109-faction-avatars"></script>
 </head>
 <body>
 <header>
@@ -90,11 +91,12 @@ const profiles={
     {regiment:"95th Rifles",from:"12.09.2026",to:"по настоящее время"}]},
   "Fusilier":{avatar:"assets/images (2).jpg",regiment:"Без полка",role:"Солдат",friends:["Marquis"],service:[]}
 };
-const fallback={avatar:"assets/default-soldier.jpg",regiment:"Без полка",role:"Солдат",friends:[],service:[]};
+const fallback={avatar:"",regiment:"Без полка",role:"Солдат",friends:[],service:[]};
+const resolveAvatar=(name,profile)=>window.empireUserAvatar(name,profile&&profile.avatar,profile&&profile.faction);
 const user=new URLSearchParams(location.search).get("user")||"Kalashnikov";
 const d=profiles[user]||fallback;
 document.title=user+" — EMPIRE";
-document.getElementById("profileAvatar").src=d.avatar;
+document.getElementById("profileAvatar").src=resolveAvatar(user,d);
 document.getElementById("profileAvatar").alt="Аватар "+user;
 document.getElementById("profileName").textContent=user;
 document.getElementById("profileRegiment").textContent=d.regiment;
@@ -166,7 +168,7 @@ const guestBox=document.getElementById("profileGuests");
 if(visibleGuests.length){
   guestBox.innerHTML=visibleGuests.map(name=>{
     const p=profiles[name]||fallback;
-    return '<a class="profile-friend" href="profile.html?v=20261108-guests&user='+encodeURIComponent(name)+'"><img src="'+p.avatar+'" alt="" loading="lazy" decoding="async"><span>'+name+'</span></a>';
+    return '<a class="profile-friend" href="profile.html?v=20261108-guests&user='+encodeURIComponent(name)+'"><img src="'+resolveAvatar(name,p)+'" alt="" loading="lazy" decoding="async"><span>'+name+'</span></a>';
   }).join("");
   if(guestsTotalPages>1){
     const pagination=document.createElement("div");
@@ -197,7 +199,7 @@ const messageArea=document.getElementById("messageArea");
 if(history){
  messageArea.innerHTML='<div class="message-history">'+history.map(m=>{
   const me=m.from==="Kalashnikov";
-  return '<div class="private-message '+(me?'mine':'')+'"><img src="'+(profiles[m.from]||fallback).avatar+'" alt="" loading="lazy" decoding="async"><div><b>'+m.from+'</b><p>'+m.text+'</p><span>'+m.time+'</span></div></div>';
+  return '<div class="private-message '+(me?'mine':'')+'"><img src="'+resolveAvatar(m.from,profiles[m.from]||fallback)+'" alt="" loading="lazy" decoding="async"><div><b>'+m.from+'</b><p>'+m.text+'</p><span>'+m.time+'</span></div></div>';
  }).join("")+'</div><div class="message-compose"><input id="privateMessageInput" placeholder="Написать сообщение..."><button id="privateMessageSend">Отправить</button></div>';
 }else{
  messageArea.innerHTML='<div class="no-conversation"><p>Переписки с пользователем пока нет.</p><button class="btn primary" id="startConversation">Написать сообщение</button></div>';
