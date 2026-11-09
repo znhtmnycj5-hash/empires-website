@@ -14,7 +14,7 @@
   ];
   const strip=document.getElementById("onlineUsersStrip");
   const count=document.getElementById("onlineUsersCount");
-  if(!strip||!count)return;
+  if(strip&&count){
   const unique=users.filter((u,i,a)=>a.findIndex(x=>x[0]===u[0])===i);
   count.textContent=unique.length;
   strip.innerHTML=unique.map(u=>{
@@ -26,4 +26,14 @@
       '<span class="online-user-dot" aria-label="В сети"></span>'+
       '<span class="online-user-name">'+name+'</span></a>';
   }).join("");
+  }
+  // Отдельный список вкладки «Онлайн» в мини-чате (в том числе мобильная раскладка).
+  document.querySelectorAll("#online-users .online-user").forEach(item=>{
+    const label=item.querySelector("small");
+    const img=item.querySelector("img.chat-avatar");
+    const name=item.querySelector("b")?.textContent.trim()||img?.alt||"";
+    if(img&&label&&label.textContent.trim().toLowerCase()==="без полка"&&typeof window.empireUserAvatar==="function"){
+      img.src=window.empireUserAvatar(name,"assets/default-soldier.jpg","");
+    }
+  });
 })();
