@@ -41,9 +41,11 @@ const data={
  "King's German Legion":{avatar:"assets/kgr.png",commander:"Friedrich von Keller",commanderPhoto:"assets/default-soldier.jpg",faction:"Британская Империя",rating:1320,count:21},
  "6e Hussards":{avatar:"assets/1st.jpg",commander:"Louis Beaumont",commanderPhoto:"assets/default-soldier.jpg",faction:"Французская Империя",rating:1260,count:19},
  "Royal Scots":{avatar:"assets/95.webp",commander:"James Campbell",commanderPhoto:"assets/default-soldier.jpg",faction:"Британская Империя",rating:1195,count:17}
+ ,"Баварский Полк":{avatar:"assets/84e.png",commander:"Maximilian von Bayern",commanderPhoto:"assets/default-soldier.jpg",officers:[],soldiers:[],faction:"Рейнский Союз",rating:1080,count:12},
+ "Totenkopf":{avatar:"assets/preobraz.webp",commander:"Friedrich Adler",commanderPhoto:"assets/default-soldier.jpg",officers:[],soldiers:[],faction:"Пруссия",rating:1040,count:10}
 };;
 const name=new URLSearchParams(location.search).get('name')||'1st Regiment',d=data[name]||data['1st Regiment'];
-const factionBackgrounds={'Французская Империя':'assets/73f84f86-e210-42f1-8105-81ffb0b393be.png','Австрийская Империя':'assets/AUSTR.jpg','Британская Империя':'assets/BG.jpg','Королевство Пруссия':'assets/PRUS.jpg','Прусское Королевство':'assets/PRUS.jpg','Рейнский Союз':'assets/REYN.jpg','Российская Империя':'assets/RUS.jpg'};
+const factionBackgrounds={'Французская Империя':'assets/73f84f86-e210-42f1-8105-81ffb0b393be.png','Австрийская Империя':'assets/AUSTR.jpg','Британская Империя':'assets/BG.jpg','Королевство Пруссия':'assets/PRUS.jpg','Прусское Королевство':'assets/PRUS.jpg','Пруссия':'assets/PRUS.jpg','Рейнский Союз':'assets/REYN.jpg','Российская Империя':'assets/RUS.jpg'};
 const factionBg=factionBackgrounds[d.faction];
 if(factionBg){const block=document.getElementById('regimentMainInfo');block.style.backgroundImage='linear-gradient(rgba(12,10,8,.52),rgba(12,10,8,.72)),url("'+factionBg+'")';block.style.backgroundSize='cover';block.style.backgroundPosition='center';block.style.backgroundRepeat='no-repeat';}
 
