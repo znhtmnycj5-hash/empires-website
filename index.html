@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Empire — Napoleonic Wars Community</title>
-<link rel="stylesheet" href="assets/style.css?v=20261109-home-layout5">
+<link rel="stylesheet" href="assets/style.css?v=20261109-home-layout6">
   <script src="assets/comment-counts.js?v=20261108-1"></script>
 <script src="assets/rating.js?v=20261108-lazy1"></script>
 </head>
@@ -288,8 +288,7 @@ const renderHomeBattles=()=>{
     const dt=d.split('.'),day=dt[0]||d;
     const month={10:'ОКТЯБРЯ',11:'НОЯБРЯ',12:'ДЕКАБРЯ'}[Number(dt[1])]||'';
     const battleUrl='battle.html?id='+encodeURIComponent(record.id||'');
-    return '<div class="home-battle-link" data-battle-url="'+battleUrl+'"><div class="home-battle-cover" style="height:150px!important;min-height:150px!important;max-height:150px!important"><a class="home-battle-half home-battle-left '+(leftWinner?'home-battle-winner':leftLoser?'home-battle-loser':'')+'" href="'+battleUrl+'" aria-label="Открыть сражение" style="height:150px!important;min-height:150px!important;max-height:150px!important;background-image:url(&quot;'+leftImg+'&quot;);background-size:cover;background-position:center;background-repeat:no-repeat"></a><a class="home-battle-half home-battle-right '+(rightWinner?'home-battle-winner':rightLoser?'home-battle-loser':'')+'" href="'+battleUrl+'" aria-label="Открыть сражение" style="height:150px!important;min-height:150px!important;max-height:150px!important;background-image:url(&quot;'+rightImg+'&quot;);background-size:cover;background-position:center;background-repeat:no-repeat"></a><div class="home-battle-overlay"><div class="home-battle-date">'+day+'<span>'+month+'</span></div><div class="home-battle-status">'+(statusLabels[status]||'')+'</div><div class="home-battle-versus"><span class="'+(leftWinner?'home-battle-winner-name':leftLoser?'home-battle-loser-name':'')+'">'+leftName+'</span><b>VS</b><span class="'+(rightWinner?'home-battle-winner-name':rightLoser?'home-battle-loser-name':'')+'">'+rightName+'</span></div>'+outcomeMarkup+'</div></div></div>'
-  }).join('');
+    return '<div class="home-battle-link" data-battle-url="'+battleUrl+'"><div class="home-battle-cover"><a class="home-battle-half home-battle-left '+(leftWinner?'home-battle-winner':leftLoser?'home-battle-loser':'')+'" href="'+battleUrl+'" aria-label="Открыть сражение"><img src="'+leftImg+'" alt="'+leftName+'" loading="lazy" decoding="async"><span class="home-battle-side-name">'+leftName+'</span></a><a class="home-battle-half home-battle-right '+(rightWinner?'home-battle-winner':rightLoser?'home-battle-loser':'')+'" href="'+battleUrl+'" aria-label="Открыть сражение"><img src="'+rightImg+'" alt="'+rightName+'" loading="lazy" decoding="async"><span class="home-battle-side-name">'+rightName+'</span></a><div class="home-battle-overlay"><div class="home-battle-date">'+day+'<span>'+month+'</span></div><div class="home-battle-status">'+(statusLabels[status]||'')+'</div><div class="home-battle-versus"><span class="'+(leftWinner?'home-battle-winner-name':leftLoser?'home-battle-loser-name':'')+'">'+leftName+'</span><b>VS</b><span class="'+(rightWinner?'home-battle-winner-name':rightLoser?'home-battle-loser-name':'')+'">'+rightName+'</span></div>'+outcomeMarkup+'</div></div></div>'  }).join('');
   box.querySelectorAll('.home-battle-link').forEach(row=>row.addEventListener('click',event=>{
     if(event.target.closest('.regiment-link'))return;
     if(row.dataset.battleUrl)window.location.href=row.dataset.battleUrl;
