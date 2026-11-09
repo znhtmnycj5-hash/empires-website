@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
 <title>Рейтинг — EMPIRE</title>
-<link rel="stylesheet" href="assets/style.css?v=20261109-rating-new">
+<link rel="stylesheet" href="assets/style.css?v=20261109-rating4">
 <script src="assets/rating.js?v=20261109-rating-new"></script>
 <script src="assets/alliances.js?v=20261109-rating-new"></script>
 <style>
@@ -81,38 +81,44 @@
 
 <script>
 (function(){
+const regimentData=[
+{name:"1st Regiment",score:1840,count:42,avatar:"assets/1st.jpg"},
+{name:"95th Rifles",score:1715,count:37,avatar:"assets/95.webp"},
+{name:"84e Régiment",score:1630,count:35,avatar:"assets/84e.png"},
+{name:"Preobrazhensky",score:1590,count:31,avatar:"assets/preobraz.webp"},
+{name:"7th Hussars",score:1565,count:29,avatar:"assets/hussars.png"},
+{name:"13e Léger",score:1510,count:28,avatar:"assets/1st.jpg"},
+{name:"33e Ligne",score:1475,count:26,avatar:"assets/95.webp"},
+{name:"92nd Gordon Highlanders",score:1420,count:24,avatar:"assets/84e.png"},
+{name:"Semenovsky",score:1385,count:23,avatar:"assets/preobraz.webp"},
+{name:"King's German Legion",score:1320,count:21,avatar:"assets/kgr.png"},
+{name:"6e Hussards",score:1260,count:19,avatar:"assets/1st.jpg"},
+{name:"Royal Scots",score:1195,count:17,avatar:"assets/95.webp"}
+];
+const allianceData=[
+{name:"Имперский союз",score:6135,membersCount:102,avatar:"assets/empire_logo_top_right.png",id:"alliance-001"},
+{name:"Братство линии",score:4385,membersCount:80,avatar:"assets/95.webp",id:"alliance-002"},
+{name:"Северная коалиция",score:4295,membersCount:78,avatar:"assets/preobraz.webp",id:"alliance-003"}
+];
 const esc=v=>String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const render=(root,items,type)=>{
  if(!root)return;
- if(!items.length){root.innerHTML='<div class="rating-list empty">Рейтинг пока пуст.</div>';return;}
+ items=[...items].sort((a,b)=>b.score-a.score||a.name.localeCompare(b.name));
  const podium=items.slice(0,3).map((x,i)=>{
-  const pos=i+1, cls=pos===1?'gold':pos===2?'silver':'bronze';
-  const img=x.avatar||x.img||'assets/empire_logo_top_right.png';
+  const cls=i===0?'gold':i===1?'silver':'bronze';
   const href=type==='regiment'?'regiment.html?name='+encodeURIComponent(x.name):'alliance.html?id='+encodeURIComponent(x.id);
-  return '<a class="podium-card '+cls+'" href="'+href+'"><div class="place">'+pos+' МЕСТО</div><img class="podium-avatar" src="'+esc(img)+'" alt="" loading="lazy" decoding="async"><div class="podium-name">'+esc(x.name)+'</div><div class="podium-score">'+esc(x.score)+' очков</div></a>';
+  return '<a class="podium-card '+cls+'" href="'+href+'"><div class="place">'+(i+1)+' МЕСТО</div><img class="podium-avatar" src="'+esc(x.avatar)+'" alt="" decoding="async"><div class="podium-name">'+esc(x.name)+'</div><div class="podium-score">'+x.score+' очков</div></a>';
  }).join('');
  const rows=items.map((x,i)=>{
-  const img=x.avatar||x.img||'assets/empire_logo_top_right.png';
   const href=type==='regiment'?'regiment.html?name='+encodeURIComponent(x.name):'alliance.html?id='+encodeURIComponent(x.id);
-  const sub=type==='regiment'?((x.count||0)+' человек'):((x.membersCount||0)+' полков');
-  return '<a class="rating-row" href="'+href+'"><span class="rating-place">'+(i+1)+'</span><img class="rating-row-avatar" src="'+esc(img)+'" alt="" loading="lazy" decoding="async"><span class="rating-row-name">'+esc(x.name)+'<small class="rating-row-sub">'+esc(sub)+'</small></span><span class="rating-row-score">'+esc(x.score)+' очков</span></a>';
+  const sub=type==='regiment'?x.count+' человек':x.membersCount+' полков';
+  return '<a class="rating-row" href="'+href+'"><span class="rating-place">'+(i+1)+'</span><img class="rating-row-avatar" src="'+esc(x.avatar)+'" alt="" decoding="async"><span class="rating-row-name">'+esc(x.name)+'<small class="rating-row-sub">'+sub+'</small></span><span class="rating-row-score">'+x.score+' очков</span></a>';
  }).join('');
  root.innerHTML='<div class="podium">'+podium+'</div><div class="rating-list">'+rows+'</div>';
 };
-(async()=>{
- let regs=[];
- try{
-  regs=await calculateRegimentRatings();
-  const map=window.EMPIRE_ALLIANCES?.defaultRegiments||{};
-  regs=regs.map(x=>({...x,avatar:map[x.name]?.img||'assets/empire_logo_top_right.png'}));
- }catch(e){}
- render(document.getElementById('regimentRating'),regs,'regiment');
- let alliances=[];
- try{
-  alliances=window.EMPIRE_ALLIANCES.getAll().map(x=>({...x,score:window.EMPIRE_ALLIANCES.calcRating(x),membersCount:window.EMPIRE_ALLIANCES.totalMembers(x)})).sort((a,b)=>b.score-a.score||a.name.localeCompare(b.name));
- }catch(e){}
- render(document.getElementById('allianceRating'),alliances,'alliance');
+render(document.getElementById('regimentRating'),regimentData,'regiment');
+render(document.getElementById('allianceRating'),allianceData,'alliance');
 })();
-</script>
+</script></script>
 </body>
 </html>
