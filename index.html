@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Empire — Napoleonic Wars Community</title>
-<link rel="stylesheet" href="assets/style.css?v=20261109-home-layout7">
+<link rel="stylesheet" href="assets/style.css?v=20261109-home-restore-old">
   <script src="assets/comment-counts.js?v=20261108-1"></script>
 <script src="assets/rating.js?v=20261108-lazy1"></script>
 </head>
@@ -132,13 +132,6 @@
 <div class="full">
   <section class="card">
     <div class="card-title">⚔ &nbsp; Предстоящие полковые сражения <a href="battles.html">Все сражения →</a></div>
-    <div class="home-battle-filters" role="group" aria-label="Фильтр сражений">
-      <button type="button" class="home-battle-filter active" data-filter="accepted">Вызов принят</button>
-      <button type="button" class="home-battle-filter" data-filter="ongoing">Идёт бой</button>
-      <button type="button" class="home-battle-filter" data-filter="completed">Завершённые</button>
-      <button type="button" class="home-battle-filter" data-filter="awaiting_confirmation">Ожидает подтверждения</button>
-      <button type="button" class="home-battle-filter" data-filter="challenged">Вызов брошен</button>
-    </div>
     <div id="upcomingBattlesHome">
       <div class="battle"><div style="padding:12px;text-align:center;color:#8f8068;font-size:11px;width:100%">Загрузка предстоящих сражений…</div></div>
     </div>
@@ -237,7 +230,7 @@ const loadUpcomingBattles=async()=>{
     const now=Date.now();
     const getStatus=record=>{
       const base=(record.dataset.status||'').trim().toLowerCase();
-      if(base==='completed'||base==='challenged'||base==='accepted'||base==='awaiting_confirmation')return base;
+      if(base==='completed')return base;
       const startRaw=record.querySelector('.battle-countdown')?.dataset.start||'';
       const start=startRaw?new Date(startRaw).getTime():NaN;
       if(Number.isFinite(start)){
@@ -247,58 +240,41 @@ const loadUpcomingBattles=async()=>{
       }
       return base;
     };
-    homeBattleRecords=records.map(record=>({record,status:getStatus(record)}));
-    renderHomeBattles();
+    const allowed=['challenged','accepted','ongoing'];
+    const upcoming=records.filter(record=>allowed.includes(getStatus(record)))
+      .sort((a,b)=>{
+        const aStart=new Date(a.querySelector('.battle-countdown')?.dataset.start||'9999-12-31').getTime();
+        const bStart=new Date(b.querySelector('.battle-countdown')?.dataset.start||'9999-12-31').getTime();
+        return aStart-bStart;
+      }).slice(0,3);
+    if(!upcoming.length){
+      box.innerHTML='<div class="battle"><div class="home-battles-empty">Предстоящих сражений пока нет.</div></div>';
+      return;
+    }
+    const statusLabels={challenged:'ВЫЗОВ БРОШЕН',accepted:'ВЫЗОВ ПРИНЯТ',ongoing:'ИДЁТ БОЙ'};
+    box.innerHTML=upcoming.map((record,index)=>{
+      const top=record.querySelector('.battle-record-top');
+      const date=(top?.querySelectorAll('span')[1]?.textContent||'').trim();
+      const sides=record.querySelectorAll('.battle-side');
+      const left=sides[0],right=sides[1];
+      const leftHref=left?.getAttribute('href')||'#',rightHref=right?.getAttribute('href')||'#';
+      const leftImg=left?.querySelector('img')?.getAttribute('src')||'',rightImg=right?.querySelector('img')?.getAttribute('src')||'';
+      const leftName=left?.querySelector('strong')?.textContent.trim()||'Полк',rightName=right?.querySelector('strong')?.textContent.trim()||'Полк';
+      const parts=date.split('·').map(s=>s.trim()),d=parts[0]||date,tm=parts[1]||'';
+      const dt=d.split('.'),day=dt[0]||d;
+      const month={10:'ОКТЯБРЯ',11:'НОЯБРЯ',12:'ДЕКАБРЯ'}[Number(dt[1])]||'';
+      const status=getStatus(record),battleUrl='battle.html?id='+encodeURIComponent(record.id||'');
+      const commentCount=window.EMPIRE_COMMENT_COUNTS.getBattleCommentCount(record.id);
+      return '<div class="battle home-battle-link" data-battle-url="'+battleUrl+'"'+(index?' style="border-top:1px solid #332b21"':'')+'><div class="datebox">'+day+'<br><small>'+month+(tm?'<br>'+tm:'')+'</small><span class="battle-type">'+(statusLabels[status]||'')+'</span></div><div><a class="team regiment-link" href="'+leftHref+'"><img class="battle-flag" src="'+leftImg+'" alt="">'+leftName+'</a></div><div class="vs">VS</div><div><a class="team regiment-link" href="'+rightHref+'"><img class="battle-flag" src="'+rightImg+'" alt="">'+rightName+'</a></div>'+window.EMPIRE_COMMENT_COUNTS.badge(commentCount,battleUrl)+'</div>';
+    }).join('');
+    box.querySelectorAll('.home-battle-link').forEach(row=>row.addEventListener('click',event=>{
+      if(event.target.closest('.regiment-link'))return;
+      if(row.dataset.battleUrl)window.location.href=row.dataset.battleUrl;
+    }));
   }catch(error){
     box.innerHTML='<div class="battle"><div class="home-battles-empty">Не удалось загрузить сражения. <a href="battles.html">Открыть список</a></div></div>';
   }
-};
-const renderHomeBattles=()=>{
-  const box=document.getElementById('upcomingBattlesHome');
-  if(!box)return;
-  const statusLabels={challenged:'ВЫЗОВ БРОШЕН',accepted:'ВЫЗОВ ПРИНЯТ',ongoing:'ИДЁТ БОЙ',awaiting_confirmation:'ОЖИДАЕТ ПОДТВЕРЖДЕНИЯ',completed:'ЗАВЕРШЕНО'};
-  const filtered=homeBattleRecords.filter(item=>item.status===homeBattleFilter);
-  filtered.sort((a,b)=>{
-    const aStart=new Date(a.record.querySelector('.battle-countdown')?.dataset.start||'9999-12-31').getTime();
-    const bStart=new Date(b.record.querySelector('.battle-countdown')?.dataset.start||'9999-12-31').getTime();
-    return homeBattleFilter==='completed'?bStart-aStart:aStart-bStart;
-  });
-  if(!filtered.length){
-    box.innerHTML='<div class="battle"><div class="home-battles-empty">Сражений с таким статусом пока нет.</div></div>';
-    return;
-  }
-  box.innerHTML=filtered.map(({record,status})=>{
-    const top=record.querySelector('.battle-record-top');
-    const date=(top?.querySelectorAll('span')[1]?.textContent||'').trim();
-    const sides=record.querySelectorAll('.battle-side');
-    const left=sides[0],right=sides[1];
-    const leftImg=left?.querySelector('img')?.getAttribute('src')||'',rightImg=right?.querySelector('img')?.getAttribute('src')||'';
-    const leftName=left?.querySelector('strong')?.textContent.trim()||'Полк',rightName=right?.querySelector('strong')?.textContent.trim()||'Полк';
-    const score=record.querySelector('.battle-result-box b')?.textContent.trim()||'';
-    const scoreMatch=score.match(/(\d+)\s*[:：-]\s*(\d+)/);
-    const leftRounds=scoreMatch?Number(scoreMatch[1]):null;
-    const rightRounds=scoreMatch?Number(scoreMatch[2]):null;
-    const isDraw=status==='completed'&&scoreMatch!==null&&leftRounds===rightRounds;
-    const leftWinner=status==='completed'&&scoreMatch!==null&&leftRounds>rightRounds;
-    const rightWinner=status==='completed'&&scoreMatch!==null&&rightRounds>leftRounds;
-    const leftLoser=rightWinner;
-    const rightLoser=leftWinner;
-    const outcomeMarkup=status==='completed'?(isDraw?'<div class="home-battle-draw"><strong>'+score+'</strong><span>НИЧЬЯ</span></div>':'<div class="home-battle-result">'+score+'</div>'):'';
-    const parts=date.split('·').map(s=>s.trim()),d=parts[0]||date;
-    const dt=d.split('.'),day=dt[0]||d;
-    const month={10:'ОКТЯБРЯ',11:'НОЯБРЯ',12:'ДЕКАБРЯ'}[Number(dt[1])]||'';
-    const battleUrl='battle.html?id='+encodeURIComponent(record.id||'');
-    return '<div class="home-battle-link" data-battle-url="'+battleUrl+'" style="display:block;width:100%;height:180px;min-height:180px;max-height:180px;overflow:hidden;position:relative;box-sizing:border-box"><div class="home-battle-cover" style="display:grid;grid-template-columns:1fr 1fr;width:100%;height:180px;min-height:180px;max-height:180px;overflow:hidden;position:relative"><a class="home-battle-half home-battle-left '+(leftWinner?'home-battle-winner':leftLoser?'home-battle-loser':'')+'" href="'+battleUrl+'" aria-label="Открыть сражение" style="display:block;position:relative;width:100%;height:180px;min-width:0;overflow:hidden"><img src="'+leftImg+'" alt="'+leftName+'" loading="lazy" decoding="async" style="display:block;position:absolute;inset:0;width:100%;height:180px;min-width:0;min-height:180px;max-width:none;max-height:180px;object-fit:cover;object-position:center"><span class="home-battle-side-name">'+leftName+'</span></a><a class="home-battle-half home-battle-right '+(rightWinner?'home-battle-winner':rightLoser?'home-battle-loser':'')+'" href="'+battleUrl+'" aria-label="Открыть сражение" style="display:block;position:relative;width:100%;height:180px;min-width:0;overflow:hidden"><img src="'+rightImg+'" alt="'+rightName+'" loading="lazy" decoding="async" style="display:block;position:absolute;inset:0;width:100%;height:180px;min-width:0;min-height:180px;max-width:none;max-height:180px;object-fit:cover;object-position:center"><span class="home-battle-side-name">'+rightName+'</span></a><div class="home-battle-overlay"><div class="home-battle-date">'+day+'<span>'+month+'</span></div><div class="home-battle-status">'+(statusLabels[status]||'')+'</div><div class="home-battle-versus"><span class="'+(leftWinner?'home-battle-winner-name':leftLoser?'home-battle-loser-name':'')+'">'+leftName+'</span><b>VS</b><span class="'+(rightWinner?'home-battle-winner-name':rightLoser?'home-battle-loser-name':'')+'">'+rightName+'</span></div>'+outcomeMarkup+'</div></div></div>'  }).join('');
-  box.querySelectorAll('.home-battle-link').forEach(row=>row.addEventListener('click',event=>{
-    if(event.target.closest('.regiment-link'))return;
-    if(row.dataset.battleUrl)window.location.href=row.dataset.battleUrl;
-  }));
-};
-document.querySelectorAll('.home-battle-filter').forEach(button=>button.addEventListener('click',()=>{
-  homeBattleFilter=button.dataset.filter;
-  document.querySelectorAll('.home-battle-filter').forEach(item=>item.classList.toggle('active',item===button));
-  renderHomeBattles();
-}));
+};;
 loadUpcomingBattles();
 
 const updateHomeRanking=async()=>{
