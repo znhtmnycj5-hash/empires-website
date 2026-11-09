@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Профиль — EMPIRE</title>
   <link rel="stylesheet" href="assets/style.css?v=20261108-square-avatars1">
-  <script src="assets/user-avatars.js?v=20261109-faction-avatars"></script>
+  <script src="assets/user-avatars.js?v=20261109-faction-avatars-fix1"></script>
 </head>
 <body>
 <header>
@@ -92,7 +92,28 @@ const profiles={
   "Fusilier":{avatar:"assets/images (2).jpg",regiment:"Без полка",role:"Солдат",friends:["Marquis"],service:[]}
 };
 const fallback={avatar:"",regiment:"Без полка",role:"Солдат",friends:[],service:[]};
-const resolveAvatar=(name,profile)=>window.empireUserAvatar(name,profile&&profile.avatar,profile&&profile.faction);
+const regimentFactions={
+  "1st Regiment":"Французская Империя",
+  "95th Rifles":"Британская Империя",
+  "84e Régiment":"Французская Империя",
+  "Preobrazhensky":"Российская Империя",
+  "7th Hussars":"Британская Империя",
+  "13e Léger":"Французская Империя",
+  "33e Ligne":"Британская Империя",
+  "92nd Gordon Highlanders":"Британская Империя",
+  "Semenovsky":"Российская Империя",
+  "King's German Legion":"Британская Империя",
+  "6e Hussards":"Французская Империя",
+  "Royal Scots":"Британская Империя",
+  "Баварский Полк":"Рейнский Союз",
+  "Totenkopf":"Пруссия",
+  "4-й пехотный полк":"Австрийская Империя"
+};
+/* У тестовых записей avatar — старые заглушки, а не личные фотографии. */
+const resolveAvatar=(name,profile)=>{
+  const faction=(profile&&profile.faction)||regimentFactions[profile&&profile.regiment]||window.EMPIRE_USER_FACTIONS[name];
+  return window.empireUserAvatar(name,"",faction);
+};
 const user=new URLSearchParams(location.search).get("user")||"Kalashnikov";
 const d=profiles[user]||fallback;
 document.title=user+" — EMPIRE";
