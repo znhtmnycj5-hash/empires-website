@@ -33,13 +33,14 @@ window.EMPIRE_FACTION_AVATARS={
  "Рейнский союз":"assets/avatar-bavaria.png"
 };
 
-/* Личные фотографии сохраняем. Заглушку считаем отсутствием аватара и заменяем аватаром фракции полка. */
+/* Для отсутствующих фотографий используем аватар фракции. */
 window.empireUserAvatar=function(name,ownAvatar,faction){
-  const isPlaceholder=!ownAvatar||/default-soldier\.(jpg|jpeg|png)$/i.test(String(ownAvatar));
-  if(!isPlaceholder)return ownAvatar;
-  const rawFaction=faction||window.EMPIRE_USER_FACTIONS[name]||"";
-  const normalized=String(rawFaction).trim().toLocaleLowerCase("ru");
-  const factionAliases={
+  const avatar=String(ownAvatar||"").trim();
+  const file=avatar.split(/[?#]/)[0].split("/").pop().toLowerCase();
+  const placeholder=!avatar||!file||file==="default-soldier.jpg"||file==="default-soldier.jpeg"||file==="default-soldier.png";
+  if(!placeholder)return avatar;
+  const raw=String(faction||window.EMPIRE_USER_FACTIONS[name]||"").trim().toLocaleLowerCase("ru").replace(/\\s+/g," ");
+  const aliases={
     "французская империя":"Французская Империя",
     "австрийская империя":"Австрийская Империя",
     "российская империя":"Российская Империя",
@@ -49,7 +50,7 @@ window.empireUserAvatar=function(name,ownAvatar,faction){
     "британская империя":"Британская Империя",
     "рейнский союз":"Рейнский Союз"
   };
-  const key=factionAliases[normalized]||rawFaction;
-  return window.EMPIRE_FACTION_AVATARS[key]||ownAvatar||"assets/default-soldier.jpg";
+  const key=aliases[raw];
+  return (key&&window.EMPIRE_FACTION_AVATARS[key])||avatar||"assets/default-soldier.jpg";
 };
 window.empireProfileUrl=function(name){return "profile.html?user="+encodeURIComponent(name||"");};
