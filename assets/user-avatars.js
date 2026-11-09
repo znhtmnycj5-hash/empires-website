@@ -33,12 +33,12 @@ window.EMPIRE_FACTION_AVATARS={
  "Рейнский союз":"assets/avatar-bavaria.png"
 };
 
-/* Приоритет: личный аватар -> фракционный -> временный стандартный. */
+/* Приоритет: фракционный аватар для тестовых профилей без личной фотографии. */
 window.empireUserAvatar=function(name,ownAvatar,faction){
+  const resolvedFaction=faction||window.EMPIRE_USER_FACTIONS[name];
+  if(resolvedFaction&&window.EMPIRE_FACTION_AVATARS[resolvedFaction])return window.EMPIRE_FACTION_AVATARS[resolvedFaction];
   if(ownAvatar)return ownAvatar;
   const personal=window.EMPIRE_USER_AVATARS[name];
-  if(personal)return personal;
-  const resolvedFaction=faction||window.EMPIRE_USER_FACTIONS[name];
-  return window.EMPIRE_FACTION_AVATARS[resolvedFaction]||"assets/default-soldier.jpg";
+  return personal||"assets/default-soldier.jpg";
 };
 window.empireProfileUrl=function(name){return "profile.html?user="+encodeURIComponent(name||"");};
