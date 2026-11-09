@@ -2707,5 +2707,12 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   #onlineUsers .online-user-name{font-size:7px}
 }
 
-
-
+/* Normalize faction roster portraits: remove the narrow pale strip at the left edge. */
+img.member-avatar,
+img.commander-avatar{
+  object-fit:cover;
+  object-position:center center;
+  clip-path:inset(0 0 0 3px);
+  box-sizing:border-box;
+  vertical-align:middle;
+}
