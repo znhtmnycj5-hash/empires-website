@@ -51,6 +51,6 @@ window.empireUserAvatar=function(name,ownAvatar,faction){
     "рейнский союз":"Рейнский Союз"
   };
   const key=aliases[raw];
-  return (key&&window.EMPIRE_FACTION_AVATARS[key])||avatar||"assets/default-soldier.jpg";
+  return (key&&window.EMPIRE_FACTION_AVATARS[key])||"assets/aea32583-9230-496e-af65-c2e33f73ff79.png";
 };
 window.empireProfileUrl=function(name){return "profile.html?user="+encodeURIComponent(name||"");};
