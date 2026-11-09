@@ -19,8 +19,10 @@
   count.textContent=unique.length;
   strip.innerHTML=unique.map(u=>{
     const name=u[0];
+    const ownAvatar=u[1];
+    const avatar=typeof window.empireUserAvatar==="function"?window.empireUserAvatar(name,ownAvatar):ownAvatar;
     return '<a class="online-user" href="profile.html?user='+encodeURIComponent(name)+'" title="'+name+'">'+
-      '<img class="online-user-avatar" src="'+u[1]+'" alt="'+name+'" loading="lazy" decoding="async">'+
+      '<img class="online-user-avatar" src="'+avatar+'" alt="'+name+'" loading="lazy" decoding="async">'+
       '<span class="online-user-dot" aria-label="В сети"></span>'+
       '<span class="online-user-name">'+name+'</span></a>';
   }).join("");
