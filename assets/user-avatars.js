@@ -27,10 +27,10 @@ window.EMPIRE_FACTION_AVATARS={
  "Пруссия":"assets/avatar-prussia.png",
  "Королевство Пруссия":"assets/avatar-prussia.png",
  "Прусское Королевство":"assets/avatar-prussia.png",
- "Британская Империя":"assets/avatar-britain.png",
- "Британская империя":"assets/avatar-britain.png",
- "Рейнский Союз":"assets/avatar-bavaria.png",
- "Рейнский союз":"assets/avatar-bavaria.png"
+ "Британская Империя":"assets/1BR.jpg",
+ "Британская империя":"assets/1BR.jpg",
+ "Рейнский Союз":"assets/Bav.jpg",
+ "Рейнский союз":"assets/Bav.jpg"
 };
 
 /* Для отсутствующих фотографий используем аватар фракции. */
