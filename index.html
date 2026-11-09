@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Empire — Napoleonic Wars Community</title>
-<link rel="stylesheet" href="assets/style.css?v=20261109-online-grid2">
+<link rel="stylesheet" href="assets/style.css?v=20261109-online-grid3">
   <script src="assets/comment-counts.js?v=20261108-1"></script>
 <script src="assets/rating.js?v=20261108-lazy1"></script>
 </head>
@@ -128,7 +128,7 @@
     <a class="btn" style="display:block;text-align:center" href="#">Перейти в профиль</a>
     <section class="card online-users-home" id="onlineUsers">
     <div class="card-title">● &nbsp; Пользователи в сети <span id="onlineUsersCount" class="online-users-count">0</span></div>
-    <div id="onlineUsersStrip" class="online-users-strip" aria-label="Пользователи в сети"></div>
+    <div id="onlineUsersStrip" class="online-users-strip" aria-label="Пользователи в сети" style="display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-auto-rows:74px;gap:8px;width:100%;max-height:314px;overflow-y:auto!important;overflow-x:hidden!important;box-sizing:border-box;padding:6px 3px 8px;"></div>
   </section>
 </aside>
 </div>
@@ -355,7 +355,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>a.onclick=e=>{const id=a.ge
 })();
 </script>
 
-<script src="assets/online-users.js?v=20261108-lazy1"></script>
+<script src="assets/online-users.js?v=20261109-grid4"></script>
 <script src="assets/site-news.js?v=20261108-home-news4"></script>
 </body>
 </html>
