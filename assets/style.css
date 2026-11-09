@@ -1007,7 +1007,7 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
   .site-news-detail h1{font-size:18px!important;line-height:1.4!important}
 }
 
-/* Homepage online users strip */
+/* Homepage online users: 4x4 vertical scroll */
 #onlineUsers{overflow:hidden}
 #onlineUsersCount{
   display:inline-flex;align-items:center;justify-content:center;
@@ -1017,37 +1017,91 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
   font:600 10px "Roboto Slab",serif;
 }
 #onlineUsersStrip{
-  display:flex;align-items:center;gap:12px;width:100%;
-  overflow-x:auto;overflow-y:hidden;padding:10px 3px 7px;
-  scrollbar-width:thin;scrollbar-color:rgba(169,139,91,.55) rgba(20,16,12,.45);
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  grid-auto-rows:74px;
+  gap:8px;
+  width:100%;
+  max-height:314px;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  padding:6px 3px 8px;
+  box-sizing:border-box;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(169,139,91,.55) rgba(20,16,12,.45);
   -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  touch-action:pan-y;
 }
-#onlineUsersStrip::-webkit-scrollbar{height:6px}
+#onlineUsersStrip::-webkit-scrollbar{width:6px;height:0}
 #onlineUsersStrip::-webkit-scrollbar-track{background:rgba(20,16,12,.45)}
 #onlineUsersStrip::-webkit-scrollbar-thumb{background:rgba(169,139,91,.55);border-radius:6px}
-#onlineUsersStrip .online-user{position:relative;flex:0 0 auto;width:58px;text-align:center;text-decoration:none}
+#onlineUsersStrip .online-user{
+  position:relative!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:none!important;
+  height:74px;
+  flex:none!important;
+  display:flex!important;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  padding:4px 2px;
+  text-align:center;
+  text-decoration:none;
+  border:1px solid rgba(118,90,55,.42);
+  background:rgba(17,14,11,.58);
+  box-sizing:border-box;
+}
 #onlineUsersStrip .online-user-avatar{
-  display:block;width:48px;height:48px;margin:0 auto;object-fit:cover;
-  border-radius:50%;border:1px solid rgba(169,139,91,.65);
-  box-shadow:0 2px 8px rgba(0,0,0,.45)
+  display:block!important;
+  width:46px!important;height:46px!important;
+  min-width:46px!important;min-height:46px!important;
+  max-width:46px!important;max-height:46px!important;
+  margin:0;
+  object-fit:cover;
+  border-radius:50%;
+  border:1px solid rgba(169,139,91,.65);
+  box-shadow:0 2px 8px rgba(0,0,0,.45);
 }
 #onlineUsersStrip .online-user-dot{
-  position:absolute;width:9px;height:9px;left:calc(50% + 14px);top:39px;margin:0;
-  border:2px solid #171512;border-radius:50%;background:#69b66b;
-  z-index:2;pointer-events:none
+  position:absolute!important;
+  width:7px!important;height:7px!important;
+  left:auto!important;right:6px!important;top:6px!important;
+  margin:0;
+  border:0;
+  border-radius:50%;
+  background:#69b66b;
+  box-shadow:0 0 0 2px rgba(12,10,8,.9);
+  z-index:2;pointer-events:none;
 }
 #onlineUsersStrip .online-user-name{
-  display:block;margin-top:5px;color:#bfae91;font:10px "Roboto Slab",serif;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+  display:block!important;
+  width:100%;
+  margin:0;
+  color:#bfae91;
+  font:600 8px/1.1 "Roboto Slab",serif;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
-@media(max-width:650px){
-  #onlineUsersStrip{gap:10px;padding:8px 2px 6px}
-  #onlineUsersStrip .online-user{width:52px}
-  #onlineUsersStrip .online-user-avatar{width:42px;height:42px}
-  #onlineUsersStrip .online-user-dot{left:calc(50% + 12px);top:34px;width:8px;height:8px}
-  #onlineUsersStrip .online-user-name{font-size:9px}
+@media(max-width:700px){
+  #onlineUsersStrip{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    grid-auto-rows:68px;
+    max-height:286px;
+    gap:7px;
+  }
+  #onlineUsersStrip .online-user{height:68px}
+  #onlineUsersStrip .online-user-avatar{
+    width:40px!important;height:40px!important;
+    min-width:40px!important;min-height:40px!important;
+    max-width:40px!important;max-height:40px!important;
+  }
+  #onlineUsersStrip .online-user-name{font-size:7px}
 }
-
 
 /* Alliances */
 .alliances-page,.alliance-page{padding-top:22px;padding-bottom:38px}
