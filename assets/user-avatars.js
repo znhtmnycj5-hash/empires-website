@@ -35,7 +35,7 @@ window.EMPIRE_FACTION_AVATARS={
 
 /* Личные фотографии сохраняем. Заглушку считаем отсутствием аватара и заменяем аватаром фракции полка. */
 window.empireUserAvatar=function(name,ownAvatar,faction){
-  const isPlaceholder=!ownAvatar||/default-soldier\\.(jpg|jpeg|png)$/i.test(String(ownAvatar));
+  const isPlaceholder=!ownAvatar||/default-soldier\.(jpg|jpeg|png)$/i.test(String(ownAvatar));
   if(!isPlaceholder)return ownAvatar;
   const rawFaction=faction||window.EMPIRE_USER_FACTIONS[name]||"";
   const normalized=String(rawFaction).trim().toLocaleLowerCase("ru");
