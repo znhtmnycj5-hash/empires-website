@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Профиль — EMPIRE</title>
   <link rel="stylesheet" href="assets/style.css?v=20261109-inline-avatar-fill3">
-  <script src="assets/user-avatars.js?v=20261109-inline-faction-avatar6"></script>
+  <script src="assets/user-avatars.js?v=20261109-inline-faction-avatar7"></script>
 </head>
 <body>
 <header>
@@ -89,7 +89,7 @@ const profiles={
     {regiment:"1st Regiment",from:"15.10.2026",to:"по настоящее время"}]},
   "Marquis":{avatar:"assets/images (1).jpg",regiment:"95th Rifles",role:"Офицер",friends:["Grenadier87","Fusilier"],service:[
     {regiment:"95th Rifles",from:"12.09.2026",to:"по настоящее время"}]},
-  "Fusilier":{avatar:"assets/images (2).jpg",regiment:"Без полка",role:"Солдат",friends:["Marquis"],service:[]}
+  "Fusilier":{avatar:"assets/aea32583-9230-496e-af65-c2e33f73ff79.png",regiment:"Без полка",role:"Солдат",friends:["Marquis"],service:[]}
 };
 const fallback={avatar:"",regiment:"Без полка",role:"Солдат",friends:[],service:[]};
 const regimentFactions={
@@ -115,6 +115,8 @@ const resolveAvatar=(name,profile)=>{
   const faction=(profile&&profile.faction)||regimentFactions[profile&&profile.regiment]||regimentFactions[requestedRegiment]||window.EMPIRE_USER_FACTIONS[name]||"";
   const avatar=profile&&profile.avatar||"";
   const file=String(avatar).split(/[?#]/)[0].split("/").pop().toLowerCase();
+  const noRegiment=!profile||!String(profile.regiment||"").trim()||String(profile.regiment||"").trim().toLowerCase()==="без полка";
+  if(noRegiment&&!avatar)return "assets/aea32583-9230-496e-af65-c2e33f73ff79.png";
   if(!avatar||!file||file==="default-soldier.jpg"||file==="default-soldier.jpeg"||file==="default-soldier.png")return typeof window.empireUserAvatar==="function"?window.empireUserAvatar(name,avatar,faction):(profileFactionAvatarMap[String(faction).trim()]||"assets/aea32583-9230-496e-af65-c2e33f73ff79.png");
   return avatar;
 };
