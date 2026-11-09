@@ -2783,3 +2783,22 @@ html body .members-grid img.member-avatar[src*="Bav.jpg"] {
     display:flex!important;
   }
 }
+
+
+/* Regiment hero: final desktop/mobile alignment */
+.regiment-mobile-meta[hidden]{display:none!important}
+@media(max-width:600px){
+  .regiment-mobile-meta[hidden]{display:flex!important}
+  .regiment-main-info{
+    min-height:0!important;
+    height:auto!important;
+    padding:20px 14px!important;
+    gap:10px!important;
+    background-size:cover!important;
+    background-position:center!important;
+    background-repeat:no-repeat!important;
+  }
+  .regiment-main-copy{
+    padding:12px 12px 14px!important;
+  }
+}
