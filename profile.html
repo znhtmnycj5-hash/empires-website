@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Профиль — EMPIRE</title>
   <link rel="stylesheet" href="assets/style.css?v=20261109-inline-avatar-fill3">
-  <script src="assets/user-avatars.js?v=20261109-inline-faction-avatar5"></script>
+  <script src="assets/user-avatars.js?v=20261109-inline-faction-avatar6"></script>
 </head>
 <body>
 <header>
@@ -115,7 +115,7 @@ const resolveAvatar=(name,profile)=>{
   const faction=(profile&&profile.faction)||regimentFactions[profile&&profile.regiment]||regimentFactions[requestedRegiment]||window.EMPIRE_USER_FACTIONS[name]||"";
   const avatar=profile&&profile.avatar||"";
   const file=String(avatar).split(/[?#]/)[0].split("/").pop().toLowerCase();
-  if(!avatar||!file||file==="default-soldier.jpg"||file==="default-soldier.jpeg"||file==="default-soldier.png")return profileFactionAvatarMap[String(faction).trim()]||"assets/default-soldier.jpg";
+  if(!avatar||!file||file==="default-soldier.jpg"||file==="default-soldier.jpeg"||file==="default-soldier.png")return typeof window.empireUserAvatar==="function"?window.empireUserAvatar(name,avatar,faction):(profileFactionAvatarMap[String(faction).trim()]||"assets/aea32583-9230-496e-af65-c2e33f73ff79.png");
   return avatar;
 };
 
