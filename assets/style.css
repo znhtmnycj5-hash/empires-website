@@ -2716,3 +2716,13 @@ img.commander-avatar{
   box-sizing:border-box;
   vertical-align:middle;
 }
+
+/* Correct only the two faction portraits with visible white edge strips. */
+img.member-avatar[src*="avatar-britain.png"],
+img.commander-avatar[src*="avatar-britain.png"]{
+  clip-path:inset(0 0 0 7px);
+}
+img.member-avatar[src*="avatar-bavaria.png"],
+img.commander-avatar[src*="avatar-bavaria.png"]{
+  clip-path:inset(0 7px 0 0);
+}
