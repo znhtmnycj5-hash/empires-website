@@ -2744,3 +2744,42 @@ html body .members-grid img.member-avatar[src*="Bav.jpg"] {
   .regiment-mobile-meta div:last-child{border-bottom:0;padding-bottom:0}
   .regiment-mobile-meta strong{font-size:13px;text-align:right}
 }
+
+/* Regiment hero: readable text panel and compact mobile layout */
+.regiment-main-copy{
+  width:min(100%,980px)!important;
+  box-sizing:border-box;
+  padding:18px 24px 20px;
+  border:1px solid rgba(154,116,64,.48);
+  background:rgba(8,7,6,.38);
+  box-shadow:0 10px 32px rgba(0,0,0,.48),0 2px 12px rgba(0,0,0,.34);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+.regiment-main-copy h1,.regiment-main-copy .page-kicker,.regiment-main-copy .regiment-main-meta{
+  text-shadow:0 3px 10px rgba(0,0,0,.95),0 1px 3px rgba(0,0,0,.95);
+}
+.regiment-mobile-meta{display:none!important}
+@media(max-width:600px){
+  .regiment-main-info{
+    min-height:0!important;
+    padding:20px 14px!important;
+    gap:10px!important;
+  }
+  .regiment-main-info>img{
+    width:105px!important;
+    height:105px!important;
+    flex:0 0 105px!important;
+  }
+  .regiment-main-copy{
+    width:100%!important;
+    padding:12px 12px 14px;
+  }
+  .regiment-main-copy h1{
+    font-size:27px;
+    margin-bottom:14px;
+  }
+  .regiment-mobile-meta{
+    display:flex!important;
+  }
+}
