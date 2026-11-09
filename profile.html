@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Профиль — EMPIRE</title>
   <link rel="stylesheet" href="assets/style.css?v=20261108-square-avatars1">
-  <script src="assets/user-avatars.js?v=20261109-faction-avatars-fix1"></script>
+  <script src="assets/user-avatars.js?v=20261109-faction-avatars-fix2"></script>
 </head>
 <body>
 <header>
@@ -111,11 +111,13 @@ const regimentFactions={
 };
 /* У тестовых записей avatar — старые заглушки, а не личные фотографии. */
 const resolveAvatar=(name,profile)=>{
-  const faction=(profile&&profile.faction)||regimentFactions[profile&&profile.regiment]||window.EMPIRE_USER_FACTIONS[name];
+  const faction=(profile&&profile.faction)||regimentFactions[profile&&profile.regiment]||regimentFactions[requestedRegiment]||window.EMPIRE_USER_FACTIONS[name];
   return window.empireUserAvatar(name,"",faction);
 };
-const user=new URLSearchParams(location.search).get("user")||"Kalashnikov";
-const d=profiles[user]||fallback;
+const profileParams=new URLSearchParams(location.search);
+const user=profileParams.get("user")||"Kalashnikov";
+const requestedRegiment=profileParams.get("regiment")||"";
+const d=profiles[user]||(requestedRegiment?{...fallback,regiment:requestedRegiment}:fallback);
 document.title=user+" — EMPIRE";
 document.getElementById("profileAvatar").src=resolveAvatar(user,d);
 document.getElementById("profileAvatar").alt="Аватар "+user;
