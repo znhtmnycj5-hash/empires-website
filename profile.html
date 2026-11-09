@@ -124,7 +124,10 @@ const user=profileParams.get("user")||"Kalashnikov";
 const requestedRegiment=profileParams.get("regiment")||"";
 const d=profiles[user]||(requestedRegiment?{...fallback,regiment:requestedRegiment}:fallback);
 document.title=user+" — EMPIRE";
-document.getElementById("profileAvatar").src=resolveAvatar(user,d);
+const profileAvatarEl=document.getElementById("profileAvatar");
+const resolvedProfileAvatar=resolveAvatar(user,d);
+profileAvatarEl.src=resolvedProfileAvatar;
+if(resolvedProfileAvatar.includes("avatar-britain.png")||resolvedProfileAvatar.includes("avatar-bavaria.png")){profileAvatarEl.style.setProperty("object-fit","fill","important");profileAvatarEl.style.setProperty("object-position","center","important");}
 document.getElementById("profileAvatar").alt="Аватар "+user;
 document.getElementById("profileName").textContent=user;
 document.getElementById("profileRegiment").textContent=d.regiment;
