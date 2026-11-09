@@ -110,7 +110,7 @@ const regimentFactions={
   "4-й пехотный полк":"Австрийская Империя"
 };
 /* У тестовых записей avatar — старые заглушки, а не личные фотографии. */
-const profileFactionAvatarMap={"Французская Империя":"assets/default-soldier.jpg","Австрийская Империя":"assets/austria-avatar.png","Российская Империя":"assets/russia-avatar.png","Пруссия":"assets/avatar-prussia.png","Королевство Пруссия":"assets/avatar-prussia.png","Прусское Королевство":"assets/avatar-prussia.png","Британская Империя":"assets/avatar-britain.png","Рейнский Союз":"assets/avatar-bavaria.png"};
+const profileFactionAvatarMap={"Французская Империя":"assets/default-soldier.jpg","Австрийская Империя":"assets/austria-avatar.png","Российская Империя":"assets/russia-avatar.png","Пруссия":"assets/avatar-prussia.png","Королевство Пруссия":"assets/avatar-prussia.png","Прусское Королевство":"assets/avatar-prussia.png","Британская Империя":"assets/1BR.jpg","Рейнский Союз":"assets/Bav.jpg"};
 const resolveAvatar=(name,profile)=>{
   const faction=(profile&&profile.faction)||regimentFactions[profile&&profile.regiment]||regimentFactions[requestedRegiment]||window.EMPIRE_USER_FACTIONS[name]||"";
   const avatar=profile&&profile.avatar||"";
@@ -127,7 +127,7 @@ document.title=user+" — EMPIRE";
 const profileAvatarEl=document.getElementById("profileAvatar");
 const resolvedProfileAvatar=resolveAvatar(user,d);
 profileAvatarEl.src=resolvedProfileAvatar;
-if(resolvedProfileAvatar.includes("avatar-britain.png")||resolvedProfileAvatar.includes("avatar-bavaria.png")){profileAvatarEl.style.setProperty("object-fit","fill","important");profileAvatarEl.style.setProperty("object-position","center","important");}
+if(resolvedProfileAvatar.includes("1BR.jpg")||resolvedProfileAvatar.includes("Bav.jpg")){profileAvatarEl.style.setProperty("object-fit","fill","important");profileAvatarEl.style.setProperty("object-position","center","important");}
 document.getElementById("profileAvatar").alt="Аватар "+user;
 document.getElementById("profileName").textContent=user;
 document.getElementById("profileRegiment").textContent=d.regiment;
