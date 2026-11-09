@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Empire — Napoleonic Wars Community</title>
-<link rel="stylesheet" href="assets/style.css?v=20261109-home-restore-old">
+<link rel="stylesheet" href="assets/style.css?v=20261109-online-grid">
   <script src="assets/comment-counts.js?v=20261108-1"></script>
 <script src="assets/rating.js?v=20261108-lazy1"></script>
 </head>
@@ -126,7 +126,11 @@
     <div class="profile-top"><img class="profile-avatar" src="assets/avatar.jpg" alt="Аватар Imperator" loading="lazy" decoding="async"><div><h3>Kalashnikov</h3><small>Маршал · 1st Regiment</small></div></div>
     <dl><dt>Сообщений</dt><dd>124</dd><dt>Сражений</dt><dd>37</dd><dt>Рейтинг</dt><dd>1520</dd></dl>
     <a class="btn" style="display:block;text-align:center" href="#">Перейти в профиль</a>
-  </aside>
+    <section class="card online-users-home" id="onlineUsers">
+    <div class="card-title">● &nbsp; Пользователи в сети <span id="onlineUsersCount" class="online-users-count">0</span></div>
+    <div id="onlineUsersStrip" class="online-users-strip" aria-label="Пользователи в сети"></div>
+  </section>
+</aside>
 </div>
 
 <div class="full">
@@ -135,11 +139,6 @@
     <div id="upcomingBattlesHome">
       <div class="battle"><div style="padding:12px;text-align:center;color:#8f8068;font-size:11px;width:100%">Загрузка предстоящих сражений…</div></div>
     </div>
-  </section>
-
-  <section class="card online-users-home" id="onlineUsers">
-    <div class="card-title">● &nbsp; Пользователи в сети <span id="onlineUsersCount" class="online-users-count">0</span></div>
-    <div id="onlineUsersStrip" class="online-users-strip" aria-label="Пользователи в сети"></div>
   </section>
 
   <section class="card ranking" id="ranking">
