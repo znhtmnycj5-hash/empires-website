@@ -2707,22 +2707,18 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   #onlineUsers .online-user-name{font-size:7px}
 }
 
-/* Normalize faction roster portraits: remove the narrow pale strip at the left edge. */
-img.member-avatar,
-img.commander-avatar{
-  object-fit:cover;
-  object-position:center center;
-  clip-path:inset(0 0 0 3px);
-  box-sizing:border-box;
-  vertical-align:middle;
-}
 
-/* Correct only the two faction portraits with visible white edge strips. */
+
+/* Faction portrait edge correction: crop the actual pale edge from these two source images. */
 img.member-avatar[src*="avatar-britain.png"],
 img.commander-avatar[src*="avatar-britain.png"]{
-  clip-path:inset(0 0 0 7px);
+  clip-path:inset(0 0 0 12px)!important;
+  object-fit:cover!important;
+  object-position:center!important;
 }
 img.member-avatar[src*="avatar-bavaria.png"],
 img.commander-avatar[src*="avatar-bavaria.png"]{
-  clip-path:inset(0 7px 0 0);
+  clip-path:inset(0 12px 0 0)!important;
+  object-fit:cover!important;
+  object-position:center!important;
 }
