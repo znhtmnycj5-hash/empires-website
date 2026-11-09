@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
+<title>Рейтинг — EMPIRE</title>
+<link rel="stylesheet" href="assets/style.css?v=20261109-rating-new">
+<script src="assets/rating.js?v=20261109-rating-new"></script>
+<script src="assets/alliances.js?v=20261109-rating-new"></script>
+<style>
+.rating-new{padding-bottom:40px}
+.rating-new .rating-intro{text-align:center;margin-bottom:22px}
+.rating-new .rating-intro h1{margin:0;color:#d8b774;font:700 30px Cinzel,serif;letter-spacing:2px}
+.rating-new .rating-intro p{margin:8px 0 0;color:#958873;font-size:11px}
+.rating-new .rating-section{margin-top:24px}
+.rating-new .rating-section-title{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid #5a452d}
+.rating-new .rating-section-title h2{margin:0;color:#d4b16d;font:700 18px Cinzel,serif}
+.rating-new .rating-section-title span{color:#756a59;font-size:9px;text-transform:uppercase;letter-spacing:1px}
+.rating-new .podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.rating-new .podium-card{min-width:0;min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;background:linear-gradient(180deg,rgba(31,25,18,.96),rgba(14,12,9,.96));border:2px solid #5a452d;box-sizing:border-box;padding:14px 10px;transition:transform .15s,background .15s}
+.rating-new .podium-card:hover{transform:translateY(-2px);background:rgba(39,31,21,.98)}
+.rating-new .podium-card.gold{border-color:#c9a24e;box-shadow:0 0 18px rgba(201,162,78,.18)}
+.rating-new .podium-card.silver{border-color:#9c9c9c;box-shadow:0 0 16px rgba(180,180,180,.12)}
+.rating-new .podium-card.bronze{border-color:#a56b3d;box-shadow:0 0 16px rgba(165,107,61,.12)}
+.rating-new .place{font:700 10px Cinzel,serif;letter-spacing:1.5px;margin-bottom:8px}
+.rating-new .gold .place{color:#e4c66f}.rating-new .silver .place{color:#c7c7c7}.rating-new .bronze .place{color:#d29462}
+.rating-new .podium-avatar{width:92px;height:92px;min-width:92px;min-height:92px;max-width:92px;max-height:92px;object-fit:cover;border:2px solid #765a36;box-sizing:border-box;display:block}
+.rating-new .gold .podium-avatar{border-color:#c9a24e}.rating-new .silver .podium-avatar{border-color:#9c9c9c}.rating-new .bronze .podium-avatar{border-color:#a56b3d}
+.rating-new .podium-name{margin-top:9px;color:#e2c58e;font:700 13px Cinzel,serif;text-align:center;overflow-wrap:anywhere}
+.rating-new .podium-score{margin-top:4px;color:#8f826e;font-size:10px}
+.rating-new .rating-list{margin-top:12px;border:1px solid #493923;background:rgba(12,10,8,.7)}
+.rating-new .rating-row{display:grid;grid-template-columns:42px 46px minmax(0,1fr) 100px;align-items:center;gap:8px;min-height:55px;padding:6px 12px;border-bottom:1px solid rgba(73,57,35,.72);text-decoration:none;box-sizing:border-box}
+.rating-new .rating-row:last-child{border-bottom:0}
+.rating-new .rating-row:hover{background:rgba(45,35,23,.5)}
+.rating-new .rating-place{color:#9d8d76;font:700 12px Cinzel,serif;text-align:center}
+.rating-new .rating-row-avatar{width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important;max-width:36px!important;max-height:36px!important;object-fit:cover;display:block;border:1px solid #5f4b31;box-sizing:border-box}
+.rating-new .rating-row-name{min-width:0;color:#d2b16f;font:600 12px Cinzel,serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rating-new .rating-row-sub{display:block;color:#746957;font:10px "Roboto Slab",serif;margin-top:3px}
+.rating-new .rating-row-score{color:#e0c17d;font:700 12px "Roboto Slab",serif;text-align:right;white-space:nowrap}
+.rating-new .empty{padding:25px;text-align:center;color:#766b5b;font-size:11px}
+@media(max-width:700px){
+ .rating-new .podium{gap:6px}
+ .rating-new .podium-card{min-height:165px;padding:10px 5px}
+ .rating-new .podium-avatar{width:72px;height:72px;min-width:72px;min-height:72px;max-width:72px;max-height:72px}
+ .rating-new .podium-name{font-size:10px}
+ .rating-new .rating-row{grid-template-columns:30px 38px minmax(0,1fr) 75px;padding:6px 7px}
+ .rating-new .rating-row-avatar{width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;max-width:32px!important;max-height:32px!important}
+ .rating-new .rating-row-score{font-size:10px}
+}
+</style>
+</head>
+<body>
+<header class="inner-header"><div class="container">
+<div class="brand"><a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE" decoding="async"></a><div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div></div>
+<nav>
+<a href="index.html">Главная</a>
+<div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a></div></div>
+<div class="dropdown"><a href="battles.html">Сражения</a><div class="dropdown-menu"><a href="battles.html#all">Все сражения</a></div></div>
+<a class="active" href="rating.html">Рейтинг</a>
+<a href="index.html#news">Форум</a>
+<a href="alliances.html">Союзы</a>
+<a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+</nav></div></header>
+
+<main class="container rating-new">
+<section class="card rating-intro"><h1>РЕЙТИНГ</h1><p>Полки и союзы сообщества EMPIRE — от высшего рейтинга к низшему.</p></section>
+
+<section class="rating-section">
+<div class="rating-section-title"><h2>Рейтинг полков</h2><span>Топ-3 и полный список</span></div>
+<div id="regimentRating"></div>
+</section>
+
+<section class="rating-section">
+<div class="rating-section-title"><h2>Рейтинг союзов</h2><span>Топ-3 и полный список</span></div>
+<div id="allianceRating"></div>
+</section>
+</main>
+
+<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div><div>Главная &nbsp;|&nbsp; Полки &nbsp;|&nbsp; Сражения &nbsp;|&nbsp; Рейтинг &nbsp;|&nbsp; Форум &nbsp;|&nbsp; Союзы</div><div class="motto">Vive l’Empire!</div></div></footer>
+
+<script>
+(function(){
+const esc=v=>String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const render=(root,items,type)=>{
+ if(!root)return;
+ if(!items.length){root.innerHTML='<div class="rating-list empty">Рейтинг пока пуст.</div>';return;}
+ const podium=items.slice(0,3).map((x,i)=>{
+  const pos=i+1, cls=pos===1?'gold':pos===2?'silver':'bronze';
+  const img=x.avatar||x.img||'assets/empire_logo_top_right.png';
+  const href=type==='regiment'?'regiment.html?name='+encodeURIComponent(x.name):'alliance.html?id='+encodeURIComponent(x.id);
+  return '<a class="podium-card '+cls+'" href="'+href+'"><div class="place">'+pos+' МЕСТО</div><img class="podium-avatar" src="'+esc(img)+'" alt="" loading="lazy" decoding="async"><div class="podium-name">'+esc(x.name)+'</div><div class="podium-score">'+esc(x.score)+' очков</div></a>';
+ }).join('');
+ const rows=items.map((x,i)=>{
+  const img=x.avatar||x.img||'assets/empire_logo_top_right.png';
+  const href=type==='regiment'?'regiment.html?name='+encodeURIComponent(x.name):'alliance.html?id='+encodeURIComponent(x.id);
+  const sub=type==='regiment'?((x.count||0)+' человек'):((x.membersCount||0)+' полков');
+  return '<a class="rating-row" href="'+href+'"><span class="rating-place">'+(i+1)+'</span><img class="rating-row-avatar" src="'+esc(img)+'" alt="" loading="lazy" decoding="async"><span class="rating-row-name">'+esc(x.name)+'<small class="rating-row-sub">'+esc(sub)+'</small></span><span class="rating-row-score">'+esc(x.score)+' очков</span></a>';
+ }).join('');
+ root.innerHTML='<div class="podium">'+podium+'</div><div class="rating-list">'+rows+'</div>';
+};
+(async()=>{
+ let regs=[];
+ try{
+  regs=await calculateRegimentRatings();
+  const map=window.EMPIRE_ALLIANCES?.defaultRegiments||{};
+  regs=regs.map(x=>({...x,avatar:map[x.name]?.img||'assets/empire_logo_top_right.png'}));
+ }catch(e){}
+ render(document.getElementById('regimentRating'),regs,'regiment');
+ let alliances=[];
+ try{
+  alliances=window.EMPIRE_ALLIANCES.getAll().map(x=>({...x,score:window.EMPIRE_ALLIANCES.calcRating(x),membersCount:window.EMPIRE_ALLIANCES.totalMembers(x)})).sort((a,b)=>b.score-a.score||a.name.localeCompare(b.name));
+ }catch(e){}
+ render(document.getElementById('allianceRating'),alliances,'alliance');
+})();
+</script>
+</body>
+</html>
