@@ -5,7 +5,12 @@
     ["Kazak","assets/images (6).jpg"],["MeGusta","assets/images.jpg"],
     ["Flashkodr","assets/images (2).jpg"],["MrDixon","assets/images (3).jpg"],
     ["Theodor","assets/images (5).jpg"],["Grenadier87","assets/images.jpg"],
-    ["Marquis","assets/images (1).jpg"],["Fusilier","assets/images (2).jpg"]
+    ["Marquis","assets/images (1).jpg"],["Fusilier","assets/images (2).jpg"],
+    ["Ravenhart","assets/default-soldier.jpg"],["IronFox","assets/default-soldier.jpg"],
+    ["Valkyrie7","assets/default-soldier.jpg"],["RedMarshal","assets/default-soldier.jpg"],
+    ["Stormguard","assets/default-soldier.jpg"],["BlackHussar","assets/default-soldier.jpg"],
+    ["OldGuard","assets/default-soldier.jpg"],["SableWolf","assets/default-soldier.jpg"],
+    ["Grenzler","assets/default-soldier.jpg"],["FeldwebelX","assets/default-soldier.jpg"]
   ];
   const strip=document.getElementById("onlineUsersStrip");
   const count=document.getElementById("onlineUsersCount");
