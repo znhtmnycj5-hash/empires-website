@@ -3013,3 +3013,67 @@ nav a,.btn{font-family:"Roboto Slab",serif}
     max-height:120px!important;
   }
 }
+
+
+/* Final homepage battle image rendering */
+#upcomingBattlesHome .home-battle-link,
+#upcomingBattlesHome .home-battle-cover,
+#upcomingBattlesHome .home-battle-half{
+  display:block!important;
+  position:relative!important;
+  width:100%!important;
+  height:150px!important;
+  min-height:150px!important;
+  max-height:150px!important;
+  min-width:0!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+}
+#upcomingBattlesHome .home-battle-cover{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+}
+#upcomingBattlesHome .home-battle-half img{
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:150px!important;
+  min-width:0!important;
+  min-height:150px!important;
+  max-width:none!important;
+  max-height:150px!important;
+  object-fit:cover!important;
+  object-position:center!important;
+  opacity:.48!important;
+  filter:brightness(.48) saturate(.78)!important;
+}
+#upcomingBattlesHome .home-battle-side-name{
+  position:absolute!important;
+  z-index:3!important;
+  left:50%!important;
+  bottom:12px!important;
+  transform:translateX(-50%)!important;
+  color:#f0d18b!important;
+  font:600 12px Cinzel,serif!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+  text-shadow:0 2px 5px #000!important;
+}
+@media(max-width:700px){
+  #upcomingBattlesHome .home-battle-link,
+  #upcomingBattlesHome .home-battle-cover,
+  #upcomingBattlesHome .home-battle-half{
+    height:120px!important;
+    min-height:120px!important;
+    max-height:120px!important;
+  }
+  #upcomingBattlesHome .home-battle-half img{
+    height:120px!important;
+    min-height:120px!important;
+    max-height:120px!important;
+  }
+}
