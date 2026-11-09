@@ -2727,13 +2727,13 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   display:block;padding:0;overflow:hidden;cursor:pointer;border-bottom:1px solid rgba(93,73,48,.48)
 }
 #upcomingBattlesHome .home-battle-cover{
-  position:relative;display:grid;grid-template-columns:1fr 1fr;min-height:205px;isolation:isolate;overflow:hidden;background:#100e0b
+  position:relative;display:grid;grid-template-columns:1fr 1fr;height:150px;isolation:isolate;overflow:hidden;background:#100e0b
 }
 #upcomingBattlesHome .home-battle-half{
-  position:relative;display:block;min-width:0;min-height:205px;overflow:hidden;background:#17130f
+  position:relative;display:block;min-width:0;height:150px;overflow:hidden;background:#17130f
 }
 #upcomingBattlesHome .home-battle-half img{
-  display:block;width:100%;height:100%;min-height:205px;position:absolute;inset:0;object-fit:cover;object-position:center;
+  display:block;width:100%;height:150px;min-height:0;position:absolute;inset:0;object-fit:cover;object-position:center;
   opacity:.48;filter:brightness(.48) saturate(.78);transition:opacity .2s,filter .2s,transform .3s
 }
 #upcomingBattlesHome .home-battle-half:hover img{opacity:.62;filter:brightness(.58) saturate(.9);transform:scale(1.025)}
@@ -2772,8 +2772,8 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 #upcomingBattlesHome .home-battle-details a.comment-count-badge{justify-self:end}
 #upcomingBattlesHome .home-battle-details .team:hover{color:#f0d18b}
 @media(max-width:700px){
-  #upcomingBattlesHome .home-battle-cover,#upcomingBattlesHome .home-battle-half{min-height:170px}
-  #upcomingBattlesHome .home-battle-half img{min-height:170px}
+  #upcomingBattlesHome .home-battle-cover,#upcomingBattlesHome .home-battle-half{height:120px}
+  #upcomingBattlesHome .home-battle-half img{height:120px;min-height:0}
   #upcomingBattlesHome .home-battle-overlay{gap:8px;padding:12px 9px}
   #upcomingBattlesHome .home-battle-date{font-size:23px}
   #upcomingBattlesHome .home-battle-date span{font-size:13px}
@@ -2813,7 +2813,7 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 #upcomingBattlesHome::-webkit-scrollbar{width:8px}
 #upcomingBattlesHome::-webkit-scrollbar-track{background:rgba(12,10,8,.45)}
 #upcomingBattlesHome::-webkit-scrollbar-thumb{background:#765a37;border:2px solid #17130f;border-radius:8px}
-#upcomingBattlesHome .home-battle-cover{min-height:205px}
+#upcomingBattlesHome .home-battle-cover{height:150px}
 @media(max-width:700px){
   #upcomingBattlesHome{max-height:65vh;max-height:65dvh;overscroll-behavior-y:contain}
 }
@@ -2834,15 +2834,28 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 
 /* Homepage mini-chat: independently scrollable message history, including touch */
 #chat .messages{
-  height:320px;max-height:320px;overflow-y:auto;overflow-x:hidden;
+  height:390px;max-height:390px;overflow-y:auto;overflow-x:hidden;
   overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;
   scrollbar-width:thin;scrollbar-color:#765a37 rgba(12,10,8,.45)
 }
+#chat .msg{
+  grid-template-columns:26px 1fr auto;
+  gap:6px;
+  padding:4px 0;
+  min-height:26px;
+  box-sizing:border-box;
+}
+#chat .msg b{font-size:10px}
+#chat .msg p{display:inline;margin:0 0 0 5px;font-size:10px;line-height:1.25;white-space:nowrap}
+#chat .time{font-size:8px}
+#chat img.chat-avatar{width:24px!important;height:24px!important;max-width:24px!important;max-height:24px!important;flex-basis:24px}
+#chat .chat-avatar-link{width:24px;height:24px;flex-basis:24px}
 #chat .messages::-webkit-scrollbar{width:7px}
 #chat .messages::-webkit-scrollbar-track{background:rgba(12,10,8,.45)}
 #chat .messages::-webkit-scrollbar-thumb{background:#765a37;border:2px solid #17130f;border-radius:8px}
 @media(max-width:700px){
-  #chat .messages{height:340px;max-height:45vh;max-height:45dvh;min-height:220px;overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+  #chat .messages{height:390px;max-height:55vh;max-height:55dvh;min-height:260px;overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+  #chat .msg p{white-space:normal}
 }
 
 
@@ -2889,3 +2902,17 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 /* Subtle outcome-based flag dimming */
 /* Completed winners and losers use the same dimming as draws */
 #upcomingBattlesHome .home-battle-half.home-battle-winner img,#upcomingBattlesHome .home-battle-half.home-battle-loser img{opacity:.48!important;filter:brightness(.48) saturate(.78)!important}
+
+
+/* Final homepage sizing: compact battle covers and 15-message mini-chat viewport */
+#upcomingBattlesHome .home-battle-cover{height:150px!important;min-height:150px!important}
+#upcomingBattlesHome .home-battle-half{height:150px!important;min-height:150px!important}
+#upcomingBattlesHome .home-battle-half img{height:150px!important;min-height:150px!important;width:100%!important;object-fit:cover!important}
+@media(max-width:700px){
+  #upcomingBattlesHome .home-battle-cover,#upcomingBattlesHome .home-battle-half{height:120px!important;min-height:120px!important}
+  #upcomingBattlesHome .home-battle-half img{height:120px!important;min-height:120px!important}
+}
+#chat .messages{height:390px!important;max-height:390px!important}
+@media(max-width:700px){
+  #chat .messages{height:390px!important;max-height:55vh!important;max-height:55dvh!important}
+}
