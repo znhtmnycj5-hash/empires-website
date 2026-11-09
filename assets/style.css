@@ -2963,3 +2963,53 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   max-width:100%!important;
   grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
 }
+
+
+/* Final isolation for homepage regiment battle cards */
+#upcomingBattlesHome .home-battle-link{
+  display:block!important;
+  position:relative!important;
+  width:100%!important;
+  height:150px!important;
+  min-height:150px!important;
+  max-height:150px!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+}
+#upcomingBattlesHome .home-battle-cover{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  width:100%!important;
+  height:150px!important;
+  min-height:150px!important;
+  max-height:150px!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+}
+#upcomingBattlesHome .home-battle-half{
+  display:block!important;
+  position:relative!important;
+  width:100%!important;
+  height:150px!important;
+  min-height:150px!important;
+  max-height:150px!important;
+  min-width:0!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:700px){
+  #upcomingBattlesHome .home-battle-link,
+  #upcomingBattlesHome .home-battle-cover,
+  #upcomingBattlesHome .home-battle-half{
+    height:120px!important;
+    min-height:120px!important;
+    max-height:120px!important;
+  }
+}
