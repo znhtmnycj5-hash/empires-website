@@ -33,12 +33,23 @@ window.EMPIRE_FACTION_AVATARS={
  "Рейнский союз":"assets/avatar-bavaria.png"
 };
 
-/* Приоритет: фракционный аватар для тестовых профилей без личной фотографии. */
+/* Личные фотографии сохраняем. Заглушку считаем отсутствием аватара и заменяем аватаром фракции полка. */
 window.empireUserAvatar=function(name,ownAvatar,faction){
-  const resolvedFaction=faction||window.EMPIRE_USER_FACTIONS[name];
-  if(resolvedFaction&&window.EMPIRE_FACTION_AVATARS[resolvedFaction])return window.EMPIRE_FACTION_AVATARS[resolvedFaction];
-  if(ownAvatar)return ownAvatar;
-  const personal=window.EMPIRE_USER_AVATARS[name];
-  return personal||"assets/default-soldier.jpg";
+  const isPlaceholder=!ownAvatar||/default-soldier\\.(jpg|jpeg|png)$/i.test(String(ownAvatar));
+  if(!isPlaceholder)return ownAvatar;
+  const rawFaction=faction||window.EMPIRE_USER_FACTIONS[name]||"";
+  const normalized=String(rawFaction).trim().toLocaleLowerCase("ru");
+  const factionAliases={
+    "французская империя":"Французская Империя",
+    "австрийская империя":"Австрийская Империя",
+    "российская империя":"Российская Империя",
+    "пруссия":"Пруссия",
+    "королевство пруссия":"Пруссия",
+    "прусское королевство":"Пруссия",
+    "британская империя":"Британская Империя",
+    "рейнский союз":"Рейнский Союз"
+  };
+  const key=factionAliases[normalized]||rawFaction;
+  return window.EMPIRE_FACTION_AVATARS[key]||ownAvatar||"assets/default-soldier.jpg";
 };
 window.empireProfileUrl=function(name){return "profile.html?user="+encodeURIComponent(name||"");};
