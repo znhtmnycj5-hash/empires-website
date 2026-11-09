@@ -2712,21 +2712,21 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 
 
 /* Stretch faction portraits with slightly mismatched source dimensions */
-body img.member-avatar[src*="avatar-britain.png"],
-body img.member-avatar[src*="avatar-bavaria.png"],
-body img.profile-avatar[src*="avatar-britain.png"],
-body img.profile-avatar[src*="avatar-bavaria.png"]{
+body img.member-avatar[src*="1BR.jpg"],
+body img.member-avatar[src*="Bav.jpg"],
+body img.profile-avatar[src*="1BR.jpg"],
+body img.profile-avatar[src*="Bav.jpg"]{
   object-fit:fill!important;
 }
 
 /* Force full-frame sizing for British and Rhine faction portraits.
    The profile-page selector has higher specificity than the general avatar rule. */
-html body .profile-page img.profile-avatar[src*="avatar-britain.png"],
-html body .profile-page img.profile-avatar[src*="avatar-bavaria.png"],
-html body .commander-profile img.member-avatar[src*="avatar-britain.png"],
-html body .commander-profile img.member-avatar[src*="avatar-bavaria.png"],
-html body .members-grid img.member-avatar[src*="avatar-britain.png"],
-html body .members-grid img.member-avatar[src*="avatar-bavaria.png"] {
+html body .profile-page img.profile-avatar[src*="1BR.jpg"],
+html body .profile-page img.profile-avatar[src*="Bav.jpg"],
+html body .commander-profile img.member-avatar[src*="1BR.jpg"],
+html body .commander-profile img.member-avatar[src*="Bav.jpg"],
+html body .members-grid img.member-avatar[src*="1BR.jpg"],
+html body .members-grid img.member-avatar[src*="Bav.jpg"] {
   object-fit: fill !important;
   object-position: center center !important;
 }
