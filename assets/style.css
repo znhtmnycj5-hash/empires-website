@@ -2916,3 +2916,31 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 @media(max-width:700px){
   #chat .messages{height:390px!important;max-height:55vh!important;max-height:55dvh!important}
 }
+
+
+/* Desktop fix for homepage battle covers */
+@media(min-width:701px){
+  #upcomingBattlesHome .battle.home-battle-link,
+  #upcomingBattlesHome .home-battle-cover,
+  #upcomingBattlesHome .home-battle-half{
+    height:150px!important;
+    min-height:150px!important;
+    max-height:150px!important;
+    overflow:hidden!important;
+  }
+  #upcomingBattlesHome .home-battle-half img{
+    width:100%!important;
+    height:150px!important;
+    min-height:150px!important;
+    max-height:150px!important;
+    object-fit:cover!important;
+    position:absolute!important;
+    inset:0!important;
+  }
+}
+#chat .messages{
+  height:330px!important;
+  max-height:330px!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+}
