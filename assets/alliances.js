@@ -12,7 +12,8 @@
     "Semenovsky":{rating:1385,members:23,img:"assets/preobraz.webp"},
     "King's German Legion":{rating:1320,members:21,img:"assets/kgr.png"},
     "6e Hussards":{rating:1260,members:19,img:"assets/1st.jpg"},
-    "Royal Scots":{rating:1195,members:17,img:"assets/95.webp"}
+    "Royal Scots":{rating:1195,members:17,img:"assets/95.webp"},
+    "Mangust":{rating:1150,members:14,img:"assets/mangust.webp"}
   };
   const seeds=[
     {id:"alliance-001",name:"Имперский союз",avatar:"assets/empire_logo_top_right.png",leader:"Ankord",members:["1st Regiment","Preobrazhensky","7th Hussars"],battles:[
