@@ -273,7 +273,7 @@ if(!battle){
   const escapeCommentHtml=value=>String(value??"").replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]));
   const sanitizeCommentHtml=html=>{
     const doc=new DOMParser().parseFromString(String(html||""),"text/html");
-    const allowedTags=new Set(["B","STRONG","I","EM","U","BLOCKQUOTE","BR","SPAN","IMG","VIDEO"]);
+    const allowedTags=new Set(["B","STRONG","I","EM","U","BLOCKQUOTE","BR","SPAN","IMG","VIDEO","AUDIO","DETAILS","SUMMARY"]);
     const cleanUrl=value=>{
       try{
         const url=new URL(String(value||""),location.href);
@@ -291,22 +291,27 @@ if(!battle){
           }
           return;
         }
+        const originalSrc=child.getAttribute("src"),spoiler=child.dataset.spoiler==="true";
         [...child.attributes].forEach(attr=>child.removeAttribute(attr.name));
         if(child.tagName==="IMG"){
-          const src=cleanUrl(child.getAttribute("src"));
+          const src=cleanUrl(originalSrc);
           if(!src){child.remove();return;}
           child.setAttribute("src",src);child.setAttribute("alt","Вставленная картинка");child.setAttribute("loading","lazy");
         }
         if(child.tagName==="VIDEO"){
-          const src=cleanUrl(child.getAttribute("src"));
+          const src=cleanUrl(originalSrc);
           if(!src){child.remove();return;}
           child.setAttribute("src",src);child.setAttribute("controls","");
           child.setAttribute("preload","metadata");
         }
-        if(child.tagName==="SPAN" && child.dataset.spoiler!=="true"){
+        if(child.tagName==="AUDIO"){
+          const src=cleanUrl(originalSrc);if(!src){child.remove();return;}child.setAttribute("src",src);child.setAttribute("controls","");
+        }
+        if(child.tagName==="SPAN" && !spoiler){
           child.replaceWith(...child.childNodes);
           return;
         }
+        if(child.tagName==="SPAN"&&spoiler)child.setAttribute("data-spoiler","true");
         walk(child);
       });
     };
