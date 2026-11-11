@@ -76,7 +76,11 @@ document.addEventListener('click',async e=>{
   if(!item?._remote)return;
   e.preventDefault();e.stopImmediatePropagation();
   if(!confirm('Удалить этот комментарий?'))return;
-  await api.remove(id);\n  const key=path==='battle.html'?'empire-battle-comments-'+(params.get('id')||'battle-011'):path==='campaign.html'?'empire_campaign_comments_v1':'empire_news_comments_v1';\n  if(path==='battle.html'||path==='campaign.html'){const a=JSON.parse(localStorage.getItem(key)||'[]').filter(x=>String(x.id)!==id);localStorage.setItem(key,JSON.stringify(a));}\n  else{const m=JSON.parse(localStorage.getItem(key)||'{}');m[params.get('id')||'']=(m[params.get('id')||'']||[]).filter(x=>String(x.id)!==id);localStorage.setItem(key,JSON.stringify(m));}\n  location.reload();
+  await api.remove(id);
+  const key=path==='battle.html'?'empire-battle-comments-'+(params.get('id')||'battle-011'):path==='campaign.html'?'empire_campaign_comments_v1':'empire_news_comments_v1';
+  if(path==='battle.html'||path==='campaign.html'){const a=JSON.parse(localStorage.getItem(key)||'[]').filter(x=>String(x.id)!==id);localStorage.setItem(key,JSON.stringify(a));}
+  else{const m=JSON.parse(localStorage.getItem(key)||'{}');m[params.get('id')||'']=(m[params.get('id')||'']||[]).filter(x=>String(x.id)!==id);localStorage.setItem(key,JSON.stringify(m));}
+  location.reload();
  }catch(err){alert(err.message||'Не удалось удалить комментарий.');}
 },true);
 document.addEventListener('click',async e=>{
