@@ -165,10 +165,12 @@
 </footer>
 
 <div class="modal-backdrop" id="loginModal"><div class="modal">
-<button class="close" id="closeLogin">×</button><h2>Вход в Empire</h2><p>Авторизуйтесь, чтобы открыть личный кабинет, чат и функции полка.</p>
-<label>Логин или email</label><input id="loginName" placeholder="Введите логин">
-<label>Пароль</label><input id="loginPassword" type="password" placeholder="Введите пароль">
-<div class="modal-actions"><button class="btn" id="demoLogin">Войти</button></div>
+<button class="close" id="closeLogin">×</button><h2 id="authTitle">Вход в Empire</h2><p>Войдите или создайте аккаунт, чтобы участвовать в жизни сообщества и оставлять комментарии.</p>
+<label id="displayNameLabel" hidden>Имя на сайте</label><input id="authDisplayName" maxlength="32" placeholder="Как вас будут видеть другие" hidden>
+<label>Email</label><input id="loginName" type="email" autocomplete="email" placeholder="Введите email">
+<label>Пароль</label><input id="loginPassword" type="password" autocomplete="current-password" minlength="8" placeholder="Не менее 8 символов">
+<div class="modal-actions"><button class="btn primary" id="demoLogin">Войти</button><button class="btn" id="switchAuthMode" type="button">Создать аккаунт</button></div>
+<p id="authMessage" role="status" style="margin-top:12px"></p>
 </div></div>
 <div class="toast" id="toast"></div>
 <script>
@@ -178,7 +180,11 @@ const modal=document.getElementById('loginModal');
 document.getElementById('openLogin').onclick=e=>{e.preventDefault();modal.classList.add('show')};
 document.getElementById('closeLogin').onclick=()=>modal.classList.remove('show');
 modal.onclick=e=>{if(e.target===modal)modal.classList.remove('show')};
-document.getElementById('demoLogin').onclick=()=>{const n=document.getElementById('loginName').value.trim()||'Император';try{localStorage.setItem('empire_current_user_v1',n)}catch(error){}modal.classList.remove('show');toast('Добро пожаловать, '+n+'!')};
+let authMode='signin';
+const authMessage=document.getElementById('authMessage'),authName=document.getElementById('authDisplayName'),authNameLabel=document.getElementById('displayNameLabel');
+const setAuthMode=mode=>{authMode=mode;const signup=mode==='signup';document.getElementById('authTitle').textContent=signup?'Регистрация в Empire':'Вход в Empire';document.getElementById('demoLogin').textContent=signup?'Зарегистрироваться':'Войти';document.getElementById('switchAuthMode').textContent=signup?'У меня уже есть аккаунт':'Создать аккаунт';authName.hidden=!signup;authNameLabel.hidden=!signup;document.getElementById('loginPassword').autocomplete=signup?'new-password':'current-password';authMessage.textContent='';};
+document.getElementById('switchAuthMode').onclick=()=>setAuthMode(authMode==='signin'?'signup':'signin');
+document.getElementById('demoLogin').onclick=async()=>{const email=document.getElementById('loginName').value.trim(),password=document.getElementById('loginPassword').value,displayName=authName.value.trim();if(!email||!password){authMessage.textContent='Введите email и пароль.';return;}if(authMode==='signup'&&!displayName){authMessage.textContent='Укажите имя для сайта.';return;}const button=document.getElementById('demoLogin');button.disabled=true;authMessage.textContent='Подключение…';try{if(!window.EMPIRE_AUTH)throw new Error('Модуль авторизации ещё загружается. Попробуйте снова.');if(authMode==='signup'){await window.EMPIRE_AUTH.signUp(email,password,displayName);authMessage.textContent='Аккаунт создан. Если включено подтверждение email, проверьте почту и подтвердите адрес.';}else{await window.EMPIRE_AUTH.signIn(email,password);modal.classList.remove('show');toast('Вы успешно вошли в Empire.');}}catch(error){authMessage.textContent=error.message||'Не удалось выполнить вход.';}finally{button.disabled=false;}};
 
 const siteCounters={regiments:12,battles:11,users:13};
 const applySiteCounters=()=>{
@@ -358,5 +364,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>a.onclick=e=>{const id=a.ge
 <script src="assets/user-avatars.js?v=20261109-neutral7"></script>
 <script src="assets/online-users.js?v=20261109-neutral8"></script>
 <script src="assets/site-news.js?v=20261108-home-news4"></script>
+<script src="assets/supabase-auth.js?v=20261111-1"></script>
 </body>
 </html>
