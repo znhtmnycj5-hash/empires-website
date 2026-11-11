@@ -47,7 +47,33 @@ async function hydrateCurrentPage(){
 waitAuth().then(hydrateCurrentPage).catch(()=>{});
 
 const style=document.createElement('style');style.textContent='.battle-comment-text img,.battle-comment-text video,.battle-comment-image{max-width:min(100%,320px);max-height:240px;object-fit:contain;border-radius:8px}.battle-comment-text audio{display:block;max-width:320px;width:100%;margin:8px 0}.empire-attach-menu{position:absolute;z-index:20;display:none;background:#171a20;border:1px solid #8e744b;border-radius:8px;padding:8px;gap:6px;box-shadow:0 8px 24px #0009}.empire-attach-menu.open{display:flex;flex-direction:column}.empire-comment-extra{position:relative;display:inline-flex;gap:6px}.empire-comment-extra button{min-width:34px;min-height:34px}.comment-edit-button{margin-right:6px}';document.head.appendChild(style);
+function addEditControls(){
+ const auth=window.EMPIRE_AUTH;if(!auth?.user)return;
+ document.querySelectorAll('.battle-thread-item[data-comment-id]').forEach(card=>{
+  if(card.querySelector('[data-remote-comment-edit]'))return;
+  const commentId=card.dataset.commentId;
+  let stored=[];
+  try{
+   const path=location.pathname.split('/').pop(),params=new URLSearchParams(location.search);
+   if(path==='battle.html')stored=JSON.parse(localStorage.getItem('empire-battle-comments-'+(params.get('id')||'battle-011'))||'[]');
+   else if(path==='campaign.html')stored=JSON.parse(localStorage.getItem('empire_campaign_comments_v1')||'[]').filter(x=>x.campaignId===(params.get('id')||''));
+   else {const map=JSON.parse(localStorage.getItem('empire_news_comments_v1')||'{}');stored=map[params.get('id')||'']||[];}
+  }catch(e){}
+  const item=stored.find(x=>String(x.id)===String(commentId));
+  if(!item||!item._remote||item._authorId!==auth.user.id)return;
+  const btn=document.createElement('button');btn.type='button';btn.className='comment-edit-button';btn.dataset.remoteCommentEdit=commentId;btn.textContent='Изменить';
+  const del=card.querySelector('.comment-delete-button');if(del)del.before(btn);else card.querySelector('.battle-comment-content')?.append(btn);
+ });
+}
+document.addEventListener('click',async e=>{
+ const btn=e.target.closest('[data-remote-comment-edit]');if(!btn)return;
+ const card=btn.closest('.battle-thread-item'),old=card?.querySelector('.battle-comment-text')?.textContent||'';
+ const next=prompt('Изменить комментарий:',old);if(next===null)return;
+ try{await api.update(btn.dataset.remoteCommentEdit,{text:next,html:next.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')});await hydrateCurrentPage();}
+ catch(err){alert(err.message||'Не удалось изменить комментарий.');}
+});
 function enhance(){
+ addEditControls();
  document.querySelectorAll('.battle-comment-form').forEach(form=>{
   if(form.dataset.empireEnhanced)return;form.dataset.empireEnhanced='1';
   const toolbar=form.querySelector('.battle-comment-toolbar'),editor=form.querySelector('[contenteditable="true"]');if(!toolbar||!editor)return;
