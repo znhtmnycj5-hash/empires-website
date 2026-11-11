@@ -99,7 +99,7 @@
   const escapeHtml=v=>String(v??'').replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
   const sanitizeHtml=html=>{
     const doc=new DOMParser().parseFromString(String(html||''),'text/html');
-    const allowed=new Set(['B','STRONG','I','EM','U','BLOCKQUOTE','BR','SPAN','IMG','VIDEO']);
+    const allowed=new Set(['B','STRONG','I','EM','U','BLOCKQUOTE','BR','SPAN','IMG','VIDEO','AUDIO','DETAILS','SUMMARY']);
     const cleanUrl=value=>{try{const u=new URL(String(value||''),location.href);return ['http:','https:'].includes(u.protocol)?u.href:''}catch(e){return ''}};
     const walk=node=>[...node.childNodes].forEach(ch=>{
       if(ch.nodeType===Node.TEXT_NODE)return;
