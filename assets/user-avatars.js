@@ -5,7 +5,7 @@ window.EMPIRE_USER_AVATARS={
  "Kazak":"assets/images (6).jpg","MeGusta":"assets/images.jpg",
  "Flashkodr":"assets/images (2).jpg","MrDixon":"assets/images (3).jpg",
  "Theodor":"assets/images (5).jpg","Grenadier87":"assets/images.jpg",
- "Marquis":"assets/images (1).jpg","Fusilier":"assets/images (2).jpg"
+ "Marquis":"assets/images (1).jpg","Fusilier":"assets/aea32583-9230-496e-af65-c2e33f73ff79.png"
 };
 
 /* Фракция определяется по полку пользователя; список можно расширять при добавлении составов. */
