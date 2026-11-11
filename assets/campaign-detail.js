@@ -88,7 +88,7 @@
   const storedComments=read(COMMENTS,[]).filter(x=>x.campaignId===c.id);
   const getComments=()=>{const stored=read(COMMENTS,[]).filter(x=>x.campaignId===c.id);return stored.length?stored:seededComments};
   const cb=document.getElementById('campaignSafeComments');
-  const currentUser={name:'Kalashnikov',regiment:'1st Regiment'};
+  const currentUser=(()=>{try{const u=JSON.parse(localStorage.getItem('empire_current_user')||'null');return u&&typeof u==='object'?{name:String(u.name||'Пользователь'),regiment:String(u.regiment||'')}:{name:'Kalashnikov',regiment:'1st Regiment'};}catch(e){return{name:'Kalashnikov',regiment:'1st Regiment'};}})();
   const presenceKey='empire_profile_presence_v1';
   const getPresence=()=>{try{return JSON.parse(localStorage.getItem(presenceKey)||'{}')||{}}catch(e){return {}}};
   const setOnline=name=>{if(!name)return;const m=getPresence();m[name]=Date.now();try{localStorage.setItem(presenceKey,JSON.stringify(m))}catch(e){}};
