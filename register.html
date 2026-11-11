@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Регистрация — EMPIRE</title>
+<link rel="stylesheet" href="assets/style.css?v=20261111-register1">
+<style>
+.auth-page{max-width:620px;margin:38px auto 60px}.auth-card{padding:30px;background:linear-gradient(145deg,rgba(35,29,21,.97),rgba(17,14,11,.98));border:1px solid #705532;box-shadow:0 18px 55px #0009}.auth-card h1{font:700 30px Cinzel,serif;color:#d9b66e;margin:6px 0 10px}.auth-intro{color:#ad9b7c;font-size:13px;line-height:1.7;margin-bottom:24px}.auth-tabs{display:flex;gap:8px;margin-bottom:22px}.auth-tabs button,.auth-submit{border:1px solid #85663c;background:#392b1c;color:#e6d2a9;padding:11px 16px;cursor:pointer;font:600 12px 'Roboto Slab';}.auth-tabs button.active,.auth-submit{background:#67201d;border-color:#a77a43}.auth-field{display:block;margin:15px 0}.auth-field span{display:block;color:#c7b38f;font-size:12px;margin-bottom:7px}.auth-field input{width:100%;padding:12px;background:#0e0c09;border:1px solid #51402b;color:#f0dfbd;font:14px 'Roboto Slab';outline:none}.auth-field input:focus{border-color:#c49a55}.auth-help{font-size:11px;color:#8f8069;margin-top:6px}.avatar-pick{display:flex;align-items:center;gap:16px}.avatar-pick img{width:82px;height:82px;border-radius:50%;object-fit:cover;border:2px solid #987342;background:#17130f}.auth-submit{width:100%;margin-top:14px;font-size:14px}.auth-message{min-height:22px;margin-top:14px;font-size:12px;line-height:1.6;color:#d9bd7f}.auth-message.error{color:#e58c7f}.auth-message.success{color:#9bc58d}.auth-back{display:inline-block;margin-bottom:18px;color:#bba274;text-decoration:none;font-size:12px}@media(max-width:600px){.auth-page{margin:22px auto 40px}.auth-card{padding:20px}.auth-card h1{font-size:24px}}
+</style>
+</head>
+<body>
+<header style="min-height:150px;background-position:center 40%">
+<div class="container brand"><a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE"></a><div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div></div>
+</header>
+<div class="container auth-page">
+<a class="auth-back" href="index.html">← На главную</a>
+<section class="card auth-card">
+<div class="page-kicker">СТАНЬ ЧАСТЬЮ СООБЩЕСТВА</div>
+<h1 id="authTitle">Регистрация</h1>
+<p class="auth-intro" id="authIntro">Создайте личный аккаунт EMPIRE. Ваш никнейм будет уникальным, а адрес электронной почты останется скрытым от других пользователей.</p>
+<div class="auth-tabs"><button type="button" class="active" id="registerTab">Регистрация</button><button type="button" id="loginTab">Войти</button></div>
+<form id="authForm">
+<label class="auth-field" id="nicknameField"><span>Уникальный никнейм</span><input id="nickname" minlength="3" maxlength="24" autocomplete="nickname" required placeholder="Например, Grenadier87"><div class="auth-help" id="nicknameStatus">3–24 символа: буквы, цифры, пробел, дефис или подчёркивание.</div></label>
+<label class="auth-field" id="avatarField"><span>Аватар (необязательно)</span><div class="avatar-pick"><img id="avatarPreview" src="assets/aea32583-9230-496e-af65-c2e33f73ff79.png" alt="Предпросмотр аватара"><input id="avatarFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></div><div class="auth-help">Изображение до 5 МБ. Его можно будет изменить позже.</div></label>
+<label class="auth-field"><span>Электронная почта</span><input id="email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+<label class="auth-field"><span>Пароль</span><input id="password" type="password" minlength="8" autocomplete="new-password" required placeholder="Не менее 8 символов"></label>
+<button class="auth-submit" id="submitButton" type="submit">Создать аккаунт</button>
+</form>
+<div class="auth-message" id="authMessage" role="status" aria-live="polite"></div>
+</section>
+</div>
+<script src="assets/supabase-auth.js?v=20261111-4"></script>
+<script>
+const $=id=>document.getElementById(id);let mode='register',avatarData='';
+function setMode(next){mode=next;$('registerTab').classList.toggle('active',mode==='register');$('loginTab').classList.toggle('active',mode==='login');$('nicknameField').hidden=mode==='login';$('avatarField').hidden=mode==='login';$('nickname').required=mode==='register';$('authTitle').textContent=mode==='register'?'Регистрация':'Вход в аккаунт';$('authIntro').textContent=mode==='register'?'Создайте личный аккаунт EMPIRE. Ваш никнейм будет уникальным, а адрес электронной почты останется скрытым от других пользователей.':'Войдите, чтобы открыть личный кабинет и пользоваться возможностями сообщества.';$('submitButton').textContent=mode==='register'?'Создать аккаунт':'Войти';$('password').autocomplete=mode==='register'?'new-password':'current-password';$('authMessage').textContent='';}
+$('registerTab').onclick=()=>setMode('register');$('loginTab').onclick=()=>setMode('login');
+$('avatarFile').addEventListener('change',()=>{const file=$('avatarFile').files[0];if(!file)return;if(file.size>5*1024*1024){$('authMessage').textContent='Размер аватара не должен превышать 5 МБ.';$('authMessage').className='auth-message error';$('avatarFile').value='';return;}const reader=new FileReader();reader.onload=()=>{avatarData=String(reader.result);$('avatarPreview').src=avatarData;};reader.readAsDataURL(file);});
+let nameCheckTimer; $('nickname').addEventListener('input',()=>{clearTimeout(nameCheckTimer);$('nicknameStatus').textContent='Проверяем доступность никнейма…';nameCheckTimer=setTimeout(async()=>{try{if($('nickname').value.trim().length<3){$('nicknameStatus').textContent='Минимум 3 символа.';return;}const free=await window.EMPIRE_AUTH.checkNameAvailable($('nickname').value.trim());$('nicknameStatus').textContent=free?'Никнейм свободен.':'Этот никнейм уже занят.';$('nicknameStatus').style.color=free?'#9bc58d':'#e58c7f';}catch(e){$('nicknameStatus').textContent='Проверка будет выполнена при регистрации.';}},450);});
+$('authForm').addEventListener('submit',async e=>{e.preventDefault();const message=$('authMessage'),button=$('submitButton');message.className='auth-message';message.textContent='Обрабатываем запрос…';button.disabled=true;
+try{await window.EMPIRE_AUTH.init();const email=$('email').value.trim(),password=$('password').value;if(mode==='register'){const name=$('nickname').value.trim();if(avatarData)localStorage.setItem('empire_pending_avatar_v1',avatarData);const result=await window.EMPIRE_AUTH.signUp(email,password,name);if(result?.session){message.className='auth-message success';message.textContent='Аккаунт создан! Открываем личный кабинет…';setTimeout(()=>location.href='index.html',900);}else{message.className='auth-message success';message.textContent='Почти готово! Подтвердите адрес электронной почты по ссылке из письма, затем войдите на сайт. Выбранный аватар сохранится на этом устройстве и загрузится после входа.';}}else{await window.EMPIRE_AUTH.signIn(email,password);message.className='auth-message success';message.textContent='Вход выполнен. Открываем личный кабинет…';setTimeout(()=>location.href='index.html',700);}}
+catch(err){message.className='auth-message error';message.textContent=err.message||'Не удалось выполнить запрос.';if(mode==='register'&&/already registered|user already/i.test(err.message||''))message.textContent='Этот адрес уже зарегистрирован. Переключитесь на вкладку «Войти».';}
+finally{button.disabled=false;}});
+window.addEventListener('empire:auth-changed',e=>{if(e.detail?.user&&!location.search.includes('force=register')){ /* keep the confirmation message visible until redirect */ }});
+</script>
+</body></html>
