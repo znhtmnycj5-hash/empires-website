@@ -383,7 +383,7 @@ if(!battle){
   };
   const saveComment=comment=>{
     let comments=[];try{comments=JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){}
-    comments.push(comment);localStorage.setItem(storageKey,JSON.stringify(comments));renderComments();
+    comments.push(comment);localStorage.setItem(storageKey,JSON.stringify(comments));renderComments();if(window.EMPIRE_COMMENTS)window.EMPIRE_COMMENTS.create("battle",battleId,{text:comment.text,html:comment.html,image:comment.image,parentId:comment.parentId}).then(remote=>{comment.id=remote.id;localStorage.setItem(storageKey,JSON.stringify(comments));renderComments();}).catch(err=>alert(err.message||"Не удалось сохранить комментарий в общей базе."));
   };
   const nowLabel=()=>new Date().toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
   $("commentList").addEventListener("click",e=>{
