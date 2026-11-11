@@ -30,9 +30,9 @@
   }
   function updateHeader(){
     const link=document.querySelector('a.login');
-    if(!link)return;
-    if(currentUser){link.textContent='♙ '+(currentProfile?.display_name||currentUser.email||'Аккаунт');link.title='Выйти из аккаунта';link.dataset.authSignout='1';}
-    else{link.textContent='♙ Войти';link.removeAttribute('data-auth-signout');}
+    if(link){if(currentUser){link.textContent='♙ '+(currentProfile?.display_name||'Аккаунт');link.title='Нажмите, чтобы выйти';link.dataset.authSignout='1';}else{link.textContent='♙ Войти';link.removeAttribute('data-auth-signout');}}
+    const cabinet=document.getElementById('personalCabinet');
+    if(cabinet){cabinet.hidden=!currentUser;if(currentUser){const name=currentProfile?.display_name||'Пользователь';const label=document.getElementById('cabinetName');if(label)label.textContent=name;const avatar=document.getElementById('cabinetAvatar');if(avatar&&currentProfile?.avatar_url)avatar.src=currentProfile.avatar_url;const target=document.getElementById('cabinetProfileLink');if(target)target.href='profile.html?user='+encodeURIComponent(name);}}
   }
   async function signIn(email,password){await init();const {error}=await client.auth.signInWithPassword({email,password});if(error)throw error;}
   async function checkNameAvailable(displayName){await init();const name=String(displayName||'').trim();if(!name)throw new Error('Укажите никнейм.');const {data,error}=await client.from('empire_profiles').select('id').ilike('display_name',name).limit(1);if(error)throw error;return !data?.length;}
