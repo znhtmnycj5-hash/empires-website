@@ -21,7 +21,7 @@
     if(currentUser){
       const {data}=await client.from('empire_profiles').select('id,display_name,regiment,avatar_url').eq('id',currentUser.id).maybeSingle();
       currentProfile=data||{id:currentUser.id,display_name:currentUser.user_metadata?.display_name||currentUser.email?.split('@')[0]||'Игрок',regiment:'',avatar_url:''};
-      try{localStorage.setItem('empire_current_user_v1',currentProfile.display_name);}catch(e){}
+      try{localStorage.setItem('empire_current_user_v1',currentProfile.display_name);const old=JSON.parse(localStorage.getItem('empire_current_user')||'{}');localStorage.setItem('empire_current_user',JSON.stringify({...old,name:currentProfile.display_name,regiment:currentProfile.regiment||''}));}catch(e){}
     }
     window.EMPIRE_AUTH_STATE={user:currentUser,profile:currentProfile,client};
     document.dispatchEvent(new CustomEvent('empire:auth-changed',{detail:window.EMPIRE_AUTH_STATE}));
