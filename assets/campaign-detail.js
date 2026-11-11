@@ -134,7 +134,7 @@
     cb.innerHTML=roots.length?roots.map(x=>commentCard(x,all)).join(''):'<div class="battle-comments-empty">Комментариев пока нет.</div>';
     const cc=document.getElementById('campaignSafeCommentCount');if(cc)cc.textContent=all.length;
   };
-  const saveComment=x=>{let arr=read(COMMENTS,[]);if(!Array.isArray(arr))arr=[];arr.push({...x,campaignId:c.id});localStorage.setItem(COMMENTS,JSON.stringify(arr));renderComments();if(window.EMPIRE_COMMENTS)window.EMPIRE_COMMENTS.create('campaign',c.id,{text:x.text,html:x.html,image:x.image,parentId:x.parentId}).then(remote=>{x.id=remote.id;localStorage.setItem(COMMENTS,JSON.stringify(arr));renderComments()}).catch(err=>alert(err.message||'Не удалось сохранить комментарий в общей базе.'))};
+  const saveComment=x=>{let arr=read(COMMENTS,[]);if(!Array.isArray(arr))arr=[];arr.push({...x,campaignId:c.id});localStorage.setItem(COMMENTS,JSON.stringify(arr));renderComments();if(window.EMPIRE_COMMENTS)window.EMPIRE_COMMENTS.create('campaign',c.id,{text:x.text,html:x.html,image:x.image,parentId:x.parentId}).then(remote=>{Object.assign(x,remote);localStorage.setItem(COMMENTS,JSON.stringify(arr));renderComments()}).catch(err=>alert(err.message||'Не удалось сохранить комментарий в общей базе.'))};
   cb.addEventListener('click',e=>{
     const reply=e.target.closest('[data-reply-to]');if(reply){e.preventDefault();const card=reply.closest('.battle-thread-item');const form=card?.querySelector(':scope > .battle-comment .battle-reply-form');if(form){form.hidden=!form.hidden;form.style.display=form.hidden?'none':'flex';if(!form.hidden)form.querySelector('input').focus()}return}
     const like=e.target.closest('[data-like-comment]');if(like){toggleLike(like.dataset.likeComment);renderComments();return}
