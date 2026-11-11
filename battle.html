@@ -117,7 +117,7 @@ const battlesData={
   "battle-011":{status:"accepted",title:"1st Regiment vs 84e Régiment",date:"08.11.2026",start:"2026-11-08T20:00:00",type:"Клановая Война (КВ)",size:10,allies:true,allySize:5,server:"EMPIRE War #1",password:"empire011",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"84e Régiment",faction:"Французская Империя",avatar:"assets/84e.png",href:"regiment.html?name=84e%20R%C3%A9giment"},winner:"",score:"",media:[]}
 };
 
-const currentUser={name:"Kalashnikov",regiment:"1st Regiment"};
+const currentUser=(()=>{try{const u=JSON.parse(localStorage.getItem("empire_current_user")||"null");return u&&typeof u==="object"?{name:String(u.name||"Пользователь"),regiment:String(u.regiment||"")}:{name:"Kalashnikov",regiment:"1st Regiment"};}catch(e){return{name:"Kalashnikov",regiment:"1st Regiment"};}})();
 const presenceStorageKey="empire_profile_presence_v1";
 const getPresenceMap=()=>{try{return JSON.parse(localStorage.getItem(presenceStorageKey)||"{}");}catch(e){return {};}};
 const savePresenceMap=map=>{try{localStorage.setItem(presenceStorageKey,JSON.stringify(map));}catch(e){}};
