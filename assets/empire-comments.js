@@ -23,25 +23,26 @@ async function hydrateCurrentPage(){
   else if(path==='news.html'){type='regiment_news';id=params.get('id')||'';}
   else if(path==='site-news.html'){type='site_news';id=params.get('id')||'';}
   if(!type||!id)return;
-  const remote=await api.list(type,id);if(!remote.length)return;
+  const remote=await api.list(type,id);
   const stamp=remote.map(x=>x.updatedAt).join('|'),marker='empire_remote_hydrated:'+type+':'+id;
   if(sessionStorage.getItem(marker)===stamp)return;
+  const remoteIds=new Set(remote.map(x=>String(x.id)));
   const storageKey=type==='battle'?'empire-battle-comments-'+id:type==='campaign'?'empire_campaign_comments_v1':'empire_news_comments_v1';
   let raw;try{raw=JSON.parse(localStorage.getItem(storageKey)||(type==='battle'?'[]':'{}'));}catch(e){raw=type==='battle'?[]:{};}
   if(type==='battle'){
-   const arr=Array.isArray(raw)?raw:[],known=new Set(arr.map(x=>String(x.id)));
+   const arr=(Array.isArray(raw)?raw:[]).filter(x=>!x._remote||remoteIds.has(String(x.id))),before=JSON.stringify(arr);
    remote.forEach(x=>{const old=arr.find(v=>String(v.id)===String(x.id));if(old)Object.assign(old,x,{name:x.name||x.author});else arr.push({...x,name:x.name||x.author});});
-   localStorage.setItem(storageKey,JSON.stringify(arr));
+   raw=before!==JSON.stringify(arr);localStorage.setItem(storageKey,JSON.stringify(arr));
   }else if(type==='campaign'){
-   const arr=Array.isArray(raw)?raw:[],known=new Set(arr.filter(x=>x.campaignId===id).map(x=>String(x.id)));
+   const arr=(Array.isArray(raw)?raw:[]).filter(x=>x.campaignId!==id||!x._remote||remoteIds.has(String(x.id))),before=JSON.stringify(arr);
    remote.forEach(x=>{const old=arr.find(v=>String(v.id)===String(x.id));if(old)Object.assign(old,x,{campaignId:id});else arr.push({...x,campaignId:id});});
    localStorage.setItem(storageKey,JSON.stringify(arr));
   }else{
-   const map=raw&&typeof raw==='object'?raw:{},arr=Array.isArray(map[id])?map[id]:[],known=new Set(arr.map(x=>String(x.id)));
+   const map=raw&&typeof raw==='object'?raw:{},arr=(Array.isArray(map[id])?map[id]:[]).filter(x=>!x._remote||remoteIds.has(String(x.id))),before=JSON.stringify(arr);
    remote.forEach(x=>{const old=arr.find(v=>String(v.id)===String(x.id));if(old)Object.assign(old,x);else arr.push(x);});map[id]=arr;
-   localStorage.setItem(storageKey,JSON.stringify(map));
+   raw=before!==JSON.stringify(arr);localStorage.setItem(storageKey,JSON.stringify(map));
   }
-  sessionStorage.setItem(marker,stamp);location.reload();
+  sessionStorage.setItem(marker,stamp);if(raw)location.reload();
  }catch(e){console.warn('Empire comments sync:',e);}
 }
 waitAuth().then(hydrateCurrentPage).catch(()=>{});
