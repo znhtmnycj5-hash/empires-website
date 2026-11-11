@@ -95,7 +95,7 @@
   const isOnline=name=>{const t=getPresence()[name];return typeof t==='number'&&Date.now()-t<5*60*1000};
   setOnline(currentUser.name);
   setInterval(()=>setOnline(currentUser.name),30000);
-  const names={Kalashnikov:'1st Regiment',Ankord:'1st Regiment',Veli4estvo:'84e Régiment',Marquis:'95th Rifles',Fusilier:'Preobrazhensky',Grenadier87:'7th Hussars',Mel:'1st Regiment',Kazak:'1st Regiment',MeGusta:'1st Regiment',Flashkodr:'1st Regiment',MrDixon:'1st Regiment',Theodor:'1st Regiment'};
+  const names={Kalashnikov:'1st Regiment',Ankord:'1st Regiment',Veli4estvo:'1st Regiment',Marquis:'95th Rifles',Fusilier:'Без полка',Grenadier87:'1st Regiment',Mel:'1st Regiment',Kazak:'1st Regiment',MeGusta:'1st Regiment',Flashkodr:'1st Regiment',MrDixon:'1st Regiment',Theodor:'1st Regiment'};
   const escapeHtml=v=>String(v??'').replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
   const sanitizeHtml=html=>{
     const doc=new DOMParser().parseFromString(String(html||''),'text/html');
@@ -118,7 +118,7 @@
   const likesFor=id=>Array.isArray(getLikeMap()['campaign:'+c.id+':'+id])?getLikeMap()['campaign:'+c.id+':'+id]:[];
   const toggleLike=id=>{const m=getLikeMap(),key='campaign:'+c.id+':'+id,a=Array.isArray(m[key])?m[key]:[],i=a.indexOf(currentUser.name);if(i>=0)a.splice(i,1);else a.push(currentUser.name);m[key]=a;localStorage.setItem(likeKey,JSON.stringify(m))};
   const commentCard=(x,all,depth=0)=>{
-    const name=String(x.author||x.name||'Пользователь'),regiment=String(x.regiment||names[name]||'Без полка'),avatar=x.avatar||empireUserAvatar(name),children=all.filter(y=>y.parentId===x.id),likes=likesFor(x.id),online=isOnline(name);
+    const name=String(x.author||x.name||'Пользователь'),regiment=String(x.regiment||names[name]||'Без полка'),avatar=(x.avatar&&String(x.avatar).trim())||((window.EMPIRE_USER_AVATARS&&window.EMPIRE_USER_AVATARS[name])||'')||empireUserAvatar(name,'',window.EMPIRE_USER_FACTIONS&&window.EMPIRE_USER_FACTIONS[name]),children=all.filter(y=>y.parentId===x.id),likes=likesFor(x.id),online=isOnline(name);
     const likePreview=likes.slice(0,2).map(escapeHtml).join(', ');
     const likeControls='<div class="comment-reactions"><button class="comment-like-button'+(likes.includes(currentUser.name)?' is-liked':'')+'" type="button" data-like-comment="'+escapeHtml(x.id)+'" aria-pressed="'+likes.includes(currentUser.name)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+likePreview+(likes.length>2?' и ещё':'')+'</span><button type="button" class="comment-like-all" data-show-likes="'+escapeHtml(x.id)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(n=>'<a href="'+empireProfileUrl(n)+'">'+escapeHtml(n)+'</a>').join('')+'</div></div>':'')+'</div>';
     const report='<button class="comment-report-button" type="button" data-report-comment="'+escapeHtml(x.id)+'">⚑ Пожаловаться</button>';
