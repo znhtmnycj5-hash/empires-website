@@ -21,7 +21,7 @@
     if(currentUser){
       const {data}=await client.from('empire_profiles').select('id,display_name,regiment,avatar_url').eq('id',currentUser.id).maybeSingle();
       currentProfile=data||{id:currentUser.id,display_name:currentUser.user_metadata?.display_name||currentUser.email?.split('@')[0]||'Игрок',regiment:'',avatar_url:''};
-      try{localStorage.setItem('empire_current_user_v1',currentProfile.display_name);const old=JSON.parse(localStorage.getItem('empire_current_user')||'{}');localStorage.setItem('empire_current_user',JSON.stringify({...old,name:currentProfile.display_name,regiment:currentProfile.regiment||''}));}catch(e){}
+      try{localStorage.setItem('empire_current_user_v1',currentProfile.display_name);const old=JSON.parse(localStorage.getItem('empire_current_user')||'{}');const changed=old.name!==currentProfile.display_name||old.regiment!==(currentProfile.regiment||'');localStorage.setItem('empire_current_user',JSON.stringify({...old,name:currentProfile.display_name,regiment:currentProfile.regiment||''}));if(changed&&/battle|campaign|news/.test(location.pathname)&&sessionStorage.getItem('empire_auth_profile_synced')!=='1'){sessionStorage.setItem('empire_auth_profile_synced','1');location.reload();}}catch(e){}
     }
     window.EMPIRE_AUTH_STATE={user:currentUser,profile:currentProfile,client};
     document.dispatchEvent(new CustomEvent('empire:auth-changed',{detail:window.EMPIRE_AUTH_STATE}));
