@@ -129,6 +129,7 @@ function enhance(){
    }catch(e){recordingStream?.getTracks().forEach(t=>t.stop());recordingStream=null;mic.textContent='🎙';alert(e.message||'Не удалось начать запись');}
   });
 }
+  });
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enhance);else enhance();
 document.addEventListener('empire:auth-changed',enhance);
 new MutationObserver(()=>addEditControls()).observe(document.body,{childList:true,subtree:true});
