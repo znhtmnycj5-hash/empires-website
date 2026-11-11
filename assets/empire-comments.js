@@ -30,15 +30,15 @@ async function hydrateCurrentPage(){
   let raw;try{raw=JSON.parse(localStorage.getItem(storageKey)||(type==='battle'?'[]':'{}'));}catch(e){raw=type==='battle'?[]:{};}
   if(type==='battle'){
    const arr=Array.isArray(raw)?raw:[],known=new Set(arr.map(x=>String(x.id)));
-   remote.forEach(x=>{if(!known.has(String(x.id)))arr.push({...x,name:x.name||x.author});});
+   remote.forEach(x=>{const old=arr.find(v=>String(v.id)===String(x.id));if(old)Object.assign(old,x,{name:x.name||x.author});else arr.push({...x,name:x.name||x.author});});
    localStorage.setItem(storageKey,JSON.stringify(arr));
   }else if(type==='campaign'){
    const arr=Array.isArray(raw)?raw:[],known=new Set(arr.filter(x=>x.campaignId===id).map(x=>String(x.id)));
-   remote.forEach(x=>{if(!known.has(String(x.id)))arr.push({...x,campaignId:id});});
+   remote.forEach(x=>{const old=arr.find(v=>String(v.id)===String(x.id));if(old)Object.assign(old,x,{campaignId:id});else arr.push({...x,campaignId:id});});
    localStorage.setItem(storageKey,JSON.stringify(arr));
   }else{
    const map=raw&&typeof raw==='object'?raw:{},arr=Array.isArray(map[id])?map[id]:[],known=new Set(arr.map(x=>String(x.id)));
-   remote.forEach(x=>{if(!known.has(String(x.id)))arr.push(x);});map[id]=arr;
+   remote.forEach(x=>{const old=arr.find(v=>String(v.id)===String(x.id));if(old)Object.assign(old,x);else arr.push(x);});map[id]=arr;
    localStorage.setItem(storageKey,JSON.stringify(map));
   }
   sessionStorage.setItem(marker,stamp);location.reload();
@@ -65,6 +65,20 @@ function addEditControls(){
   const del=card.querySelector('.comment-delete-button');if(del)del.before(btn);else card.querySelector('.battle-comment-content')?.append(btn);
  });
 }
+document.addEventListener('click',async e=>{
+ const del=e.target.closest('[data-delete-comment]');if(!del)return;
+ const id=del.dataset.deleteComment;let item=null;
+ try{
+  const path=location.pathname.split('/').pop(),params=new URLSearchParams(location.search);
+  if(path==='battle.html'){const a=JSON.parse(localStorage.getItem('empire-battle-comments-'+(params.get('id')||'battle-011'))||'[]');item=a.find(x=>String(x.id)===id);}
+  else if(path==='campaign.html'){const a=JSON.parse(localStorage.getItem('empire_campaign_comments_v1')||'[]');item=a.find(x=>String(x.id)===id);}
+  else {const m=JSON.parse(localStorage.getItem('empire_news_comments_v1')||'{}');item=(m[params.get('id')||'']||[]).find(x=>String(x.id)===id);}
+  if(!item?._remote)return;
+  e.preventDefault();e.stopImmediatePropagation();
+  if(!confirm('Удалить этот комментарий?'))return;
+  await api.remove(id);location.reload();
+ }catch(err){alert(err.message||'Не удалось удалить комментарий.');}
+},true);
 document.addEventListener('click',async e=>{
  const btn=e.target.closest('[data-remote-comment-edit]');if(!btn)return;
  const card=btn.closest('.battle-thread-item'),old=card?.querySelector('.battle-comment-text')?.textContent||'';
