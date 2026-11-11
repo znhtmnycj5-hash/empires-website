@@ -34,10 +34,11 @@
     else{link.textContent='♙ Войти';link.removeAttribute('data-auth-signout');}
   }
   async function signIn(email,password){await init();const {error}=await client.auth.signInWithPassword({email,password});if(error)throw error;}
-  async function signUp(email,password,displayName){await init();const {error}=await client.auth.signUp({email,password,options:{data:{display_name:displayName}}});if(error)throw error;}
+  async function checkNameAvailable(displayName){await init();const name=String(displayName||'').trim();if(!name)throw new Error('Укажите никнейм.');const {data,error}=await client.from('empire_profiles').select('id').ilike('display_name',name).limit(1);if(error)throw error;return !data?.length;}
+  async function signUp(email,password,displayName){await init();const name=String(displayName||'').trim();if(name.length<3||name.length>24)throw new Error('Никнейм должен содержать от 3 до 24 символов.');if(!/^[\\p{L}\\p{N}_ -]+$/u.test(name))throw new Error('В никнейме разрешены буквы, цифры, пробел, дефис и подчёркивание.');if(!(await checkNameAvailable(name)))throw new Error('Этот никнейм уже занят. Выберите другой.');const {data,error}=await client.auth.signUp({email:String(email).trim(),password,options:{data:{display_name:name}}});if(error){if(/duplicate|unique/i.test(error.message||''))throw new Error('Этот никнейм уже занят. Выберите другой.');throw error;}return data;}
   async function signOut(){await init();const {error}=await client.auth.signOut();if(error)throw error;}
   async function profilePatch(patch){await init();if(!currentUser)throw new Error('Войдите в аккаунт');const allowed={};['display_name','regiment','avatar_url'].forEach(k=>{if(k in patch)allowed[k]=patch[k];});const {error}=await client.from('empire_profiles').update(allowed).eq('id',currentUser.id);if(error)throw error;await sync({user:currentUser});}
-  window.EMPIRE_AUTH={init,signIn,signUp,signOut,profilePatch,get user(){return currentUser;},get profile(){return currentProfile;},get client(){return client;}};
+  window.EMPIRE_AUTH={init,signIn,signUp,signOut,profilePatch,checkNameAvailable,get user(){return currentUser;},get profile(){return currentProfile;},get client(){return client;}};
   document.addEventListener('click',async e=>{const link=e.target.closest('[data-auth-signout]');if(!link)return;e.preventDefault();try{await signOut();location.reload();}catch(err){alert(err.message||'Не удалось выйти');}});
   init().catch(err=>console.error('Empire auth:',err));
 })();
