@@ -76,7 +76,7 @@ document.addEventListener('click',async e=>{
   if(!item?._remote)return;
   e.preventDefault();e.stopImmediatePropagation();
   if(!confirm('Удалить этот комментарий?'))return;
-  await api.remove(id);location.reload();
+  await api.remove(id);\n  const key=path==='battle.html'?'empire-battle-comments-'+(params.get('id')||'battle-011'):path==='campaign.html'?'empire_campaign_comments_v1':'empire_news_comments_v1';\n  if(path==='battle.html'||path==='campaign.html'){const a=JSON.parse(localStorage.getItem(key)||'[]').filter(x=>String(x.id)!==id);localStorage.setItem(key,JSON.stringify(a));}\n  else{const m=JSON.parse(localStorage.getItem(key)||'{}');m[params.get('id')||'']=(m[params.get('id')||'']||[]).filter(x=>String(x.id)!==id);localStorage.setItem(key,JSON.stringify(m));}\n  location.reload();
  }catch(err){alert(err.message||'Не удалось удалить комментарий.');}
 },true);
 document.addEventListener('click',async e=>{
@@ -105,9 +105,25 @@ function enhance(){
   image.addEventListener('click',()=>addFile('image'));video.addEventListener('click',()=>addFile('video'));
   file.addEventListener('change',async()=>{const f=file.files?.[0];if(!f)return;try{await api.requireLogin();const url=await api.upload(f);editor.focus();document.execCommand('insertHTML',false,f.type.startsWith('image/')?'<img src="'+url+'" alt="Изображение" loading="lazy">':'<video src="'+url+'" controls preload="metadata"></video>');}catch(e){alert(e.message||'Не удалось загрузить файл');}finally{file.value='';}});
   spoiler.addEventListener('click',()=>{menu.classList.remove('open');const title=prompt('Название спойлера:');if(title===null)return;const body=prompt('Содержимое спойлера:');if(body===null)return;editor.focus();document.execCommand('insertHTML',false,'<details><summary>'+title.replace(/[&<>]/g,'')+'</summary>'+body.replace(/[&<>]/g,'')+'</details>');});
-  let recorder=null,chunks=[],stopTimer=null;
-  mic.addEventListener('click',async()=>{try{await api.requireLogin();if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder)throw new Error('Запись аудио не поддерживается этим браузером.');const stream=await navigator.mediaDevices.getUserMedia({audio:true});recorder=new MediaRecorder(stream);chunks=[];recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};recorder.onstop=async()=>{clearTimeout(stopTimer);stream.getTracks().forEach(t=>t.stop());try{const blob=new Blob(chunks,{type:recorder.mimeType||'audio/webm'});const f=new File([blob],'voice-'+Date.now()+'.webm',{type:blob.type});const url=await api.upload(f);editor.focus();document.execCommand('insertHTML',false,'<audio controls src="'+url+'"></audio>');}catch(e){alert(e.message||'Не удалось сохранить запись');}mic.textContent='🎙';};recorder.start();mic.textContent='■';stopTimer=setTimeout(()=>{if(recorder?.state==='recording')recorder.stop();},20000);mic.onclick=()=>{if(recorder?.state==='recording')recorder.stop();};}catch(e){alert(e.message||'Не удалось начать запись');}});
- });
+  let recorder=null,chunks=[],stopTimer=null,recordingStream=null;
+  mic.addEventListener('click',async()=>{
+   if(recorder?.state==='recording'){recorder.stop();return;}
+   try{
+    await api.requireLogin();
+    if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder)throw new Error('Запись аудио не поддерживается этим браузером.');
+    recordingStream=await navigator.mediaDevices.getUserMedia({audio:true});
+    recorder=new MediaRecorder(recordingStream);chunks=[];
+    recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+    recorder.onstop=async()=>{
+     clearTimeout(stopTimer);recordingStream?.getTracks().forEach(t=>t.stop());recordingStream=null;
+     try{const blob=new Blob(chunks,{type:recorder.mimeType||'audio/webm'});const f=new File([blob],'voice-'+Date.now()+'.webm',{type:blob.type});const url=await api.upload(f);editor.focus();document.execCommand('insertHTML',false,'<audio controls src="'+url+'"></audio>');}
+     catch(e){alert(e.message||'Не удалось сохранить запись');}
+     mic.textContent='🎙';
+    };
+    recorder.start();mic.textContent='■';
+    stopTimer=setTimeout(()=>{if(recorder?.state==='recording')recorder.stop();},20000);
+   }catch(e){recordingStream?.getTracks().forEach(t=>t.stop());recordingStream=null;mic.textContent='🎙';alert(e.message||'Не удалось начать запись');}
+  });
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enhance);else enhance();
 document.addEventListener('empire:auth-changed',enhance);
