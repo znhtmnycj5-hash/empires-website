@@ -13,6 +13,39 @@ const api={
  async requireLogin(){const a=await waitAuth();if(!a.user){document.querySelector('a.login')?.click();throw new Error('Сначала войдите в аккаунт.');}}
 };
 window.EMPIRE_COMMENTS=api;
+
+async function hydrateCurrentPage(){
+ try{
+  const path=location.pathname.split('/').pop(),params=new URLSearchParams(location.search);
+  let type='',id='';
+  if(path==='battle.html'){type='battle';id=params.get('id')||'battle-011';}
+  else if(path==='campaign.html'){type='campaign';id=params.get('id')||'';}
+  else if(path==='news.html'){type='regiment_news';id=params.get('id')||'';}
+  else if(path==='site-news.html'){type='site_news';id=params.get('id')||'';}
+  if(!type||!id)return;
+  const remote=await api.list(type,id);if(!remote.length)return;
+  const stamp=remote.map(x=>x.updatedAt).join('|'),marker='empire_remote_hydrated:'+type+':'+id;
+  if(sessionStorage.getItem(marker)===stamp)return;
+  const storageKey=type==='battle'?'empire-battle-comments-'+id:type==='campaign'?'empire_campaign_comments_v1':'empire_news_comments_v1';
+  let raw;try{raw=JSON.parse(localStorage.getItem(storageKey)||(type==='battle'?'[]':'{}'));}catch(e){raw=type==='battle'?[]:{};}
+  if(type==='battle'){
+   const arr=Array.isArray(raw)?raw:[],known=new Set(arr.map(x=>String(x.id)));
+   remote.forEach(x=>{if(!known.has(String(x.id)))arr.push({...x,name:x.name||x.author});});
+   localStorage.setItem(storageKey,JSON.stringify(arr));
+  }else if(type==='campaign'){
+   const arr=Array.isArray(raw)?raw:[],known=new Set(arr.filter(x=>x.campaignId===id).map(x=>String(x.id)));
+   remote.forEach(x=>{if(!known.has(String(x.id)))arr.push({...x,campaignId:id});});
+   localStorage.setItem(storageKey,JSON.stringify(arr));
+  }else{
+   const map=raw&&typeof raw==='object'?raw:{},arr=Array.isArray(map[id])?map[id]:[],known=new Set(arr.map(x=>String(x.id)));
+   remote.forEach(x=>{if(!known.has(String(x.id)))arr.push(x);});map[id]=arr;
+   localStorage.setItem(storageKey,JSON.stringify(map));
+  }
+  sessionStorage.setItem(marker,stamp);location.reload();
+ }catch(e){console.warn('Empire comments sync:',e);}
+}
+waitAuth().then(hydrateCurrentPage).catch(()=>{});
+
 const style=document.createElement('style');style.textContent='.battle-comment-text img,.battle-comment-text video,.battle-comment-image{max-width:min(100%,320px);max-height:240px;object-fit:contain;border-radius:8px}.battle-comment-text audio{display:block;max-width:320px;width:100%;margin:8px 0}.empire-attach-menu{position:absolute;z-index:20;display:none;background:#171a20;border:1px solid #8e744b;border-radius:8px;padding:8px;gap:6px;box-shadow:0 8px 24px #0009}.empire-attach-menu.open{display:flex;flex-direction:column}.empire-comment-extra{position:relative;display:inline-flex;gap:6px}.empire-comment-extra button{min-width:34px;min-height:34px}.comment-edit-button{margin-right:6px}';document.head.appendChild(style);
 function enhance(){
  document.querySelectorAll('.battle-comment-form').forEach(form=>{
