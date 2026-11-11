@@ -880,6 +880,10 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .site-news-comment{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid rgba(125,94,54,.3)}
 .site-news-comment img{width:38px;height:38px;object-fit:cover;border:1px solid #705632}
 .site-news-comment>div{min-width:0}.site-news-comment b a{color:#dfc17f;text-decoration:none;font-size:11px}.site-news-comment small{display:block;color:#8e8069;font-size:9px;margin-top:2px}.site-news-comment p{margin:6px 0 0;color:#cdbd9e;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
+/* Keep homepage news panel aligned with the mini-chat height */
+@media(min-width:901px){
+ #news{height:650px;max-height:650px;overflow-y:auto;box-sizing:border-box}
+}
 #homeNewsPreview{display:grid;gap:0}
 #homeNewsPreview .site-news-card{gap:10px;padding:11px 0}
 #homeNewsPreview .site-news-card-main>img{width:90px;height:65px;flex-basis:90px}
