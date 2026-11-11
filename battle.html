@@ -351,7 +351,7 @@ if(!battle){
   };
   const commentCard=(c,all,depth=0)=>{
     const name=String(c.name||"Пользователь");
-    const avatar=(c.avatar&&String(c.avatar).trim())||((window.EMPIRE_USER_AVATARS&&window.EMPIRE_USER_AVATARS[name])||"")||empireUserAvatar(name,"",window.EMPIRE_USER_FACTIONS&&window.EMPIRE_USER_FACTIONS[name]);
+    const avatar=((window.EMPIRE_USER_AVATARS&&window.EMPIRE_USER_AVATARS[name])||"")||empireUserAvatar(name,"",window.EMPIRE_USER_FACTIONS&&window.EMPIRE_USER_FACTIONS[name]);
     const regiment=getCommentRegiment(c,name);
     const children=all.filter(x=>x.parentId===c.id);
     const image=c.image?'<a class="battle-comment-image-link" href="'+escapeCommentHtml(c.image)+'" target="_blank" rel="noopener"><img class="battle-comment-image" src="'+escapeCommentHtml(c.image)+'" alt="Скриншот сражения" loading="lazy"></a>':"";
