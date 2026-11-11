@@ -386,7 +386,7 @@ if(!battle){
     localStorage.setItem(key,JSON.stringify(reports));
     alert("Жалоба отправлена модераторам.");
   };
-  const saveComment=comment=>{
+  const saveComment=comment=>{if(!window.EMPIRE_AUTH?.user){document.querySelector("a.login")?.click();alert("Для отправки комментария войдите в аккаунт.");return;}
     let comments=[];try{comments=JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){}
     comments.push(comment);localStorage.setItem(storageKey,JSON.stringify(comments));renderComments();if(window.EMPIRE_COMMENTS)window.EMPIRE_COMMENTS.create("battle",battleId,{text:comment.text,html:comment.html,image:comment.image,parentId:comment.parentId}).then(remote=>{Object.assign(comment,remote);localStorage.setItem(storageKey,JSON.stringify(comments));renderComments();}).catch(err=>alert(err.message||"Не удалось сохранить комментарий в общей базе."));
   };
