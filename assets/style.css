@@ -2833,3 +2833,42 @@ html body .members-grid img.member-avatar[src*="Bav.jpg"] {
 .cabinet-copy>span{font-size:11px;color:#a99a80}
 .personal-cabinet>.btn{white-space:nowrap}
 @media(max-width:600px){.personal-cabinet{gap:12px;padding:14px;flex-wrap:wrap}.cabinet-avatar{width:52px;height:52px;flex-basis:52px}.cabinet-copy strong{font-size:16px}.personal-cabinet>.btn{width:100%;text-align:center}}
+
+
+/* EMPIRE account / community controls */
+.profile-edit-button{margin-top:12px!important;width:max-content}
+.profile-edit-panel{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;padding:10px;border:1px solid #59442d;background:rgba(12,10,8,.72)}
+.profile-edit-panel[hidden]{display:none!important}
+.profile-edit-panel .btn{font-size:10px}
+.btn.danger{border-color:#75443a;color:#d89b8e;background:rgba(80,30,24,.35)}
+.conversation-list{display:flex;flex-direction:column;gap:7px;padding:4px}
+.conversation-item{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid #493823;background:rgba(10,8,6,.55);text-decoration:none}
+.conversation-item img{width:42px;height:42px;flex:0 0 42px;object-fit:cover;border:1px solid #765a37}
+.conversation-item div{min-width:0;flex:1}
+.conversation-item strong{display:block;color:#d7b979;font:600 11px "Roboto Slab",serif}
+.conversation-item small{display:block;margin-top:4px;color:#857762;font-size:8px}
+.conversation-item>span{color:#b99559;font-size:20px}
+.conversation-head{padding:7px 0 10px;border-bottom:1px solid #493823}
+.conversation-head a{display:flex;align-items:center;gap:9px;text-decoration:none}
+.conversation-head img{width:34px;height:34px;object-fit:cover;border:1px solid #765a37}
+.conversation-head strong{color:#d8b977;font:600 11px "Roboto Slab",serif}
+.regiment-membership-controls{display:flex;justify-content:center;align-items:center;min-height:54px;margin:22px auto 8px;padding-top:4px}
+.regiment-membership-controls .btn{min-width:180px;text-align:center}
+.membership-status{padding:10px 18px;border:1px solid #5e4a31;background:rgba(50,40,28,.45);color:#bca77f;font-size:10px;text-align:center}
+.regiment-join-requests{margin:18px 0 0;padding:16px;border:1px solid #5b452e;background:rgba(13,10,8,.58)}
+.regiment-join-requests h3{margin:5px 0 12px;color:#d8b878;font:600 15px "Roboto Slab",serif}
+.regiment-request-list{display:flex;flex-direction:column;gap:8px}
+.regiment-request{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px;border-top:1px solid #392d22}
+.regiment-request>a{display:flex;align-items:center;gap:9px;min-width:0;text-decoration:none}
+.regiment-request img{width:40px;height:40px;object-fit:cover;border:1px solid #765a37}
+.regiment-request strong{display:block;color:#d2b474;font:600 10px "Roboto Slab",serif}
+.regiment-request small{display:block;margin-top:3px;color:#867762;font-size:7px}
+.regiment-request-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.regiment-request-actions .btn{font-size:8px;padding:7px 10px}
+@media(max-width:600px){
+ .profile-edit-panel{flex-direction:column}
+ .profile-edit-panel .btn{width:100%}
+ .regiment-request{flex-direction:column;align-items:stretch}
+ .regiment-request-actions{justify-content:stretch}
+ .regiment-request-actions .btn{flex:1}
+}
