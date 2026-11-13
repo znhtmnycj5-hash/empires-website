@@ -1,6 +1,6 @@
 /* Shared user avatars and faction fallbacks for EMPIRE */
 window.EMPIRE_USER_AVATARS={
- "Kalashnikov":"assets/avatar.jpg","Ankord":"assets/avatar.jpg",
+ "Kalashnikov":"assets/avatar.jpg",
  "Veli4estvo":"assets/images (4).jpg","Mel":"assets/images (1).jpg",
  "Kazak":"assets/images (6).jpg","MeGusta":"assets/images.jpg",
  "Flashkodr":"assets/images (2).jpg","MrDixon":"assets/images (3).jpg",
@@ -10,7 +10,7 @@ window.EMPIRE_USER_AVATARS={
 
 /* Фракция определяется по полку пользователя; список можно расширять при добавлении составов. */
 window.EMPIRE_USER_FACTIONS={
- "Kalashnikov":"Французская Империя","Ankord":"Французская Империя",
+ "Kalashnikov":"Французская Империя",
  "Veli4estvo":"Французская Империя","Mel":"Французская Империя",
  "Kazak":"Французская Империя","MeGusta":"Французская Империя",
  "Flashkodr":"Французская Империя","MrDixon":"Французская Империя",
