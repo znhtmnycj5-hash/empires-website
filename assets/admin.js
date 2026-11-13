@@ -29,6 +29,37 @@ function renderCampaignAdmin(){
   });
  }
 }
+async function renderSiteUsers(){
+ const box=document.getElementById('siteUsers'),count=document.getElementById('siteUsersCount');
+ if(!box||!count)return;
+ box.innerHTML='<div class="admin-empty">Загрузка пользователей…</div>';
+ try{
+  await window.EMPIRE_AUTH.init();
+  const client=window.EMPIRE_AUTH.client;
+  let all=[],from=0;
+  while(true){
+   const {data,error}=await client.from('empire_profiles')
+    .select('id,display_name,regiment,avatar_url,created_at')
+    .order('created_at',{ascending:false})
+    .range(from,from+99);
+   if(error)throw error;
+   all=all.concat(data||[]);
+   if(!data||data.length<100)break;
+   from+=100;
+  }
+  count.textContent=all.length;
+  box.innerHTML=all.length?all.map(u=>{
+   const avatar=u.avatar_url||'assets/default-soldier.jpg';
+   const regiment=u.regiment||'Без полка';
+   const profile='profile.html?user='+encodeURIComponent(u.id);
+   return '<a class="admin-user-row" href="'+profile+'"><img src="'+esc(avatar)+'" alt=""><div class="admin-user-main"><strong>'+esc(u.display_name)+'</strong><small>'+esc(regiment)+'</small></div><time>'+date(u.created_at)+'</time></a>';
+  }).join(''):'<div class="admin-empty">Пользователей пока нет.</div>';
+ }catch(e){
+  count.textContent='0';
+  box.innerHTML='<div class="admin-empty">Не удалось загрузить список пользователей.</div>';
+  console.error('Список пользователей:',e);
+ }
+}
 function render(){
  const rq=read(K.requests).filter(x=>x.status==='pending'),ur=read(K.userReports).filter(x=>x.status==='pending'),cr=read(K.commentReports).filter(x=>x.status==='pending'),pb=read(K.permanent),tb=read(K.temporary);
  document.getElementById('adminStats').innerHTML=[['Заявки',rq.length],['Жалобы на пользователей',ur.length],['Жалобы на комментарии',cr.length],['Блокировок',pb.length+tb.length]].map(x=>'<div class="admin-stat card"><strong>'+x[1]+'</strong><span>'+x[0]+'</span></div>').join('');
@@ -53,5 +84,5 @@ document.addEventListener('click',e=>{const b=e.target.closest('button[data-type
  if(t==='regiment'){const n=b.dataset.name;if(!confirm('Удалить полк «'+n+'» со списка сайта?'))return;const x=read(K.deletedRegiments);if(!x.includes(n))x.push(n);write(K.deletedRegiments,x);write(K.approved,read(K.approved).filter(v=>v.name!==n));render();return}
  if(t==='alliance'){const x=read(K.deletedAlliances);if(!x.includes(id))x.push(id);write(K.deletedAlliances,x);render()}
 });
-demo();render();renderCampaignAdmin();
+demo();render();renderCampaignAdmin();renderSiteUsers();
 })();
