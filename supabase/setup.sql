@@ -499,7 +499,7 @@ returns jsonb
 language plpgsql
 security definer
 set search_path=''
-as $
+as $$
 declare
   m public.empire_regiment_members%rowtype;
 begin
@@ -526,7 +526,7 @@ returns jsonb
 language plpgsql
 security definer
 set search_path=''
-as $
+as $$
 declare
   m public.empire_regiment_members%rowtype;
   regiment_name text;
