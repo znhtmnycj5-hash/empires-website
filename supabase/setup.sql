@@ -375,7 +375,15 @@ on public.empire_regiment_applications for select to authenticated using (true);
 drop policy if exists "Users can submit their own applications" on public.empire_regiment_applications;
 create policy "Users can submit their own applications"
 on public.empire_regiment_applications for insert to authenticated
-with check (auth.uid() = user_id);
+with check (
+  auth.uid() = user_id
+  and not exists (
+    select 1
+    from public.empire_regiment_members m
+    where m.user_id = auth.uid()
+      and m.left_at is null
+  )
+);
 
 drop policy if exists "Commanders can review applications" on public.empire_regiment_applications;
 create policy "Commanders can review applications"
