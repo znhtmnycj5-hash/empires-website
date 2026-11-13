@@ -1,22 +1,8 @@
 /* Shared user avatars and faction fallbacks for EMPIRE */
-window.EMPIRE_USER_AVATARS={
- "Kalashnikov":"assets/avatar.jpg",
- "Veli4estvo":"assets/images (4).jpg","Mel":"assets/images (1).jpg",
- "Kazak":"assets/images (6).jpg","MeGusta":"assets/images.jpg",
- "Flashkodr":"assets/images (2).jpg","MrDixon":"assets/images (3).jpg",
- "Theodor":"assets/images (5).jpg","Grenadier87":"assets/images.jpg",
- "Marquis":"assets/images (1).jpg","Fusilier":"assets/aea32583-9230-496e-af65-c2e33f73ff79.png"
-};
+window.EMPIRE_USER_AVATARS={};
 
 /* Фракция определяется по полку пользователя; список можно расширять при добавлении составов. */
-window.EMPIRE_USER_FACTIONS={
- "Kalashnikov":"Французская Империя",
- "Veli4estvo":"Французская Империя","Mel":"Французская Империя",
- "Kazak":"Французская Империя","MeGusta":"Французская Империя",
- "Flashkodr":"Французская Империя","MrDixon":"Французская Империя",
- "Theodor":"Французская Империя","Grenadier87":"Французская Империя",
- "Marquis":"Британская Империя"
-};
+window.EMPIRE_USER_FACTIONS={};
 
 window.EMPIRE_FACTION_AVATARS={
  "Французская Империя":"assets/default-soldier.jpg",
