@@ -37,7 +37,8 @@ try{
   }
 
   const isOwn=!!auth.user&&auth.user.id===profile.id;
-  const online=profile.last_seen_at&&Date.now()-new Date(profile.last_seen_at).getTime()<180000;
+  const online=isOwn||(profile.last_seen_at&&Date.now()-new Date(profile.last_seen_at).getTime()<180000);
+  if(isOwn){auth.touchPresence();setInterval(()=>auth.touchPresence(),60000);}
 
   document.title=profile.display_name+' — EMPIRE';
   const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
