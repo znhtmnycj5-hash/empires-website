@@ -33,6 +33,27 @@
     updateHeader();
 
     if(auth.user){
+      try{
+        const {data:membership,error:membershipError}=await auth.client
+          .from('empire_regiment_members')
+          .select('regiment_id')
+          .eq('user_id',auth.user.id)
+          .is('left_at',null)
+          .limit(1)
+          .maybeSingle();
+        if(!membershipError && membership?.regiment_id){
+          const {data:regiment}=await auth.client
+            .from('empire_regiments')
+            .select('name')
+            .eq('id',membership.regiment_id)
+            .maybeSingle();
+          const findRegimentLink=document.querySelector('header .buttons a[href="regiments.html"]');
+          if(findRegimentLink && regiment?.name){
+            findRegimentLink.textContent='Мой полк';
+            findRegimentLink.href='regiment.html?name='+encodeURIComponent(regiment.name);
+          }
+        }
+      }catch(e){}
       await auth.touchPresence();
       setInterval(()=>auth.touchPresence(),60000);
     }
