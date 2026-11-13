@@ -29,39 +29,23 @@
 <footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div><div class="motto">Vive l’Empire!</div></div></footer>
 <script>
 const data={
- "1st Regiment":{avatar:"assets/1st.jpg",commander:"",commanderPhoto:"assets/avatar.jpg",officers:[],soldiers:[],faction:"Французская Империя",rating:1840,count:42},
- "95th Rifles":{avatar:"assets/95.webp",commander:"",commanderPhoto:"assets/default-soldier.jpg",officers:[],soldiers:[],faction:"Британская Империя",rating:1715,count:67},
- "84e Régiment":{avatar:"assets/84e.png",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Французская Империя",rating:1630,count:35},
- "Preobrazhensky":{avatar:"assets/preobraz.webp",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Российская Империя",rating:1590,count:31},
- "7th Hussars":{avatar:"assets/hussars.png",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Британская Империя",rating:1565,count:29},
- "13e Léger":{avatar:"assets/1st.jpg",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Французская Империя",rating:1510,count:28},
- "33e Ligne":{avatar:"assets/95.webp",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Британская Империя",rating:1475,count:26},
- "92nd Gordon Highlanders":{avatar:"assets/84e.png",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Британская Империя",rating:1420,count:24},
- "Semenovsky":{avatar:"assets/preobraz.webp",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Российская Империя",rating:1385,count:23},
- "King's German Legion":{avatar:"assets/kgr.png",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Британская Империя",rating:1320,count:21},
- "6e Hussards":{avatar:"assets/1st.jpg",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Французская Империя",rating:1260,count:19},
- "Royal Scots":{avatar:"assets/95.webp",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Британская Империя",rating:1195,count:17}
- ,"Баварский Полк":{avatar:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6QPmh39hJ-kOTH1yYXXCfDzGhk_LK7TvhTpneOm1C-g&s=10",commander:"",commanderPhoto:"assets/default-soldier.jpg",officers:[],soldiers:[],faction:"Рейнский Союз",rating:1080,count:12},
- "Totenkopf":{avatar:"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/SS_Totenkopf_Fahne.svg/3840px-SS_Totenkopf_Fahne.svg.png",commander:"",commanderPhoto:"assets/default-soldier.jpg",officers:[],soldiers:[],faction:"Пруссия",rating:1040,count:10},
- "Mangust":{avatar:"assets/mangust.webp",commander:"",commanderPhoto:"assets/default-soldier.jpg",officers:[],soldiers:[],faction:"Австрийская Империя",rating:1150,count:14},};;
+ "1st Regiment":{avatar:"assets/1st.jpg",commander:"",commanderPhoto:"assets/avatar.jpg",officers:[],soldiers:[],faction:"Французская Империя",rating:1840,count:null},
+ "95th Rifles":{avatar:"assets/95.webp",commander:"",commanderPhoto:"assets/default-soldier.jpg",officers:[],soldiers:[],faction:"Британская Империя",rating:1715,count:null},
+ "84e Régiment":{avatar:"assets/84e.png",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Французская Империя",rating:1630,count:null},
+ "Preobrazhensky":{avatar:"assets/preobraz.webp",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Российская Империя",rating:1590,count:null},
+ "7th Hussars":{avatar:"assets/hussars.png",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Британская Империя",rating:1565,count:null},
+ "13e Léger":{avatar:"assets/1st.jpg",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Французская Империя",rating:1510,count:null},
+ "33e Ligne":{avatar:"assets/95.webp",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Британская Империя",rating:1475,count:null},
+ "92nd Gordon Highlanders":{avatar:"assets/84e.png",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Британская Империя",rating:1420,count:null},
+ "Semenovsky":{avatar:"assets/preobraz.webp",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Российская Империя",rating:1385,count:null},
+ "King's German Legion":{avatar:"assets/kgr.png",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Британская Империя",rating:1320,count:null},
+ "6e Hussards":{avatar:"assets/1st.jpg",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Французская Империя",rating:1260,count:null},
+ "Royal Scots":{avatar:"assets/95.webp",commander:"",commanderPhoto:"assets/default-soldier.jpg",faction:"Британская Империя",rating:1195,count:null}
+ ,"Баварский Полк":{avatar:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6QPmh39hJ-kOTH1yYXXCfDzGhk_LK7TvhTpneOm1C-g&s=10",commander:"",commanderPhoto:"assets/default-soldier.jpg",officers:[],soldiers:[],faction:"Рейнский Союз",rating:1080,count:null},
+ "Totenkopf":{avatar:"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/SS_Totenkopf_Fahne.svg/3840px-SS_Totenkopf_Fahne.svg.png",commander:"",commanderPhoto:"assets/default-soldier.jpg",officers:[],soldiers:[],faction:"Пруссия",rating:1040,count:null},
+ "Mangust":{avatar:"assets/mangust.webp",commander:"",commanderPhoto:"assets/default-soldier.jpg",officers:[],soldiers:[],faction:"Австрийская Империя",rating:1150,count:null},};;
 // Автоматически заполняем тестовым составом полки, у которых ранее не было списков участников.
-const fallbackNames={
-"84e Régiment":["Jean Moreau","Henri Dubois","Louis Bernard","Pierre Martin","Antoine Leroy","Michel Garnier","Claude Petit","Émile Robert","Victor Simon","Paul Laurent"],
-"Preobrazhensky":["Иван Петров","Сергей Волков","Михаил Соколов","Андрей Беляев","Дмитрий Орлов","Павел Смирнов","Александр Кузнецов","Николай Фёдоров","Григорий Морозов","Владимир Егоров"],
-"7th Hussars":["Henry Smith","Arthur Cole","Edward Turner","Charles Hill","George Ward","Robert Scott","James Wood","William Green","Thomas Baker","John Adams"],
-"13e Léger":["Louis Martin","Paul Renard","Henri Laurent","Marc Petit","Jean Fournier","André Michel","Claude Bernard","Émile Thomas","Victor Richard","Pierre Roux"],
-"33e Ligne":["James Wilson","Robert Hall","William Fraser","Thomas Reid","George White","Edward King","Henry Moore","Arthur Bell","Charles Cox","John Gray"],
-"92nd Gordon Highlanders":["Andrew Fraser","Duncan Ross","Robert MacKay","James Stewart","William Grant","John Murray","Alexander Reid","George Campbell","Thomas Douglas","Hugh Cameron"],
-"Semenovsky":["Сергей Волков","Андрей Беляев","Иван Петров","Михаил Соколов","Павел Иванов","Александр Смирнов","Дмитрий Козлов","Николай Фёдоров","Григорий Морозов","Владимир Егоров"],
-"King's German Legion":["Otto Weber","Karl Schmidt","Friedrich Braun","Hans Keller","Ernst Fischer","Wilhelm Hoffmann","Georg Bauer","Paul Richter","Max Wagner","Franz Meyer"],
-"6e Hussards":["Henri Laurent","Marc Petit","Louis Martin","Paul Renard","Jean Fournier","André Michel","Claude Bernard","Émile Thomas","Victor Richard","Pierre Roux"],
-"Royal Scots":["William Fraser","Thomas Reid","James Wilson","Robert Hall","Andrew Fraser","Duncan Ross","John Murray","Alexander Reid","George Campbell","Hugh Cameron"]
-};
-Object.entries(data).forEach(([regiment,entry])=>{
- const names=fallbackNames[regiment]||["Karl Müller","Johann Weber","Friedrich Bauer","Otto Fischer","Hans Schneider","Georg Wagner","Wilhelm Becker","Ernst Hoffmann","Paul Richter","Maximilian Wolf"];
- if(!Array.isArray(entry.officers)||!entry.officers.length)entry.officers=names.slice(0,3).map(name=>({name,photo:"assets/default-soldier.jpg"}));
- if(!Array.isArray(entry.soldiers)||!entry.soldiers.length)entry.soldiers=names.slice(3).map(name=>({name,photo:"assets/default-soldier.jpg"}));
-});
+const fallbackNames={};
 const name=new URLSearchParams(location.search).get('name')||'1st Regiment',d=data[name]||data['1st Regiment'];
 const factionBackgrounds={'Французская Империя':'assets/73f84f86-e210-42f1-8105-81ffb0b393be.png','Австрийская Империя':'assets/AUSTR.jpg','Британская Империя':'assets/BG.jpg','Королевство Пруссия':'assets/PRUS.jpg','Прусское Королевство':'assets/PRUS.jpg','Пруссия':'assets/PRUS.jpg','Рейнский Союз':'assets/REYN.jpg','Российская Империя':'assets/RUS.jpg'};
 const factionBg=factionBackgrounds[d.faction];
@@ -170,5 +154,5 @@ renderAlbum();
 
 </script>
 <script src="assets/supabase-auth.js?v=20261113-6"></script>
-<script src="assets/regiment-membership.js?v=20261113-2"></script>
+<script src="assets/regiment-membership.js?v=20261113-3"></script>
 </body></html>
