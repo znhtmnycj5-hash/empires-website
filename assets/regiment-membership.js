@@ -113,8 +113,13 @@ try{
   rosterSection.appendChild(controls);
 
   let myMembership=auth.user?active.find(m=>m.user_id===auth.user.id):null;
+  let anyMembership=null;
   let pending=null;
   if(auth.user){
+    const membershipQuery=await auth.client.from('empire_regiment_members')
+      .select('id,regiment_id').eq('user_id',auth.user.id).is('left_at',null).maybeSingle();
+    if(membershipQuery.error)throw membershipQuery.error;
+    anyMembership=membershipQuery.data||null;
     const q=await auth.client.from('empire_regiment_applications')
       .select('id,status,created_at').eq('regiment_id',reg.id).eq('user_id',auth.user.id).order('created_at',{ascending:false}).limit(1).maybeSingle();
     pending=q.data||null;
@@ -130,6 +135,8 @@ try{
         if(error)alert(error.message||'Не удалось покинуть полк.');else location.reload();
       };
       controls.appendChild(button);
+    }else if(anyMembership){
+      const span=document.createElement('div');span.className='membership-status';span.textContent='Вы уже состоите в другом полку. Чтобы вступить сюда, сначала покиньте текущий полк.';controls.appendChild(span);
     }else if(pending?.status==='pending'){
       const span=document.createElement('div');span.className='membership-status';span.textContent='Заявка на вступление отправлена';controls.appendChild(span);
     }else{
