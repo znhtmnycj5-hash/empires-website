@@ -2987,3 +2987,6 @@ html body .members-grid img.member-avatar[src*="Bav.jpg"] {
   .admin-user-row img{width:38px;height:38px;min-width:38px}
   .admin-user-row time{font-size:7px}
 }
+
+.profile-admin-button{display:inline-flex;align-items:center;justify-content:center;margin-top:12px;text-decoration:none}
+.profile-role-badge{display:flex;align-items:center;justify-content:center;margin-top:8px;padding:4px 8px;border:1px solid #a9854d;background:#2b2117;color:#d8b977;font:700 8px "Roboto Slab",serif;letter-spacing:.8px}
