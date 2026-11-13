@@ -45,13 +45,44 @@ try{
     if(!list.length)return;
     const html=list.map(m=>{
       const p=m.empire_profiles||{};
-      return '<a class="member-card" href="profile.html?user='+encodeURIComponent(p.display_name||'Пользователь')+'"><img class="member-avatar" src="'+escape(avatarFor(p))+'" alt=""><strong>'+escape(p.display_name||'Пользователь')+'</strong><small>'+escape(role==='officer'?'Офицер':'Солдат')+'</small></a>';
+      return '<a class="member-card" '+(isCommander?'draggable="true" data-member-id="'+m.id+'" data-member-role="'+role+'" ':'')+'href="profile.html?user='+encodeURIComponent(p.display_name||'Пользователь')+'"><img class="member-avatar" src="'+escape(avatarFor(p))+'" alt=""><strong>'+escape(p.display_name||'Пользователь')+'</strong></a>';
     }).join('');
     if(box.querySelector('.empty-note'))box.innerHTML='';
     box.insertAdjacentHTML('afterbegin',html);
   };
   renderMembers('officer','officersGrid');
   renderMembers('soldier','soldiersGrid');
+  if(isCommander){
+    const style=document.createElement('style');
+    style.textContent='.member-card[draggable="true"]{cursor:grab;touch-action:pan-y}.member-card.is-dragging{opacity:.35}.members-grid.role-drop-target{outline:2px dashed #b99559;outline-offset:5px;border-radius:8px;background:rgba(185,149,89,.08)}.member-card strong{display:block}';
+    document.head.appendChild(style);
+    let draggedId=null;
+    rosterSection.addEventListener('dragstart',e=>{
+      const card=e.target.closest('.member-card[draggable="true"]');if(!card)return;
+      draggedId=card.dataset.memberId;card.classList.add('is-dragging');
+      e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',draggedId);
+    });
+    rosterSection.addEventListener('dragend',e=>{
+      const card=e.target.closest('.member-card[draggable="true"]');if(card)card.classList.remove('is-dragging');
+      rosterSection.querySelectorAll('.role-drop-target').forEach(el=>el.classList.remove('role-drop-target'));
+      draggedId=null;
+    });
+    ['officersGrid','soldiersGrid'].forEach(id=>{
+      const grid=document.getElementById(id);if(!grid)return;
+      grid.addEventListener('dragover',e=>{if(draggedId){e.preventDefault();e.dataTransfer.dropEffect='move';grid.classList.add('role-drop-target');}});
+      grid.addEventListener('dragleave',e=>{if(!grid.contains(e.relatedTarget))grid.classList.remove('role-drop-target');});
+      grid.addEventListener('drop',async e=>{
+        e.preventDefault();grid.classList.remove('role-drop-target');
+        const memberId=e.dataTransfer.getData('text/plain')||draggedId;
+        const targetRole=id==='officersGrid'?'officer':'soldier';
+        const member=active.find(m=>m.id===memberId);
+        if(!member||member.role===targetRole)return;
+        const {error}=await auth.client.rpc('empire_set_regiment_member_role',{p_member_id:memberId,p_role:targetRole});
+        if(error){alert(error.message||'Не удалось изменить звание.');return;}
+        location.reload();
+      });
+    });
+  }
 
   const oldJoin=document.getElementById('regimentMembershipControls');
   if(oldJoin)oldJoin.remove();
