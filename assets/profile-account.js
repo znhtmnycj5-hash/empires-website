@@ -123,15 +123,23 @@ try{
     if(!contact){
       const {data:rows,error}=await auth.client
         .from('empire_private_messages')
-        .select('sender_id,recipient_id,content,created_at,sender:sender_id(id,display_name,avatar_url,regiment),recipient:recipient_id(id,display_name,avatar_url,regiment)')
+        .select('sender_id,recipient_id,content,created_at')
         .or('sender_id.eq.'+auth.user.id+',recipient_id.eq.'+auth.user.id)
         .order('created_at',{ascending:false});
       if(error)throw error;
-      const seen=new Set(),contacts=[];
-      (rows||[]).forEach(row=>{
-        const p=row.sender_id===auth.user.id?row.recipient:row.sender;
-        if(p&&!seen.has(p.id)){seen.add(p.id);contacts.push(p);}
-      });
+      const ids=[...new Set((rows||[]).map(row=>row.sender_id===auth.user.id?row.recipient_id:row.sender_id))];
+      let contacts=[];
+      if(ids.length){
+        const q=await auth.client.from('empire_profiles').select('id,display_name,avatar_url,regiment').in('id',ids);
+        if(q.error)throw q.error;
+        const byId=Object.fromEntries((q.data||[]).map(p=>[p.id,p]));
+        const seen=new Set();
+        (rows||[]).forEach(row=>{
+          const id=row.sender_id===auth.user.id?row.recipient_id:row.sender_id;
+          const p=byId[id];
+          if(p&&!seen.has(p.id)){seen.add(p.id);contacts.push(p);}
+        });
+      }
       if(!contacts.length){
         messageArea.innerHTML='<div class="no-conversation"><p>Переписок пока нет.</p></div>';
         return;
