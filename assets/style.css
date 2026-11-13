@@ -2700,18 +2700,27 @@ nav a,.btn{font-family:"Roboto Slab",serif}
 }
 #onlineUsers .online-user{
   position:relative;min-width:0;min-height:0;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:4px;padding:4px 2px;
-  border:1px solid rgba(118,90,55,.42);background:rgba(17,14,11,.58);text-decoration:none;box-sizing:border-box
+  align-items:center;justify-content:center;gap:3px;padding:4px 3px;
+  border:1px solid rgba(118,90,55,.42);background:rgba(17,14,11,.58);text-decoration:none;box-sizing:border-box;
+  color:#c8b38b!important;outline:0!important
+}
+#onlineUsers .online-user:visited,
+#onlineUsers .online-user:hover,
+#onlineUsers .online-user:focus,
+#onlineUsers .online-user:active{
+  color:#c8b38b!important;text-decoration:none!important;outline:0!important
 }
 #onlineUsers .online-user-avatar{
   width:46px!important;height:46px!important;min-width:46px!important;min-height:46px!important;
   max-width:46px!important;max-height:46px!important;object-fit:cover;border-radius:50%;
   border:1px solid #765a37;display:block
 }
-#onlineUsers .online-user-name{
+#onlineUsers .online-user-name,
+#onlineUsers .online-user-regiment{
   display:block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;
-  color:#c8b38b;font:600 8px/1.1 "Roboto Slab",serif
+  color:#c8b38b!important;font:600 8px/1.1 "Roboto Slab",serif;text-decoration:none!important
 }
+#onlineUsers .online-user-regiment{color:#a9987b!important;font-size:7px;font-weight:500}
 #onlineUsers .online-user-dot{
   position:absolute;right:6px;top:6px;width:7px;height:7px;border-radius:50%;
   background:#68b86a;box-shadow:0 0 0 2px rgba(12,10,8,.9)
