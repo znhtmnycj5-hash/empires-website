@@ -136,7 +136,7 @@ try{
       serviceBox.innerHTML=service.map(row=>{
         const from=new Date(row.joined_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
         const to=row.left_at?new Date(row.left_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'по настоящее время';
-        return '<div class="service-item"><div class="service-regiment">'+esc(row.empire_regiments?.name||'Полк')+'</div><div class="service-dates"><span>С '+from+'</span><span>По '+to+'</span></div></div>';
+        return '<div class="service-item"><div class="service-regiment">'+esc(row.empire_regiments?.name||'Полк')+'</div><div class="service-dates"><span>С '+from+'</span><span>'+to+'</span></div></div>';
       }).join('');
     }else serviceBox.innerHTML='<p class="empty-note">Не служил.</p>';
   }
