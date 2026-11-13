@@ -2946,3 +2946,44 @@ html body .members-grid img.member-avatar[src*="Bav.jpg"] {
 #chat #online-users .online-list::-webkit-scrollbar-thumb:hover{
   background:linear-gradient(180deg,#dfc184,#a27b45);
 }
+
+/* Admin: registered site users */
+.admin-users-list{
+  max-height:520px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  border:1px solid #493823;
+  background:rgba(10,8,6,.48);
+  scrollbar-width:thin;
+  scrollbar-color:#9a7440 #211912;
+}
+.admin-users-list::-webkit-scrollbar{width:8px}
+.admin-users-list::-webkit-scrollbar-track{background:linear-gradient(180deg,#17120e,#2a2118);border-left:1px solid rgba(154,116,64,.35)}
+.admin-users-list::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#c5a56b,#806039);border:1px solid #4a3520;border-radius:8px}
+.admin-user-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-height:62px;
+  padding:9px 12px;
+  border-bottom:1px solid #392d22;
+  text-decoration:none;
+  box-sizing:border-box;
+}
+.admin-user-row:last-child{border-bottom:0}
+.admin-user-row:hover{background:rgba(75,48,23,.38)}
+.admin-user-row img{
+  width:44px;height:44px;min-width:44px;
+  border-radius:50%;object-fit:cover;
+  border:1px solid #765a37;background:#17130f;
+}
+.admin-user-main{min-width:0;flex:1}
+.admin-user-main strong{display:block;color:#d8b977;font:600 11px "Roboto Slab",serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.admin-user-main small{display:block;margin-top:4px;color:#897b68;font-size:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.admin-user-row time{flex:0 0 auto;color:#857762;font-size:8px;white-space:nowrap}
+@media(max-width:600px){
+  .admin-users-list{max-height:430px}
+  .admin-user-row{gap:9px;padding:8px 9px}
+  .admin-user-row img{width:38px;height:38px;min-width:38px}
+  .admin-user-row time{font-size:7px}
+}
