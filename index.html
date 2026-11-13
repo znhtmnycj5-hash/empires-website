@@ -50,12 +50,12 @@
   </div>
 
   <div id="general" class="chat-panel active">
-    <div class="messages" style="height:480px;max-height:480px;overflow-y:auto;overflow-x:hidden"><p class="empty-note">Сообщений пока нет.</p></div>
+    <div class="messages" id="generalMessages" style="height:480px;max-height:480px;overflow-y:auto;overflow-x:hidden"><p class="empty-note">Загрузка сообщений…</p></div>
   </div>
 
   <div id="regiments-chat" class="chat-panel">
     <div class="regiment-chat-status" id="regimentChatStatus"></div>
-    <div class="messages" id="regimentMessages"><p class="empty-note">Сообщений пока нет.</p></div>
+    <div class="messages" id="regimentMessages" style="height:480px;max-height:480px;overflow-y:auto;overflow-x:hidden"><p class="empty-note">Загрузка сообщений…</p></div>
     <div class="regiment-chat-locked" id="regimentChatLocked">
       <div class="lock-icon">🔒</div>
       <strong>Полковой чат заблокирован</strong>
@@ -65,10 +65,10 @@
   </div>
 
   <div id="online-users" class="chat-panel">
-    <div class="online-list"><p class="empty-note">Сейчас никто не в сети.</p></div><div class="online-count">Сейчас в общем чате: <strong>0</strong></div>
+    <div class="online-list" id="miniChatOnlineList"><p class="empty-note">Загрузка списка…</p></div><div class="online-count">Сейчас в сети: <strong id="miniChatOnlineCount">0</strong></div>
   </div>
 
-  <div class="chat-input" id="chatInputWrap"><input id="chatInput" name="empire-mini-chat-message" type="text" autocomplete="off" autocapitalize="sentences" spellcheck="true" readonly data-lpignore="true" data-form-type="other" placeholder="Написать сообщение..."><button id="sendChat">➤</button></div>
+  <div class="chat-input" id="chatInputWrap"><input id="chatInput" name="empire-mini-chat-message" type="text" maxlength="2000" autocomplete="off" autocapitalize="sentences" spellcheck="true" placeholder="Войдите, чтобы написать сообщение..." disabled><button id="sendChat">➤</button></div>
 </section>
 
 <section class="card" id="news">
@@ -266,30 +266,7 @@ renderCommunityRegiments([]);
 if(typeof calculateRegimentRatings==="function"){
   calculateRegimentRatings().then(renderCommunityRegiments).catch(()=>{});
 }
-document.querySelectorAll('.chat-tab').forEach(button=>{
- button.addEventListener('click',()=>{
-  const target=document.getElementById(button.dataset.tab);
-  if(!target)return;
-  document.querySelectorAll('.chat-tab').forEach(tab=>tab.classList.toggle('active',tab===button));
-  document.querySelectorAll('.chat-panel').forEach(panel=>panel.classList.toggle('active',panel===target));
-  const isRegiment=button.dataset.tab==='regiments-chat';
-  const inputWrap=document.getElementById('chatInputWrap');
-  if(inputWrap)inputWrap.style.display=isRegiment&&!currentUser.regiment?'none':'flex';
- });
-});
-const regimentStatus=document.getElementById('regimentChatStatus');
-const regimentLocked=document.getElementById('regimentChatLocked');
-if(currentUser.regiment){
- regimentStatus.innerHTML='<span class="chat-access-ok">● Полковой чат: '+currentUser.regiment+'</span>';
- regimentLocked.style.display='none';
-}else{
- regimentStatus.innerHTML='<span class="chat-access-locked">● Доступ закрыт</span>';
- document.getElementById('regimentMessages').style.display='none';
-}
-function send(){const i=document.getElementById('chatInput'),v=i.value.trim();if(!v)return;
- const active=document.querySelector('.chat-panel.active'),box=active?.querySelector('.messages')||document.querySelector('#general .messages'),r=document.createElement('div');r.className='msg';
- r.innerHTML='<img class="chat-avatar" src="assets/avatar.jpg" alt="Вы" loading="lazy" decoding="async"><div><b>'+currentUser.name+'</b><p></p></div><div class="time">сейчас</div>';r.querySelector('p').textContent=v;box.appendChild(r);i.value='';toast('Сообщение добавлено в чат')}
-const chatInput=document.getElementById('chatInput');chatInput.addEventListener('focus',()=>{chatInput.readOnly=false},{once:true});document.getElementById('sendChat').onclick=send;chatInput.onkeydown=e=>{if(e.key==='Enter')send()};
+
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.onclick=e=>{const id=a.getAttribute('href');if(id.length>1&&document.querySelector(id)){e.preventDefault();document.querySelector(id).scrollIntoView({behavior:'smooth',block:'start'})}});
 })();
 </script>
@@ -300,5 +277,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>a.onclick=e=>{const id=a.ge
 <script src="assets/supabase-auth.js?v=20261111-5"></script>
 <script src="assets/empire-comments.js?v=20261111-7"></script>
 <script src="assets/community.js?v=20261113-3"></script>
+<script src="assets/mini-chat.js?v=20261113-1"></script>
 </body>
 </html>
