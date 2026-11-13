@@ -19,7 +19,7 @@
   async function sync(session){
     currentUser=session?.user||null;currentProfile=null;
     if(currentUser){
-      const {data}=await client.from('empire_profiles').select('id,display_name,regiment,avatar_url').eq('id',currentUser.id).maybeSingle();
+      const {data}=await client.from('empire_profiles').select('id,display_name,regiment,avatar_url,last_seen_at').eq('id',currentUser.id).maybeSingle();
       currentProfile=data||{id:currentUser.id,display_name:currentUser.user_metadata?.display_name||currentUser.email?.split('@')[0]||'Игрок',regiment:'',avatar_url:''};
       try{localStorage.setItem('empire_current_user_v1',currentProfile.display_name);const old=JSON.parse(localStorage.getItem('empire_current_user')||'{}');const changed=old.name!==currentProfile.display_name||old.regiment!==(currentProfile.regiment||'');localStorage.setItem('empire_current_user',JSON.stringify({...old,name:currentProfile.display_name,regiment:currentProfile.regiment||''}));if(changed&&/battle|campaign|news/.test(location.pathname)&&sessionStorage.getItem('empire_auth_profile_synced')!=='1'){sessionStorage.setItem('empire_auth_profile_synced','1');location.reload();}}catch(e){}
     }
@@ -30,7 +30,7 @@
   }
   function updateHeader(){
     const link=document.querySelector('a.login');
-    if(link){if(currentUser){link.textContent='♙ '+(currentProfile?.display_name||'Аккаунт');link.title='Нажмите, чтобы выйти';link.dataset.authSignout='1';}else{link.textContent='♙ Войти';link.removeAttribute('data-auth-signout');}}
+    if(link){if(currentUser){link.textContent='♙ Выйти из профиля';link.title='Выйти из профиля';link.dataset.authSignout='1';link.href='#';}else{link.textContent='♙ Войти в сообщество';link.removeAttribute('data-auth-signout');link.href='register.html';}}
     const cabinet=document.getElementById('personalCabinet');
     if(cabinet){cabinet.hidden=!currentUser;if(currentUser){const name=currentProfile?.display_name||'Пользователь';const label=document.getElementById('cabinetName');if(label)label.textContent=name;const avatar=document.getElementById('cabinetAvatar');if(avatar&&currentProfile?.avatar_url)avatar.src=currentProfile.avatar_url;const target=document.getElementById('cabinetProfileLink');if(target)target.href='profile.html?user='+encodeURIComponent(name);}}
   }
@@ -40,9 +40,11 @@
   async function resetPassword(email){await init();const redirectTo=location.origin+location.pathname+'?mode=recovery';const {error}=await client.auth.resetPasswordForEmail(String(email).trim(),{redirectTo});if(error)throw error;}
   async function updatePassword(password){await init();const {error}=await client.auth.updateUser({password});if(error)throw error;}
   async function signOut(){await init();const {error}=await client.auth.signOut();if(error)throw error;}
+  async function touchPresence(){await init();if(!currentUser)return;const {error}=await client.from('empire_profiles').update({last_seen_at:new Date().toISOString()}).eq('id',currentUser.id);if(error)console.warn('Presence:',error.message);}
+  async function deleteAccount(){await init();if(!currentUser)throw new Error('Войдите в аккаунт');const {error}=await client.rpc('empire_delete_my_account');if(error)throw error;await client.auth.signOut({scope:'local'});}
   async function uploadAvatar(file){await init();if(!currentUser)throw new Error('Войдите в аккаунт');if(!file||!file.type.startsWith('image/'))throw new Error('Выберите файл изображения');if(file.size>5*1024*1024)throw new Error('Размер аватара не должен превышать 5 МБ');const ext=(file.type.split('/')[1]||'png').replace('jpeg','jpg');const path=currentUser.id+'/'+Date.now()+'.'+ext;const {error}=await client.storage.from('profile-avatars').upload(path,file,{contentType:file.type,upsert:true});if(error)throw error;const url=client.storage.from('profile-avatars').getPublicUrl(path).data.publicUrl;await profilePatch({avatar_url:url});return url;}
-  async function profilePatch(patch){await init();if(!currentUser)throw new Error('Войдите в аккаунт');const allowed={};['display_name','regiment','avatar_url'].forEach(k=>{if(k in patch)allowed[k]=patch[k];});const {error}=await client.from('empire_profiles').update(allowed).eq('id',currentUser.id);if(error)throw error;await sync({user:currentUser});}
-  window.EMPIRE_AUTH={init,signIn,signUp,signOut,resetPassword,updatePassword,profilePatch,uploadAvatar,checkNameAvailable,get user(){return currentUser;},get profile(){return currentProfile;},get client(){return client;}};
+  async function profilePatch(patch){await init();if(!currentUser)throw new Error('Войдите в аккаунт');const allowed={};['display_name','regiment','avatar_url'].forEach(k=>{if(k in patch)allowed[k]=patch[k];});if(allowed.display_name){const available=await checkNameAvailable(allowed.display_name);if(!available&&String(allowed.display_name).toLowerCase()!==String(currentProfile?.display_name||'').toLowerCase())throw new Error('Этот никнейм уже занят. Выберите другой.');}const {error}=await client.from('empire_profiles').update(allowed).eq('id',currentUser.id);if(error)throw error;if(allowed.display_name){const {error:metaError}=await client.auth.updateUser({data:{display_name:allowed.display_name}});if(metaError)throw metaError;}await sync({user:currentUser});}
+  window.EMPIRE_AUTH={init,signIn,signUp,signOut,resetPassword,updatePassword,profilePatch,uploadAvatar,checkNameAvailable,touchPresence,deleteAccount,get user(){return currentUser;},get profile(){return currentProfile;},get client(){return client;}};
   document.addEventListener('click',async e=>{const link=e.target.closest('[data-auth-signout]');if(!link)return;e.preventDefault();try{await signOut();location.reload();}catch(err){alert(err.message||'Не удалось выйти');}});
   init().catch(err=>console.error('Empire auth:',err));
 })();
