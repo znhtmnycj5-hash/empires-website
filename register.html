@@ -29,7 +29,7 @@
 <div class="auth-message" id="authMessage" role="status" aria-live="polite"></div>
 </section>
 </div>
-<script src="assets/supabase-auth.js?v=20261111-7"></script>
+<script src="assets/supabase-auth.js?v=20261113-1"></script>
 <script>
 const $=id=>document.getElementById(id);let mode='register',avatarData='';
 function setMode(next){mode=next;$('forgotPassword').style.display=mode==='login'?'inline-block':'none';$('registerTab').classList.toggle('active',mode==='register');$('loginTab').classList.toggle('active',mode==='login');$('nicknameField').hidden=mode==='login';$('avatarField').hidden=mode==='login';$('nickname').required=mode==='register';$('authTitle').textContent=mode==='register'?'Регистрация':'Вход в аккаунт';$('authIntro').textContent=mode==='register'?'Создайте личный аккаунт EMPIRE. Ваш никнейм будет уникальным, а адрес электронной почты останется скрытым от других пользователей.':'Войдите, чтобы открыть личный кабинет и пользоваться возможностями сообщества.';$('submitButton').textContent=mode==='register'?'Создать аккаунт':'Войти';$('password').autocomplete=mode==='register'?'new-password':'current-password';$('authMessage').textContent='';}
