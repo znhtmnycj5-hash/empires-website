@@ -481,6 +481,37 @@ $$;
 revoke execute on function public.empire_review_regiment_application(uuid,text) from public,anon;
 grant execute on function public.empire_review_regiment_application(uuid,text) to authenticated;
 
+
+-- Allow the regiment commander to promote/demote members by changing their role.
+create or replace function public.empire_set_regiment_member_role(
+  p_member_id uuid,
+  p_role text
+)
+returns jsonb
+language plpgsql
+security definer
+set search_path=''
+as $
+declare
+  m public.empire_regiment_members%rowtype;
+begin
+  if auth.uid() is null then raise exception 'Authentication required'; end if;
+  if p_role not in ('officer','soldier') then raise exception 'Invalid member role'; end if;
+  select * into m from public.empire_regiment_members
+  where id=p_member_id and left_at is null for update;
+  if not found then raise exception 'Active member not found'; end if;
+  if m.role='commander' then raise exception 'Commander role cannot be changed here'; end if;
+  if not exists(
+    select 1 from public.empire_regiments r
+    where r.id=m.regiment_id and r.commander_id=auth.uid()
+  ) then raise exception 'Only the regiment commander can change ranks'; end if;
+  update public.empire_regiment_members set role=p_role where id=m.id;
+  return jsonb_build_object('ok',true,'role',p_role);
+end;
+$;
+revoke execute on function public.empire_set_regiment_member_role(uuid,text) from public,anon;
+grant execute on function public.empire_set_regiment_member_role(uuid,text) to authenticated;
+
 -- Delete the current account, including its profile avatar objects.
 create or replace function public.empire_delete_my_account()
 returns void
