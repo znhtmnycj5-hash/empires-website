@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
+<title>Поиск — EMPIRE</title>
+<link rel="stylesheet" href="assets/style.css?v=20261114-search1">
+</head>
+<body>
+<header>
+  <div class="container">
+    <div class="brand">
+      <a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE" decoding="async"></a>
+      <div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div>
+    </div>
+    <nav>
+      <a href="index.html">Главная</a>
+      <div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a></div></div>
+      <div class="dropdown"><a href="battles.html">Сражения</a><div class="dropdown-menu"><a href="battles.html#planned">Предстоящие</a><a href="battles.html#completed">Завершённые</a><a href="battles.html#all">Все сражения</a></div></div>
+      <div class="dropdown"><a href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html#upcoming">Предстоящие</a><a href="campaigns.html#completed">Завершённые</a></div></div>
+      <a href="rating.html">Рейтинг</a>
+      <a class="active" href="search.html">Поиск</a>
+      <a href="alliances.html">Союзы</a>
+      <a class="login" href="register.html">♙ &nbsp; Войти</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container" style="max-width:1100px;padding-top:28px;padding-bottom:50px">
+  <section class="card" style="margin-bottom:18px">
+    <div class="card-title">⌕ &nbsp; Поиск по сайту</div>
+    <form id="siteSearchForm" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <input id="siteSearchInput" type="search" autocomplete="off" placeholder="Пользователь, полк или комментарий…" style="flex:1;min-width:240px">
+      <button class="btn primary" type="submit">Найти</button>
+    </form>
+    <div class="search-hint" style="margin-top:10px;color:#8f8068;font-size:12px">Поиск ищет одновременно пользователей, полки и комментарии.</div>
+  </section>
+
+  <section class="card" id="searchResults" hidden>
+    <div class="card-title">Результаты поиска <span id="searchQueryLabel"></span></div>
+    <div id="searchResultsBody"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div><strong style="font:700 22px Cinzel;color:#b99559">EMPIRE</strong><br>Сообщество Mount &amp; Blade: Napoleonic Wars</div>
+    <div>Главная &nbsp;|&nbsp; Полки &nbsp;|&nbsp; Кампании &nbsp;|&nbsp; Рейтинг &nbsp;|&nbsp; Поиск &nbsp;|&nbsp; Союзы</div>
+    <div class="motto">Vive l’Empire!</div>
+  </div>
+</footer>
+
+<script src="assets/supabase-auth.js?v=20261111-5"></script>
+<script src="assets/user-avatars.js?v=20261113-clean2"></script>
+<script src="assets/search.js?v=20261114-1"></script>
+</body>
+</html>
