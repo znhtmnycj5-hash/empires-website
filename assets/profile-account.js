@@ -6,7 +6,12 @@ try{
   const auth=window.EMPIRE_AUTH;
   const params=new URLSearchParams(location.search);
   const requested=params.get('user')||'';
-  const requestedName=requested||auth.profile?.display_name||'Kalashnikov';
+  const requestedName=requested||auth.profile?.display_name||'';
+  if(!requestedName){
+    const title=document.getElementById('profileName');
+    if(title)title.textContent='Войдите в аккаунт или выберите профиль пользователя.';
+    return;
+  }
 
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const avatarFallback=(name,regiment)=>{
