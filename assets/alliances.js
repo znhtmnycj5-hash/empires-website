@@ -16,7 +16,7 @@
     "Mangust":{rating:1150,members:14,img:"assets/mangust.webp"}
   };
   const seeds=[
-    {id:"alliance-001",name:"Имперский союз",avatar:"assets/empire_logo_top_right.png",leader:"Ankord",members:["1st Regiment","Preobrazhensky","7th Hussars"],battles:[
+    {id:"alliance-001",name:"Имперский союз",avatar:"assets/empire_logo_top_right.png",leader:"Commander",members:["1st Regiment","Preobrazhensky","7th Hussars"],battles:[
       {id:"battle-002",date:"29.10.2026",title:"1st Regiment vs 84e Régiment",result:"win",calledBy:"1st Regiment",helpedBy:["Preobrazhensky"]},
       {id:"battle-006",date:"06.11.2026",title:"1st Regiment vs Preobrazhensky",result:"draw",calledBy:"1st Regiment",helpedBy:["7th Hussars"]}
     ]},
