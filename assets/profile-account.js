@@ -78,6 +78,7 @@ try{
   if(avatar){
     avatar.src=profile.avatar_url||avatarFallback(profile.display_name,regiment);
     avatar.alt='Аватар '+profile.display_name;
+    avatar.style.visibility='visible';
   }
 
   const main=document.querySelector('.profile-main');
