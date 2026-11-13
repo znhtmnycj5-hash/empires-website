@@ -9,8 +9,30 @@ create table if not exists public.empire_profiles (
   regiment text not null default '',
   avatar_url text not null default '',
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  is_admin boolean not null default false
 );
+
+alter table public.empire_profiles add column if not exists is_admin boolean not null default false;
+
+create or replace function public.empire_prevent_admin_self_change()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $
+begin
+  if auth.uid() is not null and old.is_admin is distinct from new.is_admin then
+    raise exception 'Only database administrators can change admin status';
+  end if;
+  return new;
+end;
+$;
+
+drop trigger if exists empire_profiles_prevent_admin_self_change on public.empire_profiles;
+create trigger empire_profiles_prevent_admin_self_change
+before update on public.empire_profiles
+for each row execute procedure public.empire_prevent_admin_self_change();
 
 create unique index if not exists empire_profiles_display_name_unique
   on public.empire_profiles (lower(display_name));
