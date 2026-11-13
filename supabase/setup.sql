@@ -491,7 +491,7 @@ as $$
 begin
   if auth.uid() is null then raise exception 'Authentication required'; end if;
   delete from storage.objects
-  where bucket_id='profile-avatars'
+  where bucket_id in ('profile-avatars','comment-media')
     and (storage.foldername(name))[1]=auth.uid()::text;
   delete from auth.users where id=auth.uid();
 end;
