@@ -516,7 +516,7 @@ begin
   update public.empire_regiment_members set role=p_role where id=m.id;
   return jsonb_build_object('ok',true,'role',p_role);
 end;
-$;
+$$;
 revoke execute on function public.empire_set_regiment_member_role(uuid,text) from public,anon;
 grant execute on function public.empire_set_regiment_member_role(uuid,text) to authenticated;
 
@@ -559,7 +559,7 @@ begin
 
   return jsonb_build_object('ok',true);
 end;
-$;
+$$;
 revoke execute on function public.empire_remove_regiment_member(uuid) from public,anon;
 grant execute on function public.empire_remove_regiment_member(uuid) to authenticated;
 
