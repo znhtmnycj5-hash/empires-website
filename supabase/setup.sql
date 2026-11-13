@@ -341,7 +341,7 @@ where lower(p.display_name)=lower(
     when 'Totenkopf' then 'Friedrich Adler'
     when 'Mangust' then 'Johann von Habsburg'
   end
-where r.commander_id is null;
+  and r.commander_id is null;
 
 alter table public.empire_regiments enable row level security;
 alter table public.empire_regiment_members enable row level security;
