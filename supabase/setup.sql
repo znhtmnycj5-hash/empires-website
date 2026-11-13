@@ -325,7 +325,7 @@ set commander_id=p.id
 from public.empire_profiles p
 where lower(p.display_name)=lower(
   case r.name
-    when '1st Regiment' then 'Ankord'
+    when '1st Regiment' then 'Commander'
     when '95th Rifles' then 'Richard Hawthorne'
     when '84e Régiment' then 'Pierre Delacroix'
     when 'Preobrazhensky' then 'Алексей Воронцов'
