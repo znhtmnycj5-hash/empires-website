@@ -69,13 +69,11 @@
 const profiles={
   "Kalashnikov":{avatar:"assets/avatar.jpg",regiment:"1st Regiment",role:"Глава клана",friends:["Veli4estvo","Kazak","Grenadier87"],service:[
     {regiment:"1st Regiment",from:"01.10.2026",to:"по настоящее время"}]},
-  "Ankord":{avatar:"assets/avatar.jpg",regiment:"1st Regiment",role:"Глава клана",friends:["Veli4estvo","Mel","Kazak"],service:[
-    {regiment:"1st Regiment",from:"01.10.2026",to:"по настоящее время"}]},
-  "Veli4estvo":{avatar:"assets/images (4).jpg",regiment:"1st Regiment",role:"Офицер",friends:["Ankord","Kazak","MeGusta"],service:[
+  "Veli4estvo":{avatar:"assets/images (4).jpg",regiment:"1st Regiment",role:"Офицер",friends:["Kazak","MeGusta"],service:[
     {regiment:"1st Regiment",from:"05.10.2026",to:"по настоящее время"}]},
   "Mel":{avatar:"assets/images (1).jpg",regiment:"1st Regiment",role:"Солдат",friends:["Veli4estvo","Kazak"],service:[
     {regiment:"1st Regiment",from:"08.10.2026",to:"по настоящее время"}]},
-  "Kazak":{avatar:"assets/images (6).jpg",regiment:"1st Regiment",role:"Офицер",friends:["Ankord","Veli4estvo","Flashkodr"],service:[
+  "Kazak":{avatar:"assets/images (6).jpg",regiment:"1st Regiment",role:"Офицер",friends:["Veli4estvo","Flashkodr"],service:[
     {regiment:"1st Regiment",from:"12.10.2026",to:"по настоящее время"}]},
   "MeGusta":{avatar:"assets/images.jpg",regiment:"1st Regiment",role:"Солдат",friends:["Flashkodr","Theodor","Veli4estvo"],service:[
     {regiment:"1st Regiment",from:"24.10.2026",to:"по настоящее время"}]},
@@ -219,8 +217,8 @@ if(visibleGuests.length){
 document.getElementById("serviceList").innerHTML=d.service.length?d.service.map(x=>'<div class="service-item"><div class="service-regiment">'+x.regiment+'</div><div class="service-dates"><span>С '+x.from+'</span><span>По '+x.to+'</span></div></div>').join(""):'<p class="empty-note">Послужной список пока пуст.</p>';
 
 const conversations={
-  "Kalashnikov":[{from:"Ankord",text:"Привет! Как подготовка к следующему бою?",time:"19:12"},{from:"Kalashnikov",text:"Всё готово. Собираем состав к вечеру.",time:"19:15"}],
-  "Ankord":[{from:"Kalashnikov",text:"Командир, состав на тренировку готов.",time:"18:46"},{from:"Ankord",text:"Отлично. Встречаемся в 21:00.",time:"18:49"}],
+  "Kalashnikov":[{from:text:"Привет! Как подготовка к следующему бою?",time:"19:12"},{from:"Kalashnikov",text:"Всё готово. Собираем состав к вечеру.",time:"19:15"}],
+  "Ankord":[{from:"Kalashnikov",text:"Командир, состав на тренировку готов.",time:"18:46"},{from:text:"Отлично. Встречаемся в 21:00.",time:"18:49"}],
   "Veli4estvo":[{from:"Kalashnikov",text:"Проведёшь сегодня обучение новичков?",time:"17:20"},{from:"Veli4estvo",text:"Да, всё организую.",time:"17:23"}],
   "Mel":[{from:"Mel",text:"Есть новости по следующему бою?",time:"16:10"},{from:"Kalashnikov",text:"Пока ждём подтверждения соперника.",time:"16:14"}],
   "Kazak":[{from:"Kazak",text:"Скинь расписание тренировки.",time:"15:02"},{from:"Kalashnikov",text:"Отправлю в общий чат.",time:"15:05"}],
