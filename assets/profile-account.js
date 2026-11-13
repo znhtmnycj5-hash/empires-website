@@ -28,7 +28,13 @@ try{
     .limit(1)
     .maybeSingle();
   if(profileError)throw profileError;
-  if(!profile)return;
+  if(!profile){
+    if(auth.user&&auth.profile&&String(auth.profile.display_name||'').toLowerCase()===String(requestedName||'').toLowerCase()){
+      profile=auth.profile;
+    }else{
+      return;
+    }
+  }
 
   let regiment=null;
   if(profile.regiment){
