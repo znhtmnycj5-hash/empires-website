@@ -25,7 +25,7 @@ try{
   if(membersError)throw membersError;
 
   const active=members||[];
-  const commander=active.find(m=>m.role==='commander')||active.find(m=>m.user_id===reg.commander_id);
+  const commander=active.find(m=>m.role==='commander')||active.find(m=>m.user_id===reg.commander_id);\n  const isCommander=!!auth.user && (auth.user.id===reg.commander_id || active.some(m=>m.user_id===auth.user.id && m.role==='commander'));
   if(commander?.empire_profiles){
     const p=commander.empire_profiles;
     const el=document.getElementById('detailCommander');
@@ -65,7 +65,7 @@ try{
     pending=q.data||null;
   }
 
-  if(auth.user&&auth.user.id!==reg.commander_id){
+  if(auth.user&&!isCommander){
     if(myMembership){
       const button=document.createElement('button');
       button.className='btn danger';button.textContent='Покинуть полк';
@@ -94,7 +94,7 @@ try{
     const link=document.createElement('a');link.className='btn primary';link.href='register.html';link.textContent='Войти, чтобы вступить в полк';controls.appendChild(link);
   }
 
-  if(auth.user&&auth.user.id===reg.commander_id){
+  if(isCommander){
     const q=await auth.client.from('empire_regiment_applications')
       .select('id,status,created_at,empire_profiles(id,display_name,avatar_url,regiment)')
       .eq('regiment_id',reg.id).eq('status','pending').order('created_at',{ascending:true});
