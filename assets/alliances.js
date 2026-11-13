@@ -17,7 +17,7 @@
   };
   const seeds=[];
   const clone=o=>JSON.parse(JSON.stringify(o));
-  function read(){try{const v=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(v)?v:[]}catch(e){return []}}
+  function read(){try{const v=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(v)?v.filter(a=>!['alliance-001','alliance-002','alliance-003'].includes(a.id)):[]}catch(e){return []}}
   function write(v){localStorage.setItem(KEY,JSON.stringify(v))}
   function ensure(){return read()}
   function getAll(){return ensure().filter(a=>{try{return !(JSON.parse(localStorage.getItem('empire_deleted_alliances_v1')||'[]')).includes(a.id)}catch(e){return true}})}
