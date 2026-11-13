@@ -28,7 +28,7 @@ try{
 
   let {data:profile,error:profileError}=await auth.client
     .from('empire_profiles')
-    .select('id,display_name,regiment,avatar_url,created_at,last_seen_at')
+    .select('id,display_name,regiment,avatar_url,created_at,last_seen_at,is_admin')
     .ilike('display_name',requestedName)
     .limit(1)
     .maybeSingle();
@@ -68,6 +68,22 @@ try{
     activeMembership?.role==='soldier'?'Солдат':
     'Не состоит в полку';
   set('profileRole',profileRole);
+  if(profile.is_admin){
+    const main=document.querySelector('.profile-main');
+    if(main&&!document.getElementById('adminProfileButton')){
+      const adminButton=document.createElement('a');
+      adminButton.id='adminProfileButton';
+      adminButton.className='btn profile-admin-button';
+      adminButton.href='admin.html';
+      adminButton.textContent='Панель админа';
+      main.appendChild(adminButton);
+    }
+    const badge=document.getElementById('profileRoleBadge');
+    if(badge){
+      badge.hidden=false;
+      badge.textContent='АДМИНИСТРАТОР';
+    }
+  }
   const onlineEl=document.getElementById('profileOnlineStatus');
   if(onlineEl){
     onlineEl.className='profile-online-status '+(online?'online':'offline');
