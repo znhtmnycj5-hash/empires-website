@@ -15,20 +15,11 @@
     "Royal Scots":{rating:1195,members:17,img:"assets/95.webp"},
     "Mangust":{rating:1150,members:14,img:"assets/mangust.webp"}
   };
-  const seeds=[
-    {id:"alliance-001",name:"Имперский союз",avatar:"assets/empire_logo_top_right.png",leader:"Commander",members:["1st Regiment","Preobrazhensky","7th Hussars"],battles:[
-      {id:"battle-002",date:"29.10.2026",title:"1st Regiment vs 84e Régiment",result:"win",calledBy:"1st Regiment",helpedBy:["Preobrazhensky"]},
-      {id:"battle-006",date:"06.11.2026",title:"1st Regiment vs Preobrazhensky",result:"draw",calledBy:"1st Regiment",helpedBy:["7th Hussars"]}
-    ]},
-    {id:"alliance-002",name:"Братство линии",avatar:"assets/95.webp",leader:"Marquis",members:["95th Rifles","33e Ligne","Royal Scots"],battles:[
-      {id:"battle-001",date:"26.10.2026",title:"95th Rifles vs 1st Regiment",result:"loss",calledBy:"95th Rifles",helpedBy:["33e Ligne"]}
-    ]},
-    {id:"alliance-003",name:"Северная коалиция",avatar:"assets/preobraz.webp",leader:"Veli4estvo",members:["84e Régiment","Semenovsky","King's German Legion"],battles:[]}
-  ];
+  const seeds=[];
   const clone=o=>JSON.parse(JSON.stringify(o));
-  function read(){try{const v=JSON.parse(localStorage.getItem(KEY)||'null');return Array.isArray(v)?v:clone(seeds)}catch(e){return clone(seeds)}}
+  function read(){try{const v=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(v)?v:[]}catch(e){return []}}
   function write(v){localStorage.setItem(KEY,JSON.stringify(v))}
-  function ensure(){const current=read();const ids=new Set(current.map(a=>a.id));seeds.forEach(s=>{if(!ids.has(s.id))current.push(clone(s))});write(current);return current}
+  function ensure(){return read()}
   function getAll(){return ensure().filter(a=>{try{return !(JSON.parse(localStorage.getItem('empire_deleted_alliances_v1')||'[]')).includes(a.id)}catch(e){return true}})}
   function getById(id){return getAll().find(a=>a.id===id)}
   function regimentRating(name){return defaultRegiments[name]?.rating||0}
