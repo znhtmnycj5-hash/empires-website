@@ -1,10 +1,17 @@
-(function(){
+(async function(){
 const K={requests:'empire_regiment_creation_requests_v1',approved:'empire_approved_regiments_v1',userReports:'empire_user_reports_v1',commentReports:'empire_comment_reports_v1',permanent:'empire_permanent_bans_v1',temporary:'empire_temporary_bans_v1',deletedRegiments:'empire_deleted_regiments_v1',deletedAlliances:'empire_deleted_alliances_v1'};
-const ROLES={Kalashnikov:'admin',Ankord:'moderator'};
+const ROLES={};
 const read=(k,f=[])=>{try{const v=JSON.parse(localStorage.getItem(k)||'null');return v==null?f:v}catch(e){return f}},write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const esc=v=>String(v??'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
-const user=(()=>{try{const v=JSON.parse(localStorage.getItem('empire_current_user_v1')||'null');if(typeof v==='string'&&v)return v;if(v?.name)return String(v.name)}catch(e){}return localStorage.getItem('empire_current_user')||'Kalashnikov'})();
-if(!ROLES[user]){document.querySelector('main').innerHTML='<section class="card admin-access-denied"><div class="page-kicker">ДОСТУП ЗАПРЕЩЁН</div><h1>Панель управления</h1><p>У вашей учётной записи нет прав администратора или модератора.</p><a class="btn" href="index.html">Вернуться на главную</a></section>';return}
+await window.EMPIRE_AUTH.init();
+const auth=window.EMPIRE_AUTH;
+const user=auth.profile?.display_name||'';
+let isAdmin=false;
+if(auth.user){
+ const q=await auth.client.from('empire_profiles').select('is_admin').eq('id',auth.user.id).maybeSingle();
+ isAdmin=!!q.data?.is_admin;
+}
+if(!isAdmin){document.querySelector('main').innerHTML='<section class="card admin-access-denied"><div class="page-kicker">ДОСТУП ЗАПРЕЩЁН</div><h1>Панель управления</h1><p>У вашей учётной записи нет прав администратора или модератора.</p><a class="btn" href="index.html">Вернуться на главную</a></section>';return}
 const date=v=>{try{return new Date(v).toLocaleString('ru-RU')}catch(e){return String(v||'')}};
 function demo(){if(!localStorage.getItem(K.userReports))write(K.userReports,[{id:'demo-user-report-1',status:'pending',reporter:'Fusilier',target:'Grenadier87',reason:'Нарушение правил сообщества',details:'Тестовая жалоба для проверки панели модерации.',createdAt:'2026-11-08T12:00:00Z'}]);if(!localStorage.getItem(K.commentReports))write(K.commentReports,[{id:'demo-comment-report-1',status:'pending',reporter:'Marquis',target:'Grenadier87',location:'battle.html?battle=battle-001',commentId:'demo-10',comment:'Поддерживаю. Ждём реванш!',reason:'Тестовая жалоба на комментарий.',createdAt:'2026-11-08T12:10:00Z'}]);if(!localStorage.getItem(K.requests)){write(K.requests,[{id:'demo-regiment-request-rvst',status:'pending',user:'Veli4estvo',name:'RVSt',faction:'Французская армия',logo:'assets/1st.jpg',createdAt:'2026-11-08T10:20:00Z'},{id:'demo-regiment-request-5th-kiev',status:'pending',user:'Fusilier',name:'5th Kiev',faction:'Российская империя',logo:'assets/95.webp',createdAt:'2026-11-08T10:35:00Z'}])}}
 function ban(key,target,reason,days,hours){const a=read(key),x={id:'ban-'+Date.now(),user:target,reason,createdAt:new Date().toISOString()};const durationMs=((Number(days)||0)*86400000)+((Number(hours)||0)*3600000);if(durationMs>0){x.until=new Date(Date.now()+durationMs).toISOString();x.days=Number(days)||0;x.hours=Number(hours)||0}a.push(x);write(key,a)}
