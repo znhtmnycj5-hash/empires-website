@@ -512,6 +512,49 @@ $;
 revoke execute on function public.empire_set_regiment_member_role(uuid,text) from public,anon;
 grant execute on function public.empire_set_regiment_member_role(uuid,text) to authenticated;
 
+-- Allow the regiment commander to remove an active member from the regiment.
+create or replace function public.empire_remove_regiment_member(p_member_id uuid)
+returns jsonb
+language plpgsql
+security definer
+set search_path=''
+as $
+declare
+  m public.empire_regiment_members%rowtype;
+  regiment_name text;
+begin
+  if auth.uid() is null then raise exception 'Authentication required'; end if;
+
+  select * into m
+  from public.empire_regiment_members
+  where id=p_member_id and left_at is null
+  for update;
+
+  if not found then raise exception 'Active member not found'; end if;
+  if m.role='commander' then raise exception 'The regiment commander cannot be removed'; end if;
+
+  select r.name into regiment_name
+  from public.empire_regiments r
+  where r.id=m.regiment_id and r.commander_id=auth.uid();
+
+  if regiment_name is null then
+    raise exception 'Only the regiment commander can remove members';
+  end if;
+
+  update public.empire_regiment_members
+  set left_at=now()
+  where id=m.id;
+
+  update public.empire_profiles
+  set regiment=null
+  where id=m.user_id and regiment=regiment_name;
+
+  return jsonb_build_object('ok',true);
+end;
+$;
+revoke execute on function public.empire_remove_regiment_member(uuid) from public,anon;
+grant execute on function public.empire_remove_regiment_member(uuid) to authenticated;
+
 -- Delete the current account, including its profile avatar objects.
 create or replace function public.empire_delete_my_account()
 returns void
