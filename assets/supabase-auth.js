@@ -19,7 +19,18 @@
   async function sync(session){
     currentUser=session?.user||null;currentProfile=null;
     if(currentUser){
-      const {data}=await client.from('empire_profiles').select('id,display_name,regiment,avatar_url,last_seen_at').eq('id',currentUser.id).maybeSingle();
+      let {data}=await client.from('empire_profiles').select('id,display_name,regiment,avatar_url,last_seen_at').eq('id',currentUser.id).maybeSingle();
+      if(!data){
+        const fallbackName=String(currentUser.user_metadata?.display_name||currentUser.email?.split('@')[0]||'Игрок').trim().slice(0,24)||'Игрок';
+        const {data:created,error:createError}=await client.from('empire_profiles').insert({
+          id:currentUser.id,
+          display_name:fallbackName,
+          regiment:'',
+          avatar_url:''
+        }).select('id,display_name,regiment,avatar_url,last_seen_at').single();
+        if(!createError)data=created;
+        else console.warn('Не удалось создать профиль пользователя:',createError.message);
+      }
       currentProfile=data||{id:currentUser.id,display_name:currentUser.user_metadata?.display_name||currentUser.email?.split('@')[0]||'Игрок',regiment:'',avatar_url:''};
       try{localStorage.setItem('empire_current_user_v1',currentProfile.display_name);const old=JSON.parse(localStorage.getItem('empire_current_user')||'{}');const changed=old.name!==currentProfile.display_name||old.regiment!==(currentProfile.regiment||'');localStorage.setItem('empire_current_user',JSON.stringify({...old,name:currentProfile.display_name,regiment:currentProfile.regiment||''}));if(changed&&/battle|campaign|news/.test(location.pathname)&&sessionStorage.getItem('empire_auth_profile_synced')!=='1'){sessionStorage.setItem('empire_auth_profile_synced','1');location.reload();}}catch(e){}
     }
