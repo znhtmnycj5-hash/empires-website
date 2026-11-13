@@ -572,3 +572,50 @@ end;
 $$;
 revoke execute on function public.empire_delete_my_account() from public,anon;
 grant execute on function public.empire_delete_my_account() to authenticated;
+
+
+-- ============================================================
+-- Shared homepage mini-chat (general + regiment rooms)
+-- ============================================================
+create table if not exists public.empire_chat_messages (
+  id uuid primary key default gen_random_uuid(),
+  author_id uuid not null references public.empire_profiles(id) on delete cascade,
+  regiment_id uuid references public.empire_regiments(id) on delete cascade,
+  content text not null check (length(trim(content)) between 1 and 2000),
+  created_at timestamptz not null default now()
+);
+create index if not exists empire_chat_messages_room_created_idx
+  on public.empire_chat_messages(regiment_id,created_at desc);
+alter table public.empire_chat_messages enable row level security;
+
+drop policy if exists "General chat messages are readable" on public.empire_chat_messages;
+create policy "General chat messages are readable"
+on public.empire_chat_messages for select to authenticated
+using (
+  regiment_id is null
+  or exists (
+    select 1 from public.empire_regiment_members m
+    where m.regiment_id=empire_chat_messages.regiment_id
+      and m.user_id=auth.uid() and m.left_at is null
+  )
+);
+
+drop policy if exists "Users can send chat messages" on public.empire_chat_messages;
+create policy "Users can send chat messages"
+on public.empire_chat_messages for insert to authenticated
+with check (
+  auth.uid()=author_id
+  and (
+    regiment_id is null
+    or exists (
+      select 1 from public.empire_regiment_members m
+      where m.regiment_id=empire_chat_messages.regiment_id
+        and m.user_id=auth.uid() and m.left_at is null
+    )
+  )
+);
+
+drop policy if exists "Authors can delete own chat messages" on public.empire_chat_messages;
+create policy "Authors can delete own chat messages"
+on public.empire_chat_messages for delete to authenticated
+using (auth.uid()=author_id);
