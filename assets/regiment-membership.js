@@ -99,9 +99,18 @@ try{
 
   if(isCommander){
     const q=await auth.client.from('empire_regiment_applications')
-      .select('id,status,created_at,empire_profiles(id,display_name,avatar_url,regiment)')
+      .select('id,user_id,status,created_at')
       .eq('regiment_id',reg.id).eq('status','pending').order('created_at',{ascending:true});
     if(q.error)throw q.error;
+    const applicantIds=[...new Set((q.data||[]).map(app=>app.user_id))];
+    let profiles=[];
+    if(applicantIds.length){
+      const profileQuery=await auth.client.from('empire_profiles')
+        .select('id,display_name,avatar_url,regiment').in('id',applicantIds);
+      if(profileQuery.error)throw profileQuery.error;
+      profiles=profileQuery.data||[];
+    }
+    const profileById=new Map(profiles.map(p=>[p.id,p]));
     const panel=document.createElement('section');
     panel.className='regiment-join-requests';
     panel.innerHTML='<div class="page-kicker">ЗАЯВКИ НА ВСТУПЛЕНИЕ</div><h3>Кандидаты</h3>';
@@ -110,7 +119,7 @@ try{
     }else{
       const list=document.createElement('div');list.className='regiment-request-list';
       q.data.forEach(app=>{
-        const p=app.empire_profiles||{};
+        const p=profileById.get(app.user_id)||{};
         const row=document.createElement('div');row.className='regiment-request';
         row.innerHTML='<a href="profile.html?user='+encodeURIComponent(p.display_name||'Пользователь')+'"><img src="'+escape(avatarFor(p))+'" alt=""><div><strong>'+escape(p.display_name||'Пользователь')+'</strong><small>Подана '+new Date(app.created_at).toLocaleString('ru-RU')+'</small></div></a><div class="regiment-request-actions"><button class="btn primary" data-application="'+app.id+'" data-decision="accepted">Принять</button><button class="btn danger" data-application="'+app.id+'" data-decision="rejected">Отклонить</button></div>';
         list.appendChild(row);
