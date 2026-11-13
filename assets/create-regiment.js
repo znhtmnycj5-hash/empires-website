@@ -3,7 +3,7 @@
   const CURRENT_USER_KEY = "empire_current_user_v1";
   const APPROVED_KEY = "empire_approved_regiments_v1";
   const profiles = {
-    Kalashnikov:"1st Regiment", Ankord:"1st Regiment", Veli4estvo:"1st Regiment",
+    Kalashnikov:"1st Regiment", Veli4estvo:"1st Regiment",
     Mel:"1st Regiment", Kazak:"1st Regiment", MeGusta:"1st Regiment",
     Flashkodr:"1st Regiment", MrDixon:"1st Regiment", Theodor:"1st Regiment",
     Grenadier87:"1st Regiment", Marquis:"95th Rifles", Fusilier:""
