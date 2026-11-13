@@ -51,11 +51,23 @@ try{
   const online=isOwn||(profile.last_seen_at&&Date.now()-new Date(profile.last_seen_at).getTime()<180000);
   if(isOwn){auth.touchPresence();setInterval(()=>auth.touchPresence(),60000);}
 
+  const {data:activeMembership,error:membershipError}=await auth.client
+    .from('empire_regiment_members')
+    .select('role')
+    .eq('user_id',profile.id)
+    .is('left_at',null)
+    .maybeSingle();
+  if(membershipError)throw membershipError;
+
   document.title=profile.display_name+' — EMPIRE';
   const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
   set('profileName',profile.display_name);
   set('profileRegiment',profile.regiment||'Без полка');
-  set('profileRole',regiment?.commander_id===profile.id?'Глава полка':'Солдат');
+  const profileRole=regiment?.commander_id===profile.id?'Глава полка':
+    activeMembership?.role==='officer'?'Офицер':
+    activeMembership?.role==='soldier'?'Солдат':
+    'Не состоит в полку';
+  set('profileRole',profileRole);
   const onlineEl=document.getElementById('profileOnlineStatus');
   if(onlineEl){
     onlineEl.className='profile-online-status '+(online?'online':'offline');
