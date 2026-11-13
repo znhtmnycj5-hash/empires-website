@@ -27,7 +27,8 @@ try{
   const active=members||[];
   const actualCount=String(active.length);
   ['detailCount','detailCountMobile'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=actualCount;});
-  const commander=active.find(m=>m.role==='commander')||active.find(m=>m.user_id===reg.commander_id);\n  const isCommander=!!auth.user && (auth.user.id===reg.commander_id || active.some(m=>m.user_id===auth.user.id && m.role==='commander'));
+  const commander=active.find(m=>m.role==='commander')||active.find(m=>m.user_id===reg.commander_id);
+  const isCommander=!!auth.user && (auth.user.id===reg.commander_id || active.some(m=>m.user_id===auth.user.id && m.role==='commander'));
   if(commander?.empire_profiles){
     const p=commander.empire_profiles;
     const el=document.getElementById('detailCommander');
