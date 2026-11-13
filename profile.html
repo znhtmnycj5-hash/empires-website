@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Профиль — EMPIRE</title>
   <link rel="stylesheet" href="assets/style.css?v=20261111-profile-auth1">
-  <script src="assets/user-avatars.js?v=20261109-inline-faction-avatar7"></script>
+  <script src="assets/user-avatars.js?v=20261113-remove-ankord1"></script>
 </head>
 <body>
 <header>
@@ -217,8 +217,7 @@ if(visibleGuests.length){
 document.getElementById("serviceList").innerHTML=d.service.length?d.service.map(x=>'<div class="service-item"><div class="service-regiment">'+x.regiment+'</div><div class="service-dates"><span>С '+x.from+'</span><span>По '+x.to+'</span></div></div>').join(""):'<p class="empty-note">Послужной список пока пуст.</p>';
 
 const conversations={
-  "Kalashnikov":[{from:text:"Привет! Как подготовка к следующему бою?",time:"19:12"},{from:"Kalashnikov",text:"Всё готово. Собираем состав к вечеру.",time:"19:15"}],
-  "Ankord":[{from:"Kalashnikov",text:"Командир, состав на тренировку готов.",time:"18:46"},{from:text:"Отлично. Встречаемся в 21:00.",time:"18:49"}],
+  "Kalashnikov":[{from:"Kalashnikov",text:"Всё готово. Собираем состав к вечеру.",time:"19:15"}],
   "Veli4estvo":[{from:"Kalashnikov",text:"Проведёшь сегодня обучение новичков?",time:"17:20"},{from:"Veli4estvo",text:"Да, всё организую.",time:"17:23"}],
   "Mel":[{from:"Mel",text:"Есть новости по следующему бою?",time:"16:10"},{from:"Kalashnikov",text:"Пока ждём подтверждения соперника.",time:"16:14"}],
   "Kazak":[{from:"Kazak",text:"Скинь расписание тренировки.",time:"15:02"},{from:"Kalashnikov",text:"Отправлю в общий чат.",time:"15:05"}],
