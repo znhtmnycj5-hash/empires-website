@@ -26,7 +26,7 @@ try{
     return map[regiment?.faction]||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png';
   };
 
-  const {data:profile,error:profileError}=await auth.client
+  let {data:profile,error:profileError}=await auth.client
     .from('empire_profiles')
     .select('id,display_name,regiment,avatar_url,created_at,last_seen_at')
     .ilike('display_name',requestedName)
