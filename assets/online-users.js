@@ -35,13 +35,10 @@
       const avatar=typeof window.empireUserAvatar==='function'
         ? window.empireUserAvatar(name,ownAvatar)
         : ownAvatar;
-      const regiment=String(user.regiment||'').trim()||'Без полка';
 
-      return '<a class="online-user" href="profile.html?user='+encodeURIComponent(name)+'" title="'+name+'">'+
+      return '<a class="online-user" href="profile.html?user='+encodeURIComponent(name)+'" title="'+name+'" aria-label="'+name+'">'+
         '<img class="online-user-avatar" src="'+avatar+'" alt="'+name+'" loading="lazy" decoding="async">'+
         '<span class="online-user-dot" aria-label="В сети"></span>'+
-        '<span class="online-user-name">'+name+'</span>'+
-        '<span class="online-user-regiment">'+regiment+'</span>'+
       '</a>';
     }).join('');
   }
@@ -58,7 +55,7 @@
 
       const {data,error}=await client
         .from('empire_profiles')
-        .select('id,display_name,regiment,avatar_url,last_seen_at')
+        .select('id,display_name,avatar_url,last_seen_at')
         .gte('last_seen_at',cutoff)
         .order('last_seen_at',{ascending:false});
 
