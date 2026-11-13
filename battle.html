@@ -117,7 +117,7 @@ const battlesData={
   "battle-011":{status:"accepted",title:"1st Regiment vs 84e Régiment",date:"08.11.2026",start:"2026-11-08T20:00:00",type:"Клановая Война (КВ)",size:10,allies:true,allySize:5,server:"EMPIRE War #1",password:"empire011",left:{name:"1st Regiment",faction:"Французская Империя",avatar:"assets/1st.jpg",href:"regiment.html?name=1st%20Regiment"},right:{name:"84e Régiment",faction:"Французская Империя",avatar:"assets/84e.png",href:"regiment.html?name=84e%20R%C3%A9giment"},winner:"",score:"",media:[]}
 };
 
-const currentUser=(()=>{try{const u=JSON.parse(localStorage.getItem("empire_current_user")||"null");return u&&typeof u==="object"?{name:String(u.name||"Пользователь"),regiment:String(u.regiment||"")}:{name:"Kalashnikov",regiment:"1st Regiment"};}catch(e){return{name:"Kalashnikov",regiment:"1st Regiment"};}})();
+const currentUser=(()=>{try{const u=JSON.parse(localStorage.getItem("empire_current_user")||"null");return u&&typeof u==="object"?{name:String(u.name||"Гость"),regiment:String(u.regiment||"")}:{name:"Гость",regiment:""};}catch(e){return{name:"Гость",regiment:""};}})();
 const presenceStorageKey="empire_profile_presence_v1";
 const getPresenceMap=()=>{try{return JSON.parse(localStorage.getItem(presenceStorageKey)||"{}");}catch(e){return {};}};
 const savePresenceMap=map=>{try{localStorage.setItem(presenceStorageKey,JSON.stringify(map));}catch(e){}};
@@ -258,18 +258,7 @@ if(!battle){
 
   const storageKey="empire-battle-comments-"+battleId;
   const demoShot="https://games-cdn.softpedia.com/screenshots/Mount-and-Blade-Napoleonic-Wars_4.jpg";
-  const demoComments=battleId==="battle-001"?[
-    {id:"demo-1",parentId:null,name:"Mel",text:"Нашёл отличный скриншот с решающего момента. Здесь как раз начинается обход британского фланга!",time:"26.10.2026 21:14",avatar:empireUserAvatar("Mel"),image:demoShot},
-    {id:"demo-2",parentId:"demo-1",name:"Kalashnikov",text:"Красивый момент! Жаль, что тогда не удержали левый фланг.",time:"26.10.2026 21:19",avatar:empireUserAvatar("Kalashnikov")},
-    {id:"demo-3",parentId:"demo-1",name:"Ankord",text:"На этом участке нужно было раньше дать команду на перестроение.",time:"26.10.2026 21:23",avatar:empireUserAvatar("Ankord")},
-    {id:"demo-4",parentId:"demo-2",name:"Veli4estvo",text:"Согласен. Но сам манёвр получился очень достойным.",time:"26.10.2026 21:27",avatar:empireUserAvatar("Veli4estvo")},
-    {id:"demo-5",parentId:"demo-1",name:"Kazak",text:"У кого-нибудь есть скриншот финального построения?",time:"26.10.2026 21:31",avatar:empireUserAvatar("Kazak")},
-    {id:"demo-6",parentId:"demo-5",name:"MeGusta",text:"У меня есть, позже добавлю в альбом полка.",time:"26.10.2026 21:36",avatar:empireUserAvatar("MeGusta")},
-    {id:"demo-7",parentId:"demo-1",name:"Flashkodr",text:"Отличная битва. Особенно понравилась работа артиллерии.",time:"26.10.2026 21:42",avatar:empireUserAvatar("Flashkodr")},
-    {id:"demo-8",parentId:"demo-3",name:"MrDixon",text:"Да, британцы хорошо закрыли проход, пришлось менять направление атаки.",time:"26.10.2026 21:48",avatar:empireUserAvatar("MrDixon")},
-    {id:"demo-9",parentId:"demo-1",name:"Theodor",text:"Спасибо за скрин! Такие моменты нужно сохранять после каждого матча.",time:"26.10.2026 21:55",avatar:empireUserAvatar("Theodor")},
-    {id:"demo-10",parentId:"demo-7",name:"Grenadier87",text:"Поддерживаю. Ждём реванш!",time:"26.10.2026 22:02",avatar:empireUserAvatar("Grenadier87")}
-  ]:[];
+  const demoComments=[];
   const escapeCommentHtml=value=>String(value??"").replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]));
   const sanitizeCommentHtml=html=>{
     const doc=new DOMParser().parseFromString(String(html||""),"text/html");
@@ -337,19 +326,7 @@ if(!battle){
       return true;
     });
   };
-  const commentRegiments={
-    Kalashnikov:"1st Regiment",
-    Ankord:"1st Regiment",
-    Veli4estvo:"1st Regiment",
-    Mel:"1st Regiment",
-    Kazak:"1st Regiment",
-    MeGusta:"1st Regiment",
-    Flashkodr:"1st Regiment",
-    MrDixon:"1st Regiment",
-    Theodor:"1st Regiment",
-    Grenadier87:"1st Regiment",
-    Marquis:"95th Rifles"
-  };
+  const commentRegiments={};
   const getCommentRegiment=(c,name)=>{
     const value=String(c.regiment||commentRegiments[name]||"").trim();
     return value==="Без полка" ? "" : value;
