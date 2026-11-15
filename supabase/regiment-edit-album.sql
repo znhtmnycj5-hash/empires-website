@@ -55,14 +55,16 @@ drop policy if exists "Regiment officers upload media" on storage.objects;
 create policy "Regiment officers upload media" on storage.objects for insert to authenticated
 with check (
   bucket_id='regiment-media'
-  and exists (
-    select 1 from public.empire_regiment_members m
-    where m.regiment_id::text=(storage.foldername(name))[1]
-      and m.user_id=auth.uid() and m.left_at is null
-      and m.role in ('commander','officer')
-  ) or exists (
-    select 1 from public.empire_regiments r
-    where r.id::text=(storage.foldername(name))[1] and r.commander_id=auth.uid()
+  and (
+    exists (
+      select 1 from public.empire_regiment_members m
+      where m.regiment_id::text=(storage.foldername(name))[1]
+        and m.user_id=auth.uid() and m.left_at is null
+        and m.role in ('commander','officer')
+    ) or exists (
+      select 1 from public.empire_regiments r
+      where r.id::text=(storage.foldername(name))[1] and r.commander_id=auth.uid()
+    )
   )
 );
 drop policy if exists "Regiment officers delete media" on storage.objects;
