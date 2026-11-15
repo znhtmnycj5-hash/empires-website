@@ -821,6 +821,10 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-reply-form[hidden]{display:none}
 .battle-reply-form input{flex:1;min-width:0;height:34px;padding:7px 9px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:11px Roboto Slab,serif}
 .battle-reply-form button{padding:6px 10px;border:1px solid #8b6739;background:#641e1b;color:#ead19c;font:600 9px Roboto Slab;cursor:pointer}
+.battle-reply-form .clanwars-smile-wrap{display:inline-flex;align-self:stretch}
+.battle-reply-form .clanwars-smile-picker{bottom:38px;left:auto;right:0}
+.battle-reply-form .clanwars-smile-picker img{width:30px!important;height:30px!important;max-width:30px!important;max-height:30px!important}
+
 .battle-comment-image-link{display:block;width:min(100%,520px);margin-top:10px;overflow:hidden;border:1px solid #765a34;background:#0b0a08}
 .battle-comment-image{display:block;width:100%;max-height:300px;aspect-ratio:16/9;object-fit:cover;object-position:center}
 @media(max-width:600px){
@@ -2150,6 +2154,28 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   height:auto!important;
   margin:9px 0!important;
   border:1px solid rgba(125,94,54,.45)!important;
+}
+.battle-comment-text .clanwars-smile{
+  display:inline-block!important;
+  width:70px!important;
+  height:70px!important;
+  max-width:70px!important;
+  max-height:70px!important;
+  object-fit:contain!important;
+  vertical-align:-18px!important;
+  margin:0 2px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+}
+@media(max-width:760px){
+  .battle-comment-text .clanwars-smile{
+    width:48px!important;
+    height:48px!important;
+    max-width:48px!important;
+    max-height:48px!important;
+    vertical-align:-12px!important;
+  }
 }
 .battle-comment-text video{
   display:block!important;
@@ -4310,8 +4336,13 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 .mini-chat-emote-button:hover{background:#641e1b;border-color:#9a6d3c;color:#efd49a}
 .mini-chat-emote-picker{display:none;position:absolute;z-index:9999;right:0;bottom:48px;width:220px;padding:8px;grid-template-columns:repeat(4,42px);gap:6px;background:#15120e;border:1px solid #765a34;box-shadow:0 14px 30px rgba(0,0,0,.75)}
 .mini-chat-emote-picker.show{display:grid!important}
-.mini-chat-emote-choice{width:42px;height:42px;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #4f3d28;background:#211c16;cursor:pointer}
+.mini-chat-emote-choice{width:42px;height:42px;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #4f3d28;background:#211c16;cursor:pointer;box-sizing:border-box}
 .mini-chat-emote-choice:hover{background:#5c1c1a;border-color:#9a6d3c}
+.mini-chat-emote-choice img{display:block!important;width:30px!important;height:30px!important;max-width:30px!important;max-height:30px!important;object-fit:contain!important;border:0!important;margin:0!important;padding:0!important}
+.mini-chat .msg .clanwars-smile{width:70px!important;height:70px!important;max-width:70px!important;max-height:70px!important;object-fit:contain!important;vertical-align:-18px!important;border:0!important;border-radius:0!important;background:transparent!important}
+@media(max-width:760px){
+  .mini-chat .msg .clanwars-smile{width:48px!important;height:48px!important;max-width:48px!important;max-height:48px!important;vertical-align:-12px!important}
+}
 
 
 /* Clanwars smiles */
