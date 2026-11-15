@@ -654,3 +654,41 @@ drop policy if exists "Authors can delete own chat messages" on public.empire_ch
 create policy "Authors can delete own chat messages"
 on public.empire_chat_messages for delete to authenticated
 using (auth.uid()=author_id);
+
+
+-- ============================================================
+-- Unique recent profile visitors (one row per visitor/profile).
+-- ============================================================
+create table if not exists public.empire_profile_visits (
+  id uuid primary key default gen_random_uuid(),
+  profile_id uuid not null references public.empire_profiles(id) on delete cascade,
+  visitor_id uuid not null references public.empire_profiles(id) on delete cascade,
+  last_visited_at timestamptz not null default now(),
+  unique(profile_id,visitor_id),
+  check(profile_id <> visitor_id)
+);
+create index if not exists empire_profile_visits_profile_recent_idx
+  on public.empire_profile_visits(profile_id,last_visited_at desc);
+alter table public.empire_profile_visits enable row level security;
+
+drop policy if exists "Profile visits are publicly readable" on public.empire_profile_visits;
+create policy "Profile visits are publicly readable"
+on public.empire_profile_visits for select using (true);
+
+create or replace function public.empire_record_profile_visit(p_profile_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path=''
+as $$
+begin
+  if auth.uid() is null then raise exception 'Authentication required'; end if;
+  if p_profile_id is null or p_profile_id=auth.uid() then return; end if;
+  insert into public.empire_profile_visits(profile_id,visitor_id,last_visited_at)
+  values(p_profile_id,auth.uid(),now())
+  on conflict(profile_id,visitor_id)
+  do update set last_visited_at=excluded.last_visited_at;
+end;
+$$;
+revoke execute on function public.empire_record_profile_visit(uuid) from public,anon;
+grant execute on function public.empire_record_profile_visit(uuid) to authenticated;
