@@ -336,6 +336,12 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .album-item img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#080706;transition:transform .2s ease,filter .2s ease}
 .album-item:hover{border-color:#a77b43}
 .album-item:hover img{transform:scale(1.025);filter:brightness(1.08)}
+.album-item{position:relative}
+.album-item>a{display:block;color:inherit;text-decoration:none}
+.album-delete-button{position:absolute;top:7px;right:7px;width:28px;height:28px;padding:0;border:1px solid rgba(190,120,100,.7);background:rgba(25,14,12,.82);color:#e0a092;font:700 20px/25px Arial,sans-serif;cursor:pointer;opacity:.72;z-index:3}
+.album-delete-button:hover{opacity:1;background:#641e1b;border-color:#c98b7d;color:#fff0eb}
+.album-empty-note{grid-column:1/-1;margin:8px 0 4px}
+
 .album-pagination{display:flex;justify-content:center;gap:6px;margin-top:15px;flex-wrap:wrap}
 .album-pagination a{min-width:30px;height:30px;padding:0 8px;display:flex;align-items:center;justify-content:center;border:1px solid #5d4930;background:#17130f;color:#bba783;text-decoration:none;font:600 10px Roboto Slab}
 .album-pagination a:hover,.album-pagination a.current{background:#641e1b;border-color:#9a6d3c;color:#efd49a}
