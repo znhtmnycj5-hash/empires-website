@@ -1,77 +1,64 @@
 (() => {
-  const parseBattleResult = (record) => {
-    if ((record.dataset.status || '') !== 'completed') return null;
-    const sides = [...record.querySelectorAll('.battle-side strong')].map(el => el.textContent.trim());
-    const summary = record.querySelector('.battle-result-box span')?.textContent.trim() || '';
-    if (summary.includes('Ничья')) return {type:'draw', teams:sides};
-    const winMatch = summary.match(/^Победа\s+(.+)$/);
-    const lossMatch = summary.match(/^Поражение\s+(.+)$/);
-    if (winMatch) return {type:'win', winner:winMatch[1].trim(), loser:sides.find(n => n !== winMatch[1].trim()) || ''};
-    if (lossMatch) return {type:'win', winner:sides.find(n => n !== lossMatch[1].trim()) || '', loser:lossMatch[1].trim()};
+  'use strict';
+  const SUPABASE_URL='https://pbaojidktzjnpavtdcga.supabase.co';
+  const SUPABASE_KEY='sb_publishable_XVsmd-U_Z5F5eD-UcxMw31g_Yv9rUdVk'.replace('XVsmd-U_Z5F5eD','XVsmd-U_ZF5eD');
+  let clientPromise=null,ratingsPromise=null,ratingsCache=null,ratingsCacheAt=0;
+  async function getClient(){
+    if(window.EMPIRE_AUTH){await window.EMPIRE_AUTH.init();return window.EMPIRE_AUTH.client;}
+    if(window.supabase?.createClient)return window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+    if(!clientPromise)clientPromise=new Promise((resolve,reject)=>{
+      const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+      s.onload=()=>resolve(window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY));
+      s.onerror=()=>reject(new Error('Не удалось загрузить Supabase'));
+      document.head.appendChild(s);
+    });
+    return clientPromise;
+  }
+  const parseBattleResult=record=>{
+    if((record.dataset.status||'')!=='completed')return null;
+    const sides=[...record.querySelectorAll('.battle-side strong')].map(el=>el.textContent.trim());
+    const summary=record.querySelector('.battle-result-box span')?.textContent.trim()||'';
+    if(summary.includes('Ничья'))return{type:'draw',teams:sides};
+    const win=summary.match(/^Победа\s+(.+)$/),loss=summary.match(/^Поражение\s+(.+)$/);
+    if(win)return{type:'win',winner:win[1].trim(),loser:sides.find(n=>n!==win[1].trim())||''};
+    if(loss)return{type:'win',winner:sides.find(n=>n!==loss[1].trim())||'',loser:loss[1].trim()};
     return null;
   };
-
-  let ratingsPromise = null;
-  let ratingsCache = null;
-  let ratingsCacheAt = 0;
-
-  window.calculateRegimentRatings = async () => {
-    const now = Date.now();
-    if (ratingsCache && now - ratingsCacheAt < 60000) return ratingsCache;
-    if (ratingsPromise) return ratingsPromise;
-
-    ratingsPromise = (async () => {
-      const [regimentsHtml, battlesHtml] = await Promise.all([
-        fetch('regiments.html').then(r => r.text()),
-        fetch('battles.html').then(r => r.text())
+  window.calculateRegimentRatings=async(force=false)=>{
+    const now=Date.now();
+    if(!force&&ratingsCache&&now-ratingsCacheAt<30000)return ratingsCache;
+    if(ratingsPromise)return ratingsPromise;
+    ratingsPromise=(async()=>{
+      const client=await getClient();
+      const [{data:regiments,error:regimentError},{data:members,error:memberError}]=await Promise.all([
+        client.from('empire_regiments').select('id,name,faction,logo_url,commander_id,created_at').order('created_at',{ascending:true}),
+        client.from('empire_regiment_members').select('regiment_id,user_id,role,left_at')
       ]);
-      const regimentsDoc = new DOMParser().parseFromString(regimentsHtml, 'text/html');
-      const battlesDoc = new DOMParser().parseFromString(battlesHtml, 'text/html');
-
-      const ratings = {};
-      regimentsDoc.querySelectorAll('.regiment-tile').forEach(tile => {
-        const name = tile.querySelector('h2')?.textContent.trim();
-        const countText = tile.querySelector('.regiment-meta span:last-child')?.textContent || '';
-        const count = parseInt(countText.match(/\d+/)?.[0] || '0', 10);
-        if (name) ratings[name] = {name, count, score: count * 10, wins:0, losses:0, draws:0};
+      if(regimentError)throw regimentError;
+      if(memberError)throw memberError;
+      const ratings={};
+      (regiments||[]).forEach(r=>{
+        const count=(members||[]).filter(m=>m.regiment_id===r.id&&!m.left_at).length;
+        ratings[r.name]={id:r.id,name:r.name,faction:r.faction,logo:r.logo_url,logo_url:r.logo_url,count,score:count*10,wins:0,losses:0,draws:0};
       });
-
-      let campaignPoints = {};
-      try {
-        const campaigns = JSON.parse(localStorage.getItem('empire_campaigns_v1') || '[]');
-        campaigns.forEach(campaign => {
-          (campaign.applications || []).forEach(app => {
-            if (app.status === 'accepted' && app.attended === true) {
-              campaignPoints[app.regiment] = (campaignPoints[app.regiment] || 0) + 50;
-            }
+      try{
+        const response=await fetch('battles.html',{cache:'no-store'});
+        if(response.ok){
+          const doc=new DOMParser().parseFromString(await response.text(),'text/html');
+          doc.querySelectorAll('.battle-record').forEach(record=>{
+            const result=parseBattleResult(record);if(!result)return;
+            if(result.type==='draw')result.teams.forEach(name=>{if(ratings[name]){ratings[name].draws++;ratings[name].score+=25;}});
+            else{if(ratings[result.winner]){ratings[result.winner].wins++;ratings[result.winner].score+=50;}if(ratings[result.loser]){ratings[result.loser].losses++;ratings[result.loser].score-=30;}}
           });
-        });
-      } catch (error) {}
-
-      battlesDoc.querySelectorAll('.battle-record').forEach(record => {
-        const result = parseBattleResult(record);
-        if (!result) return;
-        if (result.type === 'draw') {
-          result.teams.forEach(name => {
-            if (ratings[name]) { ratings[name].draws++; ratings[name].score += 25; }
-          });
-        } else {
-          if (ratings[result.winner]) { ratings[result.winner].wins++; ratings[result.winner].score += 50; }
-          if (ratings[result.loser]) { ratings[result.loser].losses++; ratings[result.loser].score -= 30; }
         }
-      });
-
-      Object.values(ratings).forEach(item => {
-        item.campaignPoints = campaignPoints[item.name] || 0;
-        item.score += item.campaignPoints;
-      });
-      const result = Object.values(ratings).sort((a,b) => b.score - a.score || a.name.localeCompare(b.name));
-      ratingsCache = result;
-      ratingsCacheAt = Date.now();
-      return result;
+      }catch(e){}
+      try{
+        const campaigns=JSON.parse(localStorage.getItem('empire_campaigns_v1')||'[]');
+        campaigns.forEach(c=>(c.applications||[]).forEach(app=>{if(app.status==='accepted'&&app.attended===true&&ratings[app.regiment])ratings[app.regiment].score+=50;}));
+      }catch(e){}
+      const result=Object.values(ratings).sort((a,b)=>b.score-a.score||a.name.localeCompare(b.name));
+      ratingsCache=result;ratingsCacheAt=Date.now();return result;
     })();
-
-    try { return await ratingsPromise; }
-    finally { ratingsPromise = null; }
+    try{return await ratingsPromise;}finally{ratingsPromise=null;}
   };
 })();
