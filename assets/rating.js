@@ -30,16 +30,21 @@
     if(ratingsPromise)return ratingsPromise;
     ratingsPromise=(async()=>{
       const client=await getClient();
-      const [{data:regiments,error:regimentError},{data:members,error:memberError}]=await Promise.all([
+      const [{data:regiments,error:regimentError},{data:members,error:memberError},{data:userVotes,error:userVotesError}]=await Promise.all([
         client.from('empire_regiments').select('id,name,faction,logo_url,commander_id,created_at').order('created_at',{ascending:true}),
-        client.from('empire_regiment_members').select('regiment_id,user_id,role,left_at')
+        client.from('empire_regiment_members').select('regiment_id,user_id,role,left_at'),
+        client.from('empire_user_ratings').select('target_user_id,value')
       ]);
       if(regimentError)throw regimentError;
       if(memberError)throw memberError;
+      if(userVotesError)throw userVotesError;
+      const userScores={};
+      (userVotes||[]).forEach(v=>{userScores[v.target_user_id]=(userScores[v.target_user_id]||0)+Number(v.value||0);});
       const ratings={};
       (regiments||[]).forEach(r=>{
-        const count=(members||[]).filter(m=>m.regiment_id===r.id&&!m.left_at).length;
-        ratings[r.name]={id:r.id,name:r.name,faction:r.faction,logo:r.logo_url,logo_url:r.logo_url,count,score:count*10,wins:0,losses:0,draws:0};
+        const active=(members||[]).filter(m=>m.regiment_id===r.id&&!m.left_at);
+        const memberScore=active.reduce((sum,m)=>sum+(userScores[m.user_id]||0),0);
+        ratings[r.name]={id:r.id,name:r.name,faction:r.faction,logo:r.logo_url,logo_url:r.logo_url,count:active.length,score:memberScore,memberScore,wins:0,losses:0,draws:0};
       });
       try{
         const response=await fetch('battles.html',{cache:'no-store'});
@@ -48,13 +53,9 @@
           doc.querySelectorAll('.battle-record').forEach(record=>{
             const result=parseBattleResult(record);if(!result)return;
             if(result.type==='draw')result.teams.forEach(name=>{if(ratings[name]){ratings[name].draws++;ratings[name].score+=25;}});
-            else{if(ratings[result.winner]){ratings[result.winner].wins++;ratings[result.winner].score+=50;}if(ratings[result.loser]){ratings[result.loser].losses++;ratings[result.loser].score-=30;}}
+            else{if(ratings[result.winner]){ratings[result.winner].wins++;ratings[result.winner].score+=50;}if(ratings[result.loser]){ratings[result.loser].losses++;ratings[result.loser].score-=50;}}
           });
         }
-      }catch(e){}
-      try{
-        const campaigns=JSON.parse(localStorage.getItem('empire_campaigns_v1')||'[]');
-        campaigns.forEach(c=>(c.applications||[]).forEach(app=>{if(app.status==='accepted'&&app.attended===true&&ratings[app.regiment])ratings[app.regiment].score+=50;}));
       }catch(e){}
       const result=Object.values(ratings).sort((a,b)=>b.score-a.score||a.name.localeCompare(b.name));
       ratingsCache=result;ratingsCacheAt=Date.now();return result;
