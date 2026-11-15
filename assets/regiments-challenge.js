@@ -5,7 +5,7 @@ const style=document.createElement('style');
 style.textContent=`
 .regiment-tile{position:relative}
 .regiment-challenge-hover{
-  position:absolute;right:12px;bottom:12px;z-index:3;
+  position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:3;
   display:none;padding:9px 14px;border:1px solid #a7834d;
   background:linear-gradient(#73552f,#49351f);color:#f4dfb5;
   font-weight:700;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.45)
@@ -37,7 +37,7 @@ style.textContent=`
 @media(max-width:600px){
   .regiment-challenge-form{grid-template-columns:1fr}
   .regiment-challenge-form .wide{grid-column:auto}
-  .regiment-challenge-hover{right:8px;bottom:8px;padding:8px 11px}
+  .regiment-challenge-hover{bottom:8px;padding:8px 11px}
 }
 `;
 document.head.appendChild(style);
