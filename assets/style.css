@@ -3697,6 +3697,9 @@ html body .members-grid img.member-avatar[src*="Bav.jpg"] {
   height:135px;
   overflow:hidden;
   flex:none;
+  box-sizing:border-box;
+  border:2px solid #765a34;
+  box-shadow:0 0 0 1px rgba(169,139,91,.28),0 3px 10px rgba(0,0,0,.35);
 }
 #homeNewsPreview .site-news-preview-wrap img{
   width:220px!important;
@@ -3734,6 +3737,7 @@ html body .members-grid img.member-avatar[src*="Bav.jpg"] {
   #homeNewsPreview .site-news-preview-wrap{
     width:150px;
     height:100px;
+    border-width:2px;
   }
   #homeNewsPreview .site-news-preview-wrap img{
     width:150px!important;
