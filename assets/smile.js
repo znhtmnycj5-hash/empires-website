@@ -30,7 +30,7 @@ function makePicker(button, target, opts){
     picker.classList.remove('show');
   };
   picker.addEventListener('click',e=>{const b=e.target.closest('[data-smile-key]');if(b)insertKey(b.dataset.smileKey);});
-  button.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();picker.classList.toggle('show');});
+  button.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const open=!picker.classList.contains('show');picker.classList.toggle('show');if(open){const r=button.getBoundingClientRect();const w=Math.min(240,window.innerWidth-16);picker.style.position='fixed';picker.style.width=w+'px';picker.style.left=Math.max(8,Math.min(r.left,window.innerWidth-w-8))+'px';picker.style.top=Math.max(8,r.top-picker.offsetHeight-8)+'px';}});
   document.addEventListener('click',e=>{if(!wrap.contains(e.target))picker.classList.remove('show');});
   return {wrap,picker,insertKey};
 }
