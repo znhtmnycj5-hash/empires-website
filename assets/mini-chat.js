@@ -99,7 +99,10 @@
     emotePicker?.classList.remove('show');
   };
   if(emoteBtn&&emotePicker){
-    emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e[0]+'" title="'+e[2]+'"><span class="mini-chat-emote mini-chat-emote-'+e[0]+'" aria-hidden="true"></span></button>').join('');
+    if(!emotePicker.dataset.ready){
+      emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e[0]+'" title="'+e[2]+'"><span class="mini-chat-emote mini-chat-emote-'+e[0]+'" aria-hidden="true"></span></button>').join('');
+      emotePicker.dataset.ready='1';
+    }
     emoteBtn.addEventListener('click',e=>{e.stopPropagation();emotePicker.classList.toggle('show');});
     emotePicker.addEventListener('click',e=>{const b=e.target.closest('[data-emote]');if(b)insertEmote(b.dataset.emote);});
     document.addEventListener('click',e=>{if(!e.target.closest('.mini-chat-emote-wrap'))emotePicker.classList.remove('show');});
@@ -116,6 +119,11 @@
     if(error){alert(error.message||'Не удалось удалить сообщение.');btn.disabled=false;return;}
     await loadMessages();
   });
+  /* Initialize the picker before authentication so it never depends on auth startup. */
+  if(emoteBtn&&emotePicker&&!emotePicker.dataset.ready){
+    emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e[0]+'" title="'+e[2]+'"><span class="mini-chat-emote mini-chat-emote-'+e[0]+'" aria-hidden="true"></span></button>').join('');
+    emotePicker.dataset.ready='1';
+  }
   try{
     await window.EMPIRE_AUTH.init();
     const auth=window.EMPIRE_AUTH;client=auth.client;user=auth.user;profile=auth.profile;
