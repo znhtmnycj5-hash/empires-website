@@ -124,7 +124,6 @@ document.querySelectorAll('.battle-comment-form').forEach(form=>{
   image.addEventListener('click',()=>addFile('image'));video.addEventListener('click',()=>addFile('video'));
   file.addEventListener('change',async()=>{const f=file.files?.[0];if(!f)return;try{await api.requireLogin();const url=await api.upload(f);editor.focus();document.execCommand('insertHTML',false,f.type.startsWith('image/')?'<img src="'+url+'" alt="Изображение" loading="lazy">':'<video src="'+url+'" controls preload="metadata"></video>');}catch(e){alert(e.message||'Не удалось загрузить файл');}finally{file.value='';}});
   });
-  });
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enhance);else enhance();
 document.addEventListener('empire:auth-changed',enhance);
