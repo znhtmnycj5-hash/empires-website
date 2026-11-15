@@ -138,6 +138,29 @@ document.querySelectorAll('.battle-comment-form').forEach(form=>{
   if(form.dataset.empireEnhanced)return;
   const toolbar=form.querySelector('.battle-comment-toolbar'),editor=form.querySelector('[contenteditable="true"]');if(!toolbar||!editor)return;
   form.dataset.empireEnhanced='1';
+  let savedRange=null;
+  const saveEditorRange=()=>{
+    const sel=getSelection();
+    if(sel&&sel.rangeCount&&editor.contains(sel.anchorNode))savedRange=sel.getRangeAt(0).cloneRange();
+  };
+  const restoreEditorRange=()=>{
+    editor.focus();
+    const sel=getSelection();
+    if(savedRange){
+      sel.removeAllRanges();
+      sel.addRange(savedRange);
+    }else{
+      const range=document.createRange();
+      range.selectNodeContents(editor);
+      range.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  };
+  editor.addEventListener('keyup',saveEditorRange);
+  editor.addEventListener('mouseup',saveEditorRange);
+  editor.addEventListener('input',saveEditorRange);
+  document.addEventListener('selectionchange',saveEditorRange);
   const extra=document.createElement('span');extra.className='empire-comment-extra';
   const plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.title='Вставить изображение или видео';
   const menu=document.createElement('div');menu.className='empire-attach-menu';
@@ -181,7 +204,7 @@ document.querySelectorAll('.battle-comment-form').forEach(form=>{
   });
   const addFile=async kind=>{file.accept=kind==='image'?'image/*':'video/mp4,video/webm';file.click();menu.classList.remove('open');};
   image.addEventListener('click',()=>addFile('image'));video.addEventListener('click',()=>addFile('video'));
-  file.addEventListener('change',async()=>{const f=file.files?.[0];if(!f)return;try{await api.requireLogin();const url=await api.upload(f);editor.focus();document.execCommand('insertHTML',false,f.type.startsWith('image/')?'<img src="'+url+'" alt="Изображение" loading="lazy">':'<video src="'+url+'" controls preload="metadata"></video>');}catch(e){alert(e.message||'Не удалось загрузить файл');}finally{file.value='';}});
+  file.addEventListener('change',async()=>{const f=file.files?.[0];if(!f)return;try{await api.requireLogin();const url=await api.upload(f);restoreEditorRange();document.execCommand('insertHTML',false,f.type.startsWith('image/')?'<img src="'+url+'" alt="Изображение" loading="lazy">':'<video src="'+url+'" controls preload="metadata"></video>');saveEditorRange();}catch(e){alert(e.message||'Не удалось загрузить файл');}finally{file.value='';}});
   });
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enhance);else enhance();
