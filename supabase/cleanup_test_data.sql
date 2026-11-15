@@ -1,47 +1,61 @@
 -- Clanwars: удаление тестовых данных.
--- Перед запуском сначала выполните supabase/cleanup_preview.sql и проверьте список аккаунтов.
--- Сохраняются только аккаунты Commander и Kalash, а также полк 1st Regiment.
--- Операция необратима. Выполняйте целиком в Supabase SQL Editor.
+-- Сохраняются только аккаунты Commander и Kalash и полк 1st Regiment.
+-- Перед запуском проверьте SELECT в cleanup_preview.sql.
+-- Выполняйте весь скрипт целиком в Supabase SQL Editor.
 
 begin;
 
--- Удаляем все аккаунты, кроме двух явно сохранённых.
--- Каскадно удалятся их профили, комментарии, членство, заявки,
--- личные сообщения, сообщения мини-чата и посещения профилей.
+-- Удаляем только комментарии к известным демонстрационным сражениям,
+-- кампаниям и тестовым новостям. Другие комментарии не затрагиваются.
+delete from public.empire_comments
+where (context_type = 'battle'
+       and context_id in (
+         'battle-001','battle-002','battle-003','battle-004','battle-005','battle-006',
+         'battle-007','battle-008','battle-009','battle-010','battle-011','battle-012'
+       ))
+   or (context_type = 'campaign'
+       and context_id in ('campaign-001','campaign-test-01','campaign-test-02','campaign-test-03'))
+   or (context_type = 'site_news'
+       and context_id in (
+         'site-news-001','site-news-002','site-news-003',
+         'site-news-test-01','site-news-test-02','site-news-test-03','site-news-test-04',
+         'site-news-test-05','site-news-test-06','site-news-test-07','site-news-test-08',
+         'site-news-test-09','site-news-test-10'
+       ));
+
+-- Удаляем комментарии к новостям всех полков, кроме 1st Regiment.
+delete from public.empire_comments c
+using public.empire_regiments r
+where c.context_type = 'regiment_news'
+  and c.context_id = r.name
+  and lower(trim(r.name)) <> '1st regiment';
+
+-- Удаляем все полки, кроме 1st Regiment.
+delete from public.empire_regiments
+where lower(trim(name)) <> '1st regiment';
+
+-- Удаляем все аккаунты, кроме профилей Commander и Kalash.
+-- Связанные данные удалятся по внешним ключам с ON DELETE CASCADE.
 delete from auth.users u
 where not exists (
   select 1
   from public.empire_profiles p
   where p.id = u.id
-    and lower(trim(p.display_name)) in ('commander', 'kalash')
-)
-and lower(trim(coalesce(
-  (select p.display_name from public.empire_profiles p where p.id = u.id),
-  u.raw_user_meta_data->>'display_name',
-  split_part(u.email, '@', 1),
-  ''
-))) not in ('commander', 'kalash');
+    and lower(trim(p.display_name)) in ('commander','kalash')
+);
 
--- Убираем тестовые обсуждения сражений, кампаний и демонстрационных новостей.
-delete from public.empire_comments
-where context_type in ('battle', 'campaign', 'site_news');
-
--- Удаляем демонстрационные полки, оставляя действующий 1st Regiment.
--- Связанные членства и заявки удалятся каскадно.
-delete from public.empire_regiments
-where lower(trim(name)) <> lower('1st Regiment');
-
--- Удаляем возможные оставшиеся заявки на создание полков от тестовых аккаунтов.
+-- Удаляем оставшиеся заявки на создание полка от других пользователей.
 delete from public.empire_regiment_creation_requests r
 where not exists (
-  select 1 from public.empire_profiles p
+  select 1
+  from public.empire_profiles p
   where p.id = r.user_id
-    and lower(trim(p.display_name)) in ('commander', 'kalash')
+    and lower(trim(p.display_name)) in ('commander','kalash')
 );
 
 commit;
 
--- Проверка результата.
+-- Контрольный результат: должны остаться только Commander, Kalash и 1st Regiment.
 select p.display_name, p.regiment, p.is_admin
 from public.empire_profiles p
 order by lower(p.display_name);
