@@ -108,8 +108,9 @@ function enhance(){
     window.CLANWARS_SMILES.makePicker(btn,input);
   });
 document.querySelectorAll('.battle-comment-form').forEach(form=>{
-  if(form.dataset.empireEnhanced)return;form.dataset.empireEnhanced='1';
+  if(form.dataset.empireEnhanced)return;
   const toolbar=form.querySelector('.battle-comment-toolbar'),editor=form.querySelector('[contenteditable="true"]');if(!toolbar||!editor)return;
+  form.dataset.empireEnhanced='1';
   const extra=document.createElement('span');extra.className='empire-comment-extra';
   const plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.title='Вставить изображение или видео';
   const menu=document.createElement('div');menu.className='empire-attach-menu';
@@ -118,8 +119,39 @@ document.querySelectorAll('.battle-comment-form').forEach(form=>{
   const file=document.createElement('input');file.type='file';file.accept='image/*,video/mp4,video/webm';file.hidden=true;
   menu.append(image,video);extra.append(plus,menu,file);toolbar.append(extra);
   const smileBtn=document.createElement('button');smileBtn.type='button';smileBtn.textContent='☺';smileBtn.title='Выбрать смайл';smileBtn.setAttribute('aria-label','Выбрать смайл');toolbar.append(smileBtn);
-  if(window.CLANWARS_SMILES)window.CLANWARS_SMILES.makePicker(smileBtn,editor);
-  plus.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const open=!menu.classList.contains('open');menu.classList.toggle('open');if(open){const r=plus.getBoundingClientRect();const h=menu.offsetHeight;const w=menu.offsetWidth;menu.style.position='fixed';menu.style.left=Math.max(8,Math.min(r.left,window.innerWidth-w-8))+'px';menu.style.top=Math.max(8,r.top-h-8)+'px';}});
+  if(window.CLANWARS_SMILES){
+    const smileUi=window.CLANWARS_SMILES.makePicker(smileBtn,editor);
+    if(smileUi){
+      smileBtn.addEventListener('click',e=>{
+        e.preventDefault();e.stopPropagation();
+        requestAnimationFrame(()=>{
+          if(!smileUi.picker.classList.contains('show'))return;
+          const r=smileBtn.getBoundingClientRect(),w=smileUi.picker.offsetWidth,h=smileUi.picker.offsetHeight;
+          smileUi.picker.style.setProperty('position','fixed','important');
+          smileUi.picker.style.setProperty('z-index','2147483641','important');
+          smileUi.picker.style.setProperty('left',Math.max(8,Math.min(r.left,window.innerWidth-w-8))+'px','important');
+          smileUi.picker.style.setProperty('top',Math.max(8,r.top-h-8)+'px','important');
+          smileUi.picker.style.setProperty('right','auto','important');
+          smileUi.picker.style.setProperty('bottom','auto','important');
+        });
+      });
+    }
+  }
+  plus.addEventListener('click',e=>{
+    e.preventDefault();e.stopPropagation();
+    const open=!menu.classList.contains('open');menu.classList.toggle('open');
+    if(open){
+      requestAnimationFrame(()=>{
+        const r=plus.getBoundingClientRect(),h=menu.offsetHeight,w=menu.offsetWidth;
+        menu.style.setProperty('position','fixed','important');
+        menu.style.setProperty('z-index','2147483640','important');
+        menu.style.setProperty('left',Math.max(8,Math.min(r.left,window.innerWidth-w-8))+'px','important');
+        menu.style.setProperty('top',Math.max(8,r.top-h-8)+'px','important');
+        menu.style.setProperty('right','auto','important');
+        menu.style.setProperty('bottom','auto','important');
+      });
+    }
+  });
   const addFile=async kind=>{file.accept=kind==='image'?'image/*':'video/mp4,video/webm';file.click();menu.classList.remove('open');};
   image.addEventListener('click',()=>addFile('image'));video.addEventListener('click',()=>addFile('video'));
   file.addEventListener('change',async()=>{const f=file.files?.[0];if(!f)return;try{await api.requireLogin();const url=await api.upload(f);editor.focus();document.execCommand('insertHTML',false,f.type.startsWith('image/')?'<img src="'+url+'" alt="Изображение" loading="lazy">':'<video src="'+url+'" controls preload="metadata"></video>');}catch(e){alert(e.message||'Не удалось загрузить файл');}finally{file.value='';}});
