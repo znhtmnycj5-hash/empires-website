@@ -4678,3 +4678,46 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
     max-height:320px!important;
   }
 }
+
+
+/* Site news comment editor and rendered media limits */
+.site-news-page .battle-comment-editor img:not(.clanwars-smile),
+.site-news-page .battle-comment-editor video,
+.site-news-page .battle-comment-text img:not(.clanwars-smile),
+.site-news-page .battle-comment-text video{
+  display:block!important;
+  width:auto!important;
+  height:auto!important;
+  max-width:320px!important;
+  max-height:240px!important;
+  object-fit:contain!important;
+  margin:8px 0!important;
+  box-sizing:border-box!important;
+}
+.site-news-page .battle-comment-editor video,
+.site-news-page .battle-comment-text video{
+  width:320px!important;
+  max-width:100%!important;
+  background:#000!important;
+}
+.site-news-page .battle-comment-editor img.clanwars-smile,
+.site-news-page .battle-comment-text img.clanwars-smile{
+  width:70px!important;
+  height:70px!important;
+  min-width:70px!important;
+  min-height:70px!important;
+  max-width:70px!important;
+  max-height:70px!important;
+  object-fit:contain!important;
+}
+@media(max-width:760px){
+  .site-news-page .battle-comment-editor img:not(.clanwars-smile),
+  .site-news-page .battle-comment-editor video,
+  .site-news-page .battle-comment-text img:not(.clanwars-smile),
+  .site-news-page .battle-comment-text video{
+    max-width:100%!important;
+    max-height:220px!important;
+  }
+  .site-news-page .battle-comment-editor video,
+  .site-news-page .battle-comment-text video{width:100%!important}
+}
