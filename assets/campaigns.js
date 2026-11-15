@@ -14,61 +14,11 @@ const countdown=v=>{const d=Math.max(0,new Date(v).getTime()-Date.now());const h
 const seed=()=>{
  let all=read(K);
  if(!Array.isArray(all)) all=[];
- const testCampaigns=[
-  {id:'campaign-test-01',title:'Битва за Ватерлоо',server:'EMPIRE_WATERLOO_01',password:'WATERLOO1815',startAt:'2026-11-12T20:00:00',factions:['Французская армия','Британская армия'],organizer:'Kalashnikov',status:'published',applications:[],createdAt:'2026-11-08T18:00:00',preview:'assets/IMG_2745.png',cover:'assets/IMG_2745.png'},
-  {id:'campaign-test-02',title:'Кампания на Рейне',server:'EMPIRE_RHEIN_02',password:'RHEIN1813',startAt:'2026-11-18T19:30:00',factions:['Французская армия','Прусская армия'],organizer:'Ankord',status:'published',applications:[],createdAt:'2026-11-08T18:05:00',preview:'assets/IMG_2745.png',cover:'assets/IMG_2745.png'},
-  {id:'campaign-test-03',title:'Освобождение Испании',server:'EMPIRE_SPAIN_03',password:'SPAIN1812',startAt:'2026-11-22T20:00:00',factions:['Французская армия','Британская армия'],organizer:'Kalashnikov',status:'published',applications:[],createdAt:'2026-11-08T18:10:00',preview:'assets/IMG_2745.png',cover:'assets/IMG_2745.png'}
- ];
- all=all.filter(x=>x.id!=='campaign-001');
- testCampaigns.forEach(tc=>{const existing=all.find(x=>x.id===tc.id);if(existing){existing.factions=tc.factions;existing.preview=existing.preview||tc.preview;existing.cover=existing.cover||tc.cover}else all.unshift(tc);});
+ // Remove legacy demonstration campaigns and their seeded discussion from browsers that cached them.
+ all=all.filter(x=>!/^campaign-test-0[1-3]$/.test(String(x.id||''))&&x.id!=='campaign-001');
  write(K,all);
-
- const c=all.find(x=>x.id==='campaign-001');
- if(c){
-  c.factions=['Французская армия','Британская армия'];
-  c.preview=c.preview||'assets/IMG_2745.png';
-  c.cover=c.cover||'assets/IMG_2745.png';
-  c.applications=c.applications||[];
-  const testParticipants=[
-   ['1st Regiment','Kalashnikov',18,'Французская армия','Пехота','assets/1st.jpg'],
-   ['95th Rifles','Marquis',15,'Британская армия','Стрелки','assets/95.webp'],
-   ['84e Régiment','Veli4estvo',16,'Французская армия','Пехота','assets/84e.png'],
-   ['Preobrazhensky','Fusilier',14,'Французская армия','Пехота','assets/preobraz.webp'],
-   ['7th Hussars','Grenadier87',12,'Британская армия','Кавалерия','assets/hussars.png'],
-   ["King's German Legion",'Ankord',13,'Британская армия','Пехота','assets/kgr.png']
-  ];
-  testParticipants.forEach((p,i)=>{
-   if(!c.applications.some(a=>a.regiment===p[0])) c.applications.push({id:'test-app-'+String(i+1).padStart(2,'0'),regiment:p[0],commander:p[1],people:p[2],status:'accepted',logo:p[5],faction:p[3],troopType:p[4],attended:false});
-  });
-  write(K,all);
- }
- const seededComments=[
-  ['Ankord','Отличная идея для большой кампании. Уже собираем состав.'],
-  ['Veli4estvo','84e Régiment готовится к сражению.'],
-  ['Marquis','95th Rifles принимают вызов. Увидимся на поле боя.'],
-  ['Fusilier','Предлагаю заранее согласовать время сбора полков.'],
-  ['Grenadier87','7th Hussars готовы поддержать союзников.'],
-  ['Kalashnikov','Сервер и пароль будут доступны всем принятым участникам.'],
-  ['Mel','Будет интересно увидеть массовое сражение.'],
-  ['Kazak','Главное — не забыть про построения перед началом.'],
-  ['MeGusta','Состав уже почти собран.'],
-  ['Flashkodr','Нужна ли регистрация каждого бойца отдельно?'],
-  ['MrDixon','Достаточно заявки от главы полка.'],
-  ['Theodor','Хорошо, что участвуют сразу две фракции.'],
-  ['Grenadier87','Предлагаю после боя сделать общий скриншот.'],
-  ['Marquis','Поддерживаю, такой скриншот пригодится для альбома.'],
-  ['Veli4estvo','84e Régiment будет на месте заранее.'],
-  ['Ankord','Не забудьте проверить пароль перед стартом.'],
-  ['Kazak','Будем следить за временем начала.'],
-  ['Mel','Ждём подтверждения результатов после кампании.'],
-  ['Fusilier','Удачи всем полкам и честного боя!'],
-  ['Kalashnikov','После завершения отмечу явку и результаты участников.']
- ];
- const comments=read(CK);
- if(!comments.some(x=>x.campaignId==='campaign-001'&&x.id==='campaign-001-comment-20')){
-  seededComments.forEach((item,i)=>comments.push({id:'campaign-001-comment-'+String(i+1).padStart(2,'0'),campaignId:'campaign-001',author:item[0],text:item[1],createdAt:new Date(Date.UTC(2026,10,8,16,0+i,0)).toISOString()}));
-  write(CK,comments);
- }
+ const legacyComments=read(CK).filter(x=>!/^campaign-001-comment-\d+$/.test(String(x.id||''))&&x.campaignId!=='campaign-001');
+ write(CK,legacyComments);
  return all;
 };
 const badgeStatus=s=>({upcoming:'ПРЕДСТОИТ',ongoing:'ИДЁТ БОЙ',awaiting:'ЖДЁТ ПОДТВЕРЖДЕНИЯ',completed:'ЗАВЕРШЕНА'}[s]||s);
