@@ -3101,6 +3101,7 @@ html body .members-grid img.member-avatar[src*="Bav.jpg"] {
 @media(max-width:900px){
   .profile-header{
     grid-template-columns:150px minmax(0,1fr);
+    padding-left:8px;
     gap:18px;
   }
   .profile-actions{
@@ -3554,6 +3555,7 @@ html body .members-grid img.member-avatar[src*="Bav.jpg"] {
 #homeNewsPreview .site-news-card-main{
   display:grid;
   grid-template-columns:220px minmax(0,1fr);
+  padding-left:12px;
   gap:16px;
   align-items:start;
   text-decoration:none;
