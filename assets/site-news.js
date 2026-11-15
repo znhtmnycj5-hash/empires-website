@@ -142,7 +142,7 @@ function renderComments(n){
  const card=(c,depth=0)=>{
   const cid=String(c.id||""),author=String(c.author||"Пользователь"),kids=arr.filter(x=>String(x.parentId||"")===cid),likes=getCommentLikes('site-news:'+n.id+':'+cid),meta={regiment:String(c.regiment||commentAuthorMeta(author).regiment||'Без полка'),online:typeof c.online==='boolean'?c.online:commentAuthorMeta(author).online},commentAvatar=String(c.avatar||'');
   const like='<div class="comment-reactions"><button type="button" class="comment-like-button'+(likes.includes(user.name)?' is-liked':'')+'" data-like-comment="'+esc(cid)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+likes.slice(0,2).map(esc).join(', ')+'</span><button type="button" class="comment-like-all" data-show-likes="'+esc(cid)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(x=>'<a href="'+esc(profile(x))+'">'+esc(x)+'</a>').join('')+'</div></div>':'')+'</div>';
-  const own=author===user.name?'<button class="comment-delete-button" type="button" data-delete-comment="'+esc(cid)+'">Удалить</button>':'';
+  const own=author===user.name?'<span class="site-news-comment-actions"><button class="comment-edit-button btn" type="button" data-edit-comment="'+esc(cid)+'">Изменить</button><button class="comment-delete-button btn" type="button" data-delete-comment="'+esc(cid)+'">Удалить</button></span>':'';
   const status='<span class="battle-comment-presence '+(meta.online?'is-online':'is-offline')+'"><i></i>'+(meta.online?'В сети':'Не в сети')+'</span>';
   return '<article class="battle-thread-item'+(depth?' is-reply':'')+'" data-comment-id="'+esc(cid)+'" style="--comment-depth:'+Math.min(depth,8)+'"><div class="battle-comment"><div class="battle-comment-author"><a class="battle-comment-avatar-link" href="'+esc(profile(author))+'"><img class="battle-comment-avatar" src="'+esc(commentAvatar||((window.EMPIRE_USER_AVATARS&&window.EMPIRE_USER_AVATARS[author])||"")||avatar(author))+'" alt="'+esc(author)+'" loading="lazy"></a><div class="battle-comment-identity"><div class="battle-comment-head"><a href="'+esc(profile(author))+'"><strong>'+esc(author)+'</strong></a></div><span class="battle-comment-regiment">'+esc(meta.regiment)+'</span>'+status+'<span class="battle-comment-time">'+esc(c.date||'')+'</span></div></div><div class="battle-comment-content"><div class="battle-comment-text">'+richCommentHtml(c)+'</div>'+like+'<button type="button" class="comment-report-button" data-report-comment="'+esc(cid)+'">⚑ Пожаловаться</button>'+own+'<a href="#" class="battle-reply-link" data-reply-to="'+esc(cid)+'">Ответить</a><form class="battle-reply-form" data-parent-id="'+esc(cid)+'" hidden><input type="text" maxlength="500" placeholder="Ответить '+esc(author)+'…" required><button type="submit">Отправить</button></form></div></div>'+(kids.length?'<div class="battle-thread-replies">'+kids.map(x=>card(x,depth+1)).join('')+'</div>':'')+'</article>';
  };
@@ -151,6 +151,20 @@ function renderComments(n){
  const list=$('siteNewsCommentList'),form=$('siteNewsCommentForm'),editor=$('siteNewsCommentInput');bindRichEditor(form,editor);
  const save=item=>{if(!window.EMPIRE_AUTH?.user){document.querySelector("a.login")?.click();alert("Для отправки комментария войдите в аккаунт.");return;}const latest=getComments(),items=Array.isArray(latest[n.id])?latest[n.id]:[];items.push(item);latest[n.id]=items;write(COMMENTS_KEY,latest);renderComments(n);if(window.EMPIRE_COMMENTS)window.EMPIRE_COMMENTS.create("site_news",n.id,{text:item.text,html:item.html,parentId:item.parentId}).then(remote=>{Object.assign(item,remote);latest[n.id]=items;write(COMMENTS_KEY,latest);renderComments(n);}).catch(err=>alert(err.message||"Не удалось сохранить комментарий в общей базе."));};
  list.addEventListener('click',e=>{const b=e.target.closest('button,a[data-reply-to]');if(!b)return;
+  if(b.dataset.editComment){
+    const target=arr.find(x=>String(x.id)===String(b.dataset.editComment));
+    if(target&&target.author===user.name){
+      const next=prompt('Изменить комментарий:',target.text||target.html?.replace(/<[^>]*>/g,' ')||'');
+      if(next!==null){
+        const latest=getComments(),items=Array.isArray(latest[n.id])?latest[n.id]:[];
+        const item=items.find(x=>String(x.id)===String(target.id));
+        if(item){item.text=next;item.html=escapeRichComment(next).replace(/\n/g,'<br>');write(COMMENTS_KEY,latest);renderComments(n);
+          if(window.EMPIRE_COMMENTS)window.EMPIRE_COMMENTS.update(target.id,{text:next,html:item.html,parentId:item.parentId}).catch(err=>alert(err.message||'Не удалось сохранить изменение.'));
+        }
+      }
+    }
+  }
+  else if(b.dataset.replyTo){
   if(b.dataset.replyTo){e.preventDefault();const f=b.closest('.battle-thread-item')?.querySelector(':scope > .battle-comment .battle-reply-form');if(f){f.hidden=!f.hidden;if(!f.hidden){const input=f.querySelector('input');if(!f.querySelector('.site-news-reply-smile-button')&&window.CLANWARS_SMILES&&input){const btn=document.createElement('button');btn.type='button';btn.className='site-news-reply-smile-button';btn.textContent='☺';btn.title='Выбрать смайл';btn.setAttribute('aria-label','Выбрать смайл');f.insertBefore(btn,input);window.CLANWARS_SMILES.makePicker(btn,input);}input.focus();}}}
   else if(b.dataset.likeComment){toggleCommentLike('site-news:'+n.id+':'+b.dataset.likeComment);renderComments(n);}
   else if(b.dataset.showLikes){const p=b.parentElement.querySelector('.comment-like-full');if(p)p.hidden=!p.hidden;}
