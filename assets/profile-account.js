@@ -59,7 +59,7 @@ try{
     .maybeSingle();
   if(membershipError)throw membershipError;
 
-  document.title=profile.display_name+' — EMPIRE';
+  document.title=profile.display_name+' — Clanwars';
   const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
   set('profileName',profile.display_name);
   set('profileRegiment',profile.regiment||'Без полка');
@@ -68,20 +68,20 @@ try{
     activeMembership?.role==='soldier'?'Солдат':
     'Не состоит в полку';
   set('profileRole',profileRole);
+  const actions=document.getElementById('profileActions');
   if(profile.is_admin){
-    const main=document.querySelector('.profile-main');
-    if(main&&!document.getElementById('adminProfileButton')){
+    const badge=document.getElementById('profileRoleBadge');
+    if(badge){
+      badge.hidden=false;
+      badge.textContent='АДМИНИСТРАТОР';
+    }
+    if(actions&&!document.getElementById('adminProfileButton')){
       const adminButton=document.createElement('a');
       adminButton.id='adminProfileButton';
       adminButton.className='btn profile-admin-button';
       adminButton.href='admin.html';
       adminButton.textContent='Панель админа';
-      main.appendChild(adminButton);
-    }
-    const badge=document.getElementById('profileRoleBadge');
-    if(badge){
-      badge.hidden=false;
-      badge.textContent='АДМИНИСТРАТОР';
+      actions.appendChild(adminButton);
     }
   }
   const onlineEl=document.getElementById('profileOnlineStatus');
@@ -97,14 +97,20 @@ try{
     avatar.style.visibility='visible';
   }
 
-  const main=document.querySelector('.profile-main');
-  if(main&&isOwn&&!document.getElementById('profileEditButton')){
+  if(actions&&isOwn&&!document.getElementById('profileEditButton')){
     const button=document.createElement('button');
     button.type='button';
     button.id='profileEditButton';
     button.className='btn profile-edit-button';
     button.textContent='Редактировать профиль';
-    main.appendChild(button);
+    actions.appendChild(button);
+
+    const deleteButton=document.createElement('button');
+    deleteButton.type='button';
+    deleteButton.id='profileDeleteAccount';
+    deleteButton.className='btn profile-delete-visible';
+    deleteButton.textContent='Удалить профиль';
+    actions.appendChild(deleteButton);
 
     const panel=document.createElement('div');
     panel.id='profileEditPanel';
@@ -112,9 +118,8 @@ try{
     panel.hidden=true;
     panel.innerHTML=
       '<button type="button" class="btn" id="profileChangeAvatar">Изменить аватар</button>'+
-      '<button type="button" class="btn" id="profileChangeName">Изменить имя пользователя</button>'+
-      '<button type="button" class="btn danger" id="profileDeleteAccount">Удалить профиль</button>';
-    main.appendChild(panel);
+      '<button type="button" class="btn" id="profileChangeName">Изменить имя пользователя</button>';
+    actions.appendChild(panel);
 
     button.onclick=()=>{panel.hidden=!panel.hidden;};
     panel.querySelector('#profileChangeAvatar').onclick=()=>{
@@ -132,7 +137,7 @@ try{
       try{await auth.profilePatch({display_name:name});location.href='profile.html?user='+encodeURIComponent(name);}
       catch(e){alert(e.message||'Не удалось изменить имя пользователя.');}
     };
-    panel.querySelector('#profileDeleteAccount').onclick=async()=>{
+    deleteButton.onclick=async()=>{
       if(!confirm('Удалить профиль и аккаунт? Это действие нельзя отменить.'))return;
       if(!confirm('Все сообщения, заявки и история службы этого аккаунта будут удалены. Продолжить?'))return;
       try{await auth.deleteAccount();location.href='index.html';}
@@ -229,6 +234,6 @@ try{
   if(title&&auth.user&&auth.user.id!==profile.id)title.textContent='✉  Переписка с '+profile.display_name;
 
 }catch(error){
-  console.warn('Не удалось загрузить профиль EMPIRE:',error);
+  console.warn('Не удалось загрузить профиль Clanwars:',error);
 }
 })();
