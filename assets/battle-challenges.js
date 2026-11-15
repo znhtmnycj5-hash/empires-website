@@ -17,7 +17,7 @@ document.head.appendChild(style);
 (async()=>{
  try{
   await window.EMPIRE_AUTH.init();
-  const auth=window.EMPIRE_AUTH,client=auth.client,user=auth.user;
+  const auth=window.EMPIRE_AUTH,client=auth.client;\n  const {data:{user}}=await client.auth.getUser();
   const name=new URLSearchParams(location.search).get('name')||'1st Regiment';
   const {data:target,error}=await client.from('empire_regiments').select('id,name,commander_id').eq('name',name).maybeSingle();
   if(error||!target)return;
@@ -30,7 +30,7 @@ document.head.appendChild(style);
     ?await client.from('empire_regiments').select('id,commander_id').eq('commander_id',user.id)
     :{data:[],error:null};
   if(commandedError)throw commandedError;
-  const commanderRegimentIds=new Set([...(commandedRegiments||[]).map(r=>r.id),...(myMemberships||[]).filter(m=>m.role==='commander').map(m=>m.regiment_id)]);
+  const commanderRegimentIds=new Set((commandedRegiments||[]).map(r=>r.id));\n  (myMemberships||[]).filter(m=>m.role==='commander').forEach(m=>commanderRegimentIds.add(m.regiment_id));
   const isOwnCommander=!!user&&commanderRegimentIds.has(target.id);
   const canChallenge=!!user&&[...commanderRegimentIds].some(id=>id!==target.id);
 
