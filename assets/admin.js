@@ -16,10 +16,10 @@ let isAdmin=false;
 let initialRequestsPromise=Promise.resolve({data:[],error:null});
 if(auth.user){
  const [adminResult,requestsResult]=await Promise.all([
-  auth.client.from('empire_profiles').select('is_admin,is_moderator').eq('id',auth.user.id).maybeSingle(),
+  auth.client.from('empire_profiles').select('is_admin').eq('id',auth.user.id).maybeSingle(),
   auth.client.from('empire_regiment_creation_requests').select('id,user_name,name,faction,logo,status,created_at').order('created_at',{ascending:false})
  ]);
- isAdmin=!!(adminResult.data?.is_admin||adminResult.data?.is_moderator);
+ isAdmin=!!adminResult.data?.is_admin;
  initialRequestsPromise=Promise.resolve(requestsResult);
 }
 if(!isAdmin){document.querySelector('main').innerHTML='<section class="card admin-access-denied"><div class="page-kicker">ДОСТУП ЗАПРЕЩЁН</div><h1>Панель управления</h1><p>У вашей учётной записи нет прав администратора или модератора.</p><a class="btn" href="index.html">Вернуться на главную</a></section>';return}
