@@ -91,9 +91,10 @@ async function syncSiteNewsRemote(){
       const names=new Map(profiles.map(x=>[String(x.id),x.display_name]));
       const mapped=data.map(x=>({...mapRemoteNews(x),author:names.get(String(x.author_id))||x.author_name||'Пользователь'}));
       const remoteIds=new Set(mapped.map(x=>String(x.id)));
-      const localOwn=own.filter(x=>!remoteIds.has(String(x.id)));
-      const merged=[...mapped,...localOwn].sort((a,b)=>(Number(b.created)||0)-(Number(a.created)||0));
-      write(NEWS_KEY,merged);
+      const localFallback=local.filter(x=>!remoteIds.has(String(x.id)));
+      const merged=[...mapped,...localFallback].sort((a,b)=>(Number(b.created)||0)-(Number(a.created)||0));
+      // Do not wipe local news if the remote table is temporarily empty.
+      if(mapped.length||localFallback.length)write(NEWS_KEY,merged);
       remoteNewsReady=true;
       renderHome();
       renderPage();
