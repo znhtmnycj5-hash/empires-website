@@ -139,8 +139,10 @@ const sampleAlbum=Array.from({length:16},(_,i)=>({src:albumSamples[i%albumSample
 const getUploadedAlbum=()=>{try{const v=JSON.parse(localStorage.getItem(albumStorageKey)||'[]');return Array.isArray(v)?v:[];}catch(e){return [];}};
 const saveUploadedAlbum=v=>{try{localStorage.setItem(albumStorageKey,JSON.stringify(v));}catch(e){}};
 const currentUser=(()=>{try{const u=JSON.parse(localStorage.getItem('empire_current_user')||'null');return u&&typeof u==='object'?u:{name:'',regiment:'',role:'user'};}catch(e){return{name:'',regiment:'',role:'user'};}})();
+const isListedOfficer=Array.isArray(d.officers)&&d.officers.some(o=>String(o&&o.name||'')===String(currentUser.name));
 const canManageAlbum=!!currentUser.name&&(
   String(currentUser.name)===String(d.commander||'') ||
+  isListedOfficer ||
   (String(currentUser.regiment||'')===String(name)&& (currentUser.role==='officer'||currentUser.role==='commander'))
 );
 const albumUsesSamples=!isNewRegiment;
