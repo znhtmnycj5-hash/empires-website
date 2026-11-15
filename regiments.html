@@ -133,6 +133,15 @@ const updateRegimentListRatings=async()=>{
 };
 updateRegimentListRatings();
 
+// Hide legacy demonstration regiments from this browser; keep the active 1st Regiment.
+try{
+ const legacy=["95th Rifles","84e Régiment","Preobrazhensky","7th Hussars","13e Léger","33e Ligne","92nd Gordon Highlanders","Semenovsky","King's German Legion","6e Hussards","Royal Scots","Баварский Полк","Totenkopf","Mangust"];
+ const deleted=JSON.parse(localStorage.getItem("empire_deleted_regiments_v1")||"[]");
+ legacy.forEach(name=>{if(!deleted.includes(name))deleted.push(name)});
+ localStorage.setItem("empire_deleted_regiments_v1",JSON.stringify(deleted));
+ const approved=JSON.parse(localStorage.getItem("empire_approved_regiments_v1")||"[]");
+ localStorage.setItem("empire_approved_regiments_v1",JSON.stringify(approved.filter(x=>!legacy.includes(x.name))));
+}catch(e){}
 const renderApprovedRegiments=()=>{ try{const deleted=JSON.parse(localStorage.getItem("empire_deleted_regiments_v1")||"[]");document.querySelectorAll(".regiment-tile[data-regiment-name]").forEach(tile=>{if(deleted.includes(tile.dataset.regimentName))tile.remove()})}catch(error){}
   try{
     const approved=JSON.parse(localStorage.getItem("empire_approved_regiments_v1")||"[]");
