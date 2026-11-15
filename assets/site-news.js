@@ -163,7 +163,7 @@ function renderComments(n){
   else if(b.dataset.deleteComment){const target=arr.find(x=>String(x.id)===b.dataset.deleteComment);if(target&&target.author===user.name&&confirm('Удалить этот комментарий?')){const next=arr.filter(x=>String(x.id)!==b.dataset.deleteComment);next.forEach(x=>{if(x.parentId===b.dataset.deleteComment)delete x.parentId;});const latest=getComments();latest[n.id]=next;write(COMMENTS_KEY,latest);renderComments(n);}}
  });
  list.addEventListener('submit',e=>{const f=e.target.closest('.battle-reply-form');if(!f)return;e.preventDefault();const input=f.querySelector('input'),value=input.value.trim();if(value)save({id:'comment-'+Date.now()+'-'+Math.random().toString(36).slice(2,6),parentId:f.dataset.parentId,author:user.name,avatar:avatar(user.name),date:new Date().toLocaleString('ru-RU'),text:value});});
- form.addEventListener('submit',e=>{e.preventDefault();const html=cleanRichComment(editor.innerHTML),textValue=editor.textContent.trim();if(!textValue&&!html.replace(/<[^>]*>/g,'').trim())return;save({id:'comment-'+Date.now(),author:user.name,avatar:avatar(user.name),date:new Date().toLocaleString('ru-RU'),html,text:textValue});});
+ form.addEventListener('submit',e=>{e.preventDefault();const html=cleanRichComment(editor.innerHTML),textValue=editor.textContent.trim();if(!textValue&&!html.replace(/<[^>]*>/g,'').trim()&&!html.includes('<img '))return;save({id:'comment-'+Date.now(),author:user.name,avatar:avatar(user.name),date:new Date().toLocaleString('ru-RU'),html,text:textValue});});
 }
 
 renderHome();renderPage();
