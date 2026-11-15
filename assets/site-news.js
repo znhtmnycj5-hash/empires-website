@@ -95,7 +95,10 @@ async function syncSiteNewsRemote(){
       const localFallback=local.filter(x=>!remoteIds.has(String(x.id)));
       const merged=[...mapped,...localFallback].sort((a,b)=>(Number(b.created)||0)-(Number(a.created)||0));
       // Do not wipe local news if the remote table is temporarily empty.
-      if(mapped.length||localFallback.length)write(NEWS_KEY,merged);
+      if(mapped.length||localFallback.length){
+        // Keep every local news item that is not represented remotely, including Kalash/Kalashnikov legacy items.
+        write(NEWS_KEY,merged);
+      }
       remoteNewsReady=true;
       renderHome();
       renderPage();
