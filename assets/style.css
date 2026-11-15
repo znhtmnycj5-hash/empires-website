@@ -3956,3 +3956,20 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 .ranking-users-list{display:grid;grid-template-columns:1fr 1fr;column-gap:20px}
 .ranking-users-list .home-user-rating-row{min-width:0}
 @media(max-width:760px){.profile-rating-message-grid{grid-template-columns:minmax(0,1fr)}.ranking-users-list{grid-template-columns:1fr}}
+
+
+/* Twin ranking panels and equal-height profile panels — 15.11.2026 */
+.home-rankings-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:stretch;width:100%}
+.home-rankings-grid>.ranking{min-width:0;margin:0!important;height:100%;box-sizing:border-box}
+.home-rankings-grid .card-title{min-height:48px;box-sizing:border-box}
+.home-rankings-grid .ranking table{width:100%;table-layout:fixed}
+.home-rankings-grid .ranking td{padding:9px 12px}
+.home-user-rating-link{display:inline-flex;align-items:center;gap:8px;color:inherit;text-decoration:none;font-weight:600}
+.home-user-rating-link:hover{color:#dfbf7b}
+.home-user-rating-link img{width:26px;height:26px;object-fit:cover;border:1px solid #87663b;background:#251d15;vertical-align:middle}
+.home-user-rating-row .positive{color:#75bd68}
+.home-user-rating-row .negative{color:#d56b61}
+.profile-rating-message-grid{grid-template-columns:minmax(0,1.45fr) minmax(300px,1fr);align-items:stretch;grid-auto-rows:1fr}
+.profile-rating-message-grid>.card{display:flex!important;flex-direction:column;min-height:300px;height:100%!important}
+.profile-rating-message-grid #messageArea,.profile-rating-message-grid #profileUserRating{flex:1;min-height:0}
+@media(max-width:760px){.home-rankings-grid{grid-template-columns:minmax(0,1fr)}.profile-rating-message-grid{grid-template-columns:minmax(0,1fr)}}
