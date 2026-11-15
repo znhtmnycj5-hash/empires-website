@@ -4552,3 +4552,26 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
     vertical-align:-20px!important;
   }
 }
+
+/* Site news comment author and controls */
+.site-news-page .site-news-author-actions .btn{
+  background:rgba(37,29,20,.58)!important;
+  border-color:rgba(181,138,67,.62)!important;
+  color:#dfc17f!important;
+  opacity:.78;
+}
+.site-news-page .site-news-author-actions .btn:hover{
+  background:rgba(100,30,27,.62)!important;
+  border-color:rgba(213,169,95,.8)!important;
+  color:#f0d49a!important;
+  opacity:1;
+}
+.site-news-page .battle-comment-text .clanwars-smile{
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
+.site-news-page .battle-comment-avatar{
+  border:1px solid #70552f;
+}
+.site-news-page .battle-comment-presence.is-online i{background:#6fbd68!important;box-shadow:0 0 6px rgba(111,189,104,.7)}
