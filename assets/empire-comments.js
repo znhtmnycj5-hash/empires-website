@@ -104,7 +104,7 @@ function enhance(){
   const video=document.createElement('button');video.type='button';video.textContent='Добавить видео';
   const spoiler=document.createElement('button');spoiler.type='button';spoiler.textContent='Добавить спойлер';
   const file=document.createElement('input');file.type='file';file.accept='image/*,video/mp4,video/webm';file.hidden=true;
-  menu.append(image,video,spoiler);extra.append(plus,mic,menu,file);toolbar.append(extra);
+  menu.append(image,video,spoiler);extra.append(plus,mic,menu,file);toolbar.append(extra);\n  const smileBtn=document.createElement('button');smileBtn.type='button';smileBtn.textContent='☺';smileBtn.title='Выбрать смайл';smileBtn.setAttribute('aria-label','Выбрать смайл');toolbar.append(smileBtn);\n  if(window.CLANWARS_SMILES)window.CLANWARS_SMILES.makePicker(smileBtn,editor);
   plus.addEventListener('click',()=>menu.classList.toggle('open'));
   const addFile=async kind=>{file.accept=kind==='image'?'image/*':'video/mp4,video/webm';file.click();menu.classList.remove('open');};
   image.addEventListener('click',()=>addFile('image'));video.addEventListener('click',()=>addFile('video'));
