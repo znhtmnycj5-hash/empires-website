@@ -1,5 +1,6 @@
 (function(){
   'use strict';
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(()=>{});}
   const SUPABASE_URL='https://pbaojidktzjnpavtdcga.supabase.co';
   const SUPABASE_KEY='sb_publishable_XVsmd-U_ZF5eD-UcxMw31g_Yv9rUdVk';
   let client=null, ready=null, currentUser=null, currentProfile=null;
