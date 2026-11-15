@@ -6,11 +6,8 @@
   if(!general||!regiment||!input||!send)return;
   let room='general',memberRegiment=null,profile=null,client=null,user=null,busy=false;
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const EMOTES=[];
-  const emoteHtml=s=>esc(s).replace(/:([a-z0-9_]+):/gi,(m,key)=>{
-    const e=EMOTES.find(x=>x[0]===key.toLowerCase());
-    return e?'<span class="mini-chat-emote mini-chat-emote-'+e.key+'" role="img" aria-label="'+e.label+'" title="'+e.label+'"></span>':m;
-  });
+  const EMOTES=window.CLANWARS_SMILES?.items||[];
+  const emoteHtml=s=>window.CLANWARS_SMILES?.renderText(s)||esc(s);
   const avatar=p=>{
     const own=p?.avatar_url||'';
     if(own)return own;
@@ -112,7 +109,7 @@
   });
   /* Initialize the picker before authentication so it never depends on auth startup. */
   if(emoteBtn&&emotePicker&&!emotePicker.dataset.ready){
-    emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e.key+'" title="'+e.label+'"><span class="mini-chat-emote mini-chat-emote-'+e.key+'" aria-hidden="true"></span></button>').join('');
+    emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e.key+'" title="'+e.label+'"><img src="'+e.src+'" alt="'+e.label+'"></button>').join('');
     emotePicker.dataset.ready='1';
   }
   try{
