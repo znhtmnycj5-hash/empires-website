@@ -3663,3 +3663,15 @@ html body .members-grid img.member-avatar[src*="Bav.jpg"] {
   cursor:wait;
   opacity:.35;
 }
+
+
+.mini-chat-user-link{
+  color:#dfc17f!important;
+  text-decoration:none;
+  font:600 11px "Roboto Slab",Roboto Slab,serif;
+  cursor:pointer;
+}
+.mini-chat-user-link:hover{
+  color:#f0d394!important;
+  text-decoration:underline;
+}
