@@ -26,10 +26,13 @@ document.head.appendChild(style);
     ?await client.from('empire_regiment_members').select('role,regiment_id').eq('user_id',user.id).is('left_at',null)
     :{data:[],error:null};
   if(memberError)throw memberError;
-
-  const myCommanderMembership=(myMemberships||[]).find(m=>m.role==='commander');
-  const isOwnCommander=!!user&&(target.commander_id===user.id||myCommanderMembership?.regiment_id===target.id);
-  const canChallenge=!!user&&!!myCommanderMembership&&myCommanderMembership.regiment_id!==target.id;
+  const {data:commandedRegiments,error:commandedError}=user
+    ?await client.from('empire_regiments').select('id,commander_id').eq('commander_id',user.id)
+    :{data:[],error:null};
+  if(commandedError)throw commandedError;
+  const commanderRegimentIds=new Set([...(commandedRegiments||[]).map(r=>r.id),...(myMemberships||[]).filter(m=>m.role==='commander').map(m=>m.regiment_id)]);
+  const isOwnCommander=!!user&&commanderRegimentIds.has(target.id);
+  const canChallenge=!!user&&[...commanderRegimentIds].some(id=>id!==target.id);
 
   const panel=document.createElement('section');panel.className='battle-challenge-panel';
   const roster=document.querySelector('.roster-section .regiment-section-content');
