@@ -4019,3 +4019,8 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
  .profile-rating-message-grid,.profile-columns{grid-template-columns:minmax(0,1fr)!important}
  .profile-rating-message-grid>.profile-section{min-height:0}
 }
+
+
+/* Демонстрационные голоса в профиле Commander */
+.user-rating-demo-voter{display:flex;align-items:center;gap:8px;padding:5px 0;color:#b9a98d;font-size:12px;}
+.user-rating-demo-voter img{width:28px;height:28px;min-width:28px;border-radius:50%;object-fit:cover;}
