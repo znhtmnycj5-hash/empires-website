@@ -4,8 +4,36 @@ const URL='https://pbaojidktzjnpavtdcga.supabase.co',KEY='sb_publishable_XVsmd-U
 const waitAuth=async()=>{for(let i=0;i<80;i++){if(window.EMPIRE_AUTH?.client)return window.EMPIRE_AUTH;await new Promise(r=>setTimeout(r,100));}throw new Error('Авторизация Supabase не загрузилась');};
 const contextId=(type,id)=>String(id||'');
 const toLocal=row=>({id:row.id,parentId:row.content?.parentId||null,name:row.author_name,author:row.author_name,regiment:row.author_regiment,avatar:row.content?.avatar||'',text:row.content?.text||'',html:row.content?.html||'',image:row.content?.image||'',time:row.created_at?new Date(row.created_at).toLocaleString('ru-RU'): '',date:row.created_at?new Date(row.created_at).toLocaleString('ru-RU'): '',createdAt:row.created_at,updatedAt:row.updated_at,_remote:true,_authorId:row.author_id});
+const enrichAuthors=async(a,rows)=>{
+ const ids=[...new Set((rows||[]).map(x=>x.author_id).filter(Boolean))];
+ if(!ids.length)return rows||[];
+ const [{data:profiles,error:profilesError},{data:members,error:membersError},{data:regiments,error:regimentsError}]=await Promise.all([
+  a.client.from('empire_profiles').select('id,display_name,regiment,avatar_url,last_seen_at').in('id',ids),
+  a.client.from('empire_regiment_members').select('user_id,regiment_id,role,left_at').in('user_id',ids).is('left_at',null),
+  a.client.from('empire_regiments').select('id,name').in('id',[]).limit(0)
+ ]);
+ if(profilesError)throw profilesError;
+ const profileMap=new Map((profiles||[]).map(p=>[String(p.id),p]));
+ const activeMembers=membersError?[]:(members||[]);
+ const regimentIds=[...new Set(activeMembers.map(m=>m.regiment_id).filter(Boolean))];
+ let regimentRows=[];
+ if(regimentIds.length){
+  const {data,error}=await a.client.from('empire_regiments').select('id,name').in('id',regimentIds);
+  if(error)throw error;
+  regimentRows=data||[];
+ }
+ const regimentMap=new Map(regimentRows.map(r=>[String(r.id),r.name]));
+ return (rows||[]).map(row=>{
+  const p=profileMap.get(String(row.author_id));
+  const m=activeMembers.find(x=>String(x.user_id)===String(row.author_id));
+  const lastSeen=p?.last_seen_at?Date.parse(p.last_seen_at):0;
+  return {...row,name:p?.display_name||row.author_name,author:p?.display_name||row.author_name,
+   regiment:m?.regiment_id?regimentMap.get(String(m.regiment_id))||p?.regiment||row.author_regiment||'Без полка':p?.regiment||row.author_regiment||'Без полка',
+   avatar:p?.avatar_url||row.content?.avatar||'',online:!!lastSeen&&Date.now()-lastSeen<5*60*1000};
+ });
+};
 const api={
- async list(type,id){const a=await waitAuth(),{data,error}=await a.client.from('empire_comments').select('*').eq('context_type',type).eq('context_id',contextId(type,id)).order('created_at',{ascending:true});if(error)throw error;return(data||[]).map(toLocal);},
+ async list(type,id){const a=await waitAuth(),{data,error}=await a.client.from('empire_comments').select('*').eq('context_type',type).eq('context_id',contextId(type,id)).order('created_at',{ascending:true});if(error)throw error;return enrichAuthors(a,data||[]);},
  async create(type,id,item){const a=await waitAuth();if(!a.user)throw new Error('Чтобы комментировать, войдите в аккаунт.');const content={text:item.text||'',html:item.html||'',image:item.image||'',parentId:item.parentId||null,avatar:a.profile?.avatar_url||''};const {data,error}=await a.client.from('empire_comments').insert({context_type:type,context_id:contextId(type,id),author_id:a.user.id,author_name:a.profile?.display_name||a.user.email,author_regiment:a.profile?.regiment||'',content}).select('*').single();if(error)throw error;return toLocal(data);},
  async update(id,item){const a=await waitAuth();if(!a.user)throw new Error('Войдите в аккаунт.');const content={text:item.text||'',html:item.html||'',image:item.image||'',parentId:item.parentId||null,avatar:a.profile?.avatar_url||''};const {data,error}=await a.client.from('empire_comments').update({content}).eq('id',id).select('*').single();if(error)throw error;return toLocal(data);},
  async remove(id){const a=await waitAuth();const {error}=await a.client.from('empire_comments').delete().eq('id',id);if(error)throw error;},
