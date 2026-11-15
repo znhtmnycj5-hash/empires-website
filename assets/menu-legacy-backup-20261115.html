@@ -1,6 +1,86 @@
-# Clanwars — backup старого меню (15.11.2026)
+<!-- Резервная копия старого меню Clanwars от 15.11.2026. Используется для восстановления прежнего вида. -->
 
-Сохранён исходный HTML блока <nav> перед редизайном меню.
+<!-- index.html -->
+<nav>
+  <a class="active" href="#home">Главная</a>
+  <div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a><a href="#">Мои полки</a></div></div>
+  <div class="dropdown"><a href="battles.html">Сражения</a><div class="dropdown-menu"><a href="battles.html#planned">Предстоящие</a><a href="battles.html#completed">Завершённые</a><a href="battles.html#all">Все сражения</a></div></div>
+  <div class="dropdown"><a href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html#upcoming">Предстоящие</a><a href="campaigns.html#completed">Завершённые</a></div></div>
+  <a href="rating.html">Рейтинг</a><a href="search.html">Поиск</a><a href="https://znhtmnycj5-hash.github.io/empires-website/alliances.html">Союзы</a><a class="login" href="register.html">♙ &nbsp; Войти</a>
+</nav>
 
-## index.html
-< nav omitted >
+<!-- battles.html -->
+<nav>
+  <a href="index.html">Главная</a>
+  <div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a><a href="#">Мои полки</a></div></div>
+  <div class="dropdown"><a class="active" href="battles.html">Сражения</a><div class="dropdown-menu"><a href="#planned">Предстоящие</a><a href="#completed">Завершённые</a><a href="#all">Все сражения</a></div></div>
+  <a href="rating.html">Рейтинг</a><a href="search.html">Поиск</a><a href="https://znhtmnycj5-hash.github.io/empires-website/alliances.html">Союзы</a><a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+</nav>
+
+<!-- campaigns.html -->
+<nav>
+  <a href="index.html">Главная</a>
+  <div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a></div></div>
+  <div class="dropdown"><a class="active" href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html#upcoming">Предстоящие</a><a href="campaigns.html#completed">Завершённые</a></div></div>
+  <a href="rating.html">Рейтинг</a><a href="search.html">Поиск</a><a href="alliances.html">Союзы</a><a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+</nav>
+
+<!-- rating.html -->
+<nav>
+<a href="index.html">Главная</a>
+<div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a></div></div>
+<div class="dropdown"><a href="battles.html">Сражения</a><div class="dropdown-menu"><a href="battles.html#all">Все сражения</a></div></div>
+<a class="active" href="rating.html">Рейтинг</a><a href="search.html">Поиск</a><a href="alliances.html">Союзы</a><a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+</nav>
+
+<!-- regiments.html -->
+<nav>
+<a href="index.html">Главная</a>
+<div class="dropdown"><a class="active" href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a><a href="#">Мои полки</a></div></div>
+<div class="dropdown"><a href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html#upcoming">Предстоящие кампании</a><a href="campaigns.html#completed">Архив</a><a href="campaigns.html">Все кампании</a></div></div>
+<a href="rating.html">Рейтинг</a><a href="search.html">Поиск</a><a href="https://znhtmnycj5-hash.github.io/empires-website/alliances.html">Союзы</a><a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+</nav>
+
+<!-- alliances.html -->
+<nav>
+<a href="index.html">Главная</a>
+<div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a></div></div>
+<div class="dropdown"><a href="battles.html">Сражения</a><div class="dropdown-menu"><a href="battles.html#all">Все сражения</a></div></div>
+<a href="rating.html">Рейтинг</a><a href="search.html">Поиск</a><a class="active" href="alliances.html">Союзы</a><a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+</nav>
+
+<!-- search.html -->
+<nav>
+<a href="index.html">Главная</a>
+<div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a></div></div>
+<div class="dropdown"><a href="battles.html">Сражения</a><div class="dropdown-menu"><a href="battles.html#planned">Предстоящие</a><a href="battles.html#completed">Завершённые</a><a href="battles.html#all">Все сражения</a></div></div>
+<div class="dropdown"><a href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html#upcoming">Предстоящие</a><a href="campaigns.html#completed">Завершённые</a></div></div>
+<a href="rating.html">Рейтинг</a><a class="active" href="search.html">Поиск</a><a href="alliances.html">Союзы</a><a class="login" href="register.html">♙ &nbsp; Войти</a>
+</nav>
+
+<!-- profile.html -->
+<nav>
+<a href="index.html">Главная</a><a href="regiments.html">Полки</a><a href="index.html#battles">Кампании</a><a href="rating.html">Рейтинг</a><a href="search.html">Поиск</a><a href="index.html#alliances">Союзы</a><span style="margin-left:auto"></span><a class="login" href="register.html">♟ Войти</a>
+</nav>
+
+<!-- battle.html -->
+<nav>
+<a href="index.html">Главная</a>
+<div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a><a href="#">Мои полки</a></div></div>
+<div class="dropdown"><a class="active" href="battles.html">Сражения</a><div class="dropdown-menu"><a href="battles.html#planned">Предстоящие</a><a href="battles.html#completed">Завершённые</a><a href="battles.html#all">Все сражения</a></div></div>
+<a href="rating.html">Рейтинг</a><a href="search.html">Поиск</a><a href="index.html#alliances">Союзы</a><a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+</nav>
+
+<!-- regiment.html -->
+<nav><a href="index.html">Главная</a><div class="dropdown"><a class="active" href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a></div></div><a href="index.html#battles">Кампании</a><a href="rating.html">Рейтинг</a><a href="search.html">Поиск</a><a href="https://znhtmnycj5-hash.github.io/empires-website/alliances.html">Союзы</a><a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a></nav>
+
+<!-- campaign.html -->
+<nav>
+<a href="index.html">Главная</a>
+<div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a></div></div>
+<div class="dropdown"><a class="active" href="campaigns.html">Кампании</a><div class="dropdown-menu"><a href="campaigns.html#upcoming">Предстоящие</a><a href="campaigns.html#completed">Завершённые</a></div></div>
+<a href="rating.html">Рейтинг</a><a href="search.html">Поиск</a><a href="alliances.html">Союзы</a><a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+</nav>
+
+<!-- alliance.html -->
+<nav><a href="index.html">Главная</a><a href="regiments.html">Полки</a><a href="battles.html">Сражения</a><a href="rating.html">Рейтинг</a><a href="search.html">Поиск</a><a class="active" href="alliances.html">Союзы</a><a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a></nav>
