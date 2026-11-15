@@ -4004,3 +4004,18 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 .home-rankings-stack .home-user-rating-link img{display:block;width:34px;height:34px;flex:0 0 34px;object-fit:cover;border:1px solid #5f4b31}
 .home-rankings-stack .home-user-rating-row .points{text-align:right}
 .home-rankings-stack .home-user-rating-row:last-child td{border-bottom:0}
+
+
+/* Final profile card alignment */
+.profile-rating-message-grid{display:grid!important;grid-template-columns:minmax(0,1.45fr) minmax(300px,1fr)!important;gap:14px!important;align-items:stretch!important;margin:14px 0!important}
+.profile-rating-message-grid>.profile-section{margin:0!important;align-self:stretch!important;min-height:316px;box-sizing:border-box}
+.profile-rating-message-grid>.profile-messages-section{margin:0!important}
+.profile-rating-message-grid>.user-rating-section{margin:0!important}
+.profile-rating-message-grid>.card>.card-title{min-height:50px;box-sizing:border-box;display:flex;align-items:center}
+.profile-columns{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:14px!important;align-items:stretch!important;margin-top:14px!important}
+.profile-columns>.profile-section{margin:0!important;min-width:0;align-self:stretch!important;box-sizing:border-box}
+.profile-columns>.profile-section>.card-title{min-height:52px;display:flex;align-items:center;box-sizing:border-box}
+@media(max-width:760px){
+ .profile-rating-message-grid,.profile-columns{grid-template-columns:minmax(0,1fr)!important}
+ .profile-rating-message-grid>.profile-section{min-height:0}
+}
