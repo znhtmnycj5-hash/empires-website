@@ -4645,3 +4645,11 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 .site-news-page .site-news-comment-submit-actions #siteNewsCommentCancelEdit{background:rgba(37,29,20,.55)!important;color:#c9b58f!important}
 .site-news-page .site-news-comment-submit-actions button:hover{background:#7a2723!important;border-color:#b18a51!important}
 @media(max-width:600px){.site-news-page .site-news-comment-submit-actions{align-self:flex-end!important;flex-wrap:wrap!important}.site-news-page .site-news-comment-submit-actions button{min-width:100px!important}}
+
+/* Site news: toolbar is a sibling of the input so hovering/focusing the editor cannot cover it */
+.site-news-page .site-news-comment-editor-shell{display:flex!important;flex-direction:column!important;min-width:0!important;flex:1 1 auto!important;position:relative!important;z-index:20!important;overflow:visible!important}
+.site-news-page .site-news-comment-editor-shell>.battle-comment-toolbar{display:flex!important;position:relative!important;z-index:30!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
+.site-news-page .site-news-comment-editor-shell>.battle-comment-editor{position:relative!important;z-index:20!important;overflow:visible!important}
+.site-news-page .site-news-comment-editor-shell:hover>.battle-comment-toolbar,
+.site-news-page .site-news-comment-editor-shell:focus-within>.battle-comment-toolbar{display:flex!important;opacity:1!important;visibility:visible!important}
+.site-news-page .site-news-comment-editor-shell .battle-comment-toolbar button{opacity:1!important;visibility:visible!important;pointer-events:auto!important}
