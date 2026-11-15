@@ -63,6 +63,20 @@ try{
   const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
   set('profileName',profile.display_name);
   set('profileRegiment',profile.regiment||'Без полка');
+  const regimentLink=document.getElementById('profileRegimentLink');
+  const regimentLogo=document.getElementById('profileRegimentLogo');
+  if(regimentLink){
+    if(regiment){
+      regimentLink.href='regiment.html?name='+encodeURIComponent(regiment.name);
+      regimentLink.title='Открыть страницу полка';
+      regimentLink.setAttribute('aria-label','Открыть страницу полка '+regiment.name);
+      if(regimentLogo)regimentLogo.src=regiment.logo_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png';
+    }else{
+      regimentLink.removeAttribute('href');
+      regimentLink.removeAttribute('title');
+      if(regimentLogo)regimentLogo.src='assets/aea32583-9230-496e-af65-c2e33f73ff79.png';
+    }
+  }
   const profileRole=regiment?.commander_id===profile.id?'Глава полка':
     activeMembership?.role==='officer'?'Офицер':
     activeMembership?.role==='soldier'?'Солдат':
