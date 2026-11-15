@@ -247,9 +247,25 @@ try{
     messageArea.innerHTML='<div class="conversation-head"><a href="profile.html?user='+encodeURIComponent(target.display_name)+'"><img src="'+esc(targetAvatar)+'" alt=""><strong>'+esc(target.display_name)+'</strong></a></div>'+
       '<div class="message-history">'+(rows||[]).map(m=>{
         const mine=m.sender_id===auth.user.id;
-        return '<div class="private-message '+(mine?'mine':'')+'"><img src="'+esc(mine?(auth.profile?.avatar_url||avatarFallback(auth.profile?.display_name,{faction:auth.profile?._regimentFaction||''})):targetAvatar)+'" alt=""><div><b>'+esc(mine?(auth.profile?.display_name||'Вы'):target.display_name)+'</b><p>'+esc(m.content)+'</p><span>'+new Date(m.created_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</span></div></div>';
+        return '<div class="private-message '+(mine?'mine':'')+'"><img src="'+esc(mine?(auth.profile?.avatar_url||avatarFallback(auth.profile?.display_name,{faction:auth.profile?._regimentFaction||''})):targetAvatar)+'" alt=""><div><b>'+esc(mine?(auth.profile?.display_name||'Вы'):target.display_name)+'</b><p>'+esc(m.content)+'</p><span>'+new Date(m.created_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</span></div>'+(mine?'<button type="button" class="private-message-delete" data-message-id="'+esc(m.id)+'" title="Удалить сообщение" aria-label="Удалить своё сообщение">×</button>':'')+'</div>';
       }).join('')+'</div>'+
       '<div class="message-compose"><input id="privateMessageInput" maxlength="2000" placeholder="Написать сообщение…"><button id="privateMessageSend">Отправить</button></div>';
+    messageArea.querySelectorAll('.private-message-delete').forEach(button=>{
+      button.onclick=async()=>{
+        const messageId=button.dataset.messageId;
+        if(!messageId||!confirm('Удалить это сообщение?'))return;
+        button.disabled=true;
+        const {data:deleted,error:deleteError}=await auth.client
+          .from('empire_private_messages')
+          .delete()
+          .eq('id',messageId)
+          .eq('sender_id',auth.user.id)
+          .select('id');
+        if(deleteError){button.disabled=false;alert(deleteError.message||'Не удалось удалить сообщение.');return;}
+        if(!deleted?.length){button.disabled=false;alert('Не удалось удалить сообщение: проверьте права доступа в Supabase.');return;}
+        await renderMessages(target);
+      };
+    });
     const send=async()=>{
       const input=document.getElementById('privateMessageInput');const text=input?.value.trim();if(!text)return;
       const {error}=await auth.client.from('empire_private_messages').insert({sender_id:auth.user.id,recipient_id:target.id,content:text});
