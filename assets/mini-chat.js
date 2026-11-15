@@ -6,16 +6,7 @@
   if(!general||!regiment||!input||!send)return;
   let room='general',memberRegiment=null,profile=null,client=null,user=null,busy=false;
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const EMOTES=[
-    ['angry','angry.png','Злость'],['austrian_salute','austrian_salute.png','Приветствие'],
-    ['british_guard','british_guard.png','Гвардеец'],['bugler','bugler.png','Сигнал'],
-    ['commander_salute','commander_salute.png','Командир'],['drummer_laugh','drummer_laugh.png','Смех'],
-    ['french_wink','french_wink.png','Подмигивание'],['grenadier_stern','grenadier_stern.png','Строго'],
-    ['marshal','marshal.png','Маршал'],['napoleon','napoleon.png','Наполеон'],
-    ['officer_thumbsup','officer_thumbsup.png','Одобрение'],['officer_wink','officer_wink.png','Офицер'],
-    ['prussian_wink','prussian_wink.png','Пруссак'],['russian_smile','russian_smile.png','Улыбка'],
-    ['surprised','surprised.png','Удивление'],['victory','victory.png','Победа']
-  ];
+  const EMOTES=[];
   const emoteHtml=s=>esc(s).replace(/:([a-z0-9_]+):/gi,(m,key)=>{
     const e=EMOTES.find(x=>x[0]===key.toLowerCase());
     return e?'<span class="mini-chat-emote mini-chat-emote-'+e[0]+'" role="img" aria-label="'+e[2]+'" title="'+e[2]+'"></span>':m;
