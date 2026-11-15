@@ -435,6 +435,11 @@ create policy "Users can send private messages"
 on public.empire_private_messages for insert to authenticated
 with check (auth.uid()=sender_id);
 
+drop policy if exists "Users can delete own private messages" on public.empire_private_messages;
+create policy "Users can delete own private messages"
+on public.empire_private_messages for delete to authenticated
+using (auth.uid()=sender_id);
+
 drop policy if exists "Users can update own presence" on public.empire_profiles;
 create policy "Users can update own presence"
 on public.empire_profiles for update to authenticated
