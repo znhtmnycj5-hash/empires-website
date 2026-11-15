@@ -4447,3 +4447,24 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 /* Homepage site news write button */
 #homeSiteNewsActions{display:flex;justify-content:center;padding:12px 0 16px}
 .home-site-news-write{display:inline-flex;align-items:center;justify-content:center;min-width:150px;padding:10px 24px}
+
+
+/* Site news editor alignment */
+.site-news-page #siteNewsEditor .card-title{
+  padding-left:28px;
+  padding-right:28px;
+}
+.site-news-page #siteNewsEditor .site-news-form{
+  padding:0 28px 28px;
+}
+.site-news-page #siteNewsEditor .site-news-form label{
+  text-align:left;
+}
+.site-news-page #siteNewsEditor .site-news-form input,
+.site-news-page #siteNewsEditor .site-news-form textarea{
+  text-align:left;
+}
+@media(max-width:600px){
+  .site-news-page #siteNewsEditor .card-title{padding-left:18px;padding-right:18px}
+  .site-news-page #siteNewsEditor .site-news-form{padding:0 18px 22px}
+}
