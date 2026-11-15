@@ -82,10 +82,44 @@ function renderEditor(existing){
  const editing=!!existing&&existing.author===user.name;
  if(!canPublish&&!editing)return;
  editor.hidden=false;
- editor.innerHTML='<div class="card-title">'+(editing?'✎ Редактирование новости':'✒ Новая публикация')+'</div><form id="siteNewsForm" class="site-news-form"><label>Заголовок<input name="title" maxlength="140" required placeholder="Заголовок новости" value="'+esc(existing?.title||'')+'"></label><label>Изображение (ссылка)<input name="image" type="url" placeholder="https://..." value="'+esc(existing?.image||'')+'"></label><label>Текст новости<textarea name="body" rows="7" required placeholder="Текст публикации...">'+esc(existing?.body||'')+'</textarea></label><div class="site-news-editor-actions"><button class="btn primary" type="submit">'+(editing?'Сохранить изменения':'Опубликовать')+'</button><button class="btn" type="button" id="siteNewsCancel">Отмена</button></div></form>';
+ editor.innerHTML='<div class="card-title">'+(editing?'✎ Редактирование новости':'✒ Новая публикация')+'</div><form id="siteNewsForm" class="site-news-form"><label>Заголовок<input name="title" maxlength="140" required placeholder="Заголовок новости" value="'+esc(existing?.title||'')+'"></label><label>Изображение для превью<input name="imageFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><span class="site-news-file-hint">Можно загрузить изображение с компьютера. До 8 МБ.</span></label><label>Или ссылка на изображение<input name="image" type="url" placeholder="https://..." value="'+esc(existing?.image||'')+'"></label><label>Текст новости<textarea name="body" rows="7" required placeholder="Текст публикации...">'+esc(existing?.body||'')+'</textarea></label><div class="site-news-editor-actions"><button class="btn primary" type="submit">'+(editing?'Сохранить изменения':'Опубликовать')+'</button><button class="btn" type="button" id="siteNewsCancel">Отмена</button></div></form>';
  editor.scrollIntoView({behavior:'smooth',block:'start'});
  $('siteNewsCancel').addEventListener('click',()=>{editor.hidden=true;editor.innerHTML='';});
- $('siteNewsForm').addEventListener('submit',e=>{e.preventDefault();const f=e.currentTarget,title=f.elements.title.value.trim(),body=f.elements.body.value.trim();if(!title||!body)return;const arr=read(NEWS_KEY,[]);if(editing){const item=arr.find(x=>String(x.id)===String(existing.id));if(!item||item.author!==user.name){alert('Редактировать новость может только её автор.');return;}item.title=title;item.body=body;item.image=f.elements.image.value.trim()||'assets/battlefield.jpg';item.updated=Date.now();write(NEWS_KEY,arr);location.href='site-news.html?id='+encodeURIComponent(existing.id);return;}arr.unshift({id:'site-news-'+Date.now(),title,date:fmtDate(),author:user.name,roleLabel:role==='commander'?'Командир полка':role==='moderator'?'Модератор':'Администратор',image:f.elements.image.value.trim()||'assets/battlefield.jpg',body,created:Date.now()});write(NEWS_KEY,arr);location.href='site-news.html';});
+ $('siteNewsForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const f=e.currentTarget,title=f.elements.title.value.trim(),body=f.elements.body.value.trim();
+  if(!title||!body)return;
+  const submit=f.querySelector('button[type="submit"]');
+  const file=f.elements.imageFile.files[0];
+  let image=f.elements.image.value.trim()||String(existing?.image||'')||'assets/battlefield.jpg';
+  try{
+   if(file){
+    if(!file.type.startsWith('image/'))throw new Error('Выберите файл изображения.');
+    if(file.size>8*1024*1024)throw new Error('Размер изображения не должен превышать 8 МБ.');
+    await window.EMPIRE_AUTH.init();
+    const client=window.EMPIRE_AUTH.client;
+    const currentUser=window.EMPIRE_AUTH.user;
+    if(!client||!currentUser)throw new Error('Сначала войдите в аккаунт.');
+    const ext=(file.type.split('/')[1]||'png').replace('jpeg','jpg');
+    const path=currentUser.id+'/'+Date.now()+'-'+Math.random().toString(36).slice(2,8)+'.'+ext;
+    if(submit)submit.disabled=true;
+    const {error:uploadError}=await client.storage.from('site-news-media').upload(path,file,{contentType:file.type,upsert:false});
+    if(uploadError)throw uploadError;
+    image=client.storage.from('site-news-media').getPublicUrl(path).data.publicUrl;
+   }
+   const arr=read(NEWS_KEY,[]);
+   if(editing){
+    const item=arr.find(x=>String(x.id)===String(existing.id));
+    if(!item||item.author!==user.name){alert('Редактировать новость может только её автор.');return;}
+    item.title=title;item.body=body;item.image=image;item.updated=Date.now();write(NEWS_KEY,arr);location.href='site-news.html?id='+encodeURIComponent(existing.id);return;
+   }
+   arr.unshift({id:'site-news-'+Date.now(),title,date:fmtDate(),author:user.name,roleLabel:role==='commander'?'Командир полка':role==='officer'?'Офицер полка':role==='moderator'?'Модератор':'Администратор',image,body,created:Date.now()});
+   write(NEWS_KEY,arr);location.href='site-news.html';
+  }catch(err){
+   alert('Не удалось загрузить изображение или сохранить новость: '+(err?.message||err));
+   if(submit)submit.disabled=false;
+  }
+ });
 }
 const COMMENT_LIKES_KEY='empire-comment-likes-v1';
 const getCommentLikes=key=>{const map=read(COMMENT_LIKES_KEY,{})||{};return Array.isArray(map[key])?map[key]:[]};
