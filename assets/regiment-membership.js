@@ -13,7 +13,7 @@ try{
   if(!rosterSection)return;
 
   const escape=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const avatarFor=p=>p?.avatar_url||'assets/default-soldier.jpg';
+  const avatarFor=p=>p?.avatar_url||window.EMPIRE_FACTION_AVATARS?.[reg.faction]||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png';
 
   const {data:members,error:membersError}=await auth.client
     .from('empire_regiment_members')
