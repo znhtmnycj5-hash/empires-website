@@ -4128,3 +4128,14 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
   }
   .profile-side-stack{gap:12px}
 }
+
+
+/* Recent unique profile visitors */
+.profile-page .profile-guest{position:relative;gap:5px}
+.profile-page .profile-guest img{transition:border-color .18s,transform .18s}
+.profile-page .profile-guest:hover img{border-color:#d2ad68;transform:translateY(-2px)}
+.profile-page .profile-guest small{display:block;max-width:100%;color:#a99a80;font-size:9px;line-height:1.35}
+@media(hover:hover){
+  .profile-page .profile-guest small{display:none}
+  .profile-page .profile-guest:hover small,.profile-page .profile-guest:focus-visible small{display:block}
+}
