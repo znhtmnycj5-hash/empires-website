@@ -133,6 +133,7 @@ let homeBattleRecords=[];
 const loadUpcomingBattles=async()=>{
   const box=document.getElementById('upcomingBattlesHome');
   if(!box)return;
+  if(!window.CLANWARS_BATTLES){setTimeout(loadUpcomingBattles,100);return;}
   try{
     const rows=await window.CLANWARS_BATTLES.loadAccepted();
     const upcoming=rows.filter(row=>['accepted','ongoing','awaiting_confirmation'].includes(window.CLANWARS_BATTLES.status(row)))
