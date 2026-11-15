@@ -4390,3 +4390,9 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 /* Final comment picker positioning */
 .battle-comment-toolbar .empire-attach-menu{position:fixed!important;z-index:2147483640!important;}
 .battle-comment-toolbar .clanwars-smile-picker{position:fixed!important;z-index:2147483641!important;}
+
+
+/* Regiments create button */
+.regiments-create-wrap{display:flex;justify-content:flex-end;margin:0 0 18px}
+.regiments-create-button{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;font-weight:700}
+@media(max-width:600px){.regiments-create-wrap{justify-content:stretch}.regiments-create-button{width:100%}}
