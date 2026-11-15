@@ -60,9 +60,10 @@ async function syncSiteNewsRemote(){
     const client=await window.EMPIRE_AUTH.init(), current=window.EMPIRE_AUTH.user;
     if(!client)return;
     const local=getNews();
-    const currentName=String(window.EMPIRE_AUTH.profile?.display_name||user.name||current?.email||'');
+    const currentName=String(window.EMPIRE_AUTH.profile?.display_name||user.name||current?.email||'').trim();
+    const currentAliases=new Set([currentName,user.name,'Kalash','Kalashnikov'].map(x=>String(x||'').trim().toLowerCase()).filter(Boolean));
     const own=current&&local.length
-      ? local.filter(x=>String(x.author||'').trim().toLowerCase()===currentName.trim().toLowerCase())
+      ? local.filter(x=>currentAliases.has(String(x.author||'').trim().toLowerCase()))
       : [];
     if(current&&own.length){
       const ids=[...new Set(own.map(x=>String(x.id)))];
