@@ -824,6 +824,10 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-reply-form .clanwars-smile-wrap{display:inline-flex;align-self:stretch}
 .battle-reply-form .clanwars-smile-picker{bottom:38px;left:auto;right:0}
 .battle-reply-form .clanwars-smile-picker img{width:30px!important;height:30px!important;max-width:30px!important;max-height:30px!important}
+.site-news-smile-button{font-size:18px!important;color:#d9b875!important}
+.site-news-reply-smile-button{width:34px!important;min-width:34px!important;height:34px!important;padding:0!important;border:1px solid #51412d!important;background:#17130f!important;color:#d9b875!important;font:700 18px/1 "Roboto Slab",serif!important;cursor:pointer!important}
+.site-news-reply-smile-button:hover{background:#641e1b!important;border-color:#9a6d3c!important;color:#efd49a!important}
+.site-news-reply-smile-button+.clanwars-smile-picker{bottom:38px!important;left:0!important}
 
 .battle-comment-image-link{display:block;width:min(100%,520px);margin-top:10px;overflow:hidden;border:1px solid #765a34;background:#0b0a08}
 .battle-comment-image{display:block;width:100%;max-height:300px;aspect-ratio:16/9;object-fit:cover;object-position:center}
