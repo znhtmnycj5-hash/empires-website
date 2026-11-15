@@ -38,7 +38,7 @@
     file?.addEventListener('change',()=>{
       const f=file.files?.[0];if(!f)return;
       if(!/^image\/(png|jpeg|webp|gif)$/.test(f.type)){setNotice('Можно загрузить только PNG, JPG, WEBP или GIF.','error');file.value='';return;}
-      if(f.size>2*1024*1024){setNotice('Логотип должен быть не больше 2 МБ.','error');file.value='';return;}
+      if(f.size>4*1024*1024){setNotice('Логотип должен быть не больше 4 МБ.','error');file.value='';return;}
       if(preview)preview.src=URL.createObjectURL(f);
     });
     form.addEventListener('submit',e=>{
