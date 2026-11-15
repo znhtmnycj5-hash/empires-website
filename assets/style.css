@@ -4492,3 +4492,14 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
   .mini-chat-emote-choice .mini-chat-emote-surprised{background-position:-76px -114px}
   .mini-chat-emote-choice .mini-chat-emote-victory{background-position:-114px -114px}
 }
+
+/* Final mini-chat emote renderer */
+.mini-chat-emote{position:relative!important;display:inline-block!important;width:28px!important;height:28px!important;flex:0 0 28px!important;overflow:hidden!important;vertical-align:middle!important;background:none!important}
+.mini-chat-emote img{position:absolute!important;width:192px!important;height:192px!important;max-width:none!important;max-height:none!important;display:block!important}
+.mini-chat-emote-angry img{left:0;top:0}.mini-chat-emote-austrian_salute img{left:-48px;top:0}.mini-chat-emote-british_guard img{left:-96px;top:0}.mini-chat-emote-bugler img{left:-144px;top:0}
+.mini-chat-emote-commander_salute img{left:0;top:-48px}.mini-chat-emote-drummer_laugh img{left:-48px;top:-48px}.mini-chat-emote-french_wink img{left:-96px;top:-48px}.mini-chat-emote-grenadier_stern img{left:-144px;top:-48px}
+.mini-chat-emote-marshal img{left:0;top:-96px}.mini-chat-emote-napoleon img{left:-48px;top:-96px}.mini-chat-emote-officer_thumbsup img{left:-96px;top:-96px}.mini-chat-emote-officer_wink img{left:-144px;top:-96px}
+.mini-chat-emote-prussian_wink img{left:0;top:-144px}.mini-chat-emote-russian_smile img{left:-48px;top:-144px}.mini-chat-emote-surprised img{left:-96px;top:-144px}.mini-chat-emote-victory img{left:-144px;top:-144px}
+.mini-chat-emote-choice .mini-chat-emote{width:48px!important;height:48px!important;flex-basis:48px!important}
+.mini-chat-emote-choice .mini-chat-emote img{width:192px!important;height:192px!important}
+@media(max-width:600px){.mini-chat-emote{width:22px!important;height:22px!important;flex-basis:22px!important}.mini-chat-emote-choice .mini-chat-emote{width:38px!important;height:38px!important;flex-basis:38px!important}}
