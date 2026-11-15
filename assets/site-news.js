@@ -51,23 +51,14 @@ const commentPresence=()=>{try{const value=JSON.parse(localStorage.getItem('empi
 const commentAuthorMeta=name=>{const regiment=commentRegiments[name]||'Без полка',last=commentPresence()[name],online=typeof last==='number'&&Date.now()-last<5*60*1000;return {regiment,online};};
 const profile=name=>window.empireProfileUrl?window.empireProfileUrl(name):'profile.html?user='+encodeURIComponent(name);
 const seed=[
-{id:'site-news-001',title:'Обновление правил кампаний',date:'05.11.2026',author:'Администрация EMPIRE',roleLabel:'Администрация',image:'assets/battlefield.jpg',body:'Обновлены правила проведения кампаний. Ознакомьтесь с изменениями перед подачей заявок на новые сражения.',created:1793870000000},
-{id:'site-news-002',title:'Итоги осеннего турнира',date:'01.11.2026',author:'Kalashnikov',roleLabel:'Командование',image:'assets/73f84f86-e210-42f1-8105-81ffb0b393be.png',body:'Поздравляем 1st Regiment с победой в турнире Empire Autumn Cup! Благодарим все полки за участие и достойную игру.',created:1793520000000},
-{id:'site-news-003',title:'Открыта регистрация новой кампании',date:'28.10.2026',author:'Модерация EMPIRE',roleLabel:'Модератор',image:'assets/95ec6cf5-7990-42a5-b52b-9df7e454ecfd.png',body:'Полки уже могут подать заявку на участие в новом сезоне. Подробности и расписание будут опубликованы дополнительно.',created:1793260000000},
-{id:'site-news-test-01',title:'Подготовка к большому строевому смотру',date:'08.11.2026',author:'Администрация EMPIRE',roleLabel:'Тестовая новость',image:'assets/battlefield.jpg',body:'Командиры полков проводят проверку строевой подготовки. На смотре оценят слаженность подразделений, дисциплину и точность выполнения команд.',created:1794144000000},
-{id:'site-news-test-02',title:'Набор добровольцев в артиллерийские расчёты',date:'08.11.2026',author:'Модерация EMPIRE',roleLabel:'Тестовая новость',image:'assets/73f84f86-e210-42f1-8105-81ffb0b393be.png',body:'Открыт набор игроков, желающих освоить артиллерию. Новичкам помогут разобраться с прицеливанием, дистанцией и взаимодействием с пехотой.',created:1794139000000},
-{id:'site-news-test-03',title:'Галерея лучших моментов недели',date:'07.11.2026',author:'Kalashnikov',roleLabel:'Тестовая новость',image:'assets/95ec6cf5-7990-42a5-b52b-9df7e454ecfd.png',body:'Собрали несколько ярких игровых эпизодов прошедшей недели. Спасибо участникам за скриншоты и активность на полях сражений.',created:1794053000000},
-{id:'site-news-test-04',title:'Объявлено расписание тренировок',date:'07.11.2026',author:'Командование EMPIRE',roleLabel:'Тестовая новость',image:'assets/1st.jpg',body:'На этой неделе запланированы совместные тренировки пехоты и кавалерии. Время проведения командиры сообщат в полковых чатах.',created:1794048000000},
-{id:'site-news-test-05',title:'Новые полки присоединяются к сообществу',date:'06.11.2026',author:'Администрация EMPIRE',roleLabel:'Тестовая новость',image:'assets/84e.png',body:'Сообщество продолжает расти. Приветствуем новые подразделения и желаем им успешных выступлений в будущих кампаниях.',created:1793962000000},
-{id:'site-news-test-06',title:'Итоги учебного сражения',date:'06.11.2026',author:'Модерация EMPIRE',roleLabel:'Тестовая новость',image:'assets/95.webp',body:'Учебный матч помог проверить баланс сторон и работу командиров. По итогам встречи подготовим несколько рекомендаций для участников.',created:1793957000000},
-{id:'site-news-test-07',title:'Кавалерия готовится к манёврам',date:'05.11.2026',author:'Kalashnikov',roleLabel:'Тестовая новость',image:'assets/hussars.png',body:'Кавалерийские подразделения отрабатывают перестроения, обходные манёвры и согласованные атаки. Следующая тренировка пройдёт в формате открытого занятия.',created:1793878000000},
-{id:'site-news-test-08',title:'Исторический вечер: кампании Наполеоновских войн',date:'05.11.2026',author:'Администрация EMPIRE',roleLabel:'Тестовая новость',image:'assets/preobraz.webp',body:'Приглашаем участников сообщества обсудить исторические кампании, тактику линейной пехоты и особенности вооружения эпохи.',created:1793873000000},
-{id:'site-news-test-09',title:'Обновление состава полковых подразделений',date:'04.11.2026',author:'Модерация EMPIRE',roleLabel:'Тестовая новость',image:'assets/kgr.png',body:'Командирам рекомендуется проверить списки участников и актуальность должностей. Это поможет корректно подготовить заявки на будущие события.',created:1793786000000},
-{id:'site-news-test-10',title:'Приглашаем на открытый вечер Napoleonic Wars',date:'03.11.2026',author:'Администрация EMPIRE',roleLabel:'Тестовая новость',image:'assets/images (1).jpg',body:'В ближайшие дни проведём открытый игровой вечер для участников и гостей сообщества. Можно будет познакомиться с полками и принять участие в общих боях.',created:1793700000000}
+ {id:'site-news-001',title:'Обновление правил кампаний',date:'05.11.2026',author:'Администрация EMPIRE',roleLabel:'Администрация',image:'assets/battlefield.jpg',body:'Обновлены правила проведения кампаний. Ознакомьтесь с изменениями перед подачей заявок на новые сражения.',created:1793870000000},
+ {id:'site-news-002',title:'Итоги осеннего турнира',date:'01.11.2026',author:'Kalashnikov',roleLabel:'Командование',image:'assets/73f84f86-e210-42f1-8105-81ffb0b393be.png',body:'Поздравляем 1st Regiment с победой в турнире Empire Autumn Cup! Благодарим все полки за участие и достойную игру.',created:1793520000000},
+ {id:'site-news-003',title:'Открыта регистрация новой кампании',date:'28.10.2026',author:'Модерация EMPIRE',roleLabel:'Модератор',image:'assets/95ec6cf5-7990-42a5-b52b-9df7e454ecfd.png',body:'Полки уже могут подать заявку на участие в новом сезоне. Подробности и расписание будут опубликованы дополнительно.',created:1793260000000}
 ];
-const getNews=()=>{let v=read(NEWS_KEY,null);if(!Array.isArray(v))v=[];const known=new Set(v.map(x=>x&&x.id));let changed=false;seed.forEach(item=>{if(!known.has(item.id)){v.push(item);known.add(item.id);changed=true;}});if(changed||!Array.isArray(read(NEWS_KEY,null)))write(NEWS_KEY,v);const deleted=read(DELETED_KEY,[]);return v.filter(x=>x&&x.id&&!deleted.includes(x.id)).sort((a,b)=>(Number(b.created)||0)-(Number(a.created)||0));};
+const getNews=()=>{let v=read(NEWS_KEY,null);if(!Array.isArray(v))v=[];v=v.filter(x=>x&&x.id&&!/^site-news-test-/.test(String(x.id)));const known=new Set(v.map(x=>x&&x.id));seed.forEach(item=>{if(!known.has(item.id)){v.push(item);known.add(item.id);}});write(NEWS_KEY,v);const deleted=read(DELETED_KEY,[]);return v.filter(x=>x&&x.id&&!deleted.includes(x.id)).sort((a,b)=>(Number(b.created)||0)-(Number(a.created)||0));};
 const getLikes=()=>read(LIKES_KEY,{})||{};
 const getComments=()=>read(COMMENTS_KEY,{})||{};
+try{const cm=getComments();delete cm['site-news-test-01'];delete cm['sample-4'];write(COMMENTS_KEY,cm);const lk=getLikes();delete lk['site-news-test-01'];write(LIKES_KEY,lk);}catch(e){}
 const fmtDate=()=>new Date().toLocaleDateString('ru-RU');
 const likeMarkup=n=>{const names=Array.isArray(getLikes()[n.id])?getLikes()[n.id]:[];const preview=names.slice(0,4).map(x=>'<a href="'+esc(profile(x))+'">'+esc(x)+'</a>').join(', ');return '<div class="site-news-interest" data-news-id="'+esc(n.id)+'"><button type="button" class="site-news-interest-btn '+(names.includes(user.name)?'is-active':'')+'" data-interest="'+esc(n.id)+'">✦ Интересно <b>'+names.length+'</b></button><div class="site-news-interest-pop"><span>'+(preview||'Пока никто не отметил')+'</span> <button type="button" data-all-likes="'+esc(n.id)+'">Посмотреть всех</button></div><div class="site-news-interest-all" id="likes-'+esc(n.id)+'" hidden>'+(names.length?names.map(x=>'<a href="'+esc(profile(x))+'">'+esc(x)+'</a>').join(''):'Пока нет отметок')+'</div></div>';};
 const commentCount=n=>{const map=getComments();return Array.isArray(map[n.id])?map[n.id].length:0;};
@@ -114,35 +105,9 @@ const reportComment=(newsId,commentId,textValue,author)=>{
 };
 
 
-const ensureTestComments=n=>{
- if(n.id!=="sample-4"&&n.id!=="site-news-test-01")return;
- const map=getComments(),items=Array.isArray(map[n.id])?map[n.id]:[];
- const existing=new Set(items.map(x=>String(x.id||"")));
- const prefix=n.id==="sample-4"?"sample-4":"site-news-test-01";
- const samples=[
-  {id:prefix+"-comment-01",author:"Ankord",text:"Отличная новость. Думаю, такой формат будет полезен для всех полков.",date:"08.11.2026, 10:14"},
-  {id:prefix+"-comment-02",author:"Veli4estvo",text:"Поддерживаю. Особенно интересно будет посмотреть на результаты после первых матчей.",date:"08.11.2026, 10:21"},
-  {id:prefix+"-comment-03",author:"Mel",text:"Кстати, можно отдельно собрать отзывы участников после завершения события.",date:"08.11.2026, 10:32"},
-  {id:prefix+"-comment-04",author:"Kazak",text:"Предлагаю заранее согласовать время, чтобы все желающие успели подготовиться.",date:"08.11.2026, 10:45"},
-  {id:prefix+"-comment-05",author:"MeGusta",text:"Хорошая идея. Чем больше полков подключится, тем интереснее получится.",date:"08.11.2026, 11:02"},
-  {id:prefix+"-comment-06",author:"Flashkodr",text:"Я бы ещё добавил несколько скриншотов в комментарии, чтобы сохранить лучшие моменты.",date:"08.11.2026, 11:18",html:'Я бы ещё добавил несколько скриншотов в комментарии, чтобы сохранить лучшие моменты.<br><img src="assets/battlefield.jpg" alt="Вложенная картинка">'},
-  {id:prefix+"-comment-07",author:"MrDixon",text:"Цитата из объявления хорошо показывает, что организаторы хотят получить от участников.",date:"08.11.2026, 11:26",html:'<blockquote>Главное — участие, слаженность и уважение к сопернику.</blockquote><br>Полностью согласен с этим подходом.'},
-  {id:prefix+"-comment-08",author:"Theodor",text:"Готов принять участие. Если нужна помощь с организацией, обращайтесь.",date:"08.11.2026, 11:39"},
-  {id:prefix+"-comment-09",author:"Grenadier87",text:"Будет интересно сравнить тактики разных полков. Жду продолжения.",date:"08.11.2026, 11:47"},
-  {id:prefix+"-comment-10",author:"Marquis",text:"Отличная возможность проверить взаимодействие между подразделениями перед следующей кампанией.",date:"08.11.2026, 11:54"}
- ];
- const threadedSamples=[
-  {id:prefix+"-reply-01",parentId:prefix+"-comment-02",author:"Kazak",text:"Согласен. Могу подготовить список предложений и обсудить его с командиром.",date:"08.11.2026, 12:06"},
-  {id:prefix+"-reply-02",parentId:prefix+"-reply-01",author:"Mel",text:"Тогда я добавлю свои замечания. Думаю, получится хороший общий список.",date:"08.11.2026, 12:09"},
-  {id:prefix+"-reply-03",parentId:prefix+"-reply-02",author:"Ankord",text:"Отлично, после этого можно вынести итоговое предложение в полковой чат.",date:"08.11.2026, 12:12"},
-  {id:prefix+"-reply-04",parentId:prefix+"-comment-04",author:"Veli4estvo",text:"Поддерживаю. Лучше решить это заранее, чем менять расписание в последний момент.",date:"08.11.2026, 12:18"}
- ];
- const additions=[...samples,...threadedSamples].filter(x=>!existing.has(x.id)).map(x=>({...x,avatar:avatar(x.author)}));
- if(additions.length){map[n.id]=[...items,...additions];write(COMMENTS_KEY,map);}
-};
 function renderComments(n){
  const box=$('siteNewsComments');if(!box)return;
- ensureTestComments(n);
+
  const map=getComments(),arr=Array.isArray(map[n.id])?map[n.id]:[];
  const card=(c,depth=0)=>{
   const cid=String(c.id||""),author=String(c.author||"Пользователь"),kids=arr.filter(x=>String(x.parentId||"")===cid),likes=getCommentLikes('site-news:'+n.id+':'+cid),meta=commentAuthorMeta(author);
