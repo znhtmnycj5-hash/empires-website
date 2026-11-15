@@ -4,9 +4,9 @@ const read=(key,fallback=[])=>{try{const v=JSON.parse(localStorage.getItem(key)|
 const write=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const currentUser=()=>{try{const v=JSON.parse(localStorage.getItem('empire_current_user_v1')||'null');if(typeof v==='string'&&v)return v;if(v?.name)return String(v.name)}catch(e){}return localStorage.getItem('empire_current_user')||'Kalashnikov'};
-const roles={Kalashnikov:'admin',Ankord:'moderator'};
-const commanders={Kalashnikov:'1st Regiment',Marquis:'95th Rifles',Veli4estvo:'84e Régiment',Fusilier:'Preobrazhensky',Grenadier87:'7th Hussars'};
-const regiments=[['1st Regiment','assets/1st.jpg'],['95th Rifles','assets/95.webp'],['84e Régiment','assets/84e.png'],['Preobrazhensky','assets/preobraz.webp'],['7th Hussars','assets/hussars.png'],['13e Léger','assets/1st.jpg'],['33e Ligne','assets/95.webp'],['92nd Gordon Highlanders','assets/84e.png'],['Semenovsky','assets/preobraz.webp'],["King's German Legion",'assets/kgr.png'],['6e Hussards','assets/1st.jpg'],['Royal Scots','assets/95.webp']];
+const roles={Kalashnikov:'admin',Kalash:'admin'};
+const commanders={Commander:'1st Regiment',Kalashnikov:'1st Regiment',Kalash:'1st Regiment'};
+const regiments=[['1st Regiment','assets/1st.jpg']];
 const troopTypes=['Стрелки','Пехота','Кавалерия','Артиллерия'];
 const statusOf=c=>{const t=new Date(c.startAt).getTime(),now=Date.now();if(c.status==='completed')return 'completed';if(now<t)return 'upcoming';if(now<t+3600000)return 'ongoing';return 'awaiting';};
 const formatDate=v=>new Date(v).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
