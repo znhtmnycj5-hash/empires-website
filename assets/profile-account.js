@@ -89,7 +89,7 @@ try{
       badge.hidden=false;
       badge.textContent='АДМИНИСТРАТОР';
     }
-    if(actions&&!document.getElementById('adminProfileButton')){
+    if(isOwn&&actions&&!document.getElementById('adminProfileButton')){
       const adminButton=document.createElement('a');
       adminButton.id='adminProfileButton';
       adminButton.className='btn profile-admin-button';
