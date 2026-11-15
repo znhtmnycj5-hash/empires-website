@@ -3941,3 +3941,18 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 .home-user-rating-row .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:600 12px "Roboto Slab"}
 .home-user-rating-row>b{text-align:right;font:700 13px "Roboto Slab";color:#9b8c74}
 @media(max-width:650px){.user-rating-columns{grid-template-columns:1fr}.user-rating-actions{gap:7px}.user-rating-button{font-size:10px}.user-rating-summary{gap:12px}}
+
+
+/* User rating layout refinement — 15.11.2026 */
+.profile-rating-message-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,1fr);gap:14px;align-items:stretch;margin:14px 0}
+.profile-rating-message-grid>.card{min-width:0;margin:0!important;height:100%;box-sizing:border-box}
+.profile-rating-message-grid .user-rating-section{display:flex;flex-direction:column}
+.profile-rating-message-grid #profileUserRating{flex:1}
+.user-rating-score.positive{color:#75bd68!important}
+.user-rating-score.negative{color:#d56b61!important}
+.user-rating-button{min-height:40px;font-size:16px}
+.ranking-users-divider{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-top:1px solid #765a34;background:rgba(8,7,6,.35);color:#dfbf7b;font:700 13px "Roboto Slab",serif}
+.ranking-users-divider a{color:#b99559;text-decoration:none;font:500 10px "Roboto Slab",serif}
+.ranking-users-list{display:grid;grid-template-columns:1fr 1fr;column-gap:20px}
+.ranking-users-list .home-user-rating-row{min-width:0}
+@media(max-width:760px){.profile-rating-message-grid{grid-template-columns:minmax(0,1fr)}.ranking-users-list{grid-template-columns:1fr}}
