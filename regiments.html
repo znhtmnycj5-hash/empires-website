@@ -99,13 +99,7 @@
     </a>
   </section>
 
-  <div class="pagination">
-    <a class="current" href="#">1</a>
-    <a href="#">2</a>
-    <a href="#">3</a>
-    <span>…</span>
-    <a href="#">Далее →</a>
-  </div>
+
 </main>
 
 <footer>
@@ -217,5 +211,38 @@ renderApprovedRegiments();
 })();
 </script>
 
+<script>
+(function(){
+  const list=document.querySelector('.regiments-list');
+  if(!list)return;
+  const pageSize=12;
+  let page=1;
+  let pager=null;
+  function update(){
+    const tiles=[...list.querySelectorAll('.regiment-tile')];
+    const pages=Math.ceil(tiles.length/pageSize);
+    if(pages<=1){
+      tiles.forEach(tile=>tile.hidden=false);
+      if(pager){pager.remove();pager=null;}
+      page=1;
+      return;
+    }
+    page=Math.min(page,pages);
+    if(!pager){
+      pager=document.createElement('div');
+      pager.className='pagination';
+      list.insertAdjacentElement('afterend',pager);
+    }
+    tiles.forEach((tile,index)=>{tile.hidden=Math.floor(index/pageSize)+1!==page;});
+    pager.innerHTML='';
+    const add=(label,target,active)=>{const a=document.createElement('a');a.href='#';a.textContent=label;if(active)a.className='current';a.addEventListener('click',e=>{e.preventDefault();page=target;update();});pager.append(a);};
+    if(page>1)add('← Назад',page-1,false);
+    for(let i=1;i<=pages;i++)add(String(i),i,i===page);
+    if(page<pages)add('Далее →',page+1,false);
+  }
+  update();
+  new MutationObserver(update).observe(list,{childList:true});
+})();
+</script>
 </body>
 </html>
