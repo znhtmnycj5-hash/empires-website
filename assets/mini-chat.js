@@ -18,7 +18,7 @@
   ];
   const emoteHtml=s=>esc(s).replace(/:([a-z0-9_]+):/gi,(m,key)=>{
     const e=EMOTES.find(x=>x[0]===key.toLowerCase());
-    return e?'<span class="mini-chat-emote mini-chat-emote-'+e[0]+'" role="img" aria-label="'+e[2]+'" title="'+e[2]+'"><img src="assets/emotes/napoleonic-emotes.png" alt=""></span>':m;
+    return e?'<span class="mini-chat-emote mini-chat-emote-'+e[0]+'" role="img" aria-label="'+e[2]+'" title="'+e[2]+'"></span>':m;
   });
   const avatar=p=>{
     const own=p?.avatar_url||'';
@@ -99,7 +99,7 @@
     emotePicker?.classList.remove('show');
   };
   if(emoteBtn&&emotePicker){
-    emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e[0]+'" title="'+e[2]+'"><span class="mini-chat-emote mini-chat-emote-'+e[0]+'" aria-hidden="true"><img src="assets/emotes/napoleonic-emotes.png" alt=""></span></button>').join('');
+    emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e[0]+'" title="'+e[2]+'"><span class="mini-chat-emote mini-chat-emote-'+e[0]+'" aria-hidden="true"></span></button>').join('');
     emoteBtn.addEventListener('click',e=>{e.stopPropagation();emotePicker.classList.toggle('show');});
     emotePicker.addEventListener('click',e=>{const b=e.target.closest('[data-emote]');if(b)insertEmote(b.dataset.emote);});
     document.addEventListener('click',e=>{if(!e.target.closest('.mini-chat-emote-wrap'))emotePicker.classList.remove('show');});
