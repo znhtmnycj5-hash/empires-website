@@ -152,14 +152,14 @@ const loadUpcomingBattles=async()=>{
       const time=dt.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
       const battleUrl='battle.html?id='+encodeURIComponent(row.id);
       return '<div class="battle home-battle-link" data-battle-url="'+battleUrl+'"'+(index?' style="border-top:1px solid #332b21"':'')+'>'+
-        '<div><a class="team regiment-link" href="regiment.html?name='+encodeURIComponent(left.name)+'"><img class="battle-flag" src="'+escHome(left.logo_url||'assets/default-soldier.jpg')+'" alt="">'+escHome(left.name)+'</a></div>'+
+        '<div><a class="team regiment-link" href="'+battleUrl+'"><img class="battle-flag" src="'+escHome(left.logo_url||'assets/default-soldier.jpg')+'" alt="">'+escHome(left.name)+'</a></div>'+
         '<div class="vs">VS</div>'+
-        '<div><a class="team regiment-link" href="regiment.html?name='+encodeURIComponent(right.name)+'"><img class="battle-flag" src="'+escHome(right.logo_url||'assets/default-soldier.jpg')+'" alt="">'+escHome(right.name)+'</a></div>'+
+        '<div><a class="team regiment-link" href="'+battleUrl+'"><img class="battle-flag" src="'+escHome(right.logo_url||'assets/default-soldier.jpg')+'" alt="">'+escHome(right.name)+'</a></div>'+
         '<div class="battle-meta"><div class="datebox">'+day+'<br><small>'+month+'<br>'+time+'</small><span class="battle-type">'+statusLabels[status]+'</span></div></div>'+
       '</div>';
     }).join('');
     box.querySelectorAll('.home-battle-link').forEach(row=>row.addEventListener('click',event=>{
-      if(event.target.closest('.regiment-link'))return;
+      if(event.target.closest('a'))return;
       window.location.href=row.dataset.battleUrl;
     }));
   }catch(error){
