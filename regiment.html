@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Полк — EMPIRE</title><link rel="stylesheet" href="assets/style.css?v=20261115-mobile-nav-fix">
+<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Полк — EMPIRE</title><link rel="stylesheet" href="assets/style.css?v=20261115-album-permissions1">
 <script src="assets/user-avatars.js?v=20261113-clean2"></script><script src="assets/rating.js"></script>
 <script src="assets/comment-counts.js?v=20261108-1"></script>
 <script src="assets/alliances.js?v=20261113-clean2"></script>
@@ -138,12 +138,42 @@ const albumStorageKey='empire_regiment_album_v1_'+name;
 const sampleAlbum=Array.from({length:16},(_,i)=>({src:albumSamples[i%albumSamples.length],title:'Скриншот из Napoleonic Wars'}));
 const getUploadedAlbum=()=>{try{const v=JSON.parse(localStorage.getItem(albumStorageKey)||'[]');return Array.isArray(v)?v:[];}catch(e){return [];}};
 const saveUploadedAlbum=v=>{try{localStorage.setItem(albumStorageKey,JSON.stringify(v));}catch(e){}};
+const currentUser=(()=>{try{const u=JSON.parse(localStorage.getItem('empire_current_user')||'null');return u&&typeof u==='object'?u:{name:'',regiment:'',role:'user'};}catch(e){return{name:'',regiment:'',role:'user'};}})();
+const canManageAlbum=!!currentUser.name&&(
+  String(currentUser.name)===String(d.commander||'') ||
+  (String(currentUser.regiment||'')===String(name)&& (currentUser.role==='officer'||currentUser.role==='commander'))
+);
+const albumUsesSamples=!isNewRegiment;
 let albumExpanded=false;
 const renderAlbum=()=>{
  const uploaded=getUploadedAlbum();
- const items=uploaded.length?uploaded:sampleAlbum;
+ const items=uploaded.length?uploaded:(albumUsesSamples?sampleAlbum:[]);
  const visibleItems=albumExpanded?items:items.slice(0,6);
- document.getElementById('albumGrid').innerHTML=visibleItems.map(item=>'<a class="album-item" href="'+item.src+'" target="_blank" rel="noopener"><img src="'+item.src+'" alt="'+(item.title||'Скриншот')+'" loading="lazy"></a>').join('');
+ const grid=document.getElementById('albumGrid');
+ if(!items.length){
+   grid.innerHTML='<p class="empty-note album-empty-note">В альбоме пока нет скриншотов.</p>';
+ }else{
+   grid.innerHTML=visibleItems.map((item,visibleIndex)=>{
+     const uploadedIndex=uploaded.indexOf(item);
+     const deleteButton=canManageAlbum&&uploadedIndex>=0
+       ?'<button type="button" class="album-delete-button" data-album-index="'+uploadedIndex+'" title="Удалить скриншот">×</button>'
+       :'';
+     return '<div class="album-item"><a href="'+item.src+'" target="_blank" rel="noopener"><img src="'+item.src+'" alt="'+(item.title||'Скриншот')+'" loading="lazy"></a>'+deleteButton+'</div>';
+   }).join('');
+   if(canManageAlbum){
+     grid.querySelectorAll('.album-delete-button').forEach(btn=>btn.addEventListener('click',e=>{
+       e.preventDefault();e.stopPropagation();
+       const idx=Number(btn.dataset.albumIndex);
+       const uploads=getUploadedAlbum();
+       if(!Number.isInteger(idx)||!uploads[idx])return;
+       if(!confirm('Удалить этот скриншот из альбома?'))return;
+       uploads.splice(idx,1);
+       saveUploadedAlbum(uploads);
+       if((albumExpanded&&uploads.length<=6)||(!albumExpanded&&uploads.length<=6))albumExpanded=false;
+       renderAlbum();
+     }));
+   }
+ }
  const p=document.getElementById('albumPagination');
  if(p){
    p.innerHTML='';
@@ -162,9 +192,8 @@ const renderAlbum=()=>{
    }
  }
 };
-const currentUser=(()=>{try{const u=JSON.parse(localStorage.getItem('empire_current_user')||'null');return u&&typeof u==='object'?u.name||'': '';}catch(e){return '';}})();
 const commanderControls=document.getElementById('albumCommanderControls');
-if(currentUser===d.commander){
+if(canManageAlbum){
  commanderControls.innerHTML='<label class="album-upload-button">+ Загрузить скриншоты<input id="albumUploadInput" type="file" accept="image/*" multiple hidden></label>';
  document.getElementById('albumUploadInput').addEventListener('change',e=>{
    const files=Array.from(e.target.files||[]);
