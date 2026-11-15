@@ -35,11 +35,9 @@ document.head.appendChild(style);
   const canChallenge=!!user&&[...commanderRegimentIds].some(id=>id!==target.id);
 
   const panel=document.createElement('section');panel.className='battle-challenge-panel';
-  const roster=document.querySelector('.roster-section .regiment-section-content');
-  const fallback=document.querySelector('.regiment-main-info');
-  const mount=roster||fallback;
-  if(!mount)return;
-  mount.appendChild(panel);
+  const battleStatistics=document.getElementById('battleStatistics');
+  if(!battleStatistics)return;
+  battleStatistics.insertAdjacentElement('afterend',panel);
 
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
