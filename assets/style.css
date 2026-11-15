@@ -4069,3 +4069,56 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 #messageArea .conversation-list::-webkit-scrollbar-thumb:hover{
   background:linear-gradient(180deg,#dfc184,#a27b45);
 }
+
+
+/* Profile layout: conversation left, information panels stacked on the right */
+.profile-rating-message-grid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1.55fr) minmax(280px,.9fr)!important;
+  gap:14px!important;
+  align-items:start!important;
+  margin:14px 0!important;
+}
+.profile-rating-message-grid>.profile-messages-section{
+  min-width:0;
+  min-height:520px;
+  height:auto!important;
+  align-self:stretch!important;
+}
+.profile-rating-message-grid>.profile-messages-section #messageArea{
+  min-height:450px;
+}
+.profile-side-stack{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  min-width:0;
+  align-items:stretch;
+}
+.profile-side-stack>.profile-section{
+  min-width:0;
+  min-height:0!important;
+  height:auto!important;
+  margin:0!important;
+  align-self:stretch;
+  box-sizing:border-box;
+}
+.profile-side-stack>.profile-section>.card-title{
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  box-sizing:border-box;
+}
+.profile-side-stack .user-rating-section{margin:0!important}
+@media(max-width:760px){
+  .profile-rating-message-grid{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  .profile-rating-message-grid>.profile-messages-section{
+    min-height:0;
+  }
+  .profile-rating-message-grid>.profile-messages-section #messageArea{
+    min-height:70px;
+  }
+  .profile-side-stack{gap:12px}
+}
