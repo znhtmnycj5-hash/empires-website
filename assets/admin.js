@@ -1,9 +1,11 @@
 (async function(){
 const K={requests:'empire_regiment_creation_requests_v1',approved:'empire_approved_regiments_v1',userReports:'empire_user_reports_v1',commentReports:'empire_comment_reports_v1',permanent:'empire_permanent_bans_v1',temporary:'empire_temporary_bans_v1',deletedRegiments:'empire_deleted_regiments_v1',deletedAlliances:'empire_deleted_alliances_v1'};
 const ROLES={};
-// Remove legacy demo reports and requests previously inserted into this browser.\ntry{for(const k of ['empire_user_reports_v1','empire_comment_reports_v1']){const a=read(k);write(k,a.filter(x=>!String(x.id||'').startsWith('demo-')));}const q=read('empire_regiment_creation_requests_v1');write('empire_regiment_creation_requests_v1',q.filter(x=>!String(x.id||'').startsWith('demo-')));}catch(e){}
+
 const read=(k,f=[])=>{try{const v=JSON.parse(localStorage.getItem(k)||'null');return v==null?f:v}catch(e){return f}},write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const esc=v=>String(v??'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
+// Remove legacy demo reports and requests previously inserted into this browser.
+try{for(const k of ['empire_user_reports_v1','empire_comment_reports_v1']){const a=read(k);write(k,a.filter(x=>!String(x.id||'').startsWith('demo-')));}const q=read('empire_regiment_creation_requests_v1');write('empire_regiment_creation_requests_v1',q.filter(x=>!String(x.id||'').startsWith('demo-')));}catch(e){}
 await window.EMPIRE_AUTH.init();
 const auth=window.EMPIRE_AUTH;
 const user=auth.profile?.display_name||'';
