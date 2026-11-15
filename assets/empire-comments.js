@@ -211,5 +211,5 @@ document.querySelectorAll('.battle-comment-form').forEach(form=>{
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enhance);else enhance();
 document.addEventListener('empire:auth-changed',enhance);
-new MutationObserver(()=>addEditControls()).observe(document.body,{childList:true,subtree:true});
+new MutationObserver(()=>enhance()).observe(document.body,{childList:true,subtree:true});
 })();
