@@ -178,7 +178,7 @@ const loadUpcomingBattles=async()=>{
         const aStart=new Date(a.querySelector('.battle-countdown')?.dataset.start||'9999-12-31').getTime();
         const bStart=new Date(b.querySelector('.battle-countdown')?.dataset.start||'9999-12-31').getTime();
         return aStart-bStart;
-      }).slice(0,3);
+      }).slice(0,8);
     if(!upcoming.length){
       box.innerHTML='<div class="battle"><div class="home-battles-empty">Предстоящих сражений пока нет.</div></div>';
       return;
