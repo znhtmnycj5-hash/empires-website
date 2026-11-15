@@ -4402,6 +4402,7 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 
 
 /* Regiments create button */
-.regiments-create-wrap{display:flex;justify-content:flex-end;margin:0 0 18px}
-.regiments-create-button{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;font-weight:700}
-@media(max-width:600px){.regiments-create-wrap{justify-content:stretch}.regiments-create-button{width:100%}}
+.regiments-create-wrap{display:flex;justify-content:center;margin:0 0 18px}
+.regiments-create-button{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;font-weight:700;background:rgba(185,149,89,.68);border-color:rgba(185,149,89,.48);opacity:.88;transition:opacity .18s ease,background .18s ease}
+.regiments-create-button:hover{opacity:1;background:rgba(185,149,89,.86)}
+@media(max-width:600px){.regiments-create-wrap{justify-content:center}.regiments-create-button{width:auto}}
