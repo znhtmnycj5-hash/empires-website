@@ -4634,3 +4634,14 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 .battle-challenge-actions .battle-challenge-reject{background:linear-gradient(#4a2925,#321b19)}
 .battle-challenge-actions .btn:disabled{opacity:.5;cursor:wait}
 @media(max-width:600px){.battle-challenge-card{padding:12px}.battle-challenge-card-main{align-items:flex-start}.battle-challenge-card-main>img{width:44px;height:44px;min-width:44px}.battle-challenge-actions{flex-wrap:wrap}.battle-challenge-actions .btn{flex:1;min-width:120px}}
+
+/* Site news comment editor: keep controls visible while editing and hovering */
+.site-news-page .battle-comment-editor{position:relative!important;overflow:visible!important;z-index:3!important}
+.site-news-page .battle-comment-toolbar{position:relative!important;z-index:5!important;opacity:1!important;visibility:visible!important}
+.site-news-page .battle-comment-toolbar button{opacity:1!important;visibility:visible!important}
+.site-news-page .site-news-comment-submit-actions{display:flex!important;align-items:center!important;gap:8px!important;flex:0 0 auto!important}
+.site-news-page .site-news-comment-submit-actions button{min-width:110px!important;min-height:40px!important;padding:8px 15px!important;border:1px solid #8b6739!important;background:#641e1b!important;color:#ead19c!important;font:600 10px "Roboto Slab",serif!important;cursor:pointer!important}
+.site-news-page .site-news-comment-submit-actions button[hidden]{display:none!important}
+.site-news-page .site-news-comment-submit-actions #siteNewsCommentCancelEdit{background:rgba(37,29,20,.55)!important;color:#c9b58f!important}
+.site-news-page .site-news-comment-submit-actions button:hover{background:#7a2723!important;border-color:#b18a51!important}
+@media(max-width:600px){.site-news-page .site-news-comment-submit-actions{align-self:flex-end!important;flex-wrap:wrap!important}.site-news-page .site-news-comment-submit-actions button{min-width:100px!important}}
