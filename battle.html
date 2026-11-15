@@ -139,7 +139,7 @@ const battle=battlesData[battleId];
 const $=id=>document.getElementById(id);
 const formatDate=d=>new Date(d).toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
 const setParticipant=(id,p)=>{
-  const el=$(id); el.href=p.href; el.querySelector("img").src=p.avatar; el.querySelector("img").alt=p.name;
+  const el=$(id); el.href=p.href; el.style.setProperty("--battle-bg","url('"+p.avatar+"')"); el.querySelector("img").src=p.avatar; el.querySelector("img").alt=p.name;
   el.querySelector("strong").textContent=p.name; el.querySelector("small").textContent=p.faction;
 };
 
