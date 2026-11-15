@@ -4653,3 +4653,28 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 .site-news-page .site-news-comment-editor-shell:hover>.battle-comment-toolbar,
 .site-news-page .site-news-comment-editor-shell:focus-within>.battle-comment-toolbar{display:flex!important;opacity:1!important;visibility:visible!important}
 .site-news-page .site-news-comment-editor-shell .battle-comment-toolbar button{opacity:1!important;visibility:visible!important;pointer-events:auto!important}
+
+
+/* Site news comment media size limits */
+.site-news-page .battle-comment-text img:not(.clanwars-smile),
+.site-news-page .battle-comment-text video{
+  display:block!important;
+  width:auto!important;
+  max-width:min(100%,720px)!important;
+  height:auto!important;
+  max-height:420px!important;
+  object-fit:contain!important;
+  margin:8px 0!important;
+  box-sizing:border-box!important;
+}
+.site-news-page .battle-comment-text video{
+  width:min(100%,720px)!important;
+  background:#000!important;
+}
+@media(max-width:760px){
+  .site-news-page .battle-comment-text img:not(.clanwars-smile),
+  .site-news-page .battle-comment-text video{
+    max-width:100%!important;
+    max-height:320px!important;
+  }
+}
