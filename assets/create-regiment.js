@@ -39,19 +39,23 @@
       if(f.size>4*1024*1024){setNotice('Логотип должен быть не больше 4 МБ.','error');file.value='';return;}
       if(preview)preview.src=URL.createObjectURL(f);
     });
-    form.addEventListener('submit',e=>{
+    form.addEventListener('submit',async e=>{
       e.preventDefault();
       const name=document.getElementById('regimentName').value.trim();
       const faction=document.getElementById('regimentFaction').value;
       const f=file?.files?.[0];
       if(!name||!faction||!f){setNotice('Заполните все поля и загрузите логотип.','error');return;}
-      getRequests().then(requests=>{if(requests.some(r=>String(r.name||'').toLowerCase()===name.toLowerCase()))throw new Error('Заявка на полк с таким названием уже находится на рассмотрении.');return true;}).then(()=>true).catch(error=>{throw error;}).then(()=>{
-      const reader=new FileReader();
-      reader.onload=()=>{
-        return auth.client.from('empire_regiment_creation_requests').insert({user_id:auth.user.id,user_name:currentUser,name,faction,logo:reader.result,status:'pending'});
-      }).then(({error})=>{if(error)throw error;form.reset();if(preview)preview.src='assets/default-soldier.jpg';setNotice('Заявка отправлена администратору. После проверки он примет или отклонит её.','success');}).catch(error=>setNotice(error.message||'Не удалось отправить заявку. Попробуйте ещё раз.','error'));
-      };
-      reader.readAsDataURL(f);
+      try{
+        const requests=await getRequests();
+        if(requests.some(r=>String(r.name||'').toLowerCase()===name.toLowerCase())){
+          setNotice('Заявка на полк с таким названием уже находится на рассмотрении.','error');return;
+        }
+        const logo=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('Не удалось прочитать логотип.'));reader.readAsDataURL(f);});
+        const {error}=await auth.client.from('empire_regiment_creation_requests').insert({user_id:auth.user.id,user_name:currentUser,name,faction,logo,status:'pending'});
+        if(error)throw error;
+        form.reset();if(preview)preview.src='assets/default-soldier.jpg';
+        setNotice('Заявка отправлена администратору. После проверки он примет или отклонит её.','success');
+      }catch(error){console.error('Заявка на создание полка:',error);setNotice(error.message||'Не удалось отправить заявку.','error');}
     });
   }catch(error){console.error(error);setNotice('Не удалось проверить членство в полку. Обновите страницу и попробуйте снова.','error');}
 })();
