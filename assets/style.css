@@ -4139,3 +4139,13 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
   .profile-page .profile-guest small{display:none}
   .profile-page .profile-guest:hover small,.profile-page .profile-guest:focus-visible small{display:block}
 }
+
+/* Site news detail layout */
+.site-news-detail-image{width:auto!important;max-width:min(260px,100%)!important;height:auto!important;max-height:175px!important;object-fit:contain!important;object-position:left center!important;margin:14px 0 18px!important}
+.site-news-detail-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin:22px 0 12px}
+.site-news-detail-bottom .site-news-interest{margin-left:auto;align-self:flex-end}
+.site-news-author-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.site-news-author-actions .btn{font-size:10px;padding:7px 11px}
+.site-news-author-actions .site-news-delete-btn{border-color:rgba(175,78,66,.55);color:#d88b7d}
+.site-news-editor-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+@media(max-width:600px){.site-news-detail-image{max-width:min(210px,100%)!important;max-height:145px!important}.site-news-detail-bottom{align-items:flex-end;gap:8px}.site-news-author-actions{gap:5px}.site-news-author-actions .btn{padding:6px 8px;font-size:9px}}
