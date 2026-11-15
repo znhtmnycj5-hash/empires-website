@@ -36,6 +36,7 @@ const richToolbarHtml='<div class="battle-comment-toolbar" role="toolbar" aria-l
 const NEWS_KEY='empire_site_news_v1';
 const LIKES_KEY='empire_site_news_interests_v1';
 const COMMENTS_KEY='empire_news_comments_v1';
+const DELETED_KEY='empire_site_news_deleted_v1';
 const $=id=>document.getElementById(id);
 const read=(key,fallback)=>{try{const v=JSON.parse(localStorage.getItem(key)||'null');return v==null?fallback:v;}catch(e){return fallback;}};
 const write=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
@@ -63,7 +64,7 @@ const seed=[
 {id:'site-news-test-09',title:'Обновление состава полковых подразделений',date:'04.11.2026',author:'Модерация EMPIRE',roleLabel:'Тестовая новость',image:'assets/kgr.png',body:'Командирам рекомендуется проверить списки участников и актуальность должностей. Это поможет корректно подготовить заявки на будущие события.',created:1793786000000},
 {id:'site-news-test-10',title:'Приглашаем на открытый вечер Napoleonic Wars',date:'03.11.2026',author:'Администрация EMPIRE',roleLabel:'Тестовая новость',image:'assets/images (1).jpg',body:'В ближайшие дни проведём открытый игровой вечер для участников и гостей сообщества. Можно будет познакомиться с полками и принять участие в общих боях.',created:1793700000000}
 ];
-const getNews=()=>{let v=read(NEWS_KEY,null);if(!Array.isArray(v))v=[];const known=new Set(v.map(x=>x&&x.id));let changed=false;seed.forEach(item=>{if(!known.has(item.id)){v.push(item);known.add(item.id);changed=true;}});if(changed||!Array.isArray(read(NEWS_KEY,null)))write(NEWS_KEY,v);return v.filter(x=>x&&x.id).sort((a,b)=>(Number(b.created)||0)-(Number(a.created)||0));};
+const getNews=()=>{let v=read(NEWS_KEY,null);if(!Array.isArray(v))v=[];const known=new Set(v.map(x=>x&&x.id));let changed=false;seed.forEach(item=>{if(!known.has(item.id)){v.push(item);known.add(item.id);changed=true;}});if(changed||!Array.isArray(read(NEWS_KEY,null)))write(NEWS_KEY,v);const deleted=read(DELETED_KEY,[]);return v.filter(x=>x&&x.id&&!deleted.includes(x.id)).sort((a,b)=>(Number(b.created)||0)-(Number(a.created)||0));};
 const getLikes=()=>read(LIKES_KEY,{})||{};
 const getComments=()=>read(COMMENTS_KEY,{})||{};
 const fmtDate=()=>new Date().toLocaleDateString('ru-RU');
@@ -80,13 +81,23 @@ function renderPage(){
  if(id){
   const n=getNews().find(x=>x.id===id);if(!n){if(detail)detail.innerHTML='<p class="empty-note">Новость не найдена.</p>';return;}
   if(list)list.hidden=true;
-  if(detail){detail.hidden=false;detail.innerHTML='<div class="site-news-detail"><div class="site-news-meta">'+esc(n.date)+' · '+esc(n.author)+' · '+esc(n.roleLabel||'Участник')+'</div><h1>'+esc(n.title)+'</h1><img class="site-news-detail-image" src="'+esc(n.image||'assets/battlefield.jpg')+'" alt=""><div class="site-news-article">'+esc(n.body).replace(/\n/g,'<br>')+'</div>'+likeMarkup(n)+'<a class="back-link" href="site-news.html">← Ко всем новостям</a></div>';bindLikes(detail);}
+  if(detail){detail.hidden=false;const isAuthor=!!window.EMPIRE_AUTH?.user&&n.author===user.name;detail.innerHTML='<div class="site-news-detail"><div class="site-news-meta">'+esc(n.date)+' · '+esc(n.author)+' · '+esc(n.roleLabel||'Участник')+'</div><h1>'+esc(n.title)+'</h1>'+(n.image?'<img class="site-news-detail-image" src="'+esc(n.image)+'" alt="">':'')+'<div class="site-news-article">'+esc(n.body).replace(/\n/g,'<br>')+'</div><div class="site-news-detail-bottom"><div class="site-news-author-actions">'+(isAuthor?'<button type="button" class="btn" id="siteNewsEdit">Редактировать</button><button type="button" class="btn site-news-delete-btn" id="siteNewsDelete">Удалить</button>':'')+'</div>'+likeMarkup(n)+'</div><a class="back-link" href="site-news.html">← Ко всем новостям</a></div>';bindLikes(detail);const edit=$('siteNewsEdit'),remove=$('siteNewsDelete');if(edit)edit.addEventListener('click',()=>renderEditor(n));if(remove)remove.addEventListener('click',()=>{if(!confirm('Удалить эту новость без возможности восстановления?'))return;const arr=read(NEWS_KEY,[]).filter(x=>String(x.id)!==String(n.id));write(NEWS_KEY,arr);const deleted=read(DELETED_KEY,[]);if(!deleted.includes(n.id))deleted.push(n.id);write(DELETED_KEY,deleted);location.href='site-news.html';});}
   if(comments){comments.hidden=false;renderComments(n);}
   return;
  }
  if(detail)detail.hidden=true;if(comments)comments.hidden=true;
- if(list){list.hidden=false;list.innerHTML='<div class="site-news-list-head"><div><div class="page-kicker">EMPIRE · ОБЪЯВЛЕНИЯ И СОБЫТИЯ</div><h1>Новости сообщества</h1><p>Главные события, объявления и новости полков</p></div>'+(canPublish?'<button class="btn primary" id="siteNewsCreate">＋ Опубликовать новость</button>':'')+'</div>'+getNews().map(n=>card(n,false)).join('');bindLikes(list);const create=$('siteNewsCreate');if(create)create.addEventListener('click',()=>{if(editor){editor.hidden=false;editor.scrollIntoView({behavior:'smooth'});}});}
- if(editor&&canPublish){editor.innerHTML='<div class="card-title">✒ Новая публикация</div><form id="siteNewsForm" class="site-news-form"><label>Заголовок<input name="title" maxlength="140" required placeholder="Заголовок новости"></label><label>Изображение (ссылка)<input name="image" type="url" placeholder="https://..."></label><label>Текст новости<textarea name="body" rows="7" required placeholder="Текст публикации..."></textarea></label><button class="btn primary" type="submit">Опубликовать</button></form>';editor.hidden=true;$('siteNewsForm').addEventListener('submit',e=>{e.preventDefault();const f=e.currentTarget,title=f.elements.title.value.trim(),body=f.elements.body.value.trim();if(!title||!body)return;const arr=getNews();arr.unshift({id:'site-news-'+Date.now(),title,date:fmtDate(),author:user.name,roleLabel:role==='commander'?'Командир полка':role==='moderator'?'Модератор':'Администратор',image:f.elements.image.value.trim()||'assets/battlefield.jpg',body,created:Date.now()});write(NEWS_KEY,arr);location.href='site-news.html';});}
+ if(list){list.hidden=false;list.innerHTML='<div class="site-news-list-head"><div><div class="page-kicker">EMPIRE · ОБЪЯВЛЕНИЯ И СОБЫТИЯ</div><h1>Новости сообщества</h1><p>Главные события, объявления и новости полков</p></div>'+(canPublish?'<button class="btn primary" id="siteNewsCreate">＋ Опубликовать новость</button>':'')+'</div>'+getNews().map(n=>card(n,false)).join('');bindLikes(list);const create=$('siteNewsCreate');if(create)create.addEventListener('click',()=>{if(editor)renderEditor();});}
+ if(editor&&canPublish){editor.innerHTML='';editor.hidden=true;}
+}
+function renderEditor(existing){
+ const editor=$('siteNewsEditor');if(!editor)return;
+ const editing=!!existing&&existing.author===user.name;
+ if(!canPublish&&!editing)return;
+ editor.hidden=false;
+ editor.innerHTML='<div class="card-title">'+(editing?'✎ Редактирование новости':'✒ Новая публикация')+'</div><form id="siteNewsForm" class="site-news-form"><label>Заголовок<input name="title" maxlength="140" required placeholder="Заголовок новости" value="'+esc(existing?.title||'')+'"></label><label>Изображение (ссылка)<input name="image" type="url" placeholder="https://..." value="'+esc(existing?.image||'')+'"></label><label>Текст новости<textarea name="body" rows="7" required placeholder="Текст публикации...">'+esc(existing?.body||'')+'</textarea></label><div class="site-news-editor-actions"><button class="btn primary" type="submit">'+(editing?'Сохранить изменения':'Опубликовать')+'</button><button class="btn" type="button" id="siteNewsCancel">Отмена</button></div></form>';
+ editor.scrollIntoView({behavior:'smooth',block:'start'});
+ $('siteNewsCancel').addEventListener('click',()=>{editor.hidden=true;editor.innerHTML='';});
+ $('siteNewsForm').addEventListener('submit',e=>{e.preventDefault();const f=e.currentTarget,title=f.elements.title.value.trim(),body=f.elements.body.value.trim();if(!title||!body)return;const arr=read(NEWS_KEY,[]);if(editing){const item=arr.find(x=>String(x.id)===String(existing.id));if(!item||item.author!==user.name){alert('Редактировать новость может только её автор.');return;}item.title=title;item.body=body;item.image=f.elements.image.value.trim()||'assets/battlefield.jpg';item.updated=Date.now();write(NEWS_KEY,arr);location.href='site-news.html?id='+encodeURIComponent(existing.id);return;}arr.unshift({id:'site-news-'+Date.now(),title,date:fmtDate(),author:user.name,roleLabel:role==='commander'?'Командир полка':role==='moderator'?'Модератор':'Администратор',image:f.elements.image.value.trim()||'assets/battlefield.jpg',body,created:Date.now()});write(NEWS_KEY,arr);location.href='site-news.html';});
 }
 const COMMENT_LIKES_KEY='empire-comment-likes-v1';
 const getCommentLikes=key=>{const map=read(COMMENT_LIKES_KEY,{})||{};return Array.isArray(map[key])?map[key]:[]};
