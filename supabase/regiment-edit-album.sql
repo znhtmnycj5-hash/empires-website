@@ -24,6 +24,9 @@ create policy "Officers and commanders add regiment album images"
       where m.regiment_id = empire_regiment_album.regiment_id
         and m.user_id = auth.uid() and m.left_at is null
         and m.role in ('commander','officer')
+    ) or exists (
+      select 1 from public.empire_regiments r
+      where r.id=empire_regiment_album.regiment_id and r.commander_id=auth.uid()
     )
   );
 drop policy if exists "Officers and commanders delete regiment album images" on public.empire_regiment_album;
@@ -52,6 +55,9 @@ with check (
     where m.regiment_id::text=(storage.foldername(name))[1]
       and m.user_id=auth.uid() and m.left_at is null
       and m.role in ('commander','officer')
+  ) or exists (
+    select 1 from public.empire_regiments r
+    where r.id::text=(storage.foldername(name))[1] and r.commander_id=auth.uid()
   )
 );
 drop policy if exists "Regiment officers delete media" on storage.objects;
