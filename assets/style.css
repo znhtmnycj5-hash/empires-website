@@ -4321,3 +4321,8 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 .private-message-smile-button:hover{background:#641e1b!important;border-color:#9a6d3c!important;color:#efd49a!important}
 .message-compose .clanwars-smile-wrap{align-self:stretch}
 .message-compose .clanwars-smile-picker{bottom:43px;left:auto;right:0}
+
+.reply-smile-button{width:34px!important;min-width:34px!important;height:34px!important;padding:0!important;border:1px solid #51412d!important;background:#17130f!important;color:#d9b875!important;font:700 18px/1 "Roboto Slab",serif!important;cursor:pointer!important}
+.reply-smile-button:hover{background:#641e1b!important;border-color:#9a6d3c!important;color:#efd49a!important}
+.battle-reply-form .clanwars-smile-wrap{align-self:stretch}
+.battle-reply-form .clanwars-smile-picker{bottom:38px}
