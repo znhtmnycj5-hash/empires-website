@@ -90,9 +90,7 @@ const canWriteRegimentNews=!!regimentPageUser.name&&(
 );
 if(isNewRegiment){
   const chronicle=document.querySelector('.regiment-chronicle-list');
-  if(chronicle){
-    chronicle.innerHTML='<article class="chronicle-item"><div class="chronicle-date">'+(approvedRegiment?.createdAt?new Date(approvedRegiment.createdAt).toLocaleDateString('ru-RU'):new Date().toLocaleDateString('ru-RU'))+'</div><div class="chronicle-content"><strong>Полк создан</strong><p>'+String(approvedRegiment?.commander||approvedRegiment?.user||'Пользователь').replace(/[&<>"]/g,'')+' создал полк «'+String(name).replace(/[&<>"]/g,'')+'».</p></div></article><article class="chronicle-item"><div class="chronicle-date">'+(approvedRegiment?.createdAt?new Date(approvedRegiment.createdAt).toLocaleDateString('ru-RU'):new Date().toLocaleDateString('ru-RU'))+'</div><div class="chronicle-content"><strong>Назначение командира</strong><p>'+String(approvedRegiment?.commander||approvedRegiment?.user||'Пользователь').replace(/[&<>"]/g,'')+' назначен командиром полка.</p></div></article>';
-  }
+  if(chronicle)chronicle.innerHTML='<p class="empty-note">Летопись пока пуста.</p>';
 }
 const newsCurrentUser=(()=>{try{const u=JSON.parse(localStorage.getItem('empire_current_user')||'null');return u&&typeof u==='object'?u:{name:'Гость',regiment:'',role:'user'};}catch(e){return{name:'Гость',regiment:'',role:'user'};}})();
 let regimentNewsPage=1;
