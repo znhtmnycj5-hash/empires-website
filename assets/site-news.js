@@ -30,7 +30,7 @@ const bindRichEditor=(form,editor)=>{
   save();
  });
 };
-const richToolbarHtml='<div class="battle-comment-toolbar" role="toolbar" aria-label="Форматирование комментария"><button type="button" data-editor-command="bold" title="Жирный"><strong>B</strong></button><button type="button" data-editor-command="italic" title="Курсив"><em>I</em></button><button type="button" data-editor-command="underline" title="Подчёркивание"><u>U</u></button><button type="button" data-editor-command="quote" title="Цитата">❝</button><button type="button" data-editor-command="spoiler" title="Спойлер">S</button><button type="button" data-editor-command="image" title="Вставить картинку">▧</button><button type="button" data-editor-command="video" title="Вставить видео">▶</button><button type="button" class="site-news-smile-button" title="Выбрать смайл" aria-label="Выбрать смайл">☺</button></div>';
+const richToolbarHtml='<div class="battle-comment-toolbar" role="toolbar" aria-label="Комментарий"></div>';
 (function(){
 'use strict';
 const NEWS_KEY='empire_site_news_v1';
@@ -154,8 +154,6 @@ function renderComments(n){
  const roots=arr.filter(c=>!c.parentId||!arr.some(p=>String(p.id)===String(c.parentId)));
  box.innerHTML='<div class="card-title">Комментарии <span class="battle-comment-count">'+arr.length+'</span></div><div class="battle-comments" id="siteNewsCommentList">'+(roots.map(c=>card(c)).join('')||'<div class="battle-comments-empty">Комментариев пока нет.</div>')+'</div><form id="siteNewsCommentForm" class="battle-comment-form"><div class="battle-comment-editor">'+richToolbarHtml+'<div id="siteNewsCommentInput" class="battle-comment-input" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Написать комментарий…"></div></div><button type="submit">Отправить</button></form>';
  const list=$('siteNewsCommentList'),form=$('siteNewsCommentForm'),editor=$('siteNewsCommentInput');bindRichEditor(form,editor);
- const smileBtn=form.querySelector('.site-news-smile-button');
- if(smileBtn&&window.CLANWARS_SMILES)window.CLANWARS_SMILES.makePicker(smileBtn,editor);
  const save=item=>{if(!window.EMPIRE_AUTH?.user){document.querySelector("a.login")?.click();alert("Для отправки комментария войдите в аккаунт.");return;}const latest=getComments(),items=Array.isArray(latest[n.id])?latest[n.id]:[];items.push(item);latest[n.id]=items;write(COMMENTS_KEY,latest);renderComments(n);if(window.EMPIRE_COMMENTS)window.EMPIRE_COMMENTS.create("site_news",n.id,{text:item.text,html:item.html,parentId:item.parentId}).then(remote=>{Object.assign(item,remote);latest[n.id]=items;write(COMMENTS_KEY,latest);renderComments(n);}).catch(err=>alert(err.message||"Не удалось сохранить комментарий в общей базе."));};
  list.addEventListener('click',e=>{const b=e.target.closest('button,a[data-reply-to]');if(!b)return;
   if(b.dataset.replyTo){e.preventDefault();const f=b.closest('.battle-thread-item')?.querySelector(':scope > .battle-comment .battle-reply-form');if(f){f.hidden=!f.hidden;if(!f.hidden){const input=f.querySelector('input');if(!f.querySelector('.site-news-reply-smile-button')&&window.CLANWARS_SMILES&&input){const btn=document.createElement('button');btn.type='button';btn.className='site-news-reply-smile-button';btn.textContent='☺';btn.title='Выбрать смайл';btn.setAttribute('aria-label','Выбрать смайл');f.insertBefore(btn,input);window.CLANWARS_SMILES.makePicker(btn,input);}input.focus();}}}
