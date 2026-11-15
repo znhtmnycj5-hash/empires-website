@@ -2,10 +2,24 @@
 'use strict';
 (async function(){
   const $=id=>document.getElementById(id);
-  const general=$('generalMessages'),regiment=$('regimentMessages'),input=$('chatInput'),send=$('sendChat');
+  const general=$('generalMessages'),regiment=$('regimentMessages'),input=$('chatInput'),send=$('sendChat'),emoteBtn=$('chatEmoteButton'),emotePicker=$('chatEmotePicker');
   if(!general||!regiment||!input||!send)return;
   let room='general',memberRegiment=null,profile=null,client=null,user=null,busy=false;
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const EMOTES=[
+    ['angry','angry.png','Злость'],['austrian_salute','austrian_salute.png','Приветствие'],
+    ['british_guard','british_guard.png','Гвардеец'],['bugler','bugler.png','Сигнал'],
+    ['commander_salute','commander_salute.png','Командир'],['drummer_laugh','drummer_laugh.png','Смех'],
+    ['french_wink','french_wink.png','Подмигивание'],['grenadier_stern','grenadier_stern.png','Строго'],
+    ['marshal','marshal.png','Маршал'],['napoleon','napoleon.png','Наполеон'],
+    ['officer_thumbsup','officer_thumbsup.png','Одобрение'],['officer_wink','officer_wink.png','Офицер'],
+    ['prussian_wink','prussian_wink.png','Пруссак'],['russian_smile','russian_smile.png','Улыбка'],
+    ['surprised','surprised.png','Удивление'],['victory','victory.png','Победа']
+  ];
+  const emoteHtml=s=>esc(s).replace(/:([a-z0-9_]+):/gi,(m,key)=>{
+    const e=EMOTES.find(x=>x[0]===key.toLowerCase());
+    return e?'<img class="mini-chat-emote" src="assets/emotes/'+e[1]+'" alt=":'+e[0]+':" title="'+e[2]+'">':m;
+  });
   const avatar=p=>{
     const own=p?.avatar_url||'';
     if(own)return own;
@@ -29,7 +43,7 @@
     box.innerHTML=rows.map(m=>{
       const p=m.empire_profiles||{},mine=user&&m.author_id===user.id;
       const date=new Date(m.created_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
-      return '<div class="msg" data-message-id="'+m.id+'"><img class="chat-avatar" src="'+esc(avatar(p))+'" alt="" loading="lazy"><div class="mini-chat-message-body"><a class="mini-chat-user-link" href="profile.html?user='+encodeURIComponent(p.display_name||'')+'">'+esc(p.display_name||'Пользователь')+'</a><p>'+esc(m.content)+'</p></div><div class="time">'+date+'</div>'+(mine?'<button type="button" class="mini-chat-delete" data-delete="'+m.id+'" title="Удалить своё сообщение" aria-label="Удалить сообщение">×</button>':'')+'</div>';
+      return '<div class="msg" data-message-id="'+m.id+'"><img class="chat-avatar" src="'+esc(avatar(p))+'" alt="" loading="lazy"><div class="mini-chat-message-body"><a class="mini-chat-user-link" href="profile.html?user='+encodeURIComponent(p.display_name||'')+'">'+esc(p.display_name||'Пользователь')+'</a><p>'+emoteHtml(m.content)+'</p></div><div class="time">'+date+'</div>'+(mine?'<button type="button" class="mini-chat-delete" data-delete="'+m.id+'" title="Удалить своё сообщение" aria-label="Удалить сообщение">×</button>':'')+'</div>';
     }).join('');
     box.scrollTop=box.scrollHeight;
   }
@@ -76,6 +90,19 @@
     busy=false;send.disabled=false;
     if(error){alert(error.message||'Не удалось отправить сообщение.');return;}
     input.value='';await loadMessages();
+  }
+  const insertEmote=key=>{
+    if(!user||input.disabled)return;
+    const token=':'+key+':',start=input.selectionStart??input.value.length,end=input.selectionEnd??start;
+    input.value=input.value.slice(0,start)+token+input.value.slice(end);
+    const pos=start+token.length;input.focus();input.setSelectionRange(pos,pos);
+    emotePicker?.classList.remove('show');
+  };
+  if(emoteBtn&&emotePicker){
+    emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e[0]+'" title="'+e[2]+'"><img src="assets/emotes/'+e[1]+'" alt="'+e[2]+'"></button>').join('');
+    emoteBtn.addEventListener('click',e=>{e.stopPropagation();emotePicker.classList.toggle('show');});
+    emotePicker.addEventListener('click',e=>{const b=e.target.closest('[data-emote]');if(b)insertEmote(b.dataset.emote);});
+    document.addEventListener('click',e=>{if(!e.target.closest('.mini-chat-emote-wrap'))emotePicker.classList.remove('show');});
   }
   document.querySelectorAll('.chat-tab').forEach(btn=>btn.addEventListener('click',()=>showTab(btn.dataset.tab)));
   send.addEventListener('click',sendMessage);
