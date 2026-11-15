@@ -93,7 +93,21 @@ document.addEventListener('click',async e=>{
 });
 function enhance(){
  addEditControls();
- document.querySelectorAll('.battle-comment-form').forEach(form=>{
+   document.querySelectorAll('.battle-reply-form').forEach(form=>{
+    if(form.dataset.smileEnhanced)return;
+    const input=form.querySelector('input[type="text"]');
+    if(!input||!window.CLANWARS_SMILES)return;
+    form.dataset.smileEnhanced='1';
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='reply-smile-button';
+    btn.textContent='☺';
+    btn.title='Выбрать смайл';
+    btn.setAttribute('aria-label','Выбрать смайл');
+    form.insertBefore(btn,input);
+    window.CLANWARS_SMILES.makePicker(btn,input);
+  });
+document.querySelectorAll('.battle-comment-form').forEach(form=>{
   if(form.dataset.empireEnhanced)return;form.dataset.empireEnhanced='1';
   const toolbar=form.querySelector('.battle-comment-toolbar'),editor=form.querySelector('[contenteditable="true"]');if(!toolbar||!editor)return;
   const extra=document.createElement('span');extra.className='empire-comment-extra';
