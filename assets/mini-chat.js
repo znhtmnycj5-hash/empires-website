@@ -91,7 +91,7 @@
   };
   if(emoteBtn&&emotePicker){
     if(!emotePicker.dataset.ready){
-      emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e.key+'" title="'+e.label+'"><span class="mini-chat-emote mini-chat-emote-'+e.key+'" aria-hidden="true"></span></button>').join('');
+      emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e.key+'" title="'+e.label+'"><img src="'+e.src+'" alt="'+e.label+'"></button>').join('');
       emotePicker.dataset.ready='1';
     }
     emoteBtn.addEventListener('click',e=>{e.stopPropagation();emotePicker.classList.toggle('show');});
