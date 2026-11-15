@@ -4,7 +4,7 @@
   const $=id=>document.getElementById(id);
   const general=$('generalMessages'),regiment=$('regimentMessages'),input=$('chatInput'),send=$('sendChat'),emoteBtn=$('chatEmoteButton'),emotePicker=$('chatEmotePicker');
   if(!general||!regiment||!input||!send)return;
-  let room='general',memberRegiment=null,profile=null,client=null,user=null,busy=false;
+  let room='general',memberRegiment=null,profile=null,client=null,user=null,busy=false;\n  const fullChat=!!document.getElementById('fullChat');
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const EMOTES=window.CLANWARS_SMILES?.items||[];
   const emoteHtml=s=>window.CLANWARS_SMILES?.renderText(s)||esc(s);
@@ -39,7 +39,7 @@
     const box=room==='regiment'?regiment:general;
     if(room==='regiment'&&!memberRegiment){empty(box,'Вы не состоите в полку.');return;}
     const query=client.from('empire_chat_messages').select('id,author_id,regiment_id,content,created_at,empire_profiles(display_name,avatar_url,regiment)')
-      .order('created_at',{ascending:true}).limit(100);
+      .order('created_at',{ascending:true}).limit(fullChat?1000:100);
     if(room==='regiment')query.eq('regiment_id',memberRegiment);else query.is('regiment_id',null);
     const {data,error}=await query;
     if(error){empty(box,'Не удалось загрузить сообщения.');console.warn('Mini chat:',error);return;}
@@ -131,7 +131,7 @@
     input.disabled=!user;
     if(!user)input.placeholder='Войдите, чтобы написать сообщение...';
     await loadMessages();
-    setInterval(()=>{loadMessages();if(user)auth.touchPresence();},30000);
+    setInterval(()=>{loadMessages();if(user)auth.touchPresence();},fullChat?10000:30000);
     document.addEventListener('empire:auth-changed',async e=>{
       user=e.detail?.user||null;profile=e.detail?.profile||null;
       if(user)await auth.touchPresence();
