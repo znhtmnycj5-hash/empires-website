@@ -60,15 +60,26 @@ async function syncSiteNewsRemote(){
     const client=await window.EMPIRE_AUTH.init(), current=window.EMPIRE_AUTH.user;
     if(!client)return;
     const local=getNews();
-    if(current&&local.length){
-      const own=local.filter(x=>String(x.author||'')===String(window.EMPIRE_AUTH.profile?.display_name||current.email||user.name));
-      if(own.length){
-        const ids=[...new Set(own.map(x=>x.id))];
-        const {data:existing}=await client.from('empire_site_news').select('legacy_id').in('legacy_id',ids);
-        const known=new Set((existing||[]).map(x=>String(x.legacy_id)));
-        for(const item of own.filter(x=>!known.has(String(x.id)))){
-          await client.from('empire_site_news').insert({legacy_id:String(item.id),author_id:current.id,title:item.title,body:item.body,image_url:item.image||'',role_label:item.roleLabel||'Участник',created_at:new Date(Number(item.created)||Date.now()).toISOString(),updated_at:new Date(Number(item.updated||item.created)||Date.now()).toISOString()});
-        }
+    const currentName=String(window.EMPIRE_AUTH.profile?.display_name||user.name||current?.email||'');
+    const own=current&&local.length
+      ? local.filter(x=>String(x.author||'').trim().toLowerCase()===currentName.trim().toLowerCase())
+      : [];
+    if(current&&own.length){
+      const ids=[...new Set(own.map(x=>String(x.id)))];
+      const {data:existing}=await client.from('empire_site_news').select('legacy_id').in('legacy_id',ids);
+      const known=new Set((existing||[]).map(x=>String(x.legacy_id)));
+      for(const item of own.filter(x=>!known.has(String(x.id)))){
+        const {error:insertError}=await client.from('empire_site_news').insert({
+          legacy_id:String(item.id),
+          author_id:current.id,
+          title:item.title,
+          body:item.body,
+          image_url:item.image||'',
+          role_label:item.roleLabel||'Участник',
+          created_at:new Date(Number(item.created)||Date.now()).toISOString(),
+          updated_at:new Date(Number(item.updated||item.created)||Date.now()).toISOString()
+        });
+        if(insertError)console.warn('Site news migration:',insertError);
       }
     }
     const {data,error}=await client.from('empire_site_news').select('id,legacy_id,author_id,title,body,image_url,role_label,created_at,updated_at').order('created_at',{ascending:false});
@@ -79,7 +90,10 @@ async function syncSiteNewsRemote(){
       if(authorIds.length){const p=await client.from('empire_profiles').select('id,display_name').in('id',authorIds);profiles=p.data||[];}
       const names=new Map(profiles.map(x=>[String(x.id),x.display_name]));
       const mapped=data.map(x=>({...mapRemoteNews(x),author:names.get(String(x.author_id))||x.author_name||'Пользователь'}));
-      write(NEWS_KEY,mapped);
+      const remoteIds=new Set(mapped.map(x=>String(x.id)));
+      const localOwn=own.filter(x=>!remoteIds.has(String(x.id)));
+      const merged=[...mapped,...localOwn].sort((a,b)=>(Number(b.created)||0)-(Number(a.created)||0));
+      write(NEWS_KEY,merged);
       remoteNewsReady=true;
       renderHome();
       renderPage();
