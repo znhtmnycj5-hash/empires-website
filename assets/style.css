@@ -3147,3 +3147,90 @@ html body .members-grid img.member-avatar[src*="Bav.jpg"] {
     max-width:none;
   }
 }
+
+
+/* Profile: move regiment, status and online details into the lower-right corner */
+.profile-header .profile-main{
+  align-self:stretch;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+.profile-header .profile-main .page-kicker{
+  margin-top:2px;
+}
+.profile-header .profile-main h1{
+  margin-top:8px;
+}
+.profile-header .profile-meta{
+  position:absolute;
+  right:26px;
+  bottom:20px;
+  width:min(46%,520px);
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  z-index:3;
+}
+.profile-header .profile-meta>div{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+  min-height:32px;
+  padding:6px 10px;
+  box-sizing:border-box;
+  background:rgba(8,7,6,.56);
+}
+.profile-header .profile-meta>div>span{
+  color:#9f8e73;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.profile-header .profile-meta>div>strong{
+  color:#dfc17e;
+  font-size:12px;
+}
+.profile-regiment-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  color:#dfc17e;
+  text-decoration:none;
+}
+.profile-regiment-link:hover{
+  color:#f0d596;
+}
+.profile-regiment-link img{
+  width:28px;
+  height:28px;
+  flex:0 0 28px;
+  object-fit:cover;
+  border:1px solid #806039;
+  border-radius:50%;
+  background:#17130f;
+}
+.profile-regiment-link strong{
+  font-size:12px!important;
+}
+@media(max-width:900px){
+  .profile-header .profile-meta{
+    position:static;
+    width:100%;
+    margin-top:auto;
+  }
+}
+@media(max-width:650px){
+  .profile-header .profile-main{
+    display:flex;
+  }
+  .profile-header .profile-meta{
+    position:static;
+    width:100%;
+  }
+  .profile-header .profile-meta>div{
+    justify-content:space-between;
+  }
+}
