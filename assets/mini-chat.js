@@ -9,7 +9,7 @@
   const EMOTES=[];
   const emoteHtml=s=>esc(s).replace(/:([a-z0-9_]+):/gi,(m,key)=>{
     const e=EMOTES.find(x=>x[0]===key.toLowerCase());
-    return e?'<span class="mini-chat-emote mini-chat-emote-'+e[0]+'" role="img" aria-label="'+e[2]+'" title="'+e[2]+'"></span>':m;
+    return e?'<span class="mini-chat-emote mini-chat-emote-'+e.key+'" role="img" aria-label="'+e.label+'" title="'+e.label+'"></span>':m;
   });
   const avatar=p=>{
     const own=p?.avatar_url||'';
@@ -91,7 +91,7 @@
   };
   if(emoteBtn&&emotePicker){
     if(!emotePicker.dataset.ready){
-      emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e[0]+'" title="'+e[2]+'"><span class="mini-chat-emote mini-chat-emote-'+e[0]+'" aria-hidden="true"></span></button>').join('');
+      emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e.key+'" title="'+e.label+'"><span class="mini-chat-emote mini-chat-emote-'+e.key+'" aria-hidden="true"></span></button>').join('');
       emotePicker.dataset.ready='1';
     }
     emoteBtn.addEventListener('click',e=>{e.stopPropagation();emotePicker.classList.toggle('show');});
@@ -112,7 +112,7 @@
   });
   /* Initialize the picker before authentication so it never depends on auth startup. */
   if(emoteBtn&&emotePicker&&!emotePicker.dataset.ready){
-    emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e[0]+'" title="'+e[2]+'"><span class="mini-chat-emote mini-chat-emote-'+e[0]+'" aria-hidden="true"></span></button>').join('');
+    emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e.key+'" title="'+e.label+'"><span class="mini-chat-emote mini-chat-emote-'+e.key+'" aria-hidden="true"></span></button>').join('');
     emotePicker.dataset.ready='1';
   }
   try{
