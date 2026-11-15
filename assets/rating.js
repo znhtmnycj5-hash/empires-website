@@ -11,48 +11,67 @@
     return null;
   };
 
+  let ratingsPromise = null;
+  let ratingsCache = null;
+  let ratingsCacheAt = 0;
+
   window.calculateRegimentRatings = async () => {
-    const [regimentsHtml, battlesHtml] = await Promise.all([
-      fetch('regiments.html', {cache:'no-store'}).then(r => r.text()),
-      fetch('battles.html', {cache:'no-store'}).then(r => r.text())
-    ]);
-    const regimentsDoc = new DOMParser().parseFromString(regimentsHtml, 'text/html');
-    const battlesDoc = new DOMParser().parseFromString(battlesHtml, 'text/html');
+    const now = Date.now();
+    if (ratingsCache && now - ratingsCacheAt < 60000) return ratingsCache;
+    if (ratingsPromise) return ratingsPromise;
 
-    const ratings = {};
-    regimentsDoc.querySelectorAll('.regiment-tile').forEach(tile => {
-      const name = tile.querySelector('h2')?.textContent.trim();
-      const countText = tile.querySelector('.regiment-meta span:last-child')?.textContent || '';
-      const count = parseInt(countText.match(/\d+/)?.[0] || '0', 10);
-      if (name) ratings[name] = {name, count, score: count * 10, wins:0, losses:0, draws:0};
-    });
+    ratingsPromise = (async () => {
+      const [regimentsHtml, battlesHtml] = await Promise.all([
+        fetch('regiments.html').then(r => r.text()),
+        fetch('battles.html').then(r => r.text())
+      ]);
+      const regimentsDoc = new DOMParser().parseFromString(regimentsHtml, 'text/html');
+      const battlesDoc = new DOMParser().parseFromString(battlesHtml, 'text/html');
 
-    let campaignPoints = {};
-    try {
-      const campaigns = JSON.parse(localStorage.getItem('empire_campaigns_v1') || '[]');
-      campaigns.forEach(campaign => {
-        (campaign.applications || []).forEach(app => {
-          if (app.status === 'accepted' && app.attended === true) {
-            campaignPoints[app.regiment] = (campaignPoints[app.regiment] || 0) + 50;
-          }
-        });
+      const ratings = {};
+      regimentsDoc.querySelectorAll('.regiment-tile').forEach(tile => {
+        const name = tile.querySelector('h2')?.textContent.trim();
+        const countText = tile.querySelector('.regiment-meta span:last-child')?.textContent || '';
+        const count = parseInt(countText.match(/\d+/)?.[0] || '0', 10);
+        if (name) ratings[name] = {name, count, score: count * 10, wins:0, losses:0, draws:0};
       });
-    } catch (error) {}
 
-    battlesDoc.querySelectorAll('.battle-record').forEach(record => {
-      const result = parseBattleResult(record);
-      if (!result) return;
-      if (result.type === 'draw') {
-        result.teams.forEach(name => {
-          if (ratings[name]) { ratings[name].draws++; ratings[name].score += 25; }
+      let campaignPoints = {};
+      try {
+        const campaigns = JSON.parse(localStorage.getItem('empire_campaigns_v1') || '[]');
+        campaigns.forEach(campaign => {
+          (campaign.applications || []).forEach(app => {
+            if (app.status === 'accepted' && app.attended === true) {
+              campaignPoints[app.regiment] = (campaignPoints[app.regiment] || 0) + 50;
+            }
+          });
         });
-      } else {
-        if (ratings[result.winner]) { ratings[result.winner].wins++; ratings[result.winner].score += 50; }
-        if (ratings[result.loser]) { ratings[result.loser].losses++; ratings[result.loser].score -= 30; }
-      }
-    });
+      } catch (error) {}
 
-    Object.values(ratings).forEach(item => { item.campaignPoints = campaignPoints[item.name] || 0; item.score += item.campaignPoints; });
-    return Object.values(ratings).sort((a,b) => b.score - a.score || a.name.localeCompare(b.name));
+      battlesDoc.querySelectorAll('.battle-record').forEach(record => {
+        const result = parseBattleResult(record);
+        if (!result) return;
+        if (result.type === 'draw') {
+          result.teams.forEach(name => {
+            if (ratings[name]) { ratings[name].draws++; ratings[name].score += 25; }
+          });
+        } else {
+          if (ratings[result.winner]) { ratings[result.winner].wins++; ratings[result.winner].score += 50; }
+          if (ratings[result.loser]) { ratings[result.loser].losses++; ratings[result.loser].score -= 30; }
+        }
+      });
+
+      Object.values(ratings).forEach(item => {
+        item.campaignPoints = campaignPoints[item.name] || 0;
+        item.score += item.campaignPoints;
+      });
+      const result = Object.values(ratings).sort((a,b) => b.score - a.score || a.name.localeCompare(b.name));
+      ratingsCache = result;
+      ratingsCacheAt = Date.now();
+      return result;
+    })();
+
+    try { return await ratingsPromise; }
+    finally { ratingsPromise = null; }
   };
 })();
