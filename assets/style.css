@@ -3734,6 +3734,12 @@ html body .members-grid img.member-avatar[src*="Bav.jpg"] {
   color:#e0bf82;
 }
 @media(max-width:760px){
+  #upcomingBattlesHome .battle{grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr);padding:14px 10px;gap:6px 8px}
+  #upcomingBattlesHome .battle-meta{grid-column:2;grid-row:2}
+  #upcomingBattlesHome .battle .team{font-size:12px}
+  #upcomingBattlesHome .battle .battle-flag{width:64px!important;height:64px!important;min-width:64px!important;min-height:64px!important;max-width:64px!important;max-height:64px!important}
+  #upcomingBattlesHome .battle .vs{font-size:11px}
+
   #homeNewsPreview .site-news-preview-wrap{
     width:150px;
     height:100px;
