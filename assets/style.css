@@ -4024,3 +4024,19 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 /* Демонстрационные голоса в профиле Commander */
 .user-rating-demo-voter{display:flex;align-items:center;gap:8px;padding:5px 0;color:#b9a98d;font-size:12px;}
 .user-rating-demo-voter img{width:28px;height:28px;min-width:28px;border-radius:50%;object-fit:cover;}
+
+
+/* Expandable voter lists: show up to five entries, scroll for the rest */
+.user-rating-columns{align-items:start}
+.user-rating-voter-panel{min-width:0;border:1px solid rgba(73,57,35,.55);border-radius:4px;overflow:hidden;background:rgba(12,10,8,.28)}
+.user-rating-voter-toggle{display:flex;width:100%;align-items:center;justify-content:space-between;gap:8px;padding:10px 11px;border:0;background:rgba(40,32,22,.7);color:#d2b16f;font:600 12px "Roboto Slab",serif;text-align:left;cursor:pointer}
+.user-rating-voter-toggle.positive b{color:#75bd68}
+.user-rating-voter-toggle.negative b{color:#d56b61}
+.user-rating-toggle-mark{font-size:16px;color:#b99559}
+.user-rating-voter-list{max-height:250px;overflow-y:auto;overscroll-behavior:contain;padding:4px 9px;scrollbar-width:thin;scrollbar-color:#80613b #17130f}
+.user-rating-voter-list[hidden]{display:none!important}
+.user-rating-voter-list>a,.user-rating-voter-list>.user-rating-demo-voter{display:flex;align-items:center;gap:8px;min-height:40px;padding:5px 0;border-top:1px solid rgba(73,57,35,.45);color:#cdbd9f;text-decoration:none;font-size:11px;box-sizing:border-box}
+.user-rating-voter-list>a:first-child,.user-rating-voter-list>.user-rating-demo-voter:first-child{border-top:0}
+.user-rating-voter-list>a img,.user-rating-voter-list>.user-rating-demo-voter img{width:30px;height:30px;min-width:30px;flex:0 0 30px;object-fit:cover;border:1px solid #5f4b31;border-radius:50%}
+.user-rating-voter-list>p{padding:8px 0;margin:0;color:#776b58;font-size:10px}
+.user-rating-voter-list>a:hover{color:#dfbf7b}
