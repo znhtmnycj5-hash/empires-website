@@ -3988,3 +3988,19 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 .user-rating-columns>div:hover,
 .user-rating-columns>div:focus-within{background:rgba(30,24,16,.72);border-color:#80613b}
 .user-rating-columns h4{cursor:default}
+
+
+/* Homepage rankings: vertically stacked, matching table rows */
+.home-rankings-stack{display:flex;flex-direction:column;gap:14px;width:100%;align-items:stretch}
+.home-rankings-stack>.ranking{width:100%;min-width:0;margin:0!important;box-sizing:border-box}
+.home-rankings-stack .ranking table{width:100%;table-layout:fixed;border-collapse:collapse}
+.home-rankings-stack .ranking tr{height:50px}
+.home-rankings-stack .ranking td{height:50px;padding:8px 14px;vertical-align:middle;box-sizing:border-box}
+.home-rankings-stack .ranking tr:first-child{height:46px}
+.home-rankings-stack .ranking tr:first-child td{height:46px}
+.home-rankings-stack .home-user-rating-row{display:table-row!important}
+.home-rankings-stack .home-user-rating-row td{border-bottom:1px solid #332b21}
+.home-rankings-stack .home-user-rating-link{display:inline-flex;align-items:center;gap:10px;min-height:34px;color:inherit;text-decoration:none;vertical-align:middle}
+.home-rankings-stack .home-user-rating-link img{display:block;width:34px;height:34px;flex:0 0 34px;object-fit:cover;border:1px solid #5f4b31}
+.home-rankings-stack .home-user-rating-row .points{text-align:right}
+.home-rankings-stack .home-user-rating-row:last-child td{border-bottom:0}
