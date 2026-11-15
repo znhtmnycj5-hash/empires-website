@@ -5,7 +5,7 @@ window.EMPIRE_USER_AVATARS={};
 window.EMPIRE_USER_FACTIONS={};
 
 window.EMPIRE_FACTION_AVATARS={
- "Французская Империя":"assets/default-soldier.jpg",
+ "Французская Империя":"assets/f88263f8-b7d4-40a2-83c7-13e4e9cc4442.png",
  "Австрийская Империя":"assets/austria-avatar.png",
  "Австрийская империя":"assets/austria-avatar.png",
  "Российская Империя":"assets/russia-avatar.png",
