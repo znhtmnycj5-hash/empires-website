@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Полки — Clanwars</title>
 <link rel="stylesheet" href="assets/style.css?v=20261115-mobile-nav-fix">
-<script src="assets/rating.js?v=20261108-lazy1"></script>
+<script src="assets/rating.js?v=20261115-shared-regiment-rating"></script>
 </head>
 <body>
 <header>
@@ -176,5 +176,46 @@ renderApprovedRegiments();
   window.addEventListener('storage',show);
 })();
 </script>
+
+<script src="assets/supabase-auth.js?v=20261115-shared-regiments"></script>
+<script>
+(async()=>{
+  const list=document.querySelector('.regiments-list');
+  if(!list||!window.EMPIRE_AUTH)return;
+  try{
+    await window.EMPIRE_AUTH.init();
+    const client=window.EMPIRE_AUTH.client;
+    const [{data:regiments,error:regimentError},{data:members,error:memberError}]=await Promise.all([
+      client.from('empire_regiments').select('id,name,faction,logo_url,created_at').order('created_at',{ascending:true}),
+      client.from('empire_regiment_members').select('regiment_id,user_id,role,left_at')
+    ]);
+    if(regimentError)throw regimentError;
+    if(memberError)throw memberError;
+    const ratings=await calculateRegimentRatings(true);
+    const ratingByName=new Map(ratings.map(x=>[x.name,x]));
+    list.innerHTML='';
+    (regiments||[]).sort((a,b)=>(ratingByName.get(b.name)?.score||0)-(ratingByName.get(a.name)?.score||0)||a.name.localeCompare(b.name)).forEach(r=>{
+      const active=(members||[]).filter(m=>m.regiment_id===r.id&&!m.left_at);
+      const score=ratingByName.get(r.name)?.score??active.length*10;
+      const tile=document.createElement('a');
+      tile.className='regiment-tile regiment-link';
+      tile.dataset.regimentName=r.name;
+      tile.href='regiment.html?name='+encodeURIComponent(r.name);
+      const img=document.createElement('img');
+      img.src=r.logo_url||'assets/default-soldier.jpg';img.alt='Флаг '+r.name;img.loading='lazy';img.decoding='async';
+      img.onerror=()=>{img.onerror=null;img.src='assets/default-soldier.jpg';};
+      const info=document.createElement('div');info.className='regiment-info';
+      const title=document.createElement('h2');title.textContent=r.name;
+      const meta=document.createElement('div');meta.className='regiment-meta';
+      const rating=document.createElement('span');rating.textContent='Рейтинг ';
+      const points=document.createElement('b');points.textContent=String(score);rating.append(points);
+      const count=document.createElement('span');count.textContent=active.length+' человек';
+      meta.append(rating,count);info.append(title,meta);tile.append(img,info);list.append(tile);
+    });
+    if(!regiments?.length)list.innerHTML='<p class="empty-note">Пока нет созданных полков.</p>';
+  }catch(error){console.error('Загрузка полков из Supabase:',error);}
+})();
+</script>
+
 </body>
 </html>
