@@ -32,9 +32,7 @@
       form.innerHTML='<div class="create-regiment-blocked"><strong>Создание полка недоступно</strong><p>Вы уже состоите в полку <b>'+String(userRegiment).replace(/[&<>"]/g,'')+'</b>. Сначала выйдите из текущего полка.</p><a class="btn" href="regiment.html?name='+encodeURIComponent(userRegiment)+'">Открыть полк</a></div>';
       return;
     }
-    const REQUESTS_KEY='empire_regiment_creation_requests_v1';
-    const getRequests=()=>{try{return JSON.parse(localStorage.getItem(REQUESTS_KEY)||'[]')}catch(e){return[]}};
-    const saveRequests=x=>localStorage.setItem(REQUESTS_KEY,JSON.stringify(x));
+    const getRequests=async()=>{const {data,error}=await auth.client.from('empire_regiment_creation_requests').select('name,status').eq('status','pending');if(error)throw error;return data||[]};
     file?.addEventListener('change',()=>{
       const f=file.files?.[0];if(!f)return;
       if(!/^image\/(png|jpeg|webp|gif)$/.test(f.type)){setNotice('Можно загрузить только PNG, JPG, WEBP или GIF.','error');file.value='';return;}
@@ -47,15 +45,11 @@
       const faction=document.getElementById('regimentFaction').value;
       const f=file?.files?.[0];
       if(!name||!faction||!f){setNotice('Заполните все поля и загрузите логотип.','error');return;}
-      if(getRequests().some(r=>String(r.name||'').toLowerCase()===name.toLowerCase()&&r.status==='pending')){
-        setNotice('Заявка на полк с таким названием уже находится на рассмотрении.','error');return;
-      }
+      getRequests().then(requests=>{if(requests.some(r=>String(r.name||'').toLowerCase()===name.toLowerCase()))throw new Error('Заявка на полк с таким названием уже находится на рассмотрении.');return true;}).then(()=>true).catch(error=>{throw error;}).then(()=>{
       const reader=new FileReader();
       reader.onload=()=>{
-        const requests=getRequests();
-        requests.push({id:'regreq-'+Date.now(),user:currentUser,user_id:auth.user.id,name,faction,logo:reader.result,status:'pending',createdAt:new Date().toISOString()});
-        saveRequests(requests);form.reset();if(preview)preview.src='assets/default-soldier.jpg';
-        setNotice('Заявка отправлена администратору. После проверки он примет или отклонит её.','success');
+        return auth.client.from('empire_regiment_creation_requests').insert({user_id:auth.user.id,user_name:currentUser,name,faction,logo:reader.result,status:'pending'});
+      }).then(({error})=>{if(error)throw error;form.reset();if(preview)preview.src='assets/default-soldier.jpg';setNotice('Заявка отправлена администратору. После проверки он примет или отклонит её.','success');}).catch(error=>setNotice(error.message||'Не удалось отправить заявку. Попробуйте ещё раз.','error'));
       };
       reader.readAsDataURL(f);
     });
