@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Сражение — EMPIRE</title>
-  <link rel="stylesheet" href="assets/style.css?v=20261115-battle-bg3">
+  <link rel="stylesheet" href="assets/style.css?v=20261108-reply-link2">
 </head>
 <body>
 <header class="inner-header">
@@ -139,7 +139,7 @@ const battle=battlesData[battleId];
 const $=id=>document.getElementById(id);
 const formatDate=d=>new Date(d).toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
 const setParticipant=(id,p)=>{
-  const el=$(id); el.href=p.href; el.style.backgroundImage="linear-gradient(rgba(8,7,5,.48),rgba(8,7,5,.48)),url('"+p.avatar+"')"; el.style.backgroundSize="cover"; el.style.backgroundPosition="center"; el.style.backgroundRepeat="no-repeat"; el.querySelector("img").src=p.avatar; el.querySelector("img").alt=p.name;
+  const el=$(id); el.href=p.href; el.querySelector("img").src=p.avatar; el.querySelector("img").alt=p.name;
   el.querySelector("strong").textContent=p.name; el.querySelector("small").textContent=p.faction;
 };
 
