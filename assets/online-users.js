@@ -32,8 +32,9 @@
     strip.innerHTML=unique.map(user=>{
       const name=String(user.display_name||'').trim();
       const ownAvatar=user.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png';
+      const faction=user._regimentFaction||'';
       const avatar=typeof window.empireUserAvatar==='function'
-        ? window.empireUserAvatar(name,ownAvatar)
+        ? window.empireUserAvatar(name,ownAvatar,faction)
         : ownAvatar;
 
       return '<a class="online-user" href="profile.html?user='+encodeURIComponent(name)+'" title="'+name+'" aria-label="'+name+'">'+
@@ -55,12 +56,20 @@
 
       const {data,error}=await client
         .from('empire_profiles')
-        .select('id,display_name,avatar_url,last_seen_at')
+        .select('id,display_name,avatar_url,regiment,last_seen_at')
         .gte('last_seen_at',cutoff)
         .order('last_seen_at',{ascending:false});
 
       if(error)throw error;
-      render(data||[]);
+      const users=data||[];
+      const names=[...new Set(users.map(u=>String(u.regiment||'').trim()).filter(Boolean))];
+      let factions={};
+      if(names.length){
+        const rq=await client.from('empire_regiments').select('name,faction').in('name',names);
+        if(!rq.error)factions=Object.fromEntries((rq.data||[]).map(r=>[r.name,r.faction||'']));
+      }
+      users.forEach(u=>{u._regimentFaction=factions[u.regiment]||'';});
+      render(users);
     }catch(error){
       console.warn('Онлайн-пользователи:',error);
       fallback();
