@@ -27,27 +27,6 @@ let requestLoadError='';
 const date=v=>{try{return new Date(v).toLocaleString('ru-RU')}catch(e){return String(v||'')}};
 
 function ban(key,target,reason,days,hours){const a=read(key),x={id:'ban-'+Date.now(),user:target,reason,createdAt:new Date().toISOString()};const durationMs=((Number(days)||0)*86400000)+((Number(hours)||0)*3600000);if(durationMs>0){x.until=new Date(Date.now()+durationMs).toISOString();x.days=Number(days)||0;x.hours=Number(hours)||0}a.push(x);write(key,a)}
-function renderCampaignAdmin(){
- const form=document.getElementById('campaignCreateForm'),box=document.getElementById('adminCampaigns');
- if(!form||!box)return;
- const campaigns=read('empire_campaigns_v1',[]);
- box.innerHTML=campaigns.length?campaigns.map(c=>'<div class="admin-object-row"><div><strong>'+esc(c.title)+'</strong><small>'+esc(c.startAt)+' · '+esc(c.organizer)+'</small></div><a class="btn" href="campaign.html?id='+encodeURIComponent(c.id)+'">Открыть</a></div>').join(''):'<div class="admin-empty">Кампаний пока нет.</div>';
- if(!form.dataset.bound){
-  form.dataset.bound='1';
-  form.addEventListener('submit',e=>{
-   e.preventDefault();
-   const factions=[...form.querySelectorAll('.campaign-factions input:checked')].map(x=>x.value);
-   if(!factions.length){alert('Выберите хотя бы одну фракцию.');return}
-   const title=document.getElementById('campaignTitle').value.trim(),server=document.getElementById('campaignServer').value.trim(),password=document.getElementById('campaignPassword').value.trim(),start=document.getElementById('campaignStart').value;
-   if(!title||!server||!password||!start)return;
-   const all=read('empire_campaigns_v1',[]);
-   all.unshift({id:'campaign-'+Date.now(),title,server,password,startAt:start,factions,organizer:user,status:'published',applications:[],createdAt:new Date().toISOString()});
-   write('empire_campaigns_v1',all);
-   form.reset();
-   renderCampaignAdmin();
-  });
- }
-}
 async function renderSiteUsers(){
  const box=document.getElementById('siteUsers'),count=document.getElementById('siteUsersCount');
  if(!box||!count)return;
@@ -113,7 +92,7 @@ try {
  console.error('Заявки на создание полка:',error);
  requestLoadError='Не удалось загрузить заявки из Supabase: '+(error.message||'проверьте права доступа к таблице empire_regiment_creation_requests.');
 }
-render();renderCampaignAdmin();
+render();
 // Загружаем полный список пользователей только когда администратор прокручивает страницу к этому разделу.
 const usersSection=document.getElementById('siteUsers');
 if(usersSection){
