@@ -46,7 +46,7 @@ const role=user.role.toLowerCase();
 const canPublish=['admin','administrator','moderator','commander'].includes(role);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const avatar=name=>window.empireUserAvatar?window.empireUserAvatar(name):'assets/default-soldier.jpg';
-const commentRegiments={"Kalashnikov":"1st Regiment","Ankord":"1st Regiment","Veli4estvo":"1st Regiment","Mel":"1st Regiment","Kazak":"1st Regiment","MeGusta":"1st Regiment","Flashkodr":"1st Regiment","MrDixon":"1st Regiment","Theodor":"1st Regiment","Grenadier87":"1st Regiment","Marquis":"95th Rifles","Fusilier":"Без полка"};
+const commentRegiments={"Commander":"1st Regiment","Kalash":"1st Regiment","Kalashnikov":"1st Regiment"};
 const commentPresence=()=>{try{const value=JSON.parse(localStorage.getItem('empire_profile_presence_v1')||'{}');return value&&typeof value==='object'?value:{}}catch(e){return {}}};
 const commentAuthorMeta=name=>{const regiment=commentRegiments[name]||'Без полка',last=commentPresence()[name],online=typeof last==='number'&&Date.now()-last<5*60*1000;return {regiment,online};};
 const profile=name=>window.empireProfileUrl?window.empireProfileUrl(name):'profile.html?user='+encodeURIComponent(name);
