@@ -185,7 +185,7 @@ document.head.appendChild(style);
       const names=[...list.querySelectorAll('.regiment-tile[data-regiment-name]')]
         .filter(tile=>!tile.dataset.regimentId)
         .map(tile=>tile.dataset.regimentName);
-      if(!names.length)return;
+      if(!names.length){addButtons();return;}
       const {data,error}=await client.from('empire_regiments').select('id,name').in('name',names);
       if(error)throw error;
       const ids=new Map((data||[]).map(r=>[r.name,r.id]));
