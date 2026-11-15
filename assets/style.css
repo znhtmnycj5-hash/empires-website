@@ -4721,3 +4721,153 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
   .site-news-page .battle-comment-editor video,
   .site-news-page .battle-comment-text video{width:100%!important}
 }
+
+
+/* Full chat page */
+.page-header{
+  min-height:120px!important;
+  height:auto!important;
+  background:#17130f!important;
+  border-bottom:1px solid #715733;
+}
+.page-header:after{display:none!important}
+.page-header-inner{
+  min-height:120px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+.full-chat-page{padding:22px 0 40px}
+.full-chat{padding:0;overflow:visible}
+.full-chat .card-title{padding:18px 20px}
+.full-chat .chat-tabs{margin:0}
+.full-chat .chat-panel{min-height:0}
+.full-chat-messages{
+  height:calc(100vh - 360px);
+  min-height:420px;
+  max-height:760px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:12px 20px;
+  scrollbar-width:thin;
+  scrollbar-color:#765a34 #17130f;
+}
+.full-chat-messages::-webkit-scrollbar{width:9px}
+.full-chat-messages::-webkit-scrollbar-track{background:#17130f}
+.full-chat-messages::-webkit-scrollbar-thumb{background:#765a34;border:2px solid #17130f}
+.full-chat .msg{
+  grid-template-columns:42px minmax(0,1fr) auto;
+  align-items:start;
+  gap:12px;
+  padding:13px 4px;
+}
+.full-chat .chat-avatar{
+  width:42px!important;
+  height:42px!important;
+  min-width:42px!important;
+  max-width:42px!important;
+  min-height:42px!important;
+  max-height:42px!important;
+  object-fit:cover!important;
+}
+.full-chat .mini-chat-message-body{min-width:0}
+.full-chat .mini-chat-user-link{
+  display:inline-block;
+  color:#d8b86f;
+  font:600 12px "Roboto Slab",serif;
+  text-decoration:none;
+}
+.full-chat .mini-chat-user-link:hover{color:#f0d18b;text-decoration:underline}
+.full-chat .msg p{
+  margin:5px 0 0;
+  color:#c9b99d;
+  font-size:12px;
+  line-height:1.55;
+  overflow-wrap:anywhere;
+}
+.full-chat .msg .time{
+  padding-top:2px;
+  color:#88785f;
+  font-size:9px;
+  white-space:nowrap;
+}
+.full-chat .mini-chat-delete{
+  grid-column:3;
+  justify-self:end;
+  border:1px solid #5d4930;
+  background:rgba(37,29,20,.7);
+  color:#9f8d72;
+  cursor:pointer;
+  width:25px;
+  height:25px;
+  line-height:20px;
+  padding:0;
+}
+.full-chat .mini-chat-delete:hover{background:#641e1b;border-color:#9a6d3c;color:#ead09a}
+.full-chat .regiment-chat-status{
+  display:flex;
+  align-items:center;
+  min-height:38px;
+  padding:9px 20px;
+  border-bottom:1px solid #493823;
+  background:rgba(15,13,10,.45);
+  font-size:10px;
+}
+.full-chat .chat-access-ok{color:#83c78a;font-weight:600}
+.full-chat .chat-access-locked{color:#d7a17d;font-weight:600}
+.full-chat .regiment-chat-locked{padding:30px 20px;text-align:center}
+.full-chat .regiment-chat-locked strong{display:block;color:#dfc17f;font:600 13px "Roboto Slab",serif}
+.full-chat .regiment-chat-locked p{max-width:430px;margin:8px auto 14px;color:#a99a80;font-size:11px;line-height:1.5}
+.full-chat .chat-input{
+  margin:0;
+  padding:14px 20px;
+  border-top:1px solid #493823;
+  background:rgba(15,13,10,.5);
+}
+.full-chat .chat-input input{min-width:0}
+.full-chat-footer{
+  display:flex;
+  justify-content:flex-start;
+  padding:0 20px 20px;
+}
+.full-chat-footer .btn{font-size:11px}
+.full-chat .clanwars-smile{
+  width:70px!important;
+  height:70px!important;
+  max-width:70px!important;
+  max-height:70px!important;
+  object-fit:contain!important;
+  vertical-align:-18px!important;
+  border:0!important;
+  border-radius:0!important;
+}
+@media(max-width:760px){
+  .page-header-inner{min-height:100px;padding:0 10px}
+  .page-header .brand-title{font-size:26px}
+  .full-chat-page{padding:12px 0 28px}
+  .full-chat .card-title{padding:14px 12px}
+  .full-chat-messages{
+    height:calc(100vh - 310px);
+    min-height:360px;
+    padding:8px 11px;
+  }
+  .full-chat .msg{
+    grid-template-columns:34px minmax(0,1fr) auto;
+    gap:8px;
+    padding:10px 2px;
+  }
+  .full-chat .chat-avatar{
+    width:34px!important;height:34px!important;
+    min-width:34px!important;max-width:34px!important;
+    min-height:34px!important;max-height:34px!important;
+  }
+  .full-chat .msg p{font-size:11px}
+  .full-chat .chat-input{padding:10px 11px}
+  .full-chat-footer{padding:0 11px 14px}
+  .full-chat .clanwars-smile{
+    width:48px!important;height:48px!important;
+    max-width:48px!important;max-height:48px!important;
+    vertical-align:-12px!important;
+  }
+}
