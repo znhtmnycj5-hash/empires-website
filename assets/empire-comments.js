@@ -119,7 +119,7 @@ document.querySelectorAll('.battle-comment-form').forEach(form=>{
   menu.append(image,video);extra.append(plus,menu,file);toolbar.append(extra);
   const smileBtn=document.createElement('button');smileBtn.type='button';smileBtn.textContent='☺';smileBtn.title='Выбрать смайл';smileBtn.setAttribute('aria-label','Выбрать смайл');toolbar.append(smileBtn);
   if(window.CLANWARS_SMILES)window.CLANWARS_SMILES.makePicker(smileBtn,editor);
-  plus.addEventListener('click',()=>menu.classList.toggle('open'));
+  plus.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const open=!menu.classList.contains('open');menu.classList.toggle('open');if(open){const r=plus.getBoundingClientRect();const h=menu.offsetHeight;const w=menu.offsetWidth;menu.style.position='fixed';menu.style.left=Math.max(8,Math.min(r.left,window.innerWidth-w-8))+'px';menu.style.top=Math.max(8,r.top-h-8)+'px';}});
   const addFile=async kind=>{file.accept=kind==='image'?'image/*':'video/mp4,video/webm';file.click();menu.classList.remove('open');};
   image.addEventListener('click',()=>addFile('image'));video.addEventListener('click',()=>addFile('video'));
   file.addEventListener('change',async()=>{const f=file.files?.[0];if(!f)return;try{await api.requireLogin();const url=await api.upload(f);editor.focus();document.execCommand('insertHTML',false,f.type.startsWith('image/')?'<img src="'+url+'" alt="Изображение" loading="lazy">':'<video src="'+url+'" controls preload="metadata"></video>');}catch(e){alert(e.message||'Не удалось загрузить файл');}finally{file.value='';}});
