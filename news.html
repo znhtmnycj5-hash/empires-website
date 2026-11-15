@@ -161,8 +161,7 @@ const bindRichEditor=(form,editor)=>{
   save();
  });
 };
-const richToolbarHtml='
-        <div class="battle-comment-toolbar" role="toolbar" aria-label="Комментарий"></div>';
+const richToolbarHtml='<div class="battle-comment-toolbar" role="toolbar" aria-label="Комментарий"></div>';
 const commentRegiments={};
 const commentPresence=()=>{try{const value=JSON.parse(localStorage.getItem('empire_profile_presence_v1')||'{}');return value&&typeof value==='object'?value:{}}catch(e){return {}}};
 const ensureTestComments=news=>{if(String(news.id)!=='sample-4')return;const map=getComments(),items=Array.isArray(map[news.id])?map[news.id]:[],clean=items.filter(x=>!/^sample-4-(comment|reply)-\d+$/.test(String(x.id||'')));if(clean.length!==items.length){map[news.id]=clean;localStorage.setItem(commentsKey,JSON.stringify(map));}};
