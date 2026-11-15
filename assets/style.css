@@ -562,11 +562,9 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-page-kicker.awaiting-confirmation{color:#d7a17d}
 .battle-hero-card h1{margin:7px 0 17px;color:#e0c17f;font:700 25px Roboto Slab;line-height:1.3;overflow-wrap:anywhere}
 .battle-participants{display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,.7fr) minmax(0,1fr);align-items:center;gap:16px}
-.battle-participant{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:12px 8px;border:1px solid #51432f;background:transparent;color:#dfc17f;text-align:center;text-decoration:none;transition:border-color .15s,background .15s;position:relative;overflow:hidden;isolation:isolate}
-.battle-participant::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(8,7,5,.52),rgba(8,7,5,.52)),var(--battle-bg);background-position:center;background-size:cover;background-repeat:no-repeat;opacity:.72;z-index:0}
-.battle-participant:hover{border-color:#a77b43;background:rgba(100,30,27,.08)}
-.battle-participant strong,.battle-participant small,.battle-participant .battle-role{position:relative;z-index:1}
-.battle-participant img{display:block!important;width:100px!important;height:100px!important;min-width:100px!important;max-width:100px!important;min-height:100px!important;max-height:100px!important;flex:0 0 100px!important;object-fit:contain!important;object-position:center!important;padding:4px!important;margin:0!important;border:1px solid #87663b!important;background:rgba(37,29,21,.48)!important;box-sizing:border-box!important;position:relative;z-index:1}
+.battle-participant{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:12px 8px;border:1px solid #51432f;background:rgba(15,13,10,.45);color:#dfc17f;text-align:center;text-decoration:none;transition:border-color .15s,background .15s}
+.battle-participant:hover{border-color:#a77b43;background:rgba(100,30,27,.12)}
+.battle-participant img{display:block!important;width:100px!important;height:100px!important;min-width:100px!important;max-width:100px!important;min-height:100px!important;max-height:100px!important;flex:0 0 100px!important;object-fit:contain!important;object-position:center!important;padding:4px!important;margin:0!important;border:1px solid #87663b!important;background:#251d15!important;box-sizing:border-box!important}
 .battle-participant strong{max-width:100%;font:600 15px Roboto Slab;overflow-wrap:anywhere}
 .battle-participant small{max-width:100%;color:#96866d;font-size:10px;overflow-wrap:anywhere}
 .battle-role{color:#9c8b70;font-size:9px;text-transform:uppercase;letter-spacing:.5px}
