@@ -1,19 +1,7 @@
 (function(){
   const KEY='empire_alliances_v1';
   const defaultRegiments={
-    "1st Regiment":{rating:1840,members:42,img:"assets/1st.jpg"},
-    "95th Rifles":{rating:1715,members:37,img:"assets/95.webp"},
-    "84e Régiment":{rating:1630,members:35,img:"assets/84e.png"},
-    "Preobrazhensky":{rating:1590,members:31,img:"assets/preobraz.webp"},
-    "7th Hussars":{rating:1565,members:29,img:"assets/hussars.png"},
-    "13e Léger":{rating:1510,members:28,img:"assets/1st.jpg"},
-    "33e Ligne":{rating:1475,members:26,img:"assets/95.webp"},
-    "92nd Gordon Highlanders":{rating:1420,members:24,img:"assets/84e.png"},
-    "Semenovsky":{rating:1385,members:23,img:"assets/preobraz.webp"},
-    "King's German Legion":{rating:1320,members:21,img:"assets/kgr.png"},
-    "6e Hussards":{rating:1260,members:19,img:"assets/1st.jpg"},
-    "Royal Scots":{rating:1195,members:17,img:"assets/95.webp"},
-    "Mangust":{rating:1150,members:14,img:"assets/mangust.webp"}
+    "1st Regiment":{rating:1840,members:42,img:"assets/1st.jpg"}
   };
   const seeds=[];
   const clone=o=>JSON.parse(JSON.stringify(o));
