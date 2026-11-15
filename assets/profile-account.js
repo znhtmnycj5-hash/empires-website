@@ -16,7 +16,7 @@ try{
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const avatarFallback=(name,regiment)=>{
     const map={
-      'Французская Империя':'assets/default-soldier.jpg',
+      'Французская Империя':'assets/f88263f8-b7d4-40a2-83c7-13e4e9cc4442.png',
       'Британская Империя':'assets/1BR.jpg',
       'Российская Империя':'assets/russia-avatar.png',
       'Пруссия':'assets/avatar-prussia.png',
