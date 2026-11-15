@@ -189,6 +189,42 @@ try{
     }else serviceBox.innerHTML='<p class="empty-note">Не служил.</p>';
   }
 
+  // Record the latest visit once per visitor/profile pair and show unique recent guests.
+  const guestsBox=document.getElementById('profileGuests');
+  if(guestsBox){
+    try{
+      if(auth.user && auth.user.id!==profile.id){
+        const visit=await auth.client.rpc('empire_record_profile_visit',{p_profile_id:profile.id});
+        if(visit.error)throw visit.error;
+      }
+      const {data:visits,error:visitsError}=await auth.client
+        .from('empire_profile_visits')
+        .select('visitor_id,last_visited_at')
+        .eq('profile_id',profile.id)
+        .order('last_visited_at',{ascending:false})
+        .limit(12);
+      if(visitsError)throw visitsError;
+      const visitorIds=[...new Set((visits||[]).map(v=>v.visitor_id))];
+      let visitorsById={};
+      if(visitorIds.length){
+        const people=await auth.client.from('empire_profiles').select('id,display_name,avatar_url,regiment').in('id',visitorIds);
+        if(people.error)throw people.error;
+        visitorsById=Object.fromEntries((people.data||[]).map(p=>[p.id,p]));
+      }
+      const dateText=value=>new Date(value).toLocaleString('ru-RU',{day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      const guests=(visits||[]).filter(v=>visitorsById[v.visitor_id]);
+      guestsBox.innerHTML=guests.length?guests.map(v=>{
+        const person=visitorsById[v.visitor_id];
+        const visited=dateText(v.last_visited_at);
+        const avatarUrl=person.avatar_url||avatarFallback(person.display_name,{faction:''});
+        return '<a class="profile-friend profile-guest" href="profile.html?user='+encodeURIComponent(person.display_name)+'" title="'+esc('Последнее посещение: '+visited)+'" aria-label="'+esc(person.display_name+'. Последнее посещение: '+visited)+'"><img src="'+esc(avatarUrl)+'" alt="'+esc(person.display_name)+'"><span>'+esc(person.display_name)+'</span><small>'+esc(visited)+'</small></a>';
+      }).join(''):'<p class="empty-note">Посетителей пока нет.</p>';
+    }catch(guestError){
+      console.warn('Не удалось загрузить гостей профиля:',guestError);
+      guestsBox.innerHTML='<p class="empty-note">История посещений пока недоступна.</p>';
+    }
+  }
+
   const messageArea=document.getElementById('messageArea');
   const renderMessages=async contact=>{
     if(!messageArea)return;
