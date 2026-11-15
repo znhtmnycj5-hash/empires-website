@@ -21,14 +21,25 @@ document.head.appendChild(style);
   const name=new URLSearchParams(location.search).get('name')||'1st Regiment';
   const {data:target,error}=await client.from('empire_regiments').select('id,name,commander_id').eq('name',name).maybeSingle();
   if(error||!target)return;
-  const {data:membership,error:memberError}=user?await client.from('empire_regiment_members').select('role,regiment_id').eq('user_id',user.id).is('left_at',null).maybeSingle():{data:null,error:null};
+
+  const {data:myMemberships,error:memberError}=user
+    ?await client.from('empire_regiment_members').select('role,regiment_id').eq('user_id',user.id).is('left_at',null)
+    :{data:[],error:null};
   if(memberError)throw memberError;
-  const isOwnCommander=!!user&&target.commander_id===user.id;
+
+  const myCommanderMembership=(myMemberships||[]).find(m=>m.role==='commander');
+  const isOwnCommander=!!user&&(target.commander_id===user.id||myCommanderMembership?.regiment_id===target.id);
+  const canChallenge=!!user&&!!myCommanderMembership&&myCommanderMembership.regiment_id!==target.id;
+
   const panel=document.createElement('section');panel.className='battle-challenge-panel';
   const roster=document.querySelector('.roster-section .regiment-section-content');
-  if(!roster)return;
-  roster.appendChild(panel);
+  const fallback=document.querySelector('.regiment-main-info');
+  const mount=roster||fallback;
+  if(!mount)return;
+  mount.appendChild(panel);
+
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
   if(isOwnCommander){
    panel.innerHTML='<h3>Вызовы полку</h3><div class="battle-challenge-list" id="incomingChallenges">Загрузка вызовов…</div>';
    const list=panel.querySelector('#incomingChallenges');
@@ -42,17 +53,20 @@ document.head.appendChild(style);
    list.addEventListener('click',async e=>{const b=e.target.closest('[data-answer]');if(!b)return;b.disabled=true;const {error}=await client.rpc('empire_review_battle_challenge',{p_challenge_id:b.dataset.id,p_decision:b.dataset.answer});if(error){alert(error.message||'Не удалось обработать вызов');b.disabled=false;return;}location.reload();});
    return;
   }
-  if(!user||!membership||membership.role!=='commander'||membership.regiment_id===target.id)return;
+
+  if(!canChallenge)return;
+
   panel.innerHTML='<button type="button" class="battle-challenge-button" id="openBattleChallenge">⚔ Бросить вызов</button><div id="battleChallengeFormWrap" hidden><h3>Назначить сражение полку '+esc(target.name)+'</h3><form class="battle-challenge-form" id="battleChallengeForm"><label>Тип сражения<select name="type" required><option>Линейное сражение</option><option>Осадное сражение</option><option>Кавалерийское сражение</option><option>Другое</option></select></label><label>Количество игроков с каждой стороны<input name="count" type="number" min="1" max="200" value="10" required></label><label>Дата и время<input name="date" type="datetime-local" required></label><label>Союзники<select name="allies"><option value="false">Не допускаются</option><option value="true">Допускаются</option></select></label><label>Максимум союзников<input name="allyLimit" type="number" min="0" max="200" value="0"></label><label>Сервер<input name="server" maxlength="200" placeholder="Название или адрес сервера"></label><label class="wide">Пароль сервера<input name="password" maxlength="200" placeholder="Пароль (если требуется)"></label><div class="wide battle-challenge-actions"><button class="battle-challenge-button" type="submit">Отправить вызов</button><button class="battle-challenge-button" type="button" id="cancelBattleChallenge">Отмена</button></div></form></div>';
   const wrap=panel.querySelector('#battleChallengeFormWrap');
   panel.querySelector('#openBattleChallenge').onclick=()=>{wrap.hidden=false;};
   panel.querySelector('#cancelBattleChallenge').onclick=()=>{wrap.hidden=true;};
   panel.querySelector('[name=allies]').onchange=e=>{panel.querySelector('[name=allyLimit]').disabled=e.target.value!=='true';};
+  panel.querySelector('[name=allies]').dispatchEvent(new Event('change'));
   panel.querySelector('#battleChallengeForm').addEventListener('submit',async e=>{
    e.preventDefault();const f=e.currentTarget,b=f.querySelector('[type=submit]'),v=new FormData(f);
    const date=new Date(v.get('date'));if(!Number.isFinite(date.getTime())||date<=new Date()){alert('Укажите дату и время в будущем.');return;}
    b.disabled=true;b.textContent='Отправка…';
-   const {data,error}=await client.rpc('empire_create_battle_challenge',{p_target_regiment_id:target.id,p_battle_type:v.get('type'),p_player_count:Number(v.get('count')),p_allies_allowed:v.get('allies')==='true',p_ally_limit:Number(v.get('allyLimit')||0),p_scheduled_at:date.toISOString(),p_server:String(v.get('server')||''),p_password:String(v.get('password')||'')});
+   const {error}=await client.rpc('empire_create_battle_challenge',{p_target_regiment_id:target.id,p_battle_type:v.get('type'),p_player_count:Number(v.get('count')),p_allies_allowed:v.get('allies')==='true',p_ally_limit:Number(v.get('allyLimit')||0),p_scheduled_at:date.toISOString(),p_server:String(v.get('server')||''),p_password:String(v.get('password')||'')});
    if(error){alert(error.message||'Не удалось отправить вызов');b.disabled=false;b.textContent='Отправить вызов';return;}
    alert('Вызов отправлен командиру полка '+target.name+'.');location.reload();
   });
