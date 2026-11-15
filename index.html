@@ -86,6 +86,7 @@
     </div>
   </section>
 
+  <div class="home-rankings-grid">
   <section class="card ranking" id="ranking">
     <div class="card-title">🏆 &nbsp; Рейтинг полков <a href="#">Полный рейтинг →</a></div>
     <table>
@@ -97,8 +98,15 @@
       <tr class="rank-row" data-regiment-name="7th Hussars"><td class="pos">5.</td><td><a class="ranking-regiment-link" href="regiment.html?name=7th%20Hussars"><img class="rank-flag" src="assets/hussars.png" alt="Флаг 7th Hussars" loading="lazy" decoding="async">7th Hussars</a></td><td class="points">290</td></tr>
     </table>
   </section>
-  <div class="ranking-users-divider"><span>⭐ &nbsp; Рейтинг участников</span><a href="rating.html">Полный рейтинг →</a></div>
-  <div class="ranking-users-list" id="homeUserRating"><p class="empty-note">Загрузка рейтинга участников…</p></div>
+
+  <section class="card ranking" id="homeUserRankingCard">
+    <div class="card-title">⭐ &nbsp; Рейтинг участников <a href="rating.html">Полный рейтинг →</a></div>
+    <table>
+      <tr><td class="pos">#</td><td>Участник</td><td class="points">Очки</td></tr>
+      <tbody id="homeUserRating"><tr><td colspan="3" class="empty-note">Загрузка рейтинга участников…</td></tr></tbody>
+    </table>
+  </section>
+  </div>
 </div>
 
 </main>
