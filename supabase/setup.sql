@@ -692,3 +692,43 @@ end;
 $$;
 revoke execute on function public.empire_record_profile_visit(uuid) from public,anon;
 grant execute on function public.empire_record_profile_visit(uuid) to authenticated;
+
+
+-- Shared requests for creating regiments (visible across devices).
+create table if not exists public.empire_regiment_creation_requests (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.empire_profiles(id) on delete cascade,
+  user_name text not null default '',
+  name text not null,
+  faction text not null,
+  logo text not null,
+  status text not null default 'pending' check (status in ('pending','approved','rejected')),
+  created_at timestamptz not null default now(),
+  processed_at timestamptz
+);
+create index if not exists empire_regiment_creation_requests_status_created_idx
+  on public.empire_regiment_creation_requests(status,created_at desc);
+alter table public.empire_regiment_creation_requests enable row level security;
+
+drop policy if exists "Users can create regiment requests" on public.empire_regiment_creation_requests;
+create policy "Users can create regiment requests"
+on public.empire_regiment_creation_requests for insert to authenticated
+with check (
+  auth.uid()=user_id
+  and not exists (
+    select 1 from public.empire_regiment_members m
+    where m.user_id=auth.uid() and m.left_at is null
+  )
+);
+drop policy if exists "Users and admins can read regiment requests" on public.empire_regiment_creation_requests;
+create policy "Users and admins can read regiment requests"
+on public.empire_regiment_creation_requests for select to authenticated
+using (
+  auth.uid()=user_id
+  or exists(select 1 from public.empire_profiles p where p.id=auth.uid() and p.is_admin=true)
+);
+drop policy if exists "Admins can review regiment requests" on public.empire_regiment_creation_requests;
+create policy "Admins can review regiment requests"
+on public.empire_regiment_creation_requests for update to authenticated
+using (exists(select 1 from public.empire_profiles p where p.id=auth.uid() and p.is_admin=true))
+with check (exists(select 1 from public.empire_profiles p where p.id=auth.uid() and p.is_admin=true));
