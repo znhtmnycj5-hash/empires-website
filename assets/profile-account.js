@@ -118,6 +118,7 @@ try{
     panel.hidden=true;
     panel.innerHTML=
       '<button type="button" class="btn" id="profileChangeAvatar">Изменить аватар</button>'+
+      '<button type="button" class="btn" id="profileRemoveAvatar">Удалить аватар</button>'+
       '<button type="button" class="btn" id="profileChangeName">Изменить имя пользователя</button>';
     actions.appendChild(panel);
 
@@ -127,6 +128,18 @@ try{
       input.type='file';input.accept='image/png,image/jpeg,image/webp,image/gif';
       input.onchange=async()=>{const file=input.files?.[0];if(!file)return;try{const url=await auth.uploadAvatar(file);avatar.src=url;alert('Аватар изменён.');}catch(e){alert(e.message||'Не удалось изменить аватар.');}};
       input.click();
+    };
+    panel.querySelector('#profileRemoveAvatar').onclick=async()=>{
+      if(!confirm('Удалить текущий аватар? На его место будет установлен стандартный аватар.'))return;
+      try{
+        await auth.deleteAvatar();
+        const fallback=avatarFallback(profile.display_name,regiment);
+        avatar.src=fallback;
+        avatar.alt='Стандартный аватар '+profile.display_name;
+        profile.avatar_url='';
+        if(auth.profile)auth.profile.avatar_url='';
+        alert('Аватар удалён.');
+      }catch(e){alert(e.message||'Не удалось удалить аватар.');}
     };
     panel.querySelector('#profileChangeName').onclick=async()=>{
       const next=prompt('Новое имя пользователя:',profile.display_name);
