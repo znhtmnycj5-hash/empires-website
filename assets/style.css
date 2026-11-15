@@ -78,12 +78,10 @@ h1{font:700 70px Roboto Slab;margin:0;color:#e0bb73;letter-spacing:8px;text-shad
 .battle>div:nth-child(1){grid-column:1;grid-row:1;justify-self:start;width:100%}
 .battle>.vs{grid-column:2;grid-row:1;align-self:center;justify-self:center;color:#806f55;font-size:12px;margin:4px}
 .battle>div:nth-child(3){grid-column:3;grid-row:1;justify-self:end;width:100%}
-.battle-meta{grid-column:1/4;grid-row:2;position:relative;display:flex;align-items:center;justify-content:center;width:100%;padding-top:8px}
+.battle-meta{grid-column:2;grid-row:2;position:relative;display:flex;align-items:center;justify-content:center;width:100%;padding-top:8px}
 .datebox{color:#d7b66e;font:700 18px Roboto Slab;text-align:center;line-height:1.15}.datebox small{display:block;font:11px "Roboto Slab";color:#a8997e}.battle-type{display:block;margin-top:7px;color:#8e7a5d;font:10px "Roboto Slab";letter-spacing:.5px}
 .team{color:#d8c6a7;font-weight:600;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}
 #upcomingBattlesHome .battle-flag{width:86px!important;height:86px!important;max-width:86px!important;max-height:86px!important;min-width:86px!important;min-height:86px!important;padding:3px!important;object-fit:contain!important}
-#upcomingBattlesHome .battle-comment-count{position:absolute;right:14px;bottom:12px;z-index:3;opacity:.48;transition:opacity .18s}
-#upcomingBattlesHome .battle-comment-count:hover{opacity:.8}
 #upcomingBattlesHome{max-height:620px;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#765a34 #17130f}
 #upcomingBattlesHome::-webkit-scrollbar{width:8px}
 #upcomingBattlesHome::-webkit-scrollbar-track{background:#17130f}
