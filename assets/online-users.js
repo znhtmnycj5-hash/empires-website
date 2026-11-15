@@ -21,14 +21,8 @@
       seen.add(name.toLowerCase());
       unique.push(user);
     }
-
     count.textContent=String(unique.length);
-
-    if(!unique.length){
-      fallback();
-      return;
-    }
-
+    if(!unique.length){fallback();return;}
     strip.innerHTML=unique.map(user=>{
       const name=String(user.display_name||'').trim();
       const ownAvatar=user.avatar_url||'';
@@ -36,7 +30,6 @@
       const avatar=typeof window.empireUserAvatar==='function'
         ? window.empireUserAvatar(name,ownAvatar,faction)
         : ownAvatar;
-
       return '<a class="online-user" href="profile.html?user='+encodeURIComponent(name)+'" title="'+name+'" aria-label="'+name+'">'+
         '<img class="online-user-avatar" src="'+avatar+'" alt="'+name+'" loading="lazy" decoding="async">'+
         '<span class="online-user-dot" aria-label="В сети"></span>'+
@@ -48,18 +41,12 @@
     try{
       if(!window.EMPIRE_AUTH||typeof window.EMPIRE_AUTH.init!=='function')return;
       await window.EMPIRE_AUTH.init();
-
       const client=window.EMPIRE_AUTH.client;
       if(!client)return;
-
       const cutoff=new Date(Date.now()-ONLINE_WINDOW_MS).toISOString();
-
-      const {data,error}=await client
-        .from('empire_profiles')
+      const {data,error}=await client.from('empire_profiles')
         .select('id,display_name,avatar_url,regiment,last_seen_at')
-        .gte('last_seen_at',cutoff)
-        .order('last_seen_at',{ascending:false});
-
+        .gte('last_seen_at',cutoff).order('last_seen_at',{ascending:false});
       if(error)throw error;
       const users=data||[];
       const names=[...new Set(users.map(u=>String(u.regiment||'').trim()).filter(Boolean))];
@@ -77,7 +64,6 @@
   }
 
   document.addEventListener('empire:auth-changed',loadRealOnlineUsers);
-
   loadRealOnlineUsers();
-  setInterval(loadRealOnlineUsers,30000);
+  setInterval(loadRealOnlineUsers,60000);
 })();
