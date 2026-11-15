@@ -41,9 +41,9 @@ const $=id=>document.getElementById(id);
 const read=(key,fallback)=>{try{const v=JSON.parse(localStorage.getItem(key)||'null');return v==null?fallback:v;}catch(e){return fallback;}};
 const write=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
 const hasCurrentUser=!!read('empire_current_user',null);
-const user=(()=>{const v=read('empire_current_user',null);return v&&typeof v==='object'?{name:String(v.name||'Пользователь'),regiment:String(v.regiment||''),role:String(v.role||'user')}:{name:'Kalashnikov',regiment:'1st Regiment',role:'user'};})();
-const role=user.role.toLowerCase();
-const canPublish=['admin','administrator','moderator','commander'].includes(role);
+let user=(()=>{const v=read('empire_current_user',null);return v&&typeof v==='object'?{name:String(v.name||'Пользователь'),regiment:String(v.regiment||''),role:String(v.role||'user')}:{name:'Kalashnikov',regiment:'1st Regiment',role:'user'};})();
+let role=user.role.toLowerCase();
+let canPublish=['admin','administrator','moderator','commander','officer'].includes(role);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const avatar=name=>window.empireUserAvatar?window.empireUserAvatar(name):'assets/default-soldier.jpg';
 const commentRegiments={"Commander":"1st Regiment","Kalash":"1st Regiment","Kalashnikov":"1st Regiment"};
@@ -127,5 +127,6 @@ function renderComments(n){
  form.addEventListener('submit',e=>{e.preventDefault();const html=cleanRichComment(editor.innerHTML),textValue=editor.textContent.trim();if(!textValue&&!html.replace(/<[^>]*>/g,'').trim()&&!html.includes('<img '))return;save({id:'comment-'+Date.now(),author:user.name,avatar:avatar(user.name),date:new Date().toLocaleString('ru-RU'),html,text:textValue});});
 }
 
+document.addEventListener('empire:site-news-permission',e=>{const d=e.detail||{};if(!d.canPublish)return;canPublish=true;role=String(d.role||role).toLowerCase();user={...user,role};renderHome();renderPage();});
 renderHome();renderPage();
 })();
