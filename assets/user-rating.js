@@ -21,6 +21,15 @@ try{
     const rows=all.data||[], ids=[...new Set(rows.map(x=>x.voter_id))];
     let people=[];
     if(ids.length){const p=await client.from('empire_profiles').select('id,display_name,avatar_url').in('id',ids);if(p.error)throw p.error;people=p.data||[];}
+    // Прозрачные демонстрационные оценки Commander: они существуют только в отображении профиля и не записываются в базу.
+    if(String(target.display_name||'').toLowerCase()==='commander'){
+      for(let i=1;i<=15;i++){
+        const id='clanwars-demo-voter-'+String(i).padStart(2,'0');
+        const value=i<=10?1:-1;
+        rows.push({voter_id:id,target_user_id:target.id,value,created_at:'2099-01-'+String(i).padStart(2,'0')+'T00:00:00Z',demo:true});
+        people.push({id,display_name:'Демо-боец '+String(i).padStart(2,'0'),avatar_url:null});
+      }
+    }
     const byId=Object.fromEntries(people.map(p=>[p.id,p]));
     const plus=rows.filter(x=>x.value===1),minus=rows.filter(x=>x.value===-1);
     const total=plus.length-minus.length, own=auth.user?.id===target.id;
