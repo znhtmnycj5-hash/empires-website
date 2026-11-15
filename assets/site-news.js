@@ -52,6 +52,40 @@ const commentAuthorMeta=name=>{const regiment=commentRegiments[name]||'Без п
 const profile=name=>window.empireProfileUrl?window.empireProfileUrl(name):'profile.html?user='+encodeURIComponent(name);
 const LEGACY_TEST_NEWS_IDS=['site-news-001','site-news-002','site-news-003'];
 const getNews=()=>{let v=read(NEWS_KEY,null);if(!Array.isArray(v))v=[];v=v.filter(x=>x&&x.id&&!/^site-news-test-/.test(String(x.id))&&!LEGACY_TEST_NEWS_IDS.includes(String(x.id)));write(NEWS_KEY,v);const deleted=read(DELETED_KEY,[]);return v.filter(x=>x&&x.id&&!deleted.includes(x.id)).sort((a,b)=>(Number(b.created)||0)-(Number(a.created)||0));};
+let remoteNewsReady=false;
+const mapRemoteNews=row=>({id:String(row.legacy_id||row.id),title:row.title,date:row.created_at?new Date(row.created_at).toLocaleDateString('ru-RU'):'',author:row.author_name||'Пользователь',roleLabel:row.role_label||'Участник',image:row.image_url||'assets/battlefield.jpg',body:row.body,created:row.created_at?new Date(row.created_at).getTime():Date.now(),updated:row.updated_at?new Date(row.updated_at).getTime():Date.now(),_remoteId:row.id,author_id:row.author_id});
+async function syncSiteNewsRemote(){
+  try{
+    if(!window.EMPIRE_AUTH)return;
+    const client=await window.EMPIRE_AUTH.init(), current=window.EMPIRE_AUTH.user;
+    if(!client)return;
+    const local=getNews();
+    if(current&&local.length){
+      const own=local.filter(x=>String(x.author||'')===String(window.EMPIRE_AUTH.profile?.display_name||current.email||user.name));
+      if(own.length){
+        const ids=[...new Set(own.map(x=>x.id))];
+        const {data:existing}=await client.from('empire_site_news').select('legacy_id').in('legacy_id',ids);
+        const known=new Set((existing||[]).map(x=>String(x.legacy_id)));
+        for(const item of own.filter(x=>!known.has(String(x.id)))){
+          await client.from('empire_site_news').insert({legacy_id:String(item.id),author_id:current.id,title:item.title,body:item.body,image_url:item.image||'',role_label:item.roleLabel||'Участник',created_at:new Date(Number(item.created)||Date.now()).toISOString(),updated_at:new Date(Number(item.updated||item.created)||Date.now()).toISOString()});
+        }
+      }
+    }
+    const {data,error}=await client.from('empire_site_news').select('id,legacy_id,author_id,title,body,image_url,role_label,created_at,updated_at').order('created_at',{ascending:false});
+    if(error)throw error;
+    if(Array.isArray(data)){
+      const authorIds=[...new Set(data.map(x=>x.author_id).filter(Boolean))];
+      let profiles=[];
+      if(authorIds.length){const p=await client.from('empire_profiles').select('id,display_name').in('id',authorIds);profiles=p.data||[];}
+      const names=new Map(profiles.map(x=>[String(x.id),x.display_name]));
+      const mapped=data.map(x=>({...mapRemoteNews(x),author:names.get(String(x.author_id))||x.author_name||'Пользователь'}));
+      write(NEWS_KEY,mapped);
+      remoteNewsReady=true;
+      renderHome();
+      renderPage();
+    }
+  }catch(e){console.warn('Site news remote sync:',e);}
+}
 const getLikes=()=>read(LIKES_KEY,{})||{};
 const getComments=()=>read(COMMENTS_KEY,{})||{};
 try{const cm=getComments();Object.keys(cm).filter(k=>/^site-news-test-/.test(k)||LEGACY_TEST_NEWS_IDS.includes(k)||k==='sample-4').forEach(k=>delete cm[k]);write(COMMENTS_KEY,cm);const lk=getLikes();Object.keys(lk).filter(k=>/^site-news-test-/.test(k)||LEGACY_TEST_NEWS_IDS.includes(k)).forEach(k=>delete lk[k]);write(LIKES_KEY,lk);}catch(e){}
@@ -177,4 +211,7 @@ function renderComments(n){
 
 document.addEventListener('empire:site-news-permission',e=>{const d=e.detail||{};if(!d.canPublish)return;canPublish=true;role=String(d.role||role).toLowerCase();user={...user,role};renderHome();renderPage();});
 renderHome();renderPage();
+document.addEventListener('empire:auth-changed',()=>{syncSiteNewsRemote();});
+document.addEventListener('empire:site-news-permission',()=>{syncSiteNewsRemote();});
+setTimeout(syncSiteNewsRemote,800);
 })();
