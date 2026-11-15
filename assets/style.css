@@ -4594,3 +4594,20 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 .site-news-page .battle-comment-toolbar .empire-comment-extra .empire-attach-menu{position:fixed!important;width:160px!important;min-width:160px!important;padding:7px!important;gap:6px!important;z-index:2147483640!important}
 .site-news-page .battle-comment-toolbar .empire-comment-extra .empire-attach-menu button{display:flex!important;width:100%!important;height:36px!important;align-items:center!important;justify-content:center!important;padding:0 10px!important;margin:0!important;border:1px solid #6d5333!important;background:#211a13!important;color:#e0c487!important;font:600 11px "Roboto Slab",serif!important;cursor:pointer!important;box-sizing:border-box!important}
 .site-news-page .battle-comment-toolbar .empire-comment-extra .empire-attach-menu button:hover{background:#641e1b!important;border-color:#b18a51!important;color:#f0d49a!important}
+
+/* Regiment battle challenge notice */
+.battle-challenge-notice{margin:0 0 16px;padding:0}
+.battle-challenge-card{padding:14px 16px;border:1px solid #9b7543;background:linear-gradient(180deg,rgba(72,48,27,.9),rgba(30,23,17,.96));box-shadow:0 5px 16px rgba(0,0,0,.28)}
+.battle-challenge-card-title{margin-bottom:10px;color:#f0d39a;font:700 15px "Roboto Slab",serif;text-transform:uppercase;letter-spacing:.4px}
+.battle-challenge-card-main{display:flex;align-items:center;gap:12px;color:#d8c5a5}
+.battle-challenge-card-main>img{width:52px;height:52px;min-width:52px;object-fit:contain;border:1px solid #765a34;background:#17130f}
+.battle-challenge-card-main>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.battle-challenge-card-main strong{color:#e8d2a5;font:700 14px "Roboto Slab",serif}
+.battle-challenge-card-main span{font-size:11px;color:#bba98e}
+.battle-challenge-actions{display:flex;gap:8px;margin-top:12px}
+.battle-challenge-actions .btn{padding:7px 13px;border:1px solid #765a34;background:#241b14;color:#e0c487;font:700 11px "Roboto Slab",serif;cursor:pointer}
+.battle-challenge-actions .btn:hover{background:#5f1f1c;border-color:#b28a50}
+.battle-challenge-actions .battle-challenge-accept{background:linear-gradient(#70562f,#49351f)}
+.battle-challenge-actions .battle-challenge-reject{background:linear-gradient(#4a2925,#321b19)}
+.battle-challenge-actions .btn:disabled{opacity:.5;cursor:wait}
+@media(max-width:600px){.battle-challenge-card{padding:12px}.battle-challenge-card-main{align-items:flex-start}.battle-challenge-card-main>img{width:44px;height:44px;min-width:44px}.battle-challenge-actions{flex-wrap:wrap}.battle-challenge-actions .btn{flex:1;min-width:120px}}
