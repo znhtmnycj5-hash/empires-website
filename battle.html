@@ -94,8 +94,58 @@
 </footer>
 
 <script src="assets/user-avatars.js?v=20261113-clean2"></script>
+<script src="assets/supabase-auth.js?v=20261115-battle-page"></script>
 <script>
+(async function(){
 const battlesData={};
+async function loadBattleFromSupabase(id){
+  if(!id||!window.EMPIRE_AUTH)return null;
+  const client=await window.EMPIRE_AUTH.init();
+  if(!client)return null;
+  const {data:row,error}=await client.from('empire_public_battles')
+    .select('id,challenger_regiment_id,target_regiment_id,battle_type,player_count,allies_allowed,ally_limit,scheduled_at,server,status,created_at')
+    .eq('id',id).eq('status','accepted').maybeSingle();
+  if(error)throw error;
+  if(!row)return null;
+  const ids=[row.challenger_regiment_id,row.target_regiment_id].filter(Boolean);
+  const q=await client.from('empire_regiments').select('id,name,faction,logo_url').in('id',ids);
+  if(q.error)throw q.error;
+  const byId=new Map((q.data||[]).map(x=>[String(x.id),x]));
+  const left=byId.get(String(row.challenger_regiment_id)),right=byId.get(String(row.target_regiment_id));
+  if(!left||!right)return null;
+
+  let server=row.server||'',password='';
+  const user=window.EMPIRE_AUTH.user;
+  if(user){
+    const member=await client.from('empire_regiment_members')
+      .select('regiment_id').eq('user_id',user.id).is('left_at',null).in('regiment_id',ids);
+    if(!member.error&&(member.data||[]).length){
+      const full=await client.from('empire_battle_challenges')
+        .select('server,password').eq('id',id).maybeSingle();
+      if(!full.error&&full.data){server=full.data.server||server;password=full.data.password||'';}
+    }
+  }
+  return {
+    id:row.id,
+    title:left.name+' — '+right.name,
+    status:'accepted',
+    left:{name:left.name,faction:left.faction,avatar:left.logo_url||'assets/default-soldier.jpg',href:'regiment.html?name='+encodeURIComponent(left.name)},
+    right:{name:right.name,faction:right.faction,avatar:right.logo_url||'assets/default-soldier.jpg',href:'regiment.html?name='+encodeURIComponent(right.name)},
+    type:row.battle_type,
+    size:row.player_count,
+    allies:!!row.allies_allowed,
+    allySize:row.ally_limit||0,
+    start:row.scheduled_at,
+    server,
+    password,
+    confirmedLeft:false,
+    confirmedRight:false,
+    winner:'',
+    score:'',
+    media:[]
+  };
+}
+
 
 const currentUser=(()=>{try{const u=JSON.parse(localStorage.getItem("empire_current_user")||"null");return u&&typeof u==="object"?{name:String(u.name||"Гость"),regiment:String(u.regiment||"")}:{name:"Гость",regiment:""};}catch(e){return{name:"Гость",regiment:""};}})();
 const presenceStorageKey="empire_profile_presence_v1";
@@ -116,7 +166,7 @@ const presenceHeartbeat=setInterval(()=>setUserOnline(currentUser.name),30000);
 window.addEventListener("beforeunload",()=>clearInterval(presenceHeartbeat));
 const params=new URLSearchParams(location.search);
 const battleId=params.get("id")||"";
-const battle=battlesData[battleId];
+const battle=await loadBattleFromSupabase(battleId);
 const $=id=>document.getElementById(id);
 const formatDate=d=>new Date(d).toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
 const setParticipant=(id,p)=>{
@@ -438,6 +488,7 @@ if(!battle){
   });
   renderComments();
 }
+})();
 </script>
 <script src="assets/supabase-auth.js?v=20261111-3"></script>
 <script src="assets/smile.js?v=20261115-picker2"></script>
