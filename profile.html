@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Профиль — Clanwars</title>
-  <link rel="stylesheet" href="assets/style.css?v=20261115-profile-chat-scroll">
+  <link rel="stylesheet" href="assets/style.css?v=20261115-profile-layout2">
   <script src="assets/user-avatars.js?v=20261113-clean2"></script>
 </head>
 <body>
@@ -47,24 +47,23 @@
     </section>
 
     <div class="profile-rating-message-grid">
-    <section class="card profile-section profile-messages-section" style="display:block!important;visibility:visible!important;opacity:1!important;margin:0!important;border:1px solid #5a4630!important;background:#17130f!important;">
-      <div class="card-title" style="display:block!important;color:#d2b16f!important;font-weight:700!important;">✉ &nbsp; Переписка</div>
-      <div id="messageArea" style="display:block!important;min-height:70px;">
-        <div style="padding:20px;text-align:center;color:#b6a68e;font-size:12px;">Загрузка переписки…</div>
-      </div>
-    </section>
-    <section class="card profile-section user-rating-section"><div class="card-title">⭐ Рейтинг</div><div id="profileUserRating"><p class="empty-note">Загрузка рейтинга…</p></div></section>
-    </div>
-<div class="profile-columns">
-      <section class="card profile-section">
-        <div class="card-title">👁 &nbsp; Гости профиля</div>
-        <div class="profile-friends" id="profileGuests"></div>
+      <section class="card profile-section profile-messages-section" style="display:block!important;visibility:visible!important;opacity:1!important;margin:0!important;border:1px solid #5a4630!important;background:#17130f!important;">
+        <div class="card-title" style="display:block!important;color:#d2b16f!important;font-weight:700!important;">✉ &nbsp; Переписка</div>
+        <div id="messageArea" style="display:block!important;min-height:70px;">
+          <div style="padding:20px;text-align:center;color:#b6a68e;font-size:12px;">Загрузка переписки…</div>
+        </div>
       </section>
-
-      <section class="card profile-section">
-        <div class="card-title">📜 &nbsp; Послужной список</div>
-        <div class="service-list" id="serviceList"></div>
-      </section>
+      <aside class="profile-side-stack">
+        <section class="card profile-section user-rating-section"><div class="card-title">⭐ Рейтинг</div><div id="profileUserRating"><p class="empty-note">Загрузка рейтинга…</p></div></section>
+        <section class="card profile-section">
+          <div class="card-title">👁 &nbsp; Гости профиля</div>
+          <div class="profile-friends" id="profileGuests"></div>
+        </section>
+        <section class="card profile-section">
+          <div class="card-title">📜 &nbsp; Послужной список</div>
+          <div class="service-list" id="serviceList"></div>
+        </section>
+      </aside>
     </div>
   </main>
 </div>
