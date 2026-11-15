@@ -29,7 +29,7 @@
     box.innerHTML=rows.map(m=>{
       const p=m.empire_profiles||{},mine=user&&m.author_id===user.id;
       const date=new Date(m.created_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
-      return '<div class="msg" data-message-id="'+m.id+'"><img class="chat-avatar" src="'+esc(avatar(p))+'" alt="" loading="lazy"><div class="mini-chat-message-body"><b>'+esc(p.display_name||'Пользователь')+'</b><p>'+esc(m.content)+'</p></div><div class="time">'+date+'</div>'+(mine?'<button type="button" class="mini-chat-delete" data-delete="'+m.id+'" title="Удалить своё сообщение" aria-label="Удалить сообщение">×</button>':'')+'</div>';
+      return '<div class="msg" data-message-id="'+m.id+'"><img class="chat-avatar" src="'+esc(avatar(p))+'" alt="" loading="lazy"><div class="mini-chat-message-body"><a class="mini-chat-user-link" href="profile.html?user='+encodeURIComponent(p.display_name||'')+'">'+esc(p.display_name||'Пользователь')+'</a><p>'+esc(m.content)+'</p></div><div class="time">'+date+'</div>'+(mine?'<button type="button" class="mini-chat-delete" data-delete="'+m.id+'" title="Удалить своё сообщение" aria-label="Удалить сообщение">×</button>':'')+'</div>';
     }).join('');
     box.scrollTop=box.scrollHeight;
   }
