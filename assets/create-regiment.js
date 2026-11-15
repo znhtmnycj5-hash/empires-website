@@ -32,7 +32,7 @@
       form.innerHTML='<div class="create-regiment-blocked"><strong>Создание полка недоступно</strong><p>Вы уже состоите в полку <b>'+String(userRegiment).replace(/[&<>"]/g,'')+'</b>. Сначала выйдите из текущего полка.</p><a class="btn" href="regiment.html?name='+encodeURIComponent(userRegiment)+'">Открыть полк</a></div>';
       return;
     }
-    const getRequests=async()=>{const {data,error}=await auth.client.from('empire_regiment_creation_requests').select('name,status').eq('status','pending');if(error)throw error;return data||[]};
+    const getRequests=async()=>{const {data,error}=await auth.client.from('empire_regiment_creation_requests').select('user_id,name,status').eq('status','pending');if(error)throw error;return data||[]};
     file?.addEventListener('change',()=>{
       const f=file.files?.[0];if(!f)return;
       if(!/^image\/(png|jpeg|webp|gif)$/.test(f.type)){setNotice('Можно загрузить только PNG, JPG, WEBP или GIF.','error');file.value='';return;}
@@ -47,6 +47,9 @@
       if(!name||!faction||!f){setNotice('Заполните все поля и загрузите логотип.','error');return;}
       try{
         const requests=await getRequests();
+        if(requests.some(r=>String(r.user_id||'')===String(auth.user.id))){
+          setNotice('У вас уже есть заявка на создание полка. Дождитесь решения администратора.','error');return;
+        }
         if(requests.some(r=>String(r.name||'').toLowerCase()===name.toLowerCase())){
           setNotice('Заявка на полк с таким названием уже находится на рассмотрении.','error');return;
         }
