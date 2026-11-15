@@ -111,37 +111,18 @@ document.querySelectorAll('.battle-comment-form').forEach(form=>{
   if(form.dataset.empireEnhanced)return;form.dataset.empireEnhanced='1';
   const toolbar=form.querySelector('.battle-comment-toolbar'),editor=form.querySelector('[contenteditable="true"]');if(!toolbar||!editor)return;
   const extra=document.createElement('span');extra.className='empire-comment-extra';
-  const plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.title='Добавить вложение';
-  const mic=document.createElement('button');mic.type='button';mic.textContent='🎙';mic.title='Записать голосовое сообщение (до 20 секунд)';
+  const plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.title='Вставить изображение или видео';
   const menu=document.createElement('div');menu.className='empire-attach-menu';
-  const image=document.createElement('button');image.type='button';image.textContent='Добавить изображение';
-  const video=document.createElement('button');video.type='button';video.textContent='Добавить видео';
-  const spoiler=document.createElement('button');spoiler.type='button';spoiler.textContent='Добавить спойлер';
+  const image=document.createElement('button');image.type='button';image.textContent='Изображение';
+  const video=document.createElement('button');video.type='button';video.textContent='Видео';
   const file=document.createElement('input');file.type='file';file.accept='image/*,video/mp4,video/webm';file.hidden=true;
-  menu.append(image,video,spoiler);extra.append(plus,mic,menu,file);toolbar.append(extra);\n  const smileBtn=document.createElement('button');smileBtn.type='button';smileBtn.textContent='☺';smileBtn.title='Выбрать смайл';smileBtn.setAttribute('aria-label','Выбрать смайл');toolbar.append(smileBtn);\n  if(window.CLANWARS_SMILES)window.CLANWARS_SMILES.makePicker(smileBtn,editor);
+  menu.append(image,video);extra.append(plus,menu,file);toolbar.append(extra);
+  const smileBtn=document.createElement('button');smileBtn.type='button';smileBtn.textContent='☺';smileBtn.title='Выбрать смайл';smileBtn.setAttribute('aria-label','Выбрать смайл');toolbar.append(smileBtn);
+  if(window.CLANWARS_SMILES)window.CLANWARS_SMILES.makePicker(smileBtn,editor);
   plus.addEventListener('click',()=>menu.classList.toggle('open'));
   const addFile=async kind=>{file.accept=kind==='image'?'image/*':'video/mp4,video/webm';file.click();menu.classList.remove('open');};
   image.addEventListener('click',()=>addFile('image'));video.addEventListener('click',()=>addFile('video'));
   file.addEventListener('change',async()=>{const f=file.files?.[0];if(!f)return;try{await api.requireLogin();const url=await api.upload(f);editor.focus();document.execCommand('insertHTML',false,f.type.startsWith('image/')?'<img src="'+url+'" alt="Изображение" loading="lazy">':'<video src="'+url+'" controls preload="metadata"></video>');}catch(e){alert(e.message||'Не удалось загрузить файл');}finally{file.value='';}});
-  spoiler.addEventListener('click',()=>{menu.classList.remove('open');const title=prompt('Название спойлера:');if(title===null)return;const body=prompt('Содержимое спойлера:');if(body===null)return;editor.focus();document.execCommand('insertHTML',false,'<details><summary>'+title.replace(/[&<>]/g,'')+'</summary>'+body.replace(/[&<>]/g,'')+'</details>');});
-  let recorder=null,chunks=[],stopTimer=null,recordingStream=null;
-  mic.addEventListener('click',async()=>{
-   if(recorder?.state==='recording'){recorder.stop();return;}
-   try{
-    await api.requireLogin();
-    if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder)throw new Error('Запись аудио не поддерживается этим браузером.');
-    recordingStream=await navigator.mediaDevices.getUserMedia({audio:true});
-    recorder=new MediaRecorder(recordingStream);chunks=[];
-    recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
-    recorder.onstop=async()=>{
-     clearTimeout(stopTimer);recordingStream?.getTracks().forEach(t=>t.stop());recordingStream=null;
-     try{const blob=new Blob(chunks,{type:recorder.mimeType||'audio/webm'});const f=new File([blob],'voice-'+Date.now()+'.webm',{type:blob.type});const url=await api.upload(f);editor.focus();document.execCommand('insertHTML',false,'<audio controls src="'+url+'"></audio>');}
-     catch(e){alert(e.message||'Не удалось сохранить запись');}
-     mic.textContent='🎙';
-    };
-    recorder.start();mic.textContent='■';
-    stopTimer=setTimeout(()=>{if(recorder?.state==='recording')recorder.stop();},20000);
-   }catch(e){recordingStream?.getTracks().forEach(t=>t.stop());recordingStream=null;mic.textContent='🎙';alert(e.message||'Не удалось начать запись');}
   });
   });
 }
