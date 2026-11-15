@@ -224,7 +224,10 @@ Mobile logo: width/height/flex-basis 105px; padding inherited 8px.
 .regiment-main-meta strong,.commander-line strong{font-size:15px;color:#e0c17e;line-height:1.3;overflow-wrap:anywhere}
 .regiment-alliance-link{color:#e0c17e;text-decoration:none;border-bottom:1px solid rgba(185,149,89,.45);transition:.15s ease}.regiment-alliance-link:hover{color:#f0d59b;border-bottom-color:#f0d59b}
 .regiment-columns{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.regiment-bottom-columns{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.regiment-bottom-columns{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;align-items:stretch}
+.regiment-bottom-columns>.regiment-section{min-height:270px;display:flex;flex-direction:column}
+.regiment-bottom-columns>.regiment-section>.card-title{min-height:47px;box-sizing:border-box;align-items:center}
+.regiment-bottom-columns>.regiment-section>.regiment-section-content{flex:1;box-sizing:border-box}
 .regiment-section{min-height:270px}
 .regiment-section-content{padding:18px}
 .commander-line{display:flex;flex-direction:column;gap:7px;padding:14px;border:1px solid #493823;background:rgba(15,13,10,.6)}
