@@ -453,7 +453,7 @@ if(!battle){
     e.preventDefault();
     const html=sanitizeCommentHtml(commentEditor.innerHTML);
     const text=commentEditor.textContent.trim();
-    if(!text&&!html.replace(/<[^>]*>/g,"").trim())return;
+    if(!text&&!html.replace(/<[^>]*>/g,"").trim()&&!html.includes('<img '))return;
     saveComment({id:"comment-"+Date.now()+"-"+Math.random().toString(36).slice(2,7),parentId:null,name:currentUser.name,avatar:empireUserAvatar(currentUser.name),html,text,time:nowLabel()});
     commentEditor.innerHTML="";
   });
