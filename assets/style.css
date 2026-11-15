@@ -4297,3 +4297,32 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 @media(max-width:600px){
   .site-news-page #siteNewsDetail{padding:0 18px 22px}
 }
+
+/* Napoleonic emotes in mini chat */
+.chat-input{position:relative;align-items:center;gap:7px}
+.mini-chat-emote-wrap{position:relative;flex:0 0 auto}
+.mini-chat-emote-button{
+  width:42px;height:42px;padding:5px;background:#17130f;border:1px solid #5d4930;
+  color:#d9b875;cursor:pointer;display:grid;place-items:center;font-size:22px;line-height:1
+}
+.mini-chat-emote-button:hover{border-color:#a77b3f;background:#251d14}
+.mini-chat-emote-picker{
+  display:none;position:absolute;z-index:50;right:0;bottom:50px;width:292px;
+  padding:9px;grid-template-columns:repeat(4,1fr);gap:6px;
+  background:linear-gradient(145deg,#211c16,#100f0d);border:1px solid #8a683b;
+  box-shadow:0 16px 35px rgba(0,0,0,.72)
+}
+.mini-chat-emote-picker.show{display:grid}
+.mini-chat-emote-choice{
+  width:62px;height:62px;padding:4px;background:#17130f;border:1px solid #493823;
+  cursor:pointer;display:grid;place-items:center
+}
+.mini-chat-emote-choice:hover{border-color:#c79a51;background:#2a2117}
+.mini-chat-emote-choice img{width:52px;height:52px;object-fit:contain;display:block}
+.mini-chat-emote{width:24px;height:24px;object-fit:contain;display:inline-block;vertical-align:middle;margin:0 2px}
+@media(max-width:600px){
+  .mini-chat-emote-picker{width:260px;grid-template-columns:repeat(4,1fr);right:-4px}
+  .mini-chat-emote-choice{width:56px;height:56px}
+  .mini-chat-emote-choice img{width:47px;height:47px}
+  .mini-chat-emote{width:22px;height:22px}
+}
