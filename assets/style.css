@@ -4468,3 +4468,14 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
   .site-news-page #siteNewsEditor .card-title{padding-left:18px;padding-right:18px}
   .site-news-page #siteNewsEditor .site-news-form{padding:0 18px 22px}
 }
+
+/* Site news image upload field */
+.site-news-file-hint{
+  color:#8f816d;
+  font-size:10px;
+  line-height:1.4;
+}
+.site-news-form input[type="file"]{
+  padding:8px;
+  cursor:pointer;
+}
