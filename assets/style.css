@@ -3569,6 +3569,8 @@ html body .members-grid img.member-avatar[src*="Bav.jpg"] {
   max-height:135px!important;
   object-fit:cover;
   display:block;
+  box-sizing:border-box;
+  border-radius:2px;
 }
 #homeNewsPreview .site-news-card-copy{
   min-width:0;
