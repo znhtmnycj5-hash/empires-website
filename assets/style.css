@@ -3526,3 +3526,19 @@ html body .members-grid img.member-avatar[src*="Bav.jpg"] {
     white-space:normal;
   }
 }
+
+
+/* Homepage news: only the news list scrolls, never the outer card */
+#news{
+  overflow:hidden!important;
+}
+#news #homeNewsPreview{
+  max-height:590px!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+}
+@media(max-width:760px){
+  #news #homeNewsPreview{
+    max-height:360px!important;
+  }
+}
