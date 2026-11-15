@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Профиль — Clanwars</title>
-  <link rel="stylesheet" href="assets/style.css?v=20261115-profile5">
+  <link rel="stylesheet" href="assets/style.css?v=20261115-profile6">
   <script src="assets/user-avatars.js?v=20261113-clean2"></script>
 </head>
 <body>
@@ -30,15 +30,17 @@
   <main class="profile-page">
     <a class="back-link" href="index.html">← Вернуться на главную</a>
     <section class="card profile-header">
-      <div class="profile-avatar-wrap"><img id="profileAvatar" class="profile-avatar" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" decoding="async" style="visibility:hidden"><span id="profileRoleBadge" class="profile-role-badge" hidden></span></div>
-      <div class="profile-main">
+      <div class="profile-sidebar">
         <div class="page-kicker">ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ</div>
-        <h1 id="profileName">Пользователь</h1>
         <div class="profile-meta">
           <div class="profile-regiment-meta"><span>Полк</span><a id="profileRegimentLink" href="#" class="profile-regiment-link"><img id="profileRegimentLogo" src="assets/aea32583-9230-496e-af65-c2e33f73ff79.png" alt=""><strong id="profileRegiment">Без полка</strong></a></div>
           <div><span>Должность</span><strong id="profileRole">Солдат</strong></div>
           <div class="profile-online-meta"><span>В сети</span><strong id="profileOnlineStatus" class="profile-online-status offline"><i></i><em>Не в сети</em></strong></div>
         </div>
+      </div>
+      <div class="profile-identity">
+        <div class="profile-avatar-wrap"><img id="profileAvatar" class="profile-avatar" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" decoding="async" style="visibility:hidden"><span id="profileRoleBadge" class="profile-role-badge" hidden></span></div>
+        <h1 id="profileName">Пользователь</h1>
       </div>
       <div class="profile-actions" id="profileActions"></div>
     </section>
