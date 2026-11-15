@@ -6,7 +6,7 @@
 <title>Clanwars — Mount&amp;Blade Community</title>
 <link rel="stylesheet" href="assets/style.css?v=20261115-smiles3">
   <script src="assets/comment-counts.js?v=20261108-1"></script>
-<script src="assets/rating.js?v=20261108-lazy1"></script>
+<script src="assets/rating.js?v=20261115-performance1"></script>
 </head>
 <body>
 <header>
@@ -123,40 +123,13 @@
 <script>
 (() => {
 const toast=(msg)=>{const e=document.getElementById('toast');if(!e)return;e.textContent=msg;e.classList.add('show');clearTimeout(window.__t);window.__t=setTimeout(()=>e.classList.remove('show'),2400)};
-const siteCounters={regiments:0,battles:0,users:0};
+const siteCounters={regiments:15,battles:16,users:0};
 const applySiteCounters=()=>{
   Object.entries(siteCounters).forEach(([key,value])=>{
     document.querySelectorAll('[data-site-count="'+key+'"]').forEach(el=>el.textContent=value);
   });
 };
-const loadAutomaticSiteCounters=async()=>{
-  try{
-    const [regimentsHtml,profileHtml,battlesHtml]=await Promise.all([
-      fetch('regiments.html',{cache:'no-store'}).then(r=>r.text()),
-      fetch('profile.html',{cache:'no-store'}).then(r=>r.text()),
-      fetch('battles.html',{cache:'no-store'}).then(r=>r.text())
-    ]);
-    const regimentsDoc=new DOMParser().parseFromString(regimentsHtml,'text/html');
-    const regimentCount=regimentsDoc.querySelectorAll('.regiment-tile').length;
-    if(regimentCount) siteCounters.regiments=regimentCount;
-
-    const profileMatch=profileHtml.match(/const\s+profiles\s*=\s*\{([\s\S]*?)\};/);
-    if(profileMatch){
-      const userKeys=profileMatch[1].match(/"[^"]+"\s*:/g);
-      if(userKeys) siteCounters.users=userKeys.length;
-    }
-
-    const battlesDoc=new DOMParser().parseFromString(battlesHtml,'text/html');
-    const battleCount=battlesDoc.querySelectorAll('.battle-record').length;
-    if(battleCount) siteCounters.battles=battleCount;
-
-    applySiteCounters();
-  }catch(error){
-    applySiteCounters();
-  }
-};
 applySiteCounters();
-loadAutomaticSiteCounters();
 let homeBattleFilter='accepted';
 let homeBattleRecords=[];
 const loadUpcomingBattles=async()=>{
@@ -164,7 +137,7 @@ const loadUpcomingBattles=async()=>{
   if(!box)return;
   try{
     const sourceUrl=new URL('battles.html',document.baseURI).href;
-    const response=await fetch(sourceUrl,{cache:'no-store'});
+    const response=await fetch(sourceUrl);
     if(!response.ok)throw new Error('HTTP '+response.status);
     const html=await response.text();
     const doc=new DOMParser().parseFromString(html,'text/html');
@@ -238,7 +211,7 @@ const updateHomeRanking=async()=>{
   }catch(error){}
 }
 updateHomeRanking();
-setInterval(loadUpcomingBattles,30000);
+setInterval(loadUpcomingBattles,60000);
 
 
 const communityRegiments=[
@@ -276,13 +249,13 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>a.onclick=e=>{const id=a.ge
 </script>
 
 <script src="assets/user-avatars.js?v=20261115-faction1"></script>
-<script src="assets/online-users.js?v=20261113-3"></script>
+<script src="assets/online-users.js?v=20261115-performance1"></script>
 <script src="assets/site-news.js?v=20261108-home-news4"></script>
 <script src="assets/supabase-auth.js?v=20261111-5"></script>
 <script src="assets/empire-comments.js?v=20261115-smiles3"></script>
 <script src="assets/community.js?v=20261113-3"></script>
 <script src="assets/smile.js?v=20261115-1"></script>
-<script src="assets/mini-chat.js?v=20261115-smiles1"></script>
+<script src="assets/mini-chat.js?v=20261115-performance1"></script>
 <script src="assets/user-rating.js?v=20261115-real-ratings"></script>
 </body>
 </html>
