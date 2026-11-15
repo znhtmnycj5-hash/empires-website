@@ -32,7 +32,7 @@
     </div>
   </section>
 
-  <div class="regiments-create-wrap">
+  <div class="regiments-create-wrap" id="createRegimentWrap" hidden>
     <a class="btn regiments-create-button" href="create-regiment.html">Создать полк</a>
   </div>
 
@@ -150,6 +150,22 @@ const renderApprovedRegiments=()=>{ try{const deleted=JSON.parse(localStorage.ge
   }catch(error){}
 };
 renderApprovedRegiments();
+</script>
+<script>
+(function(){
+  const wrap=document.getElementById('createRegimentWrap');
+  if(!wrap)return;
+  const show=()=>{
+    try{
+      const raw=localStorage.getItem('empire_current_user');
+      const user=raw?JSON.parse(raw):null;
+      const regiment=String(user?.regiment||'').trim();
+      wrap.hidden=!!regiment;
+    }catch(e){wrap.hidden=true;}
+  };
+  show();
+  window.addEventListener('storage',show);
+})();
 </script>
 </body>
 </html>
