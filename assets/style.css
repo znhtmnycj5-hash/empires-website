@@ -4423,3 +4423,22 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 
 .regiment-news-title-actions{margin-left:auto;display:flex;align-items:center;gap:10px}.regiment-news-title-actions #regimentNewsActions{display:flex;align-items:center}.regiment-news-write-button{padding:7px 13px;font-size:11px}.regiment-news-editor{margin:0 18px 14px;padding:16px;border:1px solid #59452e;background:rgba(15,11,8,.72)}.regiment-news-editor form{display:grid;gap:10px}.regiment-news-editor label{display:flex;flex-direction:column;gap:5px;color:#c8b38e;font-size:11px}.regiment-news-editor label span{color:#8f816d}.regiment-news-editor input,.regiment-news-editor textarea{box-sizing:border-box;width:100%;padding:9px;background:#17120d;border:1px solid #685034;color:#eee;font:inherit}.regiment-news-editor textarea{resize:vertical}.regiment-news-editor-actions{display:flex;gap:8px;flex-wrap:wrap}.regiment-news-editor-actions .btn{cursor:pointer}
 @media(max-width:600px){.regiment-news-title-actions{gap:6px}.regiment-news-title-actions .news-section-link{font-size:9px}.regiment-news-write-button{padding:6px 9px;font-size:10px}}
+
+/* Larger logos on homepage rankings */
+.home-rankings-grid .ranking .rank-flag{
+  width:44px;
+  height:34px;
+  min-width:44px;
+  max-width:44px;
+  min-height:34px;
+  max-height:34px;
+  object-fit:contain;
+  margin-right:10px;
+}
+.home-rankings-grid .home-user-rating-link img{
+  width:40px;
+  height:40px;
+  min-width:40px;
+  min-height:40px;
+  object-fit:cover;
+}
