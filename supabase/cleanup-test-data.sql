@@ -8,7 +8,13 @@ select u.id, p.display_name, u.email, u.created_at
 from auth.users u
 left join public.empire_profiles p on p.id=u.id
 where p.id is null
-   or lower(trim(p.display_name)) not in ('commander','kalash')
+   or lower(trim(p.display_name)) <> 'commander'
+   and not (
+     lower(trim(p.display_name))='kalash'
+     or (lower(trim(p.display_name))='kalashnikov' and not exists (
+       select 1 from public.empire_profiles kp where lower(trim(kp.display_name))='kalash'
+     ))
+   )
 order by u.created_at;
 
 -- PREVIEW: seeded regiments that will be removed (1st Regiment is preserved)
@@ -36,7 +42,13 @@ where not exists (
   select 1
   from public.empire_profiles p
   where p.id=u.id
-    and lower(trim(p.display_name)) in ('commander','kalash')
+    and (
+      lower(trim(p.display_name))='commander'
+      or lower(trim(p.display_name))='kalash'
+      or (lower(trim(p.display_name))='kalashnikov' and not exists (
+        select 1 from public.empire_profiles kp where lower(trim(kp.display_name))='kalash'
+      ))
+    )
 );
 
 commit;
