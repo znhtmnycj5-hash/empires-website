@@ -4307,3 +4307,17 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 .mini-chat-emote-choice{width:42px;height:42px;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #4f3d28;background:#211c16;cursor:pointer}
 .mini-chat-emote-choice:hover{background:#5c1c1a;border-color:#9a6d3c}
 
+
+/* Clanwars smiles */
+.clanwars-smile{display:inline-block!important;width:24px!important;height:24px!important;max-width:24px!important;max-height:24px!important;object-fit:contain!important;vertical-align:-6px!important;margin:0 2px!important;border:0!important;border-radius:0!important;background:transparent!important}
+.battle-comment-text .clanwars-smile{width:26px!important;height:26px!important;max-width:26px!important;max-height:26px!important;vertical-align:-7px!important}
+.clanwars-smile-wrap{position:relative;display:inline-flex;align-items:center;flex:0 0 auto}
+.clanwars-smile-picker{display:none;position:absolute;z-index:10000;left:0;bottom:32px;width:240px;padding:8px;grid-template-columns:repeat(5,40px);gap:6px;background:#15120e;border:1px solid #765a34;box-shadow:0 14px 30px rgba(0,0,0,.75)}
+.clanwars-smile-picker.show{display:grid}
+.clanwars-smile-picker button{width:40px!important;height:40px!important;min-width:40px!important;padding:4px!important;display:flex!important;align-items:center!important;justify-content:center!important;border:1px solid #4f3d28!important;background:#211c16!important;cursor:pointer!important}
+.clanwars-smile-picker button:hover{background:#5c1c1a!important;border-color:#9a6d3c!important}
+.clanwars-smile-picker img{width:30px!important;height:30px!important;max-width:30px!important;max-height:30px!important;object-fit:contain!important;border:0!important}
+.private-message-smile-button{width:42px!important;min-width:42px!important;padding:0!important;border:1px solid #5d4930!important;background:#17130f!important;color:#d9b875!important;font:700 20px/1 "Roboto Slab",serif!important;cursor:pointer!important}
+.private-message-smile-button:hover{background:#641e1b!important;border-color:#9a6d3c!important;color:#efd49a!important}
+.message-compose .clanwars-smile-wrap{align-self:stretch}
+.message-compose .clanwars-smile-picker{bottom:43px;left:auto;right:0}
