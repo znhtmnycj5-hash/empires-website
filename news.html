@@ -72,8 +72,8 @@ const newsPage=Math.max(1,parseInt(params.get('page')||'1',10)||1);
 const regiment=params.get('regiment')||'1st Regiment';
 const id=params.get('id')||'';
 const approvedNewsRegiment=(()=>{try{return (JSON.parse(localStorage.getItem('empire_approved_regiments_v1')||'[]')||[]).find(x=>String(x.name)===String(regiment));}catch(e){return null;}})();
-const d=regimentData[regiment]|| (approvedNewsRegiment?{avatar:approvedNewsRegiment.logo||'assets/default-soldier.jpg',commander:approvedNewsRegiment.commander||approvedNewsRegiment.user||'',faction:approvedNewsRegiment.faction||'',officers:[]}:regimentData['1st Regiment']);
-const samples=(newsTemplates[regiment]|| (approvedNewsRegiment?[]:newsTemplates['1st Regiment'])).map((n,i)=>({id:'sample-'+(i+1),regiment,title:n[0],date:n[1],author:n[2],privacy:n[3],body:n[4],image:n[5],private:n[6]}));
+const d=regimentData[regiment]||{avatar:approvedNewsRegiment?.logo||'assets/default-soldier.jpg',commander:approvedNewsRegiment?.commander||approvedNewsRegiment?.user||'',faction:approvedNewsRegiment?.faction||'',officers:[]};
+const samples=(newsTemplates[regiment]||[]).map((n,i)=>({id:'sample-'+(i+1),regiment,title:n[0],date:n[1],author:n[2],privacy:n[3],body:n[4],image:n[5],private:n[6]}));
 const storageKey='empire_regiment_news_v1_'+regiment;
 const commentsKey='empire_news_comments_v1';
 const getStored=()=>{try{const value=JSON.parse(localStorage.getItem(storageKey)||'[]');return Array.isArray(value)?value.filter(n=>n&&typeof n==='object').map((n,i)=>({id:String(n.id||('recovered-'+i)),regiment:n.regiment||regiment,title:String(n.title||'Без названия'),date:String(n.date||''),author:String(n.author||'Командование'),privacy:n.privacy|| (n.private?'Приватная':'Открытая'),private:n.private===true||n.privacy==='Приватная',body:String(n.body||''),image:String(n.image||d.avatar)})):[];}catch(e){return[];}};
@@ -108,7 +108,7 @@ function renderList(){
   if(!news){
     const sampleMatch=String(id).match(/^sample-(\d+)$/);
     const sampleIndex=sampleMatch?Number(sampleMatch[1])-1:-1;
-    const template=(newsTemplates[regiment]||newsTemplates['1st Regiment'])[sampleIndex];
+    const template=(newsTemplates[regiment]||[])[sampleIndex];
     if(template)news={id,regiment,title:template[0],date:template[1],author:template[2],privacy:template[3],body:template[4],image:template[5],private:template[6]};
   }
   if(!news){document.getElementById('newsDetail').innerHTML='<div class="empty-note">Эта публикация больше недоступна. Вернитесь в архив и откройте другую новость.</div>';document.getElementById('commentsSection').hidden=true;return;}
