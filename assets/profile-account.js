@@ -206,6 +206,13 @@ try{
         const q=await auth.client.from('empire_profiles').select('id,display_name,avatar_url,regiment').in('id',ids);
         if(q.error)throw q.error;
         const byId=Object.fromEntries((q.data||[]).map(p=>[p.id,p]));
+        const regimentNames=[...new Set((q.data||[]).map(p=>String(p.regiment||'').trim()).filter(Boolean))];
+        let factions={};
+        if(regimentNames.length){
+          const rq=await auth.client.from('empire_regiments').select('name,faction').in('name',regimentNames);
+          if(!rq.error)factions=Object.fromEntries((rq.data||[]).map(r=>[r.name,r.faction||'']));
+        }
+        (q.data||[]).forEach(p=>{p._regimentFaction=factions[p.regiment]||'';});
         const seen=new Set();
         (rows||[]).forEach(row=>{
           const id=row.sender_id===auth.user.id?row.recipient_id:row.sender_id;
@@ -218,7 +225,7 @@ try{
         return;
       }
       messageArea.innerHTML='<div class="conversation-list">'+contacts.map(p=>{
-        const a=p.avatar_url||avatarFallback(p.display_name,{faction:''});
+        const a=p.avatar_url||avatarFallback(p.display_name,{faction:p._regimentFaction||''});
         return '<a class="conversation-item" href="profile.html?user='+encodeURIComponent(p.display_name)+'"><img src="'+esc(a)+'" alt=""><div><strong>'+esc(p.display_name)+'</strong><small>'+(p.regiment?esc(p.regiment):'Без полка')+'</small></div><span>›</span></a>';
       }).join('')+'</div>';
       return;
@@ -231,11 +238,16 @@ try{
       .or('and(sender_id.eq.'+auth.user.id+',recipient_id.eq.'+target.id+'),and(sender_id.eq.'+target.id+',recipient_id.eq.'+auth.user.id+')')
       .order('created_at',{ascending:true});
     if(error)throw error;
-    const targetAvatar=target.avatar_url||avatarFallback(target.display_name,{faction:''});
+    let targetFaction=target._regimentFaction||'';
+    if(!targetFaction&&target.regiment){
+      const rq=await auth.client.from('empire_regiments').select('faction').eq('name',target.regiment).maybeSingle();
+      targetFaction=rq.data?.faction||'';
+    }
+    const targetAvatar=target.avatar_url||avatarFallback(target.display_name,{faction:targetFaction});
     messageArea.innerHTML='<div class="conversation-head"><a href="profile.html?user='+encodeURIComponent(target.display_name)+'"><img src="'+esc(targetAvatar)+'" alt=""><strong>'+esc(target.display_name)+'</strong></a></div>'+
       '<div class="message-history">'+(rows||[]).map(m=>{
         const mine=m.sender_id===auth.user.id;
-        return '<div class="private-message '+(mine?'mine':'')+'"><img src="'+esc(mine?(auth.profile?.avatar_url||avatarFallback(auth.profile?.display_name,{})):targetAvatar)+'" alt=""><div><b>'+esc(mine?(auth.profile?.display_name||'Вы'):target.display_name)+'</b><p>'+esc(m.content)+'</p><span>'+new Date(m.created_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</span></div></div>';
+        return '<div class="private-message '+(mine?'mine':'')+'"><img src="'+esc(mine?(auth.profile?.avatar_url||avatarFallback(auth.profile?.display_name,{faction:auth.profile?._regimentFaction||''})):targetAvatar)+'" alt=""><div><b>'+esc(mine?(auth.profile?.display_name||'Вы'):target.display_name)+'</b><p>'+esc(m.content)+'</p><span>'+new Date(m.created_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+'</span></div></div>';
       }).join('')+'</div>'+
       '<div class="message-compose"><input id="privateMessageInput" maxlength="2000" placeholder="Написать сообщение…"><button id="privateMessageSend">Отправить</button></div>';
     const send=async()=>{
