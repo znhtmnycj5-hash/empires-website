@@ -4309,7 +4309,7 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 .mini-chat-emote{
   display:inline-block!important;width:28px!important;height:28px!important;flex:0 0 28px!important;
   vertical-align:middle!important;overflow:hidden!important;
-  background-image:url("assets/emotes/napoleonic-emotes.png")!important;
+  background-image:url("emotes/napoleonic-emotes.png")!important;
   background-repeat:no-repeat!important;background-size:112px 112px!important;
 }
 .mini-chat-emote-angry{background-position:0 0!important}
