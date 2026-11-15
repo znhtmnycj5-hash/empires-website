@@ -6,7 +6,8 @@
 <title>Рейтинг — Clanwars</title>
 <link rel="stylesheet" href="assets/style.css?v=20261115-mobile-nav-fix">
 <script src="assets/rating.js?v=20261109-rating-new"></script>
-<script src="assets/alliances.js?v=20261113-clean2"></script>
+<script src="assets/supabase-auth.js?v=20261115-users-ranking"></script>
+<script src="assets/user-rating.js?v=20261115-users-ranking"></script>
 <style>
 .rating-new{padding-bottom:40px}
 .rating-new .rating-intro{text-align:center;margin-bottom:22px}
@@ -38,6 +39,8 @@
 .rating-new .rating-row-sub{display:block;color:#746957;font:10px "Roboto Slab",serif;margin-top:3px}
 .rating-new .rating-row-score{color:#e0c17d;font:700 12px "Roboto Slab",serif;text-align:right;white-space:nowrap}
 .rating-new .empty{padding:25px;text-align:center;color:#766b5b;font-size:11px}
+.rating-new .user-rating-row-score.positive{color:#75bd68}
+.rating-new .user-rating-row-score.negative{color:#d56b61}
 @media(max-width:700px){
  .rating-new .podium{gap:6px}
  .rating-new .podium-card{min-height:165px;padding:10px 5px}
@@ -57,27 +60,27 @@
   <a href="regiments.html">Полки</a>
   <a href="battles.html">Сражения</a>
   <a href="campaigns.html">Кампании</a>
-  <a class="active" href="rating.html">Рейтинг</a>
   <a href="alliances.html">Союзы</a>
   <a href="search.html">Поиск</a>
   <a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
 </nav></div></header>
 
 <main class="container rating-new">
-<section class="card rating-intro"><h1>РЕЙТИНГ</h1><p>Полки и союзы сообщества EMPIRE — от высшего рейтинга к низшему.</p></section>
+<section class="card rating-intro"><h1>РЕЙТИНГ</h1><p>Рейтинг полков и участников сообщества Clanwars.</p></section>
+
+<section class="rating-section">
+<div class="rating-section-title"><h2>Рейтинг пользователей</h2><span>По оценкам участников</span></div>
+<div id="ratingUsers"><p class="empty">Загрузка рейтинга пользователей…</p></div>
+</section>
 
 <section class="rating-section">
 <div class="rating-section-title"><h2>Рейтинг полков</h2><span>Топ-3 и полный список</span></div>
 <div id="regimentRating"></div>
 </section>
 
-<section class="rating-section">
-<div class="rating-section-title"><h2>Рейтинг союзов</h2><span>Топ-3 и полный список</span></div>
-<div id="allianceRating"></div>
-</section>
 </main>
 
-<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">Clanwars</strong><br>Сообщество Mount &amp; Blade</div><div>Главная &nbsp;|&nbsp; Полки &nbsp;|&nbsp; Сражения &nbsp;|&nbsp; Рейтинг &nbsp;|&nbsp; Союзы</div><div class="motto">Vive Clanwars!</div></div></footer>
+<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">Clanwars</strong><br>Сообщество Mount &amp; Blade</div><div>Главная &nbsp;|&nbsp; Полки &nbsp;|&nbsp; Сражения &nbsp;|&nbsp; Союзы</div><div class="motto">Vive Clanwars!</div></div></footer>
 
 <script>
 (function(){
@@ -98,11 +101,6 @@ const regimentData=[
 {name:"Totenkopf",score:1040,count:10,avatar:"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/SS_Totenkopf_Fahne.svg/3840px-SS_Totenkopf_Fahne.svg.png"},
 {name:"Mangust",score:1150,count:14,avatar:"assets/mangust.webp"}
 ];
-const allianceData=[
-{name:"Имперский союз",score:6135,membersCount:102,avatar:"assets/815f1959-d0fb-4e94-8d1b-bf5b0a7b5204.png",id:"alliance-001"},
-{name:"Братство линии",score:4385,membersCount:80,avatar:"assets/95.webp",id:"alliance-002"},
-{name:"Северная коалиция",score:4295,membersCount:78,avatar:"assets/preobraz.webp",id:"alliance-003"}
-];
 const esc=v=>String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const render=(root,items,type)=>{
  if(!root)return;
@@ -120,8 +118,7 @@ const render=(root,items,type)=>{
  root.innerHTML='<div class="podium">'+podium+'</div><div class="rating-list">'+rows+'</div>';
 };
 render(document.getElementById('regimentRating'),regimentData,'regiment');
-render(document.getElementById('allianceRating'),allianceData,'alliance');
 })();
-</script></script>
+</script>
 </body>
 </html>
