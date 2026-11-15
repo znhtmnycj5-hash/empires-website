@@ -14,10 +14,20 @@
       return;
     }
     const currentUser=auth.profile?.display_name||'Игрок';
+    // Проверяем членство без вложенного relation-запроса: он ломался при изменении схемы Supabase.
     const {data:membership,error:membershipError}=await auth.client.from('empire_regiment_members')
-      .select('empire_regiments(name)').eq('user_id',auth.user.id).is('left_at',null).limit(1).maybeSingle();
-    if(membershipError)throw membershipError;
-    const userRegiment=membership?.empire_regiments?.name||'';
+      .select('id,regiment_id').eq('user_id',auth.user.id).is('left_at',null).limit(1).maybeSingle();
+    if(membershipError){
+      console.warn('Не удалось проверить членство через empire_regiment_members:',membershipError);
+    }
+    let userRegiment='';
+    if(membership?.regiment_id){
+      const {data:regiment,error:regimentError}=await auth.client.from('empire_regiments')
+        .select('name').eq('id',membership.regiment_id).maybeSingle();
+      if(!regimentError)userRegiment=regiment?.name||'';
+    }
+    // Дополнительный источник для уже синхронизированного профиля.
+    if(!userRegiment)userRegiment=String(auth.profile?.regiment||'').trim();
     if(userRegiment){
       form.innerHTML='<div class="create-regiment-blocked"><strong>Создание полка недоступно</strong><p>Вы уже состоите в полку <b>'+String(userRegiment).replace(/[&<>"]/g,'')+'</b>. Сначала выйдите из текущего полка.</p><a class="btn" href="regiment.html?name='+encodeURIComponent(userRegiment)+'">Открыть полк</a></div>';
       return;
