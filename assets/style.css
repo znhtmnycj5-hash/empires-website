@@ -4174,3 +4174,20 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
     flex-basis:105px;
   }
 }
+
+
+/* Site news detail left inset */
+.site-news-page #siteNewsDetail{
+  padding: 0 28px 28px;
+}
+.site-news-page #siteNewsDetail .site-news-detail-image,
+.site-news-page #siteNewsDetail h1,
+.site-news-page #siteNewsDetail h2,
+.site-news-page #siteNewsDetail h3,
+.site-news-page #siteNewsDetail p,
+.site-news-page #siteNewsDetail .site-news-detail-text{
+  margin-left: 0;
+}
+@media(max-width:600px){
+  .site-news-page #siteNewsDetail{padding:0 18px 22px}
+}
