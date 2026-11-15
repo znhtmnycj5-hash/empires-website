@@ -34,6 +34,14 @@
       currentProfile=data||{id:currentUser.id,display_name:currentUser.user_metadata?.display_name||currentUser.email?.split('@')[0]||'Игрок',regiment:'',avatar_url:''};
       try{localStorage.setItem('empire_current_user_v1',currentProfile.display_name);const old=JSON.parse(localStorage.getItem('empire_current_user')||'{}');const changed=old.name!==currentProfile.display_name||old.regiment!==(currentProfile.regiment||'');localStorage.setItem('empire_current_user',JSON.stringify({...old,name:currentProfile.display_name,regiment:currentProfile.regiment||''}));if(changed&&/battle|campaign|news/.test(location.pathname)&&sessionStorage.getItem('empire_auth_profile_synced')!=='1'){sessionStorage.setItem('empire_auth_profile_synced','1');location.reload();}}catch(e){}
     }
+    if(currentUser){
+      try{
+        if(currentProfile?.regiment){
+          const rq=await client.from('empire_regiments').select('name,faction').eq('name',currentProfile.regiment).maybeSingle();
+          currentProfile={...currentProfile,_regimentFaction:rq.data?.faction||''};
+        }
+      }catch(e){}
+    }
     if(currentUser){try{const pending=localStorage.getItem('empire_pending_avatar_v1');if(pending&&pending.startsWith('data:image/')){const blob=await (await fetch(pending)).blob();const ext=(blob.type.split('/')[1]||'png').replace('jpeg','jpg');const path=currentUser.id+'/'+Date.now()+'.'+ext;const uploaded=await client.storage.from('profile-avatars').upload(path,blob,{contentType:blob.type,upsert:true});if(!uploaded.error){const url=client.storage.from('profile-avatars').getPublicUrl(path).data.publicUrl;await client.from('empire_profiles').update({avatar_url:url}).eq('id',currentUser.id);currentProfile={...currentProfile,avatar_url:url};localStorage.removeItem('empire_pending_avatar_v1');}}}catch(e){console.warn('Не удалось загрузить отложенный аватар:',e);}}
     window.EMPIRE_AUTH_STATE={user:currentUser,profile:currentProfile,client};
     document.dispatchEvent(new CustomEvent('empire:auth-changed',{detail:window.EMPIRE_AUTH_STATE}));
@@ -43,7 +51,11 @@
     const link=document.querySelector('a.login');
     if(link){if(currentUser){link.textContent='♙ Выйти из профиля';link.title='Выйти из профиля';link.dataset.authSignout='1';link.href='#';}else{link.textContent='♙ Войти в сообщество';link.removeAttribute('data-auth-signout');link.href='register.html';}}
     const cabinet=document.getElementById('personalCabinet');
-    if(cabinet){cabinet.hidden=!currentUser;if(currentUser){const name=currentProfile?.display_name||'Пользователь';const label=document.getElementById('cabinetName');if(label)label.textContent=name;const avatar=document.getElementById('cabinetAvatar');if(avatar&&currentProfile?.avatar_url)avatar.src=currentProfile.avatar_url;const target=document.getElementById('cabinetProfileLink');if(target)target.href='profile.html?user='+encodeURIComponent(name);}}
+    if(cabinet){cabinet.hidden=!currentUser;if(currentUser){const name=currentProfile?.display_name||'Пользователь';const label=document.getElementById('cabinetName');if(label)label.textContent=name;const avatar=document.getElementById('cabinetAvatar');if(avatar){
+        const own=currentProfile?.avatar_url||'';
+        if(own)avatar.src=own;
+        else if(typeof window.empireUserAvatar==='function')avatar.src=window.empireUserAvatar(name,own,currentProfile?._regimentFaction||'');
+      }const target=document.getElementById('cabinetProfileLink');if(target)target.href='profile.html?user='+encodeURIComponent(name);}}
   }
   async function signIn(email,password){await init();const {error}=await client.auth.signInWithPassword({email,password});if(error)throw error;}
   async function checkNameAvailable(displayName){await init();const name=String(displayName||'').trim();if(!name)throw new Error('Укажите никнейм.');const {data,error}=await client.from('empire_profiles').select('id').ilike('display_name',name).limit(1);if(error)throw error;return !data?.length;}
