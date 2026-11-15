@@ -31,7 +31,7 @@
 
     strip.innerHTML=unique.map(user=>{
       const name=String(user.display_name||'').trim();
-      const ownAvatar=user.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png';
+      const ownAvatar=user.avatar_url||'';
       const faction=user._regimentFaction||'';
       const avatar=typeof window.empireUserAvatar==='function'
         ? window.empireUserAvatar(name,ownAvatar,faction)
