@@ -65,6 +65,7 @@
 </script>
 
 <script src="assets/supabase-auth.js?v=20261115-shared-regiments"></script>
+<script src="assets/regiments-challenge.js?v=20261115-1"></script>
 <script>
 (async()=>{
   const list=document.querySelector('.regiments-list');
@@ -102,7 +103,7 @@
     sorted.forEach(r=>{
       const tile=document.createElement('a');
       tile.className='regiment-tile regiment-link';
-      tile.dataset.regimentName=r.name;
+      tile.dataset.regimentName=r.name;tile.dataset.regimentId=r.id;
       tile.href='regiment.html?name='+encodeURIComponent(r.name);
       const img=document.createElement('img');
       img.src=r.logo_url||'assets/default-soldier.jpg';img.alt='Флаг '+r.name;
