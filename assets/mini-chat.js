@@ -107,7 +107,6 @@
     if(error){alert(error.message||'Не удалось удалить сообщение.');btn.disabled=false;return;}
     await loadMessages();
   });
-  /* Initialize the picker before authentication so it never depends on auth startup. */
   if(emoteBtn&&emotePicker&&!emotePicker.dataset.ready){
     emotePicker.innerHTML=EMOTES.map(e=>'<button type="button" class="mini-chat-emote-choice" data-emote="'+e.key+'" title="'+e.label+'"><img src="'+e.src+'" alt="'+e.label+'"></button>').join('');
     emotePicker.dataset.ready='1';
@@ -131,8 +130,8 @@
     }
     input.disabled=!user;
     if(!user)input.placeholder='Войдите, чтобы написать сообщение...';
-    await Promise.all([loadMessages(),loadOnline()]);
-    setInterval(()=>{loadMessages();loadOnline();if(user)auth.touchPresence();},15000);
+    await loadMessages();
+    setInterval(()=>{loadMessages();if(user)auth.touchPresence();},30000);
     document.addEventListener('empire:auth-changed',async e=>{
       user=e.detail?.user||null;profile=e.detail?.profile||null;
       if(user)await auth.touchPresence();
