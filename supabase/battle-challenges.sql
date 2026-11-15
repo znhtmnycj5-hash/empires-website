@@ -71,3 +71,42 @@ begin
 end $$;
 revoke all on function public.empire_review_battle_challenge(uuid,text) from public,anon;
 grant execute on function public.empire_review_battle_challenge(uuid,text) to authenticated;
+
+-- Принятые сражения доступны для публичного списка без серверного пароля.
+drop view if exists public.empire_public_battles;
+create view public.empire_public_battles as
+select
+  id,
+  challenger_regiment_id,
+  target_regiment_id,
+  battle_type,
+  player_count,
+  allies_allowed,
+  ally_limit,
+  scheduled_at,
+  server,
+  status,
+  created_at
+from public.empire_battle_challenges
+where status='accepted';
+
+grant select on public.empire_public_battles to anon, authenticated;
+
+-- Участники обоих полков могут открыть принятое сражение и получить сервер/пароль.
+drop policy if exists "Battle challenges visible to involved members" on public.empire_battle_challenges;
+create policy "Battle challenges visible to involved members"
+on public.empire_battle_challenges for select to authenticated
+using (
+  exists(
+    select 1 from public.empire_regiment_members m
+    where m.regiment_id=challenger_regiment_id
+      and m.user_id=auth.uid()
+      and m.left_at is null
+  )
+  or exists(
+    select 1 from public.empire_regiment_members m
+    where m.regiment_id=target_regiment_id
+      and m.user_id=auth.uid()
+      and m.left_at is null
+  )
+);
