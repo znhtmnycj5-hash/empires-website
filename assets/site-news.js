@@ -74,7 +74,7 @@ function renderPage(){
   return;
  }
  if(detail)detail.hidden=true;if(comments)comments.hidden=true;
- if(list){list.hidden=false;list.innerHTML='<div class="site-news-list-head"><div><div class="page-kicker">EMPIRE · ОБЪЯВЛЕНИЯ И СОБЫТИЯ</div><h1>Новости сообщества</h1><p>Главные события, объявления и новости полков</p></div>'+(canPublish?'<button class="btn primary" id="siteNewsCreate">＋ Опубликовать новость</button>':'')+'</div>'+getNews().map(n=>card(n,false)).join('');bindLikes(list);const create=$('siteNewsCreate');if(create)create.addEventListener('click',()=>{if(editor)renderEditor();});}
+ if(list){list.hidden=false;list.innerHTML='<div class="site-news-list-head"><div><div class="page-kicker">EMPIRE · ОБЪЯВЛЕНИЯ И СОБЫТИЯ</div><h1>Новости сообщества</h1><p>Главные события, объявления и новости полков</p></div>'+(canPublish?'<button class="btn primary" id="siteNewsCreate">＋ Опубликовать новость</button>':'')+'</div>'+getNews().map(n=>card(n,false)).join('');bindLikes(list);const create=$('siteNewsCreate');if(create)create.addEventListener('click',()=>{if(editor)renderEditor();});if(params.get('compose')==='1'&&canPublish&&editor)renderEditor();}
  if(editor&&canPublish){editor.innerHTML='';editor.hidden=true;}
 }
 function renderEditor(existing){
