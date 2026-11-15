@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const SUPABASE_URL='https://pbaojidktzjnpavtdcga.supabase.co';
-  const SUPABASE_KEY='sb_publishable_XVsmd-U_Z5F5eD-UcxMw31g_Yv9rUdVk'.replace('XVsmd-U_Z5F5eD','XVsmd-U_ZF5eD');
+  const SUPABASE_KEY='sb_publishable_XVsmd-U_ZF5eD-UcxMw31g_Yv9rUdVk';
   let clientPromise=null,ratingsPromise=null,ratingsCache=null,ratingsCacheAt=0;
   async function getClient(){
     if(window.EMPIRE_AUTH){await window.EMPIRE_AUTH.init();return window.EMPIRE_AUTH.client;}
