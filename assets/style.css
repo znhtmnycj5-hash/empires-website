@@ -3973,3 +3973,18 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 .profile-rating-message-grid>.card{display:flex!important;flex-direction:column;min-height:300px;height:100%!important}
 .profile-rating-message-grid #messageArea,.profile-rating-message-grid #profileUserRating{flex:1;min-height:0}
 @media(max-width:760px){.home-rankings-grid{grid-template-columns:minmax(0,1fr)}.profile-rating-message-grid{grid-template-columns:minmax(0,1fr)}}
+
+
+/* Show rating voter names only on hover/focus */
+.user-rating-columns>div>a,
+.user-rating-columns>div>p{display:none}
+.user-rating-columns>div:hover>a,
+.user-rating-columns>div:hover>p,
+.user-rating-columns>div:focus-within>a,
+.user-rating-columns>div:focus-within>p{display:flex}
+.user-rating-columns>div:hover>p,
+.user-rating-columns>div:focus-within>p{display:block}
+.user-rating-columns>div{transition:background .15s ease,border-color .15s ease}
+.user-rating-columns>div:hover,
+.user-rating-columns>div:focus-within{background:rgba(30,24,16,.72);border-color:#80613b}
+.user-rating-columns h4{cursor:default}
