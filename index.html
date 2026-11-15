@@ -134,61 +134,39 @@ const loadUpcomingBattles=async()=>{
   const box=document.getElementById('upcomingBattlesHome');
   if(!box)return;
   try{
-    const sourceUrl=new URL('battles.html',document.baseURI).href;
-    const response=await fetch(sourceUrl);
-    if(!response.ok)throw new Error('HTTP '+response.status);
-    const html=await response.text();
-    const doc=new DOMParser().parseFromString(html,'text/html');
-    const records=[...doc.querySelectorAll('article.battle-record, .battle-record')];
-    if(records.length){const counter=document.querySelector('[data-site-count="battles"]');if(counter)counter.textContent=String(records.length);}
-    const now=Date.now();
-    const getStatus=record=>{
-      const base=(record.dataset.status||'').trim().toLowerCase();
-      if(base==='completed')return base;
-      const startRaw=record.querySelector('.battle-countdown')?.dataset.start||'';
-      const start=startRaw?new Date(startRaw).getTime():NaN;
-      if(Number.isFinite(start)){
-        if(now<start)return base;
-        if(now<start+3600000)return 'ongoing';
-        return 'awaiting_confirmation';
-      }
-      return base;
-    };
-    const allowed=['challenged','accepted','ongoing'];
-    const upcoming=records.filter(record=>allowed.includes(getStatus(record)))
-      .sort((a,b)=>{
-        const aStart=new Date(a.querySelector('.battle-countdown')?.dataset.start||'9999-12-31').getTime();
-        const bStart=new Date(b.querySelector('.battle-countdown')?.dataset.start||'9999-12-31').getTime();
-        return aStart-bStart;
-      }).slice(0,8);
+    const rows=await window.CLANWARS_BATTLES.loadAccepted();
+    const upcoming=rows.filter(row=>['accepted','ongoing','awaiting_confirmation'].includes(window.CLANWARS_BATTLES.status(row)))
+      .sort((a,b)=>new Date(a.scheduled_at)-new Date(b.scheduled_at)).slice(0,8);
+    const counter=document.querySelector('[data-site-count="battles"]');
+    if(counter)counter.textContent=String(rows.length);
     if(!upcoming.length){
       box.innerHTML='<div class="battle"><div class="home-battles-empty">Предстоящих сражений пока нет.</div></div>';
       return;
     }
-    const statusLabels={challenged:'ВЫЗОВ БРОШЕН',accepted:'ВЫЗОВ ПРИНЯТ',ongoing:'ИДЁТ БОЙ'};
-    box.innerHTML=upcoming.map((record,index)=>{
-      const top=record.querySelector('.battle-record-top');
-      const date=(top?.querySelectorAll('span')[1]?.textContent||'').trim();
-      const sides=record.querySelectorAll('.battle-side');
-      const left=sides[0],right=sides[1];
-      const leftHref=left?.getAttribute('href')||'#',rightHref=right?.getAttribute('href')||'#';
-      const leftImg=left?.querySelector('img')?.getAttribute('src')||'',rightImg=right?.querySelector('img')?.getAttribute('src')||'';
-      const leftName=left?.querySelector('strong')?.textContent.trim()||'Полк',rightName=right?.querySelector('strong')?.textContent.trim()||'Полк';
-      const parts=date.split('·').map(s=>s.trim()),d=parts[0]||date,tm=parts[1]||'';
-      const dt=d.split('.'),day=dt[0]||d;
-      const month={10:'ОКТЯБРЯ',11:'НОЯБРЯ',12:'ДЕКАБРЯ'}[Number(dt[1])]||'';
-      const status=getStatus(record),battleUrl='battle.html?id='+encodeURIComponent(record.id||'');
-      const commentCount=window.EMPIRE_COMMENT_COUNTS.getBattleCommentCount(record.id);
-      return '<div class="battle home-battle-link" data-battle-url="'+battleUrl+'"'+(index?' style="border-top:1px solid #332b21"':'')+'><div><a class="team regiment-link" href="'+leftHref+'"><img class="battle-flag" src="'+leftImg+'" alt="">'+leftName+'</a></div><div class="vs">VS</div><div><a class="team regiment-link" href="'+rightHref+'"><img class="battle-flag" src="'+rightImg+'" alt="">'+rightName+'</a></div><div class="battle-meta"><div class="datebox">'+day+'<br><small>'+month+(tm?'<br>'+tm:'')+'</small><span class="battle-type">'+(statusLabels[status]||'')+'</span></div></div></div>';
+    const statusLabels={accepted:'ВЫЗОВ ПРИНЯТ',ongoing:'ИДЁТ БОЙ',awaiting_confirmation:'ОЖИДАЕТ ПОДТВЕРЖДЕНИЯ'};
+    box.innerHTML=upcoming.map((row,index)=>{
+      const left=row.left,right=row.right,status=window.CLANWARS_BATTLES.status(row);
+      const dt=new Date(row.scheduled_at),day=String(dt.getDate()).padStart(2,'0');
+      const month=dt.toLocaleString('ru-RU',{month:'long'}).toUpperCase();
+      const time=dt.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
+      const battleUrl='battle.html?id='+encodeURIComponent(row.id);
+      return '<div class="battle home-battle-link" data-battle-url="'+battleUrl+'"'+(index?' style="border-top:1px solid #332b21"':'')+'>'+
+        '<div><a class="team regiment-link" href="regiment.html?name='+encodeURIComponent(left.name)+'"><img class="battle-flag" src="'+escHome(left.logo_url||'assets/default-soldier.jpg')+'" alt="">'+escHome(left.name)+'</a></div>'+
+        '<div class="vs">VS</div>'+
+        '<div><a class="team regiment-link" href="regiment.html?name='+encodeURIComponent(right.name)+'"><img class="battle-flag" src="'+escHome(right.logo_url||'assets/default-soldier.jpg')+'" alt="">'+escHome(right.name)+'</a></div>'+
+        '<div class="battle-meta"><div class="datebox">'+day+'<br><small>'+month+'<br>'+time+'</small><span class="battle-type">'+statusLabels[status]+'</span></div></div>'+
+      '</div>';
     }).join('');
     box.querySelectorAll('.home-battle-link').forEach(row=>row.addEventListener('click',event=>{
       if(event.target.closest('.regiment-link'))return;
-      if(row.dataset.battleUrl)window.location.href=row.dataset.battleUrl;
+      window.location.href=row.dataset.battleUrl;
     }));
   }catch(error){
+    console.warn('Предстоящие сражения:',error);
     box.innerHTML='<div class="battle"><div class="home-battles-empty">Не удалось загрузить сражения. <a href="battles.html">Открыть список</a></div></div>';
   }
-};;
+};
+const escHome=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 loadUpcomingBattles();
 
 const updateHomeRanking=async()=>{
@@ -247,6 +225,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>a.onclick=e=>{const id=a.ge
 <script src="assets/online-users.js?v=20261115-performance1"></script>
 <script src="assets/site-news.js?v=20261115-shared-news1"></script>
 <script src="assets/supabase-auth.js?v=20261111-5"></script>
+<script src="assets/battle-data.js?v=20261115-1"></script>
 <script src="assets/site-news-permissions.js?v=20261115-1"></script>
 <script src="assets/empire-comments.js?v=20261115-smiles3"></script>
 <script src="assets/community.js?v=20261115-performance1"></script>
