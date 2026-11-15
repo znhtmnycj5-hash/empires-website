@@ -7,10 +7,9 @@ const toLocal=row=>({id:row.id,parentId:row.content?.parentId||null,name:row.aut
 const enrichAuthors=async(a,rows)=>{
  const ids=[...new Set((rows||[]).map(x=>x.author_id).filter(Boolean))];
  if(!ids.length)return rows||[];
- const [{data:profiles,error:profilesError},{data:members,error:membersError},{data:regiments,error:regimentsError}]=await Promise.all([
+ const [{data:profiles,error:profilesError},{data:members,error:membersError}]=await Promise.all([
   a.client.from('empire_profiles').select('id,display_name,regiment,avatar_url,last_seen_at').in('id',ids),
   a.client.from('empire_regiment_members').select('user_id,regiment_id,role,left_at').in('user_id',ids).is('left_at',null),
-  a.client.from('empire_regiments').select('id,name').in('id',[]).limit(0)
  ]);
  if(profilesError)throw profilesError;
  const profileMap=new Map((profiles||[]).map(p=>[String(p.id),p]));
