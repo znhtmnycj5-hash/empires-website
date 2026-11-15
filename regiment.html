@@ -55,8 +55,8 @@ const fallbackNames={};
 const name=new URLSearchParams(location.search).get('name')||'1st Regiment';
 const approvedRegiments=(()=>{try{return JSON.parse(localStorage.getItem('empire_approved_regiments_v1')||'[]')||[];}catch(e){return[];}})();
 const approvedRegiment=approvedRegiments.find(x=>String(x.name)===String(name));
-const isNewRegiment=!data[name]&&!!approvedRegiment;
-const d=data[name]|| (approvedRegiment?{avatar:approvedRegiment.logo||'assets/default-soldier.jpg',commander:approvedRegiment.commander||approvedRegiment.user||'',commanderPhoto:'assets/default-soldier.jpg',officers:[],soldiers:[],faction:approvedRegiment.faction||'',rating:approvedRegiment.rating||1000,count:approvedRegiment.members||1}:data['1st Regiment']);
+const isNewRegiment=!data[name];
+const d=data[name]||{avatar:approvedRegiment?.logo||'assets/default-soldier.jpg',commander:approvedRegiment?.commander||approvedRegiment?.user||'',commanderPhoto:'assets/default-soldier.jpg',officers:[],soldiers:[],faction:approvedRegiment?.faction||'',rating:0,count:0};
 const factionBackgrounds={'Французская Империя':'assets/73f84f86-e210-42f1-8105-81ffb0b393be.png','Австрийская Империя':'assets/AUSTR.jpg','Британская Империя':'assets/BG.jpg','Королевство Пруссия':'assets/PRUS.jpg','Прусское Королевство':'assets/PRUS.jpg','Пруссия':'assets/PRUS.jpg','Рейнский Союз':'assets/REYN.jpg','Российская Империя':'assets/RUS.jpg'};
 const factionBg=factionBackgrounds[d.faction];
 if(factionBg){const block=document.getElementById('regimentMainInfo');block.style.backgroundImage='linear-gradient(rgba(12,10,8,.52),rgba(12,10,8,.72)),url("'+factionBg+'")';block.style.backgroundSize='100% auto';block.style.backgroundPosition='center';block.style.backgroundRepeat='no-repeat';}
@@ -226,7 +226,8 @@ renderAlbum();
     const client=window.EMPIRE_AUTH.client;
     const regimentName=new URLSearchParams(location.search).get('name')||'1st Regiment';
     const {data:r,error}=await client.from('empire_regiments').select('id,name,faction,logo_url,commander_id').eq('name',regimentName).maybeSingle();
-    if(error||!r)return;
+    if(error)throw error;
+    if(!r){document.getElementById('regimentMainInfo').insertAdjacentHTML('afterend','<p class="empty-note" role="status">Не удалось найти этот полк в базе данных.</p>');return;}
     const [{data:members,error:membersError},{data:profiles,error:profilesError}]=await Promise.all([
       client.from('empire_regiment_members').select('user_id,role,left_at,joined_at').eq('regiment_id',r.id).is('left_at',null).order('joined_at',{ascending:true}),
       client.from('empire_profiles').select('id,display_name,avatar_url').order('display_name')
@@ -241,9 +242,16 @@ renderAlbum();
     const avatar=document.getElementById('detailAvatar');avatar.src=logo;avatar.alt='Логотип '+r.name;avatar.onerror=()=>{avatar.onerror=null;avatar.src='assets/default-soldier.jpg';};
     document.getElementById('detailFaction').textContent=r.faction||'—';
     document.getElementById('detailFactionMobile').textContent=r.faction||'—';
-    const rating=active.length*10;
-    document.getElementById('detailRating').textContent=String(rating);
-    document.getElementById('detailRatingMobile').textContent=String(rating);
+    const factionBackgrounds={'Французская Империя':'assets/73f84f86-e210-42f1-8105-81ffb0b393be.png','Австрийская Империя':'assets/AUSTR.jpg','Британская Империя':'assets/BG.jpg','Королевство Пруссия':'assets/PRUS.jpg','Прусское Королевство':'assets/PRUS.jpg','Пруссия':'assets/PRUS.jpg','Рейнский Союз':'assets/REYN.jpg','Российская Империя':'assets/RUS.jpg'};
+    const factionImage=factionBackgrounds[r.faction],mainInfo=document.getElementById('regimentMainInfo');
+    if(factionImage){mainInfo.style.backgroundImage='linear-gradient(rgba(12,10,8,.52),rgba(12,10,8,.72)),url("'+factionImage+'")';mainInfo.style.backgroundSize='100% auto';mainInfo.style.backgroundPosition='center';mainInfo.style.backgroundRepeat='no-repeat';}
+    let regimentRating=0;
+    if(typeof window.calculateRegimentRatings==='function'){
+      try{const ratings=await window.calculateRegimentRatings(true);const row=(ratings||[]).find(item=>item.id===r.id||item.name===r.name);regimentRating=Number(row?.score||0);}
+      catch(ratingError){console.warn('Не удалось рассчитать рейтинг полка:',ratingError);}
+    }
+    document.getElementById('detailRating').textContent=String(regimentRating);
+    document.getElementById('detailRatingMobile').textContent=String(regimentRating);
     document.getElementById('detailCount').textContent=String(active.length);
     document.getElementById('detailCountMobile').textContent=String(active.length);
     const commanderName=commanderProfile?.display_name||'Пока не назначен';
