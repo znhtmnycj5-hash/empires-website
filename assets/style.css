@@ -4482,14 +4482,23 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
 
 
 /* Site news comments: compact 80px smiles and aligned attachment buttons */
+.site-news-page .battle-comment-text img.clanwars-smile,
 .site-news-page .battle-comment-text .clanwars-smile,
 .site-news-page .clanwars-smile{
+  display:inline-block!important;
   width:80px!important;
   height:80px!important;
+  min-width:80px!important;
+  min-height:80px!important;
   max-width:80px!important;
   max-height:80px!important;
   object-fit:contain!important;
   vertical-align:-20px!important;
+  margin:0 2px!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+  border-radius:0!important;
 }
 .site-news-page .battle-comment-toolbar .empire-comment-extra{
   display:inline-flex!important;
