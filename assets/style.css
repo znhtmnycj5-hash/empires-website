@@ -4385,3 +4385,8 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
  .battle-comment-toolbar .empire-attach-menu{left:0!important;right:auto!important}
  .battle-comment-toolbar .clanwars-smile-picker{left:auto!important;right:0!important;bottom:calc(100% + 8px)!important}
 }
+
+
+/* Final comment picker positioning */
+.battle-comment-toolbar .empire-attach-menu{position:fixed!important;z-index:2147483640!important;}
+.battle-comment-toolbar .clanwars-smile-picker{position:fixed!important;z-index:2147483641!important;}
