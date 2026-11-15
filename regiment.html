@@ -14,12 +14,83 @@
   <a href="search.html">Поиск</a>
   <a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
 </nav></div></header>
-<main class="container regiment-page"><a class="back-link" href="regiments.html">← Все полки</a><section class="card regiment-main-info" id="regimentMainInfo"><img id="detailAvatar" src="" alt="" loading="lazy" decoding="async"><div class="regiment-main-copy"><div class="page-kicker">ПОЛК CLANWARS</div><h1 id="detailName">Полк</h1><div class="regiment-main-meta" id="regimentMainMeta"><div><span>Фракция</span><strong id="detailFaction">—</strong></div><div><span>Рейтинг</span><strong id="detailRating">—</strong></div><div><span>Союз</span><strong id="detailAlliance">—</strong></div><div><span>Состав</span><strong id="detailCount">—</strong></div></div></div></section><section class="card regiment-mobile-meta" id="regimentMobileMeta" hidden><div><span>Фракция</span><strong id="detailFactionMobile">—</strong></div><div><span>Рейтинг</span><strong id="detailRatingMobile">—</strong></div><div><span>Союз</span><strong id="detailAllianceMobile">—</strong></div><div><span>Состав</span><strong id="detailCountMobile">—</strong></div></section><div class="regiment-columns"><section class="card regiment-section roster-section"><div class="card-title">♟ &nbsp; Состав полка</div><div class="regiment-section-content"><div class="roster-group commander-group"><h3>Командир</h3><div class="commander-profile"><a id="commanderProfileLink" href="#"><img class="member-avatar commander-avatar" id="commanderAvatar" src="" alt="Аватар командира" loading="lazy" decoding="async"></a><strong id="detailCommander"></strong></div></div><div class="roster-group"><h3>Офицеры</h3><div class="members-grid" id="officersGrid"><p class="empty-note">Офицеры пока не добавлены.</p></div></div><div class="roster-group"><h3>Солдаты</h3><div class="members-grid" id="soldiersGrid"><p class="empty-note">Солдаты пока не добавлены.</p></div></div></div></section><section class="card regiment-section"><div class="card-title">⚔ &nbsp; История сражений</div><div class="regiment-section-content"><div class="battle-statistics" id="battleStatistics"><div class="battle-stat wins"><strong id="battleWins">0</strong><span>Побед</span></div><div class="battle-stat losses"><strong id="battleLosses">0</strong><span>Поражений</span></div><div class="battle-stat draws"><strong id="battleDraws">0</strong><span>Ничьих</span></div></div><div class="battle-history-list" id="battleHistoryList">
-<a class="battle-history-link" href="battle.html?id=battle-001"><article class="battle-history-item battle-loss"><div class="battle-history-top"><div class="battle-opponent"><img src="assets/95.webp" alt="95th Rifles" class="battle-opponent-avatar" loading="lazy" decoding="async"><strong>95th Rifles</strong></div><span class="battle-result">Поражение</span></div><div class="battle-history-bottom"><span>12.10.2026 · Завершённое сражение</span><b class="battle-score">2 : 3</b></div></article></a>
-<a class="battle-history-link" href="battle.html?id=battle-002"><article class="battle-history-item battle-win"><div class="battle-history-top"><div class="battle-opponent"><img src="assets/84e.png" alt="84e Régiment" class="battle-opponent-avatar" loading="lazy" decoding="async"><strong>84e Régiment</strong></div><span class="battle-result">Победа</span></div><div class="battle-history-bottom"><span>28.10.2026 · Завершённое сражение</span><b class="battle-score">4 : 2</b></div></article></a>
-<a class="battle-history-link" href="battle.html?id=battle-003"><article class="battle-history-item battle-draw"><div class="battle-history-top"><div class="battle-opponent"><img src="assets/hussars.png" alt="7th Hussars" class="battle-opponent-avatar" loading="lazy" decoding="async"><strong>7th Hussars</strong></div><span class="battle-result">Ничья</span></div><div class="battle-history-bottom"><span>03.11.2026 · Завершённое сражение</span><b class="battle-score">1 : 1</b></div></article></a>
-<a class="battle-history-link" href="battle.html?id=battle-004"><article class="battle-history-item battle-win"><div class="battle-history-top"><div class="battle-opponent"><img src="assets/95.webp" alt="95th Rifles" class="battle-opponent-avatar" loading="lazy" decoding="async"><strong>95th Rifles</strong></div><span class="battle-result">Победа</span></div><div class="battle-history-bottom"><span>09.11.2026 · Завершённое сражение</span><b class="battle-score">5 : 2</b></div></article></a>
-</div></div></section></div><div class="regiment-bottom-columns"><section class="card regiment-section regiment-chronicle-section"><div class="card-title">📜 &nbsp; Летопись полка</div><div class="regiment-section-content"><div class="regiment-chronicle-list"></div></div></section><section class="card regiment-section regiment-news-section"><div class="card-title">📰 &nbsp; Новости полка <div class="regiment-news-title-actions"><a class="news-section-link" id="allRegimentNewsLink" href="#">Все новости →</a><div id="regimentNewsActions"></div></div></div><div class="regiment-section-content"><div class="regiment-news-list" id="regimentNewsList"></div><div class="news-pagination" id="regimentNewsPagination"></div></div></section></div><section class="card regiment-section regiment-album-section"><div class="card-title">▣ &nbsp; Альбом</div><div class="regiment-section-content"><div class="album-head"><div><h2>Скриншоты из игры</h2><p>Фотографии полка с полей сражений.</p></div><div id="albumCommanderControls"></div></div><div class="album-grid" id="albumGrid"></div><div class="album-pagination" id="albumPagination"></div></div></section></main>
+<main class="container regiment-page"><a class="back-link" href="regiments.html">← Все полки</a><section class="card regiment-main-info" id="regimentMainInfo"><img id="detailAvatar" src="" alt="" loading="lazy" decoding="async"><div class="regiment-main-copy"><div class="page-kicker">ПОЛК CLANWARS</div><h1 id="detailName">Полк</h1><div class="regiment-main-meta" id="regimentMainMeta"><div><span>Фракция</span><strong id="detailFaction">—</strong></div><div><span>Рейтинг</span><strong id="detailRating">—</strong></div><div><span>Союз</span><strong id="detailAlliance">—</strong></div><div><span>Состав</span><strong id="detailCount">—</strong></div></div></div></section><section class="card regiment-mobile-meta" id="regimentMobileMeta" hidden><div><span>Фракция</span><strong id="detailFactionMobile">—</strong></div><div><span>Рейтинг</span><strong id="detailRatingMobile">—</strong></div><div><span>Союз</span><strong id="detailAllianceMobile">—</strong></div><div><span>Состав</span><strong id="detailCountMobile">—</strong></div></section><div class="regiment-columns"><section class="card regiment-section roster-section"><div class="card-title">♟ &nbsp; Состав полка</div><div class="regiment-section-content"><div class="roster-group commander-group"><h3>Командир</h3><div class="commander-profile"><a id="commanderProfileLink" href="#"><img class="member-avatar commander-avatar" id="commanderAvatar" src="" alt="Аватар командира" loading="lazy" decoding="async"></a><strong id="detailCommander"></strong></div></div><div class="roster-group"><h3>Офицеры</h3><div class="members-grid" id="officersGrid"><p class="empty-note">Офицеры пока не добавлены.</p></div></div><div class="roster-group"><h3>Солдаты</h3><div class="members-grid" id="soldiersGrid"><p class="empty-note">Солдаты пока не добавлены.</p></div></div></div></section><section class="card regiment-section"><div class="card-title">⚔ &nbsp; История сражений</div><div class="regiment-section-content"><div class="battle-statistics" id="battleStatistics"><div class="battle-stat wins"><strong id="battleWins">0</strong><span>Побед</span></div><div class="battle-stat losses"><strong id="battleLosses">0</strong><span>Поражений</span></div><div class="battle-stat draws"><strong id="battleDraws">0</strong><span>Ничьих</span></div></div><div class="battle-history-list" id="battleHistoryList"><p class="empty-note">Загрузка данных…</p><div class="regiment-bottom-columns"><section class="card regiment-section regiment-chronicle-section"><div class="card-title">📜 &nbsp; Летопись полка</div><div class="regiment-section-content"><div class="regiment-chronicle-list"></div></div></section><section class="card regiment-section regiment-news-section"><div class="card-title">📰 &nbsp; Новости полка <div class="regiment-news-title-actions"><a class="news-section-link" id="allRegimentNewsLink" href="#">Все новости →</a><div id="regimentNewsActions"></div></div></div><div class="regiment-section-content"><div class="regiment-news-list" id="regimentNewsList"></div><div class="news-pagination" id="regimentNewsPagination"></div></div></section></div><section class="card regiment-section regiment-album-section"><div class="card-title">▣ &nbsp; Альбом</div><div class="regiment-section-content"><div class="album-head"><div><h2>Скриншоты из игры</h2><p>Фотографии полка с полей сражений.</p></div><div id="albumCommanderControls"></div></div><div class="album-grid" id="albumGrid"></div><div class="album-pagination" id="albumPagination"></div></div></section></main>
+<footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">Clanwars</strong><br>Сообщество Mount &amp; Blade</div><div class="motto">Vive Clanwars!</div></div></footer>
+
+<script src="assets/supabase-auth.js?v=20261113-6"></script>
+<script src="assets/regiment-membership.js?v=20261113-kick1"></script>
+<script src="assets/battle-challenges.js?v=20261115-4"></script>
+<script src="assets/regiment-edit-album.js?v=20261115-1"></script>
+<script src="assets/regiment-news.js?v=20261115-1"></script>
+
+<script>
+(async()=>{
+  try{
+    await window.EMPIRE_AUTH.init();
+    const client=window.EMPIRE_AUTH.client;
+    const regimentName=new URLSearchParams(location.search).get('name')||'1st Regiment';
+    const {data:r,error}=await client.from('empire_regiments').select('id,name,faction,logo_url,commander_id').eq('name',regimentName).maybeSingle();
+    if(error)throw error;
+    if(!r){document.getElementById('regimentMainInfo').insertAdjacentHTML('afterend','<p class="empty-note" role="status">Не удалось найти этот полк в базе данных.</p>');return;}
+    const [{data:members,error:membersError},{data:profiles,error:profilesError}]=await Promise.all([
+      client.from('empire_regiment_members').select('user_id,role,left_at,joined_at').eq('regiment_id',r.id).is('left_at',null).order('joined_at',{ascending:true}),
+      client.from('empire_profiles').select('id,display_name,avatar_url').order('display_name')
+    ]);
+    if(membersError||profilesError)throw membersError||profilesError;
+    const byId=new Map((profiles||[]).map(p=>[p.id,p]));
+    const active=members||[];
+    const commander=active.find(m=>m.role==='commander')||active.find(m=>m.user_id===r.commander_id);
+    const commanderProfile=commander?byId.get(commander.user_id):null;
+    const logo=r.logo_url||'assets/default-soldier.jpg';
+    document.getElementById('detailName').textContent=r.name;
+    const avatar=document.getElementById('detailAvatar');avatar.src=logo;avatar.alt='Логотип '+r.name;avatar.onerror=()=>{avatar.onerror=null;avatar.src='assets/default-soldier.jpg';};
+    document.getElementById('detailFaction').textContent=r.faction||'—';
+    document.getElementById('detailFactionMobile').textContent=r.faction||'—';
+    const factionBackgrounds={'Французская Империя':'assets/73f84f86-e210-42f1-8105-81ffb0b393be.png','Австрийская Империя':'assets/AUSTR.jpg','Британская Империя':'assets/BG.jpg','Королевство Пруссия':'assets/PRUS.jpg','Прусское Королевство':'assets/PRUS.jpg','Пруссия':'assets/PRUS.jpg','Рейнский Союз':'assets/REYN.jpg','Российская Империя':'assets/RUS.jpg'};
+    const factionImage=factionBackgrounds[r.faction],mainInfo=document.getElementById('regimentMainInfo');
+    if(factionImage){mainInfo.style.backgroundImage='linear-gradient(rgba(12,10,8,.52),rgba(12,10,8,.72)),url("'+factionImage+'")';mainInfo.style.backgroundSize='100% auto';mainInfo.style.backgroundPosition='center';mainInfo.style.backgroundRepeat='no-repeat';}
+    let regimentRating=0;
+    if(typeof window.calculateRegimentRatings==='function'){
+      try{const ratings=await window.calculateRegimentRatings(true);const row=(ratings||[]).find(item=>item.id===r.id||item.name===r.name);regimentRating=Number(row?.score||0);}
+      catch(ratingError){console.warn('Не удалось рассчитать рейтинг полка:',ratingError);}
+    }
+    document.getElementById('detailRating').textContent=String(regimentRating);
+    document.getElementById('detailRatingMobile').textContent=String(regimentRating);
+    document.getElementById('detailCount').textContent=String(active.length);
+    document.getElementById('detailCountMobile').textContent=String(active.length);
+    const commanderName=commanderProfile?.display_name||'Пока не назначен';
+    document.getElementById('detailCommander').textContent=commanderName;
+    document.getElementById('commanderProfileLink').href=commanderProfile?'profile.html?user='+encodeURIComponent(commanderProfile.id):'#';
+    const commanderAvatar=document.getElementById('commanderAvatar');
+    commanderAvatar.src=commanderProfile?.avatar_url||'assets/default-soldier.jpg';
+    commanderAvatar.alt='Аватар '+commanderName;
+    const officers=active.filter(m=>m.role==='officer').map(m=>byId.get(m.user_id)).filter(Boolean);
+    const soldiers=active.filter(m=>m.role!=='commander'&&m.role!=='officer').map(m=>byId.get(m.user_id)).filter(Boolean);
+    const renderDbMembers=(id,rows)=>{
+      const grid=document.getElementById(id);
+      grid.innerHTML='';
+      if(!rows.length){grid.innerHTML='<p class="empty-note">Пока участники не добавлены.</p>';return;}
+      rows.forEach(p=>{
+        const card=document.createElement('div');card.className='member-card';
+        const link=document.createElement('a');link.className='member-profile-link';link.href='profile.html?user='+encodeURIComponent(p.id);
+        const img=document.createElement('img');img.className='member-avatar';img.src=p.avatar_url||'assets/default-soldier.jpg';img.alt='Аватар '+p.display_name;img.loading='lazy';img.decoding='async';link.append(img);
+        const strong=document.createElement('strong');const nameLink=document.createElement('a');nameLink.className='member-name-link';nameLink.href='profile.html?user='+encodeURIComponent(p.id);nameLink.textContent=p.display_name;strong.append(nameLink);
+        card.append(link,strong);grid.append(card);
+      });
+    };
+    renderDbMembers('officersGrid',officers);renderDbMembers('soldiersGrid',soldiers);
+    // Очищаем статические данные до/сразу после получения данных из Supabase,
+    // чтобы удалённые записи не проскакивали при обновлении страницы.
+    document.getElementById('battleHistoryList').replaceChildren();
+    document.getElementById('battleWins').textContent='0';
+    document.getElementById('battleLosses').textContent='0';
+    document.getElementById('battleDraws').textContent='0';
+    document.getElementById('battleHistoryList').innerHTML='<p class="empty-note">Полк пока не участвовал в сражениях.</p>';
+  }catch(error){console.error('Загрузка данных полка:',error);}
+})();
+</script>
+
+</body></html></div></div></section></div><div class="regiment-bottom-columns"><section class="card regiment-section regiment-chronicle-section"><div class="card-title">📜 &nbsp; Летопись полка</div><div class="regiment-section-content"><div class="regiment-chronicle-list"></div></div></section><section class="card regiment-section regiment-news-section"><div class="card-title">📰 &nbsp; Новости полка <div class="regiment-news-title-actions"><a class="news-section-link" id="allRegimentNewsLink" href="#">Все новости →</a><div id="regimentNewsActions"></div></div></div><div class="regiment-section-content"><div class="regiment-news-list" id="regimentNewsList"></div><div class="news-pagination" id="regimentNewsPagination"></div></div></section></div><section class="card regiment-section regiment-album-section"><div class="card-title">▣ &nbsp; Альбом</div><div class="regiment-section-content"><div class="album-head"><div><h2>Скриншоты из игры</h2><p>Фотографии полка с полей сражений.</p></div><div id="albumCommanderControls"></div></div><div class="album-grid" id="albumGrid"></div><div class="album-pagination" id="albumPagination"></div></div></section></main>
 <footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">Clanwars</strong><br>Сообщество Mount &amp; Blade</div><div class="motto">Vive Clanwars!</div></div></footer>
 
 <script src="assets/supabase-auth.js?v=20261113-6"></script>
