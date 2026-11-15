@@ -8,7 +8,7 @@ const cleanRichComment=html=>{
   if(ch.nodeType!==Node.ELEMENT_NODE||!allowed.has(ch.tagName)){const p=ch.parentNode;if(p){while(ch.firstChild)p.insertBefore(ch.firstChild,ch);p.removeChild(ch);}return;}
   const originalSrc=ch.getAttribute("src"),isSpoiler=ch.dataset.spoiler==="true";
   [...ch.attributes].forEach(a=>ch.removeAttribute(a.name));
-  if(ch.tagName==="IMG"||ch.tagName==="VIDEO"||ch.tagName==="AUDIO"){const src=safeUrl(originalSrc);if(!src){ch.remove();return;}ch.setAttribute("src",src);if(ch.tagName==="IMG"){ch.setAttribute("alt","Вставленная картинка");ch.setAttribute("loading","lazy");if(/(?:^|\\/)smile\\//i.test(src)||/assets\\/smile\\//i.test(src))ch.setAttribute("class","clanwars-smile");}else{ch.setAttribute("controls","");ch.setAttribute("preload","metadata");}}
+  if(ch.tagName==="IMG"||ch.tagName==="VIDEO"||ch.tagName==="AUDIO"){const src=safeUrl(originalSrc);if(!src){ch.remove();return;}ch.setAttribute("src",src);if(ch.tagName==="IMG"){ch.setAttribute("alt","Вставленная картинка");ch.setAttribute("loading","lazy");if(/(?:^|\/)smile\///i.test(src)||/assets\\/smile\\//i.test(src))ch.setAttribute("class","clanwars-smile");}else{ch.setAttribute("controls","");ch.setAttribute("preload","metadata");}}
   if(ch.tagName==="SPAN"&&!isSpoiler){ch.replaceWith(...ch.childNodes);return;}
   if(ch.tagName==="SPAN"&&isSpoiler)ch.setAttribute("data-spoiler","true");walk(ch);
  });walk(doc.body);return doc.body.innerHTML;
