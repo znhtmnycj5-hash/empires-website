@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Полк — EMPIRE</title><link rel="stylesheet" href="assets/style.css?v=20261115-album-permissions1">
-<script src="assets/user-avatars.js?v=20261113-clean2"></script><script src="assets/rating.js"></script>
+<script src="assets/user-avatars.js?v=20261113-clean2"></script><script src="assets/rating.js?v=20261115-shared-regiment-rating"></script>
 <script src="assets/comment-counts.js?v=20261108-1"></script>
 <script src="assets/alliances.js?v=20261113-clean2"></script>
 </head>
@@ -218,4 +218,59 @@ renderAlbum();
 </script>
 <script src="assets/supabase-auth.js?v=20261113-6"></script>
 <script src="assets/regiment-membership.js?v=20261113-kick1"></script>
+
+<script>
+(async()=>{
+  try{
+    await window.EMPIRE_AUTH.init();
+    const client=window.EMPIRE_AUTH.client;
+    const regimentName=new URLSearchParams(location.search).get('name')||'1st Regiment';
+    const {data:r,error}=await client.from('empire_regiments').select('id,name,faction,logo_url,commander_id').eq('name',regimentName).maybeSingle();
+    if(error||!r)return;
+    const [{data:members,error:membersError},{data:profiles,error:profilesError}]=await Promise.all([
+      client.from('empire_regiment_members').select('user_id,role,left_at,joined_at').eq('regiment_id',r.id).is('left_at',null).order('joined_at',{ascending:true}),
+      client.from('empire_profiles').select('id,display_name,avatar_url').order('display_name')
+    ]);
+    if(membersError||profilesError)throw membersError||profilesError;
+    const byId=new Map((profiles||[]).map(p=>[p.id,p]));
+    const active=members||[];
+    const commander=active.find(m=>m.role==='commander')||active.find(m=>m.user_id===r.commander_id);
+    const commanderProfile=commander?byId.get(commander.user_id):null;
+    const logo=r.logo_url||'assets/default-soldier.jpg';
+    document.getElementById('detailName').textContent=r.name;
+    const avatar=document.getElementById('detailAvatar');avatar.src=logo;avatar.alt='Логотип '+r.name;avatar.onerror=()=>{avatar.onerror=null;avatar.src='assets/default-soldier.jpg';};
+    document.getElementById('detailFaction').textContent=r.faction||'—';
+    document.getElementById('detailFactionMobile').textContent=r.faction||'—';
+    const rating=active.length*10;
+    document.getElementById('detailRating').textContent=String(rating);
+    document.getElementById('detailRatingMobile').textContent=String(rating);
+    document.getElementById('detailCount').textContent=String(active.length);
+    document.getElementById('detailCountMobile').textContent=String(active.length);
+    const commanderName=commanderProfile?.display_name||'Пока не назначен';
+    document.getElementById('detailCommander').textContent=commanderName;
+    document.getElementById('commanderProfileLink').href=commanderProfile?'profile.html?user='+encodeURIComponent(commanderProfile.id):'#';
+    const commanderAvatar=document.getElementById('commanderAvatar');
+    commanderAvatar.src=commanderProfile?.avatar_url||'assets/default-soldier.jpg';
+    commanderAvatar.alt='Аватар '+commanderName;
+    const officers=active.filter(m=>m.role==='officer').map(m=>byId.get(m.user_id)).filter(Boolean);
+    const soldiers=active.filter(m=>m.role!=='commander'&&m.role!=='officer').map(m=>byId.get(m.user_id)).filter(Boolean);
+    const renderDbMembers=(id,rows)=>{
+      const grid=document.getElementById(id);
+      grid.innerHTML='';
+      if(!rows.length){grid.innerHTML='<p class="empty-note">Пока участники не добавлены.</p>';return;}
+      rows.forEach(p=>{
+        const card=document.createElement('div');card.className='member-card';
+        const link=document.createElement('a');link.className='member-profile-link';link.href='profile.html?user='+encodeURIComponent(p.id);
+        const img=document.createElement('img');img.className='member-avatar';img.src=p.avatar_url||'assets/default-soldier.jpg';img.alt='Аватар '+p.display_name;img.loading='lazy';img.decoding='async';link.append(img);
+        const strong=document.createElement('strong');const nameLink=document.createElement('a');nameLink.className='member-name-link';nameLink.href='profile.html?user='+encodeURIComponent(p.id);nameLink.textContent=p.display_name;strong.append(nameLink);
+        card.append(link,strong);grid.append(card);
+      });
+    };
+    renderDbMembers('officersGrid',officers);renderDbMembers('soldiersGrid',soldiers);
+    document.getElementById('battleHistoryList').innerHTML='<p class="empty-note">Полк пока не участвовал в сражениях.</p>';
+    document.getElementById('battleWins').textContent='0';document.getElementById('battleLosses').textContent='0';document.getElementById('battleDraws').textContent='0';
+  }catch(error){console.error('Загрузка данных полка:',error);}
+})();
+</script>
+
 </body></html>
