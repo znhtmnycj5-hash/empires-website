@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="assets/empire_logo_top_right.png">
+<link rel="icon" type="image/png" href="assets/815f1959-d0fb-4e94-8d1b-bf5b0a7b5204.png">
 <title>Союзы — EMPIRE</title>
 <link rel="stylesheet" href="assets/style.css?v=20261108-alliances1">
 <script src="assets/alliances.js?v=20261113-clean2"></script>
 </head>
 <body>
 <header class="inner-header"><div class="container">
-  <div class="brand"><a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/empire_logo_top_right.png" alt="EMPIRE" decoding="async"></a><div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div></div>
+  <div class="brand"><a class="brand-logo-link" href="index.html"><img class="site-logo" src="assets/815f1959-d0fb-4e94-8d1b-bf5b0a7b5204.png" alt="EMPIRE" decoding="async"></a><div class="brand-title">EMPIRE <span>Napoleonic Wars</span></div></div>
   <nav>
     <a href="index.html">Главная</a>
     <div class="dropdown"><a href="regiments.html">Полки</a><div class="dropdown-menu"><a href="regiments.html">Все полки</a><a href="create-regiment.html">Создать полк</a></div></div>
@@ -43,14 +43,14 @@
     const all=window.EMPIRE_ALLIANCES.getAll().sort((a,b)=>window.EMPIRE_ALLIANCES.calcRating(b)-window.EMPIRE_ALLIANCES.calcRating(a));
     list.innerHTML=all.map(a=>{
       const rating=window.EMPIRE_ALLIANCES.calcRating(a),count=a.members.length;
-      return '<a class="alliance-tile" href="alliance.html?id='+encodeURIComponent(a.id)+'"><img src="'+(a.avatar||'assets/empire_logo_top_right.png')+'" alt="" loading="lazy" decoding="async"><div class="alliance-tile-info"><h2>'+a.name+'</h2><div class="alliance-meta"><span>Рейтинг <b>'+rating+'</b></span><span>'+count+' '+(count===1?'полк':'полков')+'</span></div></div></a>';
+      return '<a class="alliance-tile" href="alliance.html?id='+encodeURIComponent(a.id)+'"><img src="'+(a.avatar||'assets/815f1959-d0fb-4e94-8d1b-bf5b0a7b5204.png')+'" alt="" loading="lazy" decoding="async"><div class="alliance-tile-info"><h2>'+a.name+'</h2><div class="alliance-meta"><span>Рейтинг <b>'+rating+'</b></span><span>'+count+' '+(count===1?'полк':'полков')+'</span></div></div></a>';
     }).join('');
   };
   document.getElementById('allianceCreateForm').addEventListener('submit',e=>{
     e.preventDefault();
     const name=document.getElementById('allianceName').value.trim();
     const leader=document.getElementById('allianceLeader').value.trim()||'Kalashnikov';
-    const avatar=document.getElementById('allianceAvatar').value.trim()||'assets/empire_logo_top_right.png';
+    const avatar=document.getElementById('allianceAvatar').value.trim()||'assets/815f1959-d0fb-4e94-8d1b-bf5b0a7b5204.png';
     if(!name)return;
     const item=window.EMPIRE_ALLIANCES.create(name,leader,avatar);
     location.href='alliance.html?id='+encodeURIComponent(item.id);
