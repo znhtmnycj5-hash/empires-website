@@ -45,7 +45,7 @@ try{
   ]);
   if(p.error)throw p.error;if(v.error)throw v.error;
   const scores=scoreMap(v.data), rows=(p.data||[]).map(x=>({...x,score:scores[x.id]||0})).sort((a,b)=>b.score-a.score||a.display_name.localeCompare(b.display_name)).slice(0,8);
-  homeRoot.innerHTML=rows.length?rows.map((x,i)=>'<a class="home-user-rating-row" href="profile.html?user='+encodeURIComponent(x.display_name)+'"><span class="place">'+(i+1)+'.</span><img src="'+esc(x.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png')+'" alt=""><span class="name">'+esc(x.display_name)+'</span><b class="'+(x.score>0?'positive':x.score<0?'negative':'')+'">'+Math.abs(x.score)+'</b></a>').join(''):'<p class="empty-note">Пока нет участников.</p>';
+  homeRoot.innerHTML=rows.length?rows.slice(0,5).map((x,i)=>'<tr class="home-user-rating-row"><td class="pos">'+(i+1)+'.</td><td><a class="home-user-rating-link" href="profile.html?user='+encodeURIComponent(x.display_name)+'"><img src="'+esc(x.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png')+'" alt="">'+esc(x.display_name)+'</a></td><td class="points"><b class="'+(x.score>0?'positive':x.score<0?'negative':'')+'">'+Math.abs(x.score)+'</b></td></tr>').join(''):'<tr><td colspan="3" class="empty-note">Пока нет участников.</td></tr>';
  }
 }catch(e){console.warn('User ratings:',e);const roots=['profileUserRating','homeUserRating'];roots.forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='<p class="empty-note">Рейтинг временно недоступен.</p>';});}
 })();
