@@ -4298,375 +4298,89 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
   .site-news-page #siteNewsDetail{padding:0 18px 22px}
 }
 
-/* Napoleonic emotes — single clean renderer */
+/* Napoleonic emotes */
 .mini-chat-emote-wrap{position:relative;display:flex;align-items:center;justify-content:center;flex:0 0 42px}
 .mini-chat-emote-button{width:42px;height:42px;padding:0;border:1px solid #5d4930;background:#17130f;color:#d9b875;font:700 22px/1 "Roboto Slab",serif;cursor:pointer}
 .mini-chat-emote-button:hover{background:#641e1b;border-color:#9a6d3c;color:#efd49a}
-.mini-chat-emote-picker{display:none;position:absolute;z-index:50;right:0;bottom:48px;width:220px;padding:8px;grid-template-columns:repeat(4,42px);gap:6px;background:#15120e;border:1px solid #765a34;box-shadow:0 14px 30px rgba(0,0,0,.75)}
-.mini-chat-emote-picker.show{display:grid}
+.mini-chat-emote-picker{display:none;position:absolute;z-index:9999;right:0;bottom:48px;width:220px;padding:8px;grid-template-columns:repeat(4,42px);gap:6px;background:#15120e;border:1px solid #765a34;box-shadow:0 14px 30px rgba(0,0,0,.75)}
+.mini-chat-emote-picker.show{display:grid!important}
 .mini-chat-emote-choice{width:42px;height:42px;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #4f3d28;background:#211c16;cursor:pointer}
 .mini-chat-emote-choice:hover{background:#5c1c1a;border-color:#9a6d3c}
 .mini-chat-emote{
   display:inline-block!important;width:28px!important;height:28px!important;flex:0 0 28px!important;
   vertical-align:middle!important;overflow:hidden!important;
-  background-image:url("data:image/png;base64,rFte9M7F16b3SAITKhwGM5KkgmUypqc1okqIQDkIIb2uZwJ30oMnf6PAf63v
-hPPKOQYfrxNGFchsIexgMTtsvb+5yl5m/kLVn/m+mwCAHAMxqreO87JYbcxi
-qIQYhLADAZR4JGmm1TVNAoAYLdaEM8xjKzqJqUUeJFHhk5AUxRqwte9K3tr4
-sn+c0/+q8/xf+unhnkB4OZC92P9Re63+7/eqBrP3xNJXSJppoH+TRT0fc71v
-3s44f8Y4H/rf+vfqIUnW/jZxwac10UMc1M/kb+8WmRgb2d/Q6cgNSi69kBH/
-Kg6zaj7RZ3g/w47u1eaOh12dkDfmqqeUDj2U5p62axWxiqKjKpp5H+7+sutG
-p6tno7hsUq3bcx4uzDOzSINA8pFNxGDgM/jGGuZyE9LZtSN3ZT20G9p8f+tb
-5gLvT0wTz/2qLOPmjr+3P2dzx/6eQCAIQP7Dwvk+Up+7Of/t36c6WJDqGBYs
-XdMOc9kTKAKAGAC1Pg2jbtYPOQontlQzjL5dD/Cx//JG8DQ27N//8d/klQQQ
-mCaBHxej+O80459DGE8EAAO2KP/YIv0FnJAfp5veEdXTwcAAKX/s79/7rkg2
-C8Uvdf04RFgD4NHNnTFM82qwUNvFBr30hfCGBC7d74GW84zmbJCT3a4wP1WR
-AhT+GYI+9++KAAQ6B1Ysf+D/gc3GQDAbrOxl5510kv+/AJrYSDvGJfTYf+hU
-jz3N+UlRRaeY0pkRTF+7dJ///wGxuhXqa1yrRpzrSNzNKJTIBqFuCRwdgKgI
-QBMe8lqP0HbywgCRl6EgM1n8HEAFNP/tA9QwbGOagefP0Lki/uIXF5fkQtUC
-qwrqJsJjQL9dx3Dvq5me+sSHQ67rSsYWbpjR+0noXDU1HW9ticUCf8QwsiZT
-xPGjzs8nUzEm9s7637oULl/r5l34JTlgaZo/icXwzCI4zjG57Q5rCLPVpaX5
-tssIkdM06QIA0II7EClEo6Z7R7r8ubHiLH/ZSNAqEExIKSbyd2yvkzEKFBhE
-8pbs9rHnQbpxHAIoRA/aOP3PqbZxMOOsAovjfRYq0t7gZL71oup9HP3N0UvJ
-ADw7wghft0CsvdZKpXKjB0+eCTP85WvL/ziWhaR9A8dDZrr6jywqvisN97bc
-sOvzfzJ1R7nQqIOuw25HDbBIgo80TWmIM+V1xWKd4Vj6WxGVv4jgVOMENisV
-qvTYfdLWTkqSZKcVbQsw3JWYsLxfo9vcjiWOINnWd7ldORFCZE2F3gvO/Pyv
-ywMdrayW668GSoLPUCBEgqgcQi5V3fG394I8PAshN5bb5hn6Rhnc2f/b2UAA
-gAOlhV7DLPp9mi67zQwJ9wl8h/slTaYAhhHsPwFDQ7LJ++m5XfQL0oMCFgGI
-6vIM6pumh6HlZN1AlYeMeWlBWwmk92U57YbwXDkB7WF3ddur7DAbgI7uCsci
-/+aGGD/PMGoYf19fctc/VSZelo6QruyipZR5UxGkq35PMeGiwJup6JTnMpI6
-VRG0gmhv6gwyn23y+GwAACn6ZrcHQq35XwvXTYJwnq6ylTG0KxmlVXdJKahZ
-7LZNo5lkNPtZoHoewYMGNBHuu1S7Ny8ELYs6LIDACQETllN6d1+Bg8UAUrzR
-f7U1ZJy2b81DJqDuCKEQCHECJkkY1BKG7Jae1LWu6d77WcQAA0j4Nw8y3ZzF
-FYmlHd+iQ0XBQE7HDan1WKxsQzmACGTQVjAGLszWTXTN0DstmxzwRtLm0IuK
-5ePWU4XBI5FCBHjewYa50ydqYePPzWTSnTtqm9a8Wsxf3KSP9/n4meMHzzNb
-RWGr93asn3NtvoN3ZFEPJE11OKy6ituOEGYQtaFhC87YxvTWUW2CDzjdTvtW
-UXVfulEWl5enpNlsCWeTMZ1wyDfHA+1j/3qJGw1pUxq3b6gBSGgKkpm+mHD7
-yguLnLnF1fISukA68fB6KO72rvv/TKrXdqom90ahc4uhN4tYvEx7Qb5ME2oj
-P5dDLC/zbnPo4e9Q6UNsme0hT81wLNeAIC2rGb4KXIuSWafkCg1D6UWKAz4P
-IIo2jIZKZXOSFlF01VV002HN3BK/5LAPaGk9HFlWZFgsO4iGTlv0bKpt2LJV
-JAQYoqiaHM4bB4GY1PTdONg5s+saZPvX71uw9+jiVT01yP5AWrKAxaLIFh2N
-HQ0bG/obMLE5BTDTGOM4LAhfW948P4//U1l+44efvzMEwIt27mVHckvZFUzM
-5Ks2q0WUeQ5qmqHFg+0D9uUl+fked7SEwwe1NdiGBZVF3gfJIJzSiwaemZ/B
-tF0nXIsuyGeioY7u6Ojdu9pJYtWb567MRTbkqFUL2EZFwWgeQyurtXNN9p1s
-yNnAv1bokD7Sw+EAO1rIQYAPYapLopmXmIQEgmAUWLliZ3B5VaMhUPhiOU2t
-KK0pAAjjIOhcETZbygxxhgEFhZsqm8/5ZR5M8ZfctUVK6bNnHeGldHODsYSH
-YQQUDXdTCRTqVg80YMxwh6H3cWxLPr2bxTl5zlYBmraOoONvyazp6zQb9U1n
-da1dCdSmazmtFqwUxRGUQCghII/4OMtrrLMiRf8PbV6RzQ27uTpv2cYzocQA
-goUUlJWEW02hyAIvwi9+Lzeqlg0Gj2QyZjbW6/PP80mCifFIqFLEULAsSwwD
-IbSkgB78+/Ov3FQhfei2u21nQs/+eLK599cOKa+qTXJswyDACBmkrQTIw8CY
-JMm6SHfThL8UiHF/VUwgxFiGYwphd5xqXunxiAA2KUa77VlVQIA0JHVMKFg0
-L2l/odK5Hg8rsqUJKfRXo3EMAyMHDIg/7rfnP/GW0/c3XnEhOFl8z/6/NOAa
-CVlhT57VzCcGjtiaMHYscMKct9hmgSSqYyUzsoph8PmFgWe3f9+hw8ZPCcai
-S5RNM08FOV6P9uuphRcDivDs4zY2h1X8F7tm8lKScHpKcy1PlxVn7K21q63f
-/j6tXjcQI9dWrrGCgy/1wzpvY9QKJIQeMFyqMObAAByJi0DMfHBwhQIIXBiw
-0cJTUmZ5A5CCOiGAaZJYNroAfOmTRl59/SjTzjthHlzHvS7eLGlo7M2N7QEM
-wx4GeywYdxvhax9FjJJen+6OuQMgDEGhsHo2+E1wyTU3OvVEEKBEAoMZjAvC
-JatqrYrY5LmHlmzEqBafUoWrQhbDmUoLhZPhhDqnStPKYDDbmVOO/bIf+Q5x
-FN5jnMWFhXiY2dNOaq4pLSwpSu8MJ3JGOeeccK5j//lhu7Lzzn5IqfdhnLxc
-sM0aTyRittsVjfLMIhSCgzGMGX88Ht2Nba+8msIIeY0rMtmsXQEY4n94+kmB
-eA5rtxns5RTChBpq73xjev/dETXxw9/esvfXn3r8lXxWaYmxeEb46UomISYg
-iAwh1pYWixiiWaY+rdfZxgMDGaAUgrtCblpZ4rZrmqa6XI68PFHT6+697brb
-sj3Ogc1tkRBlpVgU/1OJS9QchrLMkAoBUVRFLfT6U4QIu1S9S8OJI7YQ0v8v
-c6KYXzXY+JYBlNKwaSU4F5CQhQBADH1DKHko0jm8VPznfdTAGICZLOUKJhhE
-DV/3njV3AEKDKCsrOyrspKyihmNJbcPKXMc19Qeyp538tGLWIYRMcZs3/Ki0
-+6+8UrHkD7l1zS2B1P9+9Q8fvT0Sevf/OCzrftLVykrJ1wuhy8aS0TcHrelM
-5Rob2xuW3coNdfPuW+nTcSKyXoJIXLumhAAUEIooUQOOGyXRjLZm0xDIytNd
-vX7LzevMHC7SYlBDoQgJaZh7s20HrLKP0EQMMMwNpOQb0yh7K3Io7nABRoxv
-JpOHjV84ciRV3xQXlp0ZJ7HwS9btWLhcy9tOnumZiQdEH8k4HXAZ2v2/M40T
-GAwBpMQoJSYKidQXVUOGMBgD/3G7/flezWBuXcnDZMQtHfSICGEUkCUkF5TZ
-7emf4IAHhAQ8hJKYyFC5UMpR1nBUgKUNuZoU9d1WLxi3fPueTNPr8lDFRhhg
-1JKTNNUSosLZpYWF8xs6QxrRFNwe2fnbSs3bKnflznYG1YRBcEqCqIAADBm+
-OATRJ4Z7fG4ayQ5u01Vtf8ID+TiJR6Xg3FYeSGraAbLcoxm9LZbwHvnC+xua
-v2naHdVW60W8LqsrNsh8lgQlFRaZVOSsS/qs3+5qGixOmQpnTiU/onI8xYpm
-234tsDye9z8EZNHDRs2sGb26NHjTq8sya/qDobXrVq/ff78BR/du3bjlo0tn
-WEZAKC+tfvRupaur5x2q89ms4h76atX0Mmy5LbbPWFViR6wA8ih3HiMEDb2A
-86YhNJemxujHPGzDMYIIUT25rUp6i3CWC1ru5/oThw302s7/aus9rJsEtMi8
-JxCiP5zx8gwDAOqqkW+LmLv9T1q6xraV20tOLW+petDnuOKzz9ltpZJxsVnn
-3v+4iHDR1/icjqG1NY1f/zVylUvtHf2ZHMRlZyg4lhGjMZiPQAAdpv96E8/X
-3KE1y4WREVxp6pqxn9E9O9jTt4SjqVlhJkoy7IC9EIFwCQUXA4bmjSuvzBq4
-MA+Fo/7FKCUqqnUNoPlCxgtwrRHcENdU+uG1Ru2tBiGCRj33reVw7x0iB0bq
-91uzUjZLgAARCn0ry7xjxlSc1Ke1znK4QvUdXSHt6585PHlDa1dG5pbuzN67
-9GRbwdZPluxdavP7WBee+qO1Kp1OzxdPaHenlUsJ6qqph4sJ3PoGAAh4DmON
-UxV+4Y66FWllGUwNklvTxKBYyyqamQBAbAsZighpmFSKJxTqgweLY7VdiU7V
-rzd+XFGxZhlGazvrXj6ybF/i4WjDEu+nRCSFY0s+XLVjuFDB9QOrK7cGQxHr
-YIgeBtj8ldv3/v4qyOHDhrW1NaxpbGlXdl/A79uZ46wqukmy/Gsx+3WGzt61
-pi6ziraf4j4914bz7HINIkpq5pptdpYSnu1LMIIZo3vN7CiuPhoWdViry9cu
-iilqB8rGZkmeifdmFabw5Yf8PNjhtX0PeOEIw/ftHn7oh317WGEEGRUI6sbP
-8wkzaFiKaX7mo59gwD3Pjd1DSeSqQTHsnj0wKopGUXZ+sXqbc8Ho8knDMMEr
-y9vuJzNNsiylPH7/XZBEGx2URhgmEYmnkjVJdPptGmalGUZiCbS5rsfLDv3/
-NOPvvTOB194FACA4TgCpLe67UAagDmUkkfkWUH/ljOTmzqOeh0EEDhW1AxTQ
-QBgt4gOTTdUw6Tgd1uZB84r2KZkNIcHGZMxwJZ1DdmdHIOw+ROzMDn1bbOIj
-MggLpHKpHKv5ZIrxfl59skTxtFYNjP/8JFDL1y2asOHAsv3dXidPZ99sWJTP
-JEyDmSICTyP/W6nJ55MJ/tXlQ72+X2FG7dsX2qY5n8c/88wGAkcZ8kqqspgp
-td3p8SYMKyyIppSwh99tW1p7Z7W7Q5elYcX4PLfTfU9evxw75nTBzin1Piw9
-fNNHRu3725q27mnefvA6uK+FoGHWCqTsVisDln+eqTU9xH//gR/MKXBsixyO
-ez+ZDqTYBgMsYzS1t4dzmJDw7JuEgBAspzt8fPATbSJg2Wi0kwmHQ/Hky2Sa
-sRFgfO7HPZygeORJMsZhBA0tbbXHTt5yGMbdjS9IMmqaRVFq6KpimEcWIge0
-mAFz7LYabcEIol0z7edYwQImYRQvNcMogCg782snjSrbMipY623xTvTXIGVm
-QcA8Nw6dcan22JLTJPQHyp1DmZn+txOi0kISaQyau41hBBYBJ7PKr0a64zjj
-55TWlPWP9QeNJevWve+zWGL1TW1pRRFBdgPgZj7vN/rdXEcK3YHQ8F5R814I
-BIOv71h87bVJqAfBZ/+pZYoCKxhmiaDEXLarA6WRUpaUsxxPOozdIKj7JhRr
-r8OG8eNcBUGvvPZlrruxu0b9O1/ez902eqmTLAk4LVJqmaqmkmzsqz+kD0fP
-ay/79yzTj854PdV7tm9e/PTL781v70rpO3vU9RUV/cLBntaMhmpdwAIRtz1M
-4sXuzBpY31c44QxZG5WJdFla9D8ecPcTwAAtNdJEJaMNU0J7aMXVkf/3qoaM
-sOyiJoGBUBAKIWzj51ySTihyZ8uW/1yRWnJoM6enlpdN+gv7gRrhkEQIGyzC
-KIkf925uVeAU8r0wm2RZpgEAMHJMworj5tRea8oxbm/vtJyUUOPmT5nkuPkR
-NoMf7gp9QXPsVg/BCanIIhMLJFUGIbFhBgEIQQ8y2K/2zkAY2wxEZaSqXRhX
-ncbLPxya1e513L57taeh2RZSR2UwETBGU8keziOQy4ezd4V7PqbwHNcRtH0f
-1cd8PctVdMMm9VipcRU7RYemrvC6uzB7r6v/rWodtOXBJr9J0G4x5OFXdtg3
-qRmsldbk3QwzG7uOqwSFUP14xetnrpup/LJne90nG+KFsrubQ14sPvLEf+l5
-xw395GHH1sIABANdUFlaQEM6N/309MvuWY2MQkQQsBqsQjpVDKezkgqQgAMB
-bhtZuHjZ57JTnYM6K9oikOsb1Jh9BAdRs+AWapGUgAAlbMRq8e08YzZPZ77O
-7Ku6VY+X7on+VWGwr4+BG98tOLpmpKCCqsoYNM0VcMwvrcn6yFPglksFls2m
-/3G3Kn9J8SfObu47/GjnH+zCNj7zvLIDc8vCq45uCTjWEXVf7JN7bBZWJbjh
-UQiKVEA4HiB89gteTqhWYQQ1gyi+/P8hURTQgZgq9dhG6YoshqKxNZKUlYyD
-yLNK8tKxje3dazpW11VPSzfVrtux+5At0xTmm78KtBv+8B5xQV+DogoRxOJV
-+4sfrjIV3zOdu3YTJ/hh/PpaBMOdYVgIHoX+gxmoScEsHZ3BVRPvpQQQoxNK
-z4kE+kC9/OLExf+fXHoeZ/LWRiJx7sOZEvnzJ4ph40euOij93eqqpYK93Roq
-hRnl65Yj7e1BDteeuHlEVm5d+SrwPOMbhgmUAIUEJw91D3jsbsLPpc1Grvzt
-oT46NYeDQCww1OAP7l/NBkx1OB7ZwnvE6qGwGMnAMCKV5s2XvpM6zEsD0p9V
-I2ZhEJFSaHPZReE9p64FkskI98buj9UNRC5+DiipumwitZveOoUoDKPFx+6r
-OpPkyv5P97/dvslc/68c0qO+C0YMyIgtsjFWxwii/e7UfJTizREUUD5gYAvl
-UpLFABcAmYd2IBQLNEVTyQTfWyyZ24lmRuQuy1ePRawSSEj1t74VTgYWkUpJ
-TzLMLnASi6aBQBgtYgcoN4kYnVF2ekyhmtCKqR/qqn2Sy5dVgyEEO5f6SmvL
-uanrduawdOPmsvf++c/4qlHnwUAALWxGgAASIcMAM8wmHvKxfi6G27hR02ax
-67t5LULznRcwSKK4qlk18Gg4bnXLjz7lD+xzkKDAiXBnm5rIq3wrc2tYp6F2
-f7p/JfeKykpdu3VUCb0zlRGNhYz58wI3M3llxtvvSDzmzULrHx2Lhv6cBp7z
-xSBffORDTwAgBRS9gYyABuhVv6p22szT9xWGxlzBB71xq3+t88Y4X/nmAHu2
-QAA7V3BaCyekQnpLY88GA2xOal8KIZW5z6uqLrK84yQk/yAEEzpY606vJ/th
-FcWB5/Y0CBFAQDOOsw99fgRwgWa6CgqLrRW9StMV/7lmeQ5b61Pv3HOVO8ZC
-zan3+5OmyqDETLMH391hmHQzq6usEkI5FlZ4ZSh1lu+alEePaafvdJlwb6ui
-Bm/9Cj33/rXMKUdHb1f39ZpKG+vTFzwxrbM69+JHOx9wjAMSqWlHQzLgtfKn
-rpm456puvkzpkz/QtEgAACOY9hYRg4OK7FWOW1M6YhB1lR7MCEOmjgTpiq9F
-vBAbwMAsOAIsABBgGS0B/L7+aC80Iu3AYDHwVR7RZYJShrBB6CT3B4JPM8G/
-N6h3XXrwe0r4EvKyvBjDz9Oahs7tZuvv/x4KR3k7SJnAYAkAIDdamExAtTXB
-d7Bw9QxukFTZ1xgYU8HIEKBDggJcN6fBoDa3QJqdwsgXIgRApwNqXD8DSoAY
-HbFrmb7zcsLMu0ve8b+vh+wHz/PlHxSm/hMIYRIis64PB5rIpU6aO6CveOKo
-Vc8/vqef/ZEVfNQTW43CaG6DhpGvU6JwAL0ZFDirx+G73cymDlvhnOQTUS2V
-NSIOweXR6aOcp9NCBj3vpie1U7w9g//MeS5AfbUWYXvWgtvfrXjvr25sx+9O
-JZFdC8l/HGu95lhNeK464a4jy7p4xkOAGBEMyBbLN2C3ZJyDgGCMbCDVRV7+
-wQnH9edHLZ4g/Lx26tSq4bkWcbuiqobYgrRMMYo3+cuCccSHX6Pxy+Fui3dW
-SNmGORX2WMmmc4mBZ7lfIzJYwTs4OG8c/7SJ7TJo2fC5NGVENr5OfSZ3MsIF
-jMEEN8Kbz9zCxRWjYX33nmJnDBdx8Hd4OQZxALA98JBeZ6jGDP8Rx99ArUbN
-sCcE2bBrqYuTAGUx154385qyVfqm9t7cgzDUg1kA5sjChyHAQAo3a2EZQAbu
-IBoPa141ZsKHjGTgtVnAaGwAoS90B3G7Ib7rhsMQ4foANAP/njRFnbudYr23
-l+F7KAhjj6VX4meXSElmlWUOEqljO+LRDFlvOqYPqTwrkhKWxJOa/IhM4cwA
-oHjOEIJMUwKkbQm/2Ve4G9P3+hfoGbyflffLF4MgSofpKO7Rw93TlY0kuhqC
-LacNqnkQ2ILDPcxcaM8j9a8vSz7pKT9OFh0Tt0V5DmtKUnXj+gv9r31PM/T/
-cbm29z5jhIV8QkTMQqw2BB45MAchzFGLEIII45FlX084wcNL5g49wj/+UN8a
-j5Hmbx+Lnbuhm7yJVDTlGQ1pem6OWHYgOsCPgvZ1dj5jv6rkv9fa3VNN0ifg
-M2bpaAgZI/ImWjwyEkwTGpcqxdYt6DRA3uF49LXesBdkw+jBybA7NwOOLSIj
-C/bYjNMqnzwefa5+VtiCwg9sNP4dWgZw4zxQy8bNHhQXmcoany5vhEpWYkcO
-3uKszjfnXl94eI5sVhcyv29alCiGya9ZGb+Of2rYBIWWY2yhYwlTyCabEXX3
-rkdvbXDDa6y2aCn05Ba3wpY6wLOykFxtXPf7x823gN1S7vR2GHUdPp0Ye1G/
-a09Ma3bMAwq8LyoatpBmyYzW9uU5m0t0oflbq6yNaYGD2VNtMBxgm4YBiCAk
-aX2iidu9L2takS7d0W1vL09rlq9xSPPOdYzK99jGByLLHIIjnz8LVlT2yJKD
-7Fro2pI4fxlmYe7k0aWwT9MO+2DAjitLDEJyWQVcu+ZgVdGTiqsMrAgv/RAt
-/nAGwon7YjgYaM4BKYBSBC/Nh0UBQzVUEzEKAYw8oD+7onjB1kmjOgDI978M
-vn3lEIMwzSpx+XkRw3q+3qmbtObjWlY+2txfg8cnSPKmGnHXT1l9pkXrmn0v
-JeN1ocmjLGMFgSaRQih559U0E1PbIWShABDpzrA40dGoIAR6puSK15a0+9Js
-Xqif0d957JkMqkedL4BQmAYBni8Xjp6xNC5c447IT2yTwFtjqTwrqb2d9579
-/2TQq0dQQ3QPlGB9prHRw12TRxYg6ZigVUZyDCM3U2MrIneeacVVUoqSEWVo
-FkGQAc/ELZ3+eGFDxVY/motLP6gByaNUQCRDJk6TaSshSNUNYT1m4xPN4X0O
-iCEEkK075vMw2IMEM+qyvJGddu3sTyHwivGGIFhUsDYzBIKBgpUk65QF1/XW
-Ac1fWuyJV6DyB2drKWkmAyoVlNPPVTMAwBrmFSRWtLEy3E+ACXyY6EACABSW
-c2o8HOW8UP5I5SErlxwV5b/cIcEcweLcNUnGbKoXYRX/mbBNJUA4EUgBAwzl
-sF/u6udfTVcAKPzAO6/sSzjc2SNQKnPPWNQfNprG7Kf6LpOnW6PPWAngWbJ2
-KAZJoFDZT/+Aisuaabf758KhlQ855hT//rak7suG1PRdqqzII9PdofgpWW9A
-26e2SPDvO4QUAqYYxG7YNvAj4865epruuu3FBZ4bM+1tcEB5xtg6K2pHm0Xi
-pYuXfHpyKEDE1u27vCGekKAMQvtbe2vl4YiEwqLHHRJR+oNBgFQhKEXBYNgc
-ahg8+RmCQJDDYMB4OWwhgEABtfkQaolDetfeQ3WA4BeVgYjeBmcALCjIdzr5
-+EBhAIljNmTS7ySbpmkMWY5ggxV079/GDv+xXI2lEJW0eXRpfa+RS7esqNbi
-6xfLS33uw3xsasC2kVHDYCbzzCwJd3CWkqKe2/GXcmv+aL3xpTOLpxsM3CHp
-HX9GMbMHU4slTU0TaeDioS+DAY+2hXTJnm7IfxGAbzyz0KIfzUET/J043Bda
-K+YVADpCj7/Lh3WGMVw4rgCWNqmwtRr2lgz04tVnzHCdmYuZlaS759ZX9/Zv
-i2srlI1nf5ae//kIAnhztAHVoePlBd4YMTk0yZ9tUR+j2WQ2LWLGsMZgDv6B
-mA4A0AoGP7SfOuyJcr8vPIRZWa2u3Bba5xImSwPBzmIXAuPjEmlk6l+2cKPF
-1/Z0Nz2RGdP6OVY0/Yrq7N7yocJ7GtFNv4EkcNg0l6wmkkoIKCwZU/nlyahi
-hKTMaFgYLObMGY39K/sbZgwuCYPBtfkQXVXCHY0hCHVkgYAgGuOLQVbvoBzx
-J+NyiTcbIeOpLbb1BWV/gDX8RevCAum9Z5zh7mvNUxK7vs0fana1cmOqFbgo
-Sd5ZdW79eQvC6vh4zUl8PGaEjj7d42waaMCukGzAoeca4L8gpaYkfkpwpVjE
-LAsh/oU8+UAAO4CD1zy54HAOligqQSAquDL7h6J8waXAfBi7wMAHrwwjT96O
-gB3/gGRtncKSLWHgc8/DGLWwUL/aqZCQAawLAsV+Z67umPpv8UVU68q9rkrS
-4tc3xdu+7fb/7kI3N7nO3fvfBMhhDVNS5162ilL0mP3tKwu6u2aABiR1RbFK
-nKrYyotigYAbvo7fYvlkrj3r/g0t+fZXGVZQghWmcouh7t7TL1nVvcezY9YG
-bqFP3TlhXrFqvvzm/p89WSlqN21M6eFsePEgDFH5SnOXiGczrsePyoYVUsyw
-KhFJrbOjJP1Zf8PtXhcCeC2TTqbQ6Bjz0WwFnhgFmDRLjwOB+ceHQeufqYUt
-JmKGRwTR4cfprYGx3KOccYxD070+0dMS3GYPyDDuIXrwmOZw21NqyuGlxkrV
-nXojZ0RJhPp1TIv2XDhujKc9IPnqnT/btbtNii3dAjG8Z1V/FIMLLOL5fpoV
-ve7JoSTOoag9Fe/OaPTAQBwqNGj+o7qSp1KmcVVVB0FgsYgBdhy2et0LMnCo
-ySAoFhALMEEAJk89lAD2eImc4SImv0tKkIavrZEdUpaq7L4jdXph72FxQ5hp
-Q5T4931D/amjCCNovAUEAklZH0X1NjKbqfRpTi0YzJe/yDBg+dnBfIMxFrFd
-559dPPpo7ijvA4kFhWicWySixmo8C+tEZ94A+3PPRHZGqereu+sn64ePkZO3
-bWbs3lcw5qTzMIBor84KWSuok1iTDFbXuWAPRRCO2OKbqnUTduqefsW71uV9
-5vzznu0QvPmnuXrJjb9zS0NO9q7NxUw6G+NMhNcOfrki4bxOqzoHHDKFq3Aw
-BSOgEA0pqldECVk/7uWgfez+pF6bCsJDscjk+2JG5e1JRehdD3X+u/jQEwQp
-DVCcnoZrzAzjq/3J5sXLFVezIPgXdwf1o27yjeU1yORNd4P3/eaVgAQPSVhf
-KLt74bnp2lIridNlsy/eNHH2GEgRCTOm2iPLbQuIZFimZ1WBiiEcBWHnoakz
-Dtfh38VXNhU8gKLV19YWdbMdzzeANILVlzxOE2IL19benehhYoFpStL36Vus
-ubXzikyCUM217X+WpMMbOFhW5nR080+SvAwe0P1YZjxuZPCbgEoa9NLLnCY3
-kvnmfdVtZniMvv4IuXf/E+99dnvzjuqyXZ17rixsptLerHmxvl9x5fGLuaKR
-6WPfXkE/+ws3YTu2RDw+YtC959OeDg9Px8i21wuaNaU414WjHJ/ryOAEAzKf
-S38GUcQun1srazVdLen+CyXMYi5ACOWfRmInulggUf4Z0Xbt1e+0BVWb71uN
-kTn8hI+ppdDS0Ni+qT7woCm/KlhGNL+oKgZnVd9Fj0wSM4mlekMwXVAP37AR
-1xuAUoAMnGZNCzhilnjGym0+Grq00H/7oifHZGIz+4YIf5d0ghAACR5fhoSp
-OLPYK1qUuJv7lB+mDRSuX5TzZkHuzUzIVuU6PvLlVeeuWl9D/+sTr6QEwh2h
-Wnj73mkpNGLR5YHbB3hdOro4ms9mMkLAKAnlg2NXuIeGRxPlPO2ywaQoAxS8
-DvF2HXbgG62tqgozEMdXWtUFfXChvCAL+ZnoXCSjsiWq8MIYTqmVDCsmyDsu
-LDHdkXqsvLiqSmndu3hdUdmGHA7/Lag5F49tcg/REC4DkW5g4vPjIpK90eFR
-Wew7GrRYwDBZ3dQ1Y2rvx4T1dIn//5midb2rq3NMel4IbmTO3KxszmdU2Z7W
-1pNc4iZK0osR8vU8/yji0LPzk5Fnszw1qndsWVxaMGuWe4HbyluUduOVDie7
-eqN+WzjC1ukGyHYQYN1Uju1o27X4pn7o3pxPD4C04vKi75ezqj2N5fuOj6RE
-peNmlo8bWFeZ4Cq8PV+d7axk9rI+pjZg8nFthdw+UQ47BYsrxJQKG9lWhUlw
-2qywaNttixlhZsjRsNa0uHsuXulZFJjVE1+WNM5l/8xCp9onOABZdWVrouCn
-ek3240oKs5TRlJF5ysnt4pabpmA8RLQDUeEOYZzKiIGpUlgeJ7r57enpLUOq
-dN6Lt42da/PvlB7U2GSX9wsXmurO+IcX1L/zZPawsUQAoAwFfk5VkHCy8/Ho
-dFbSJM8nYDAMDyWCHMKlPgrN94iJkxMKVA4t0xopuQjYUh8MBbkbM/6rS8ed
-yc2XfXrl/22oZdrZt9bifH8xzTHYoq//FC+L2/X13qt42p4I9Y22xuLVDUwe
-e52L/ZGVzDIBA7NeOj+3qk06dNGXnuyHGjz9yyo/lWSilNpTMRk1qKA/68UU
-WFxSd88eWCSycJ6WNGJNQrTQqKgJH/maR5eTevvT2w1D66I6rsWVeXaDEPYG
-cghMDty++bjIWbCDENhBnGVVD5uaHKb9k8+bdYWeSy2a2Goet7EEJcoqvxTL
-/PFZ44buQF3d3Bro+/Wve6JmeNQT5L30HFlsETisS5/XzC+d8SrKQxTVLRrL
-FyW0/2H8ub0p/FVGoCMeHHgOd/UQaw2i24b8A2Ni8pG6V97NNjtmIhFOx6Y2
-vINq1IlOKj+6B4UtLDobAetQuMMy/A+alphhHD5BU2a0dWzcsf9sk66c4e1m
-n4CanavKvt/VhSUn8MoeWy0fOmjhp/4aDg6uJCFnwBiHgLPSyDEb9zYxR3dv
-dqzOJCBoZPywcjbUCO+E0CWiQE3tVrMtqfF8esTl+Bp2915ampSMeatvbu7X
-nFZZ6Wtq5wJpv91cwB8Hp9fqvFWuwNlC2NKWRrRWTXg5d4uOdeTpNbvgrG/+
-EVOMezrzy+ZfrsU/L/eufNNzksTP9B/asuq61tf+fU08+cFEmr+WdPnz58kN
-t2x1yezMwxzh0R/Szd6r/LQtQniJZuSKQz8rdLNdBe8WtzeXzY4v57OthyPs
-Nb7DZf0TsMy8/iBEsCAMDKgAgAYHfYxeaWphs9nPbgi/+8r95us5YuX7l293
-2PPTuqJxzL8oLIUtMw+/k5v0Ng3A6B8Sk6SbUntLaUbOoZgg1V26/Nzd4ubG
-hvaPZf0QnzS0kiAIDS4rKRVXZ8pVEYSBRwat9YVuPqwmjD+UeWDhxQ6XWWlh
-SNGV5uXnbcKNsVDEM7+1jpMUCIvrMH70jWR7qFPo7ll0y2rVy8DSzBWGaLBr
-bSbCbZ+EP4trfTMQYKvQ24djd3dTRF9Ce9AlPjs3EjrZwqalmFK67xKh67qh
-UVYqOsnw+irRGQ07Kpy4rQ0w1ifYNh6Y4YjS9tSo9pjJqJEUMGnZ6KtH+5cV
-fbDpPhqMftKu/sDob+86ZP7574vW7Rk1d6JzhLnxewqVl5prqDWoZ+3NMzcU
-cs9QWmlD1m9mGnHHXcOecH8gM01NUkOl3uvIkTjyzcuG3Le6NHjZrmddq4LN
-XBumVjawNnnWaoyouPp8jTTEH/O6yi5RyEuUtZm/cIFtGliizFD5h8UxVZEP
-ivLKItIEvJkJKOvYIIcWNOmEpMQzSBac/KUkLWzW6Pw3FSTFKZaKjrj5dffv
-mlRT6bf9SwqhPWrNv6XCyR0gSOxV1JVepIajEEKL2tO9sRk01NNohptYi8y2
-mxlAf8xRlZTeqGua+L9A+Jyv1iPoBF5DEWUao7mvw0HU+Hlgct4ay1/0xCtI
-KjxxdOGNIn/yqMMfpsffTqzU3a8rq4GBgryeMnhcUZsX5eywnnlvR59OPMp4
-FCR89xlvQf0go/21nWZ1o4qS1Q5WTy+yCsOQ3xdUVS7+udCSPz+W7lzY6Q/n
-4kRLVwiDq6W7LFDMJiVgIx2iPzUgY4KQP8lp16ZHOT+soHG7Vr/7kscn1dSI
-sX5ec5lEyiXXQITDCcjg8d0K+8OxTplrI/zjf5JWP+Xm/eUI2x3oRZAVSCtY
-yUzkiaVqpQy0Ciy++XWTnPpb+9dP6IYUMZOZPQP1m6sf+kSUeUux0W9PEnC1
-8dMXzUCH9xpd3lyx/x2OLP/7G7M3jzW6HM86ql4BqXL/8chNkII9r0dDbTh8
-VscTYde/tg16PKkmwYetru9BRSShUlm/7YUKS3TUVaLqejtzCcUCmnovdbRO
-uQgoLC07duq32l2MMHJx5x1FSPx+c5/pg5J332+ZLnw7GEzrIMFLCMoCOqpd
-Te7FX/6vKSc0+au0qgxOqyWytnTR5+Rk1ZQUF1ZeXQ/Hy/nk5nErKifq9mRk
-UV/a7qaat/+FBWMSGEoLTA4wnF0gkTW9yMLf8Tq9M7Li+vFIipt2djdc8MK+
-GirRGze0SN86So5p7TFLc5i8QWci3fiZdszLzcdspUMRVLr//yrWV/n3/7gE
-WbQ+x7b8xvW616+zzT3rRngian1AOVZuTs/sH9arwzJo87n7V6BtXv2bWJKI
-kNkYRStL2hfVEmQ3RBJKydA1RkNWzlHnYwh5EFWIuMETBNoXRte8IIJ02e0z
-U5wzAMmKYJPM/BMVWWa1sS+qcbeuSdbocNJ9LSr8b0YTADrrySWwWL4zZGEM
-FUFUgpBGgmCCBar1MSPQ/d+dsTlo04/PDxI8dMz/TUrmAfePpN8rsLTtJEgf
-e+8dmGu33F1Znf/e6Ku7d+9mJqTW3XthvvfnimpEMBK3pv4azisQ6LlQUANp
-HMGpSSnmxoT78fQg9Wm9NJKDGVbGZfXT1mWIEVrHksL7pLyyoewgxbHOtsmP
-Dp/BeW1PQZUMPznH3Hti3r55128dE9oXA63+uAnkhSo5TQc087fvxvLzpzdV
-drs8IwWHz8pfcmrFyzdu3xsw6/dODgEecO6l9U2tzcs+qex18+uzsYPmhRPF
-PUb9oajJnNUjK451AVBjAMA3aLIJiULdVNfLPo8GYxyw+RpETCbvd4eFtgRl
-R3jaZi4Jw23j0sEWN0qnRGmyPI2ZZN3/9We/SKrg31X4xJxvudebj3OvPzND
-toonAGYHPd1k4cdOb1OT4ZbvnkYJK/oqTQeeS0w89yOJ0ejmEu6O5o7d7dGv
-y0b98+406cMf5FzDNqc0eI2pzemT1pfXttt1TbkhUa0p7qJxpDWndIE/oSzj
-4eY4a1iWws4PcOHjxooEdAhip4/P5hh08RWFGQG5ra0r+quD+lINrcEyUNHI
-qcejqdStxKstFVwAkPyfHu1/x+r+3ICYPvrRk1O+20CuajT7xgjhg5WO+MJE
-2idav5JRVDlixZ/mx+YckkcBTyIpPq29LQpDY09SzjbZZyCsIximpwiqobgJ
-BdBPkfspRc8kOuTddUVeRZEsgLBFLptIwwRpSYhqmrKVNXw1a75wqrzTasJx
-LbtHP7tr+ce9ZpN8uKEisuLqmZOXnc9LXr1i/yOC3OjI5t9952/Wm333rz+6
-ahxwJ+tyMUS7726LOvP5vKyI7ZsyYNHDFkkH1nfef722rrt2iqpnb2hA7ec9
-Trc12R0fE8U0s9THSNHAomsIgck5/n7JtCgd8A77hIy0TvZlg2qanaeM1QWY
-vFFkKARUqphGQzE412uWQNnFIi+I94Ivzn/lU2z/XzfM+OFdirrRMCA92SXP
-NVm7mUdfNqRoWIKlTdZkpdDyiKon2b+A8bPbzfuacet8npsI+lhOQNqCqp2d
-nYsXLTrvaJMyaOiJ5/7ulnTBw96GhKyRcbtu9p4jnOiogecjvtJemULBiECh
-wDTWP6F5dNnzB0XH6ef9C2nXvet3AMrmtuj5TXDLD85oIz/nbV5Zc8JGLSum
-zNpi2/JiZA1NyAwVhsUkqBGj0MRptNJbWDcxRcVOYTjclTJ17hdonWha88Y1
-VMbPnt7/5gdQYqbT6OWoaOP9Jh6LHqt1569v5hw/qdmoikIdjevHxHU1c3Nb
-XFhJibkZIoAU2yUYZbQuTYdbqm/ssaYYQQ2GxWdOu15989pCheEIkziCJGkR
-VFBgCweQsmO5zuP7EsE/T58s7fuHHj4+lE9L3ZR878TUaSgiUlpX10NZvctL
-12yQv/uP/p44877tr21saQxSL6g93dtedfc/spvD3/Pd0k20+aO2v84WOGXT
-6gT+URpcXO2QEbPrO1O/F0JJZQDnROyFs1VqVymlfSIaeciaZ/DqgrR4Rut9
-s+eGDFxtpuviibii7RU50nYtF1FIeA4z3Ff1YVZbjF5gAAAFlKAzW1JYgod8
-uxzsVnTy48q6bAdkoa6cvJ2lQJQoBsDC7bkVafVivFrg3NJKHbappYUz0x1L
-pl/v6/m5/nd5w078hF/avLxxcVFUJXVzcQ01j24sIlz+kKOXrs6OrXrzj3zM
-cLi8vyGAbzt9x73xmfL97oTahKe7+SQMOcqWNnBrt7RqkmlJ176jFjwrpiXf
-bZimdeW/DFk9F4dKPfaRMfuufPD9udHrCL7NABAweNGzllrrO9vT2dKwn8de
-B/GGA4gSfEIKauGZhhEcNbCmwsiU0fP2iWaRL1oxW15rGzxrOlAQ/EZNVUZd
-N0uB0Mx1DPwo+WLPPneXFNRenI2t1Ne2obWpsRxkBMgzAMgxDDs8RQ9R9yv7
-mzGT9qWBVDVXHt1vram668ILh5V/2pCz9bupRhGOTIr/rK63IdZrFaEhhjp6
-4p65p3bZ7y1AO33jlz5swb1ixfkuqJZfBxx86z+wJFIGWzIZvVGti8acNXZ1
-981TFpnbvSl1fwmz3b1w/7zfmnjjv2yDELK8pqoKWtARpborBhy86rn3/9vY
-cN0/wOZovNphO1WEs/pEixNPwY1Nn3LJvNlheOyxuy4Y5/UMH1BwRIEAXL8U
-omEVO6asdynKWfqiana4TGQUt/jkw5mOdiWHDzli92JD98b234Da9b4GNpXe
-N4hjVk3ZQ1Qy8ydUsoppuCGVvhsYL/2wA4SZLkNz/47MjxI4fNG9y38tg9Tc
-2vrN9Suykp0yPHjhlqNuxubvn708+f98Ljj32uqlrqvttu/8ef4Y5bYmm19N
-7br38XY8zeeMNNcOmFZ4Ld5ckue29BqjMYiSqabuMRQcVFhf2sHB46ZuSwcT
-a7M9PRUk/sFqEYAHb/mgBwhJhA1Ow+7UhMgxI53Z0AgHc/X7cw9/o7H3550O
-9o74nA5u11H+/b471ZbtM0KZiy/mPMMpZhoKOjIxZPZdKGaUJ7V/AlU9MqMc
-utwJzgwSx3mGRAhkoStjscLKVUvun351z7u+vv+Osfrw4fPm3KYWOPPHYsIY
-RmejpboaC4PLBi+VfvnHbBladS1nZiYWnxHYaubcOcYL701od7mut3jps5a9
-Zhipwq6GpttX+1eueLhJIDTqBjlUj9yEOVvcl9TXd3dzPqQWcRQiiVoquAAp
-Vi7RdSAESJSVRd2aFm4zv2d1wTGTARIFM3FcUwCW0L7i2Ez4KRS1i0RRQZIQ
-RqrGlKTxx9JwJicfrPYe32vN27tj69evOurJSVajVFTrvzSs4ZP2bM4EmjBi
-hvvD3/gxdefPGO884998/hcEi55eY/3vjYI4/eEU8kG3Zs21YzY9aM7OBRh7
-EtDbugsk9/vGJLPUqnM0lGU8kJc46YNmTEmMpwT1dGrLJpuztb7VaL6P81zg
-H7vkhR7qz2den+Rlqot3Fx7j1C6M++N55jGGISU1F1EyEAVdMiPMd5McNZKS
-EaAGAAqiGE/Zl0JhPqqDtt8zZL+Z+u+81JRx0xsbpqwEjDME1NFAS3P79Yuf
-e++6/8890PPZZfXHFEoKj8LWKanaqqDxVsrisyyfDzC5ds3PLl1i6GoUYqm0
-nHGMFShBkuY5rqdxj3Fzk5QgiYOXXT+x8gxKSU5MAyaL9H7yZLimFmFN1UdZ
-PmsovoW5CKXuuMAiUmoaZB9o/zFhcWlLtKy589bEDlPZeddWq0prrP/PyC4g
-UISMoiMJ2sLnmlZPyC++669f0PFq1YuWnz5i/y8gKiKsu+k085+XePPvfc3W
-++NX/xiKGDrPF4FFLxKEutOJnOSBZKjA5eYPDnKzcv37Rp06LSqj5ae1M937
-KzmTgdjv52u9OdI6hf+yKE7Gta1XtO+z9MMM1vvncoyEPRdDMYS6Z7m9UC9K
-mpHEsIUYmpZ01dTVFiNiOE/WlZ/byrvXH45PEjHBeee/rjV/3+mmd4jnPs2L
-KOFQXBvXLl8vfPv+iy0x1W6H/hOacOy8haOQBANiu7IvHoi1Ks+x5DU9odeW
-Wz/V7vlEKPfVx1Td9tnqKaHRZ3wYnfAEv9u7BAP8qH+BkJII83MBUZ9KQe1e
-hsag2rMZNwWjr1cVaWlnq8eY8OHTGc8TkEyeWwoPa29uM//GzJk8MG9y+ziK
-JXk9N5lIOahl31xoih/cucHp+eSkS5jqaO+OpNO+aHovEdPgui2/a0tL/x3o
-cLOKLPYBim/9otte9GY4lALCXbslJqC8D/BmIf2DIA8LrsIkLIPHrKqKMHV+
-XduWRT0wPRaKzNNHRTtHtPS/U0Heu30sevuuSMk049ZtJnLpffn472RD2BIi
-815PSjTzx3yRefL42ed9bJv59+xIx5IwZUnhILdj6/Zltdq81qn5GMhX5jat
-lWQBipUmK3nIqs8GK51e3xT0+oyEKBzqGG/JCpa99wXNhf1Ub9jM9KlCInAC
-apNAkDMiVFI5SgmZSgAsbtdnY312XadyRh45YdmRNmTxVjieSZTz317PPHz5
-l+Hcey9lF9B5T1DGms+efTLyeuveYK3JZMKJFg0GOq2V2mriY7VJPMHuAd99
-me+Nplaza9qGfTuK6hafH2pvCfBbc7DsEO+M+3w/r1rZwTbLfZLE6HwzZ2aM
-1dsqq1d3V2bOEwQjoAqPHOGYeNGDji9BPnpIr8TpxNawAQEhmmUHz1zXdveu
-XN95+va2pPn37s9COGDRs6VE5FoSfY5j339NmfxSLBGct3x6qJqYdYQWSRaV
-BfQeXx5T77TXl5vhHNcQN0LQzE0OeLojVfzUod+wd62P8G6QIAIMei65Cbww
-BQCAA8pZBIRnvOI9QMWlT5PYZhTm6Np2DWjCnAsgz07ddvzFMvvPHX2+9/4t
-K/3PCbF+V00l3i5eCLeNr66uvzYdigvpDIamACk7EJLDuv0n5zW0r5lBAKWx
-ratu5pDX5pIuExhDFrZjKp/5H69/uFbV3BOKUUXv5g5TyLKLqiyXSSZ3rnVT
-utPCDBPuODpWuvEUwt4/a4OZ5j7dt27Pli1catW/r36zfsqMljzpr/8bJnmz
-uCwyaMGDi7K5yIMAzmGd5eYKZ2nafuzcZ7nTarnEnsatCNh3Z0xJIIId7QFU
-3LppcQU5e+Hej5r9LZmBU8CGEnx/O8pipRYqgxAACP22WzWsQSh91OCz0WbC
-CB7Q5Hg4l4XBJ4TrRarVpZSWFZMiVlETXY3S1BVF0SYFiWEXbUNdcC0c3RAX
-7ctqi5KSWrKmY4C8JsHsfzIgLEalq20dQ19X/k/ktkt/E+UNuBhnb8J8zu/6
-3/rZ9lEuWQmgd6PfefHMgll2vImVIY42+mqig94Hd910o4MOP8P4szkVDYWQ
-ewAAAAAElFTkSuQmCA==
-)!important;
+  background-image:url("assets/emotes/napoleonic-emotes.png")!important;
   background-repeat:no-repeat!important;background-size:112px 112px!important;
 }
-.mini-chat-emote-angry{background-position:0 0!important}.mini-chat-emote-austrian_salute{background-position:-28px 0!important}.mini-chat-emote-british_guard{background-position:-56px 0!important}.mini-chat-emote-bugler{background-position:-84px 0!important}
-.mini-chat-emote-commander_salute{background-position:0 -28px!important}.mini-chat-emote-drummer_laugh{background-position:-28px -28px!important}.mini-chat-emote-french_wink{background-position:-56px -28px!important}.mini-chat-emote-grenadier_stern{background-position:-84px -28px!important}
-.mini-chat-emote-marshal{background-position:0 -56px!important}.mini-chat-emote-napoleon{background-position:-28px -56px!important}.mini-chat-emote-officer_thumbsup{background-position:-56px -56px!important}.mini-chat-emote-officer_wink{background-position:-84px -56px!important}
-.mini-chat-emote-prussian_wink{background-position:0 -84px!important}.mini-chat-emote-russian_smile{background-position:-28px -84px!important}.mini-chat-emote-surprised{background-position:-56px -84px!important}.mini-chat-emote-victory{background-position:-84px -84px!important}
+.mini-chat-emote-angry{background-position:0 0!important}
+.mini-chat-emote-austrian_salute{background-position:-28px 0!important}
+.mini-chat-emote-british_guard{background-position:-56px 0!important}
+.mini-chat-emote-bugler{background-position:-84px 0!important}
+.mini-chat-emote-commander_salute{background-position:0 -28px!important}
+.mini-chat-emote-drummer_laugh{background-position:-28px -28px!important}
+.mini-chat-emote-french_wink{background-position:-56px -28px!important}
+.mini-chat-emote-grenadier_stern{background-position:-84px -28px!important}
+.mini-chat-emote-marshal{background-position:0 -56px!important}
+.mini-chat-emote-napoleon{background-position:-28px -56px!important}
+.mini-chat-emote-officer_thumbsup{background-position:-56px -56px!important}
+.mini-chat-emote-officer_wink{background-position:-84px -56px!important}
+.mini-chat-emote-prussian_wink{background-position:0 -84px!important}
+.mini-chat-emote-russian_smile{background-position:-28px -84px!important}
+.mini-chat-emote-surprised{background-position:-56px -84px!important}
+.mini-chat-emote-victory{background-position:-84px -84px!important}
 .mini-chat-emote-choice .mini-chat-emote{width:42px!important;height:42px!important;flex-basis:42px!important;background-size:168px 168px!important}
-.mini-chat-emote-choice .mini-chat-emote-angry{background-position:0 0!important}.mini-chat-emote-choice .mini-chat-emote-austrian_salute{background-position:-42px 0!important}.mini-chat-emote-choice .mini-chat-emote-british_guard{background-position:-84px 0!important}.mini-chat-emote-choice .mini-chat-emote-bugler{background-position:-126px 0!important}
-.mini-chat-emote-choice .mini-chat-emote-commander_salute{background-position:0 -42px!important}.mini-chat-emote-choice .mini-chat-emote-drummer_laugh{background-position:-42px -42px!important}.mini-chat-emote-choice .mini-chat-emote-french_wink{background-position:-84px -42px!important}.mini-chat-emote-choice .mini-chat-emote-grenadier_stern{background-position:-126px -42px!important}
-.mini-chat-emote-choice .mini-chat-emote-marshal{background-position:0 -84px!important}.mini-chat-emote-choice .mini-chat-emote-napoleon{background-position:-42px -84px!important}.mini-chat-emote-choice .mini-chat-emote-officer_thumbsup{background-position:-84px -84px!important}.mini-chat-emote-choice .mini-chat-emote-officer_wink{background-position:-126px -84px!important}
-.mini-chat-emote-choice .mini-chat-emote-prussian_wink{background-position:0 -126px!important}.mini-chat-emote-choice .mini-chat-emote-russian_smile{background-position:-42px -126px!important}.mini-chat-emote-choice .mini-chat-emote-surprised{background-position:-84px -126px!important}.mini-chat-emote-choice .mini-chat-emote-victory{background-position:-126px -126px!important}
+.mini-chat-emote-choice .mini-chat-emote-angry{background-position:0 0!important}
+.mini-chat-emote-choice .mini-chat-emote-austrian_salute{background-position:-42px 0!important}
+.mini-chat-emote-choice .mini-chat-emote-british_guard{background-position:-84px 0!important}
+.mini-chat-emote-choice .mini-chat-emote-bugler{background-position:-126px 0!important}
+.mini-chat-emote-choice .mini-chat-emote-commander_salute{background-position:0 -42px!important}
+.mini-chat-emote-choice .mini-chat-emote-drummer_laugh{background-position:-42px -42px!important}
+.mini-chat-emote-choice .mini-chat-emote-french_wink{background-position:-84px -42px!important}
+.mini-chat-emote-choice .mini-chat-emote-grenadier_stern{background-position:-126px -42px!important}
+.mini-chat-emote-choice .mini-chat-emote-marshal{background-position:0 -84px!important}
+.mini-chat-emote-choice .mini-chat-emote-napoleon{background-position:-42px -84px!important}
+.mini-chat-emote-choice .mini-chat-emote-officer_thumbsup{background-position:-84px -84px!important}
+.mini-chat-emote-choice .mini-chat-emote-officer_wink{background-position:-126px -84px!important}
+.mini-chat-emote-choice .mini-chat-emote-prussian_wink{background-position:0 -126px!important}
+.mini-chat-emote-choice .mini-chat-emote-russian_smile{background-position:-42px -126px!important}
+.mini-chat-emote-choice .mini-chat-emote-surprised{background-position:-84px -126px!important}
+.mini-chat-emote-choice .mini-chat-emote-victory{background-position:-126px -126px!important}
 .mini-chat-message-body p .mini-chat-emote{margin:0 2px;transform:translateY(3px)}
 @media(max-width:600px){
   .mini-chat-emote-picker{right:-4px;width:204px;grid-template-columns:repeat(4,38px);gap:5px;padding:7px}
   .mini-chat-emote-choice{width:38px;height:38px}
   .mini-chat-emote-choice .mini-chat-emote{width:38px!important;height:38px!important;flex-basis:38px!important;background-size:152px 152px!important}
-  .mini-chat-emote-choice .mini-chat-emote-austrian_salute{background-position:-38px 0!important}.mini-chat-emote-choice .mini-chat-emote-british_guard{background-position:-76px 0!important}.mini-chat-emote-choice .mini-chat-emote-bugler{background-position:-114px 0!important}
-  .mini-chat-emote-choice .mini-chat-emote-commander_salute{background-position:0 -38px!important}.mini-chat-emote-choice .mini-chat-emote-drummer_laugh{background-position:-38px -38px!important}.mini-chat-emote-choice .mini-chat-emote-french_wink{background-position:-76px -38px!important}.mini-chat-emote-choice .mini-chat-emote-grenadier_stern{background-position:-114px -38px!important}
-  .mini-chat-emote-choice .mini-chat-emote-marshal{background-position:0 -76px!important}.mini-chat-emote-choice .mini-chat-emote-napoleon{background-position:-38px -76px!important}.mini-chat-emote-choice .mini-chat-emote-officer_thumbsup{background-position:-76px -76px!important}.mini-chat-emote-choice .mini-chat-emote-officer_wink{background-position:-114px -76px!important}
-  .mini-chat-emote-choice .mini-chat-emote-prussian_wink{background-position:0 -114px!important}.mini-chat-emote-choice .mini-chat-emote-russian_smile{background-position:-38px -114px!important}.mini-chat-emote-choice .mini-chat-emote-surprised{background-position:-76px -114px!important}.mini-chat-emote-choice .mini-chat-emote-victory{background-position:-114px -114px!important}
+  .mini-chat-emote-choice .mini-chat-emote-angry{background-position:0 0!important}
+  .mini-chat-emote-choice .mini-chat-emote-austrian_salute{background-position:-38px 0!important}
+  .mini-chat-emote-choice .mini-chat-emote-british_guard{background-position:-76px 0!important}
+  .mini-chat-emote-choice .mini-chat-emote-bugler{background-position:-114px 0!important}
+  .mini-chat-emote-choice .mini-chat-emote-commander_salute{background-position:0 -38px!important}
+  .mini-chat-emote-choice .mini-chat-emote-drummer_laugh{background-position:-38px -38px!important}
+  .mini-chat-emote-choice .mini-chat-emote-french_wink{background-position:-76px -38px!important}
+  .mini-chat-emote-choice .mini-chat-emote-grenadier_stern{background-position:-114px -38px!important}
+  .mini-chat-emote-choice .mini-chat-emote-marshal{background-position:0 -76px!important}
+  .mini-chat-emote-choice .mini-chat-emote-napoleon{background-position:-38px -76px!important}
+  .mini-chat-emote-choice .mini-chat-emote-officer_thumbsup{background-position:-76px -76px!important}
+  .mini-chat-emote-choice .mini-chat-emote-officer_wink{background-position:-114px -76px!important}
+  .mini-chat-emote-choice .mini-chat-emote-prussian_wink{background-position:0 -114px!important}
+  .mini-chat-emote-choice .mini-chat-emote-russian_smile{background-position:-38px -114px!important}
+  .mini-chat-emote-choice .mini-chat-emote-surprised{background-position:-76px -114px!important}
+  .mini-chat-emote-choice .mini-chat-emote-victory{background-position:-114px -114px!important}
   .mini-chat-emote{width:22px!important;height:22px!important;flex-basis:22px!important;background-size:88px 88px!important}
-  .mini-chat-emote-austrian_salute{background-position:-22px 0!important}.mini-chat-emote-british_guard{background-position:-44px 0!important}.mini-chat-emote-bugler{background-position:-66px 0!important}
-  .mini-chat-emote-commander_salute{background-position:0 -22px!important}.mini-chat-emote-drummer_laugh{background-position:-22px -22px!important}.mini-chat-emote-french_wink{background-position:-44px -22px!important}.mini-chat-emote-grenadier_stern{background-position:-66px -22px!important}
-  .mini-chat-emote-marshal{background-position:0 -44px!important}.mini-chat-emote-napoleon{background-position:-22px -44px!important}.mini-chat-emote-officer_thumbsup{background-position:-44px -44px!important}.mini-chat-emote-officer_wink{background-position:-66px -44px!important}
-  .mini-chat-emote-prussian_wink{background-position:0 -66px!important}.mini-chat-emote-russian_smile{background-position:-22px -66px!important}.mini-chat-emote-surprised{background-position:-44px -66px!important}.mini-chat-emote-victory{background-position:-66px -66px!important}
+  .mini-chat-emote-angry{background-position:0 0!important}
+  .mini-chat-emote-austrian_salute{background-position:-22px 0!important}
+  .mini-chat-emote-british_guard{background-position:-44px 0!important}
+  .mini-chat-emote-bugler{background-position:-66px 0!important}
+  .mini-chat-emote-commander_salute{background-position:0 -22px!important}
+  .mini-chat-emote-drummer_laugh{background-position:-22px -22px!important}
+  .mini-chat-emote-french_wink{background-position:-44px -22px!important}
+  .mini-chat-emote-grenadier_stern{background-position:-66px -22px!important}
+  .mini-chat-emote-marshal{background-position:0 -44px!important}
+  .mini-chat-emote-napoleon{background-position:-22px -44px!important}
+  .mini-chat-emote-officer_thumbsup{background-position:-44px -44px!important}
+  .mini-chat-emote-officer_wink{background-position:-66px -44px!important}
+  .mini-chat-emote-prussian_wink{background-position:0 -66px!important}
+  .mini-chat-emote-russian_smile{background-position:-22px -66px!important}
+  .mini-chat-emote-surprised{background-position:-44px -66px!important}
+  .mini-chat-emote-victory{background-position:-66px -66px!important}
 }
