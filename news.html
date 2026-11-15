@@ -195,7 +195,7 @@ function renderComments(news){
   else if(b.dataset.replyTo){const f=b.closest(".battle-thread-item")?.querySelector(":scope > .battle-comment .battle-reply-form");if(f){f.hidden=!f.hidden;if(!f.hidden)f.querySelector("input").focus();}}
  });
  list.addEventListener("submit",e=>{const f=e.target.closest(".battle-reply-form");if(!f)return;e.preventDefault();const input=f.querySelector("input"),value=input.value.trim();if(!value)return;saveComment({id:"comment-"+Date.now(),parentId:f.dataset.parentId,author:currentUser.name,avatar:empireUserAvatar(currentUser.name),date:new Date().toLocaleString("ru-RU"),text:value});});
- form.addEventListener("submit",e=>{e.preventDefault();const html=cleanRichComment(editor.innerHTML),textValue=editor.textContent.trim();if(!textValue&&!html.replace(/<[^>]*>/g,"").trim())return;saveComment({id:"comment-"+Date.now(),author:currentUser.name,avatar:empireUserAvatar(currentUser.name),date:new Date().toLocaleString("ru-RU"),html,text:textValue});});
+ form.addEventListener("submit",e=>{e.preventDefault();const html=cleanRichComment(editor.innerHTML),textValue=editor.textContent.trim();if(!textValue&&!html.replace(/<[^>]*>/g,"").trim()&&!html.includes('<img '))return;saveComment({id:"comment-"+Date.now(),author:currentUser.name,avatar:empireUserAvatar(currentUser.name),date:new Date().toLocaleString("ru-RU"),html,text:textValue});});
 }
 
 function renderEditor(){
