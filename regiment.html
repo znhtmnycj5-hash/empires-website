@@ -84,8 +84,13 @@
       });
     };
     renderDbMembers('officersGrid',officers);renderDbMembers('soldiersGrid',soldiers);
+    // Очищаем статические данные до/сразу после получения данных из Supabase,
+    // чтобы удалённые записи не проскакивали при обновлении страницы.
+    document.getElementById('battleHistoryList').replaceChildren();
+    document.getElementById('battleWins').textContent='0';
+    document.getElementById('battleLosses').textContent='0';
+    document.getElementById('battleDraws').textContent='0';
     document.getElementById('battleHistoryList').innerHTML='<p class="empty-note">Полк пока не участвовал в сражениях.</p>';
-    document.getElementById('battleWins').textContent='0';document.getElementById('battleLosses').textContent='0';document.getElementById('battleDraws').textContent='0';
   }catch(error){console.error('Загрузка данных полка:',error);}
 })();
 </script>
