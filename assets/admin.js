@@ -6,13 +6,21 @@ const read=(k,f=[])=>{try{const v=JSON.parse(localStorage.getItem(k)||'null');re
 const esc=v=>String(v??'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
 // Remove legacy demo reports and requests previously inserted into this browser.
 try{for(const k of ['empire_user_reports_v1','empire_comment_reports_v1']){const a=read(k);write(k,a.filter(x=>!String(x.id||'').startsWith('demo-')));}const q=read('empire_regiment_creation_requests_v1');write('empire_regiment_creation_requests_v1',q.filter(x=>!String(x.id||'').startsWith('demo-')));}catch(e){}
+const loadingBox='<div class="admin-empty">Загрузка…</div>';
+document.getElementById('adminStats').innerHTML=loadingBox;
+for(const id of ['regimentRequests','userReports','commentReports','permanentBans','temporaryBans','allRegiments','allAlliances','siteUsers']){const el=document.getElementById(id);if(el)el.innerHTML=loadingBox;}
 await window.EMPIRE_AUTH.init();
 const auth=window.EMPIRE_AUTH;
 const user=auth.profile?.display_name||'';
 let isAdmin=false;
+let initialRequestsPromise=Promise.resolve({data:[],error:null});
 if(auth.user){
- const q=await auth.client.from('empire_profiles').select('is_admin').eq('id',auth.user.id).maybeSingle();
- isAdmin=!!q.data?.is_admin;
+ const [adminResult,requestsResult]=await Promise.all([
+  auth.client.from('empire_profiles').select('is_admin').eq('id',auth.user.id).maybeSingle(),
+  auth.client.from('empire_regiment_creation_requests').select('id,user_name,name,faction,logo,status,created_at').order('created_at',{ascending:false})
+ ]);
+ isAdmin=!!adminResult.data?.is_admin;
+ initialRequestsPromise=Promise.resolve(requestsResult);
 }
 if(!isAdmin){document.querySelector('main').innerHTML='<section class="card admin-access-denied"><div class="page-kicker">ДОСТУП ЗАПРЕЩЁН</div><h1>Панель управления</h1><p>У вашей учётной записи нет прав администратора или модератора.</p><a class="btn" href="index.html">Вернуться на главную</a></section>';return}
 let requestLoadError='';
@@ -97,15 +105,23 @@ document.addEventListener('click',async e=>{const b=e.target.closest('button[dat
 });
 
 try {
- const {data,error}=await auth.client.from('empire_regiment_creation_requests').select('id,user_name,name,faction,logo,status,created_at').order('created_at',{ascending:false});
+ const {data,error}=await initialRequestsPromise;
  if(error) throw error;
  requestLoadError='';
  write(K.requests,(data||[]).map(r=>({id:r.id,user:r.user_name,name:r.name,faction:r.faction,logo:r.logo,status:r.status,createdAt:r.created_at})));
 } catch(error) {
  console.error('Заявки на создание полка:',error);
  requestLoadError='Не удалось загрузить заявки из Supabase: '+(error.message||'проверьте права доступа к таблице empire_regiment_creation_requests.');
- const box=document.getElementById('regimentRequests');
- if(box) box.innerHTML='<div class="admin-empty">Не удалось загрузить заявки из базы. Проверьте настройку Supabase.</div>';
 }
-render();renderCampaignAdmin();renderSiteUsers();
+render();renderCampaignAdmin();
+// Загружаем полный список пользователей только когда администратор прокручивает страницу к этому разделу.
+const usersSection=document.getElementById('siteUsers');
+if(usersSection){
+ let started=false;
+ const startUsers=()=>{if(started)return;started=true;renderSiteUsers();};
+ if('IntersectionObserver' in window){
+  const observer=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){observer.disconnect();startUsers();}},{rootMargin:'500px'});
+  observer.observe(usersSection);
+ }else startUsers();
+}
 })();
