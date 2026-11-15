@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clanwars — Полный чат</title>
+<link rel="stylesheet" href="assets/style.css?v=20261115-full-chat1">
+</head>
+<body>
+<header class="page-header">
+  <div class="container page-header-inner">
+    <div class="brand-title">Clanwars <span>Mount&amp;Blade</span></div>
+    <a class="btn" href="index.html">← На главную</a>
+  </div>
+</header>
+
+<div class="container">
+<nav class="site-nav">
+  <a href="index.html">Главная</a>
+  <a href="regiments.html">Полки</a>
+  <a href="battles.html">Сражения</a>
+  <a href="campaigns.html">Кампании</a>
+  <a href="alliances.html">Союзы</a>
+  <a href="search.html">Поиск</a>
+  <a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+</nav>
+
+<main class="full-chat-page">
+  <section class="card full-chat" id="fullChat">
+    <div class="card-title">💬 &nbsp; Полный чат <span style="font:10px 'Roboto Slab';color:#6db86d">● Онлайн</span></div>
+
+    <div class="chat-tabs">
+      <button class="chat-tab active" data-tab="general">Общий чат</button>
+      <button class="chat-tab" data-tab="regiments-chat">Полковой чат</button>
+    </div>
+
+    <div id="general" class="chat-panel active">
+      <div class="messages full-chat-messages" id="generalMessages"><p class="empty-note">Загрузка сообщений…</p></div>
+    </div>
+
+    <div id="regiments-chat" class="chat-panel">
+      <div class="regiment-chat-status" id="regimentChatStatus"></div>
+      <div class="messages full-chat-messages" id="regimentMessages"><p class="empty-note">Загрузка сообщений…</p></div>
+      <div class="regiment-chat-locked" id="regimentChatLocked">
+        <div class="lock-icon">🔒</div>
+        <strong>Полковой чат заблокирован</strong>
+        <p>Вы не состоите ни в одном полку. Вступите в полк, чтобы получить доступ к полковому чату.</p>
+        <a class="btn" href="regiments.html">Найти полк</a>
+      </div>
+    </div>
+
+    <div class="chat-input" id="chatInputWrap">
+      <input id="chatInput" name="empire-full-chat-message" type="text" maxlength="2000" autocomplete="off" autocapitalize="sentences" spellcheck="true" placeholder="Войдите, чтобы написать сообщение..." disabled>
+      <div class="mini-chat-emote-wrap">
+        <button type="button" class="mini-chat-emote-button" id="chatEmoteButton" title="Выбрать смайл" aria-label="Выбрать смайл">☺</button>
+        <div class="mini-chat-emote-picker" id="chatEmotePicker" aria-label="Смайлы"></div>
+      </div>
+      <button id="sendChat">➤</button>
+    </div>
+
+    <div class="full-chat-footer">
+      <a class="btn" href="index.html">← Вернуться на главную</a>
+    </div>
+  </section>
+</main>
+</div>
+
+<footer>
+  <div class="container footer-inner">
+    <div><strong style="font:700 22px Cinzel;color:#b99559">Clanwars</strong><br>Сообщество Mount &amp; Blade</div>
+    <div>Главная &nbsp;|&nbsp; Полки &nbsp;|&nbsp; Кампании &nbsp;|&nbsp; Союзы</div>
+    <div class="motto">Vive l’Empire!</div>
+  </div>
+</footer>
+
+<script src="assets/supabase-auth.js?v=20261115-image-cache1"></script>
+<script src="assets/smile.js?v=20261115-full-chat1"></script>
+<script src="assets/mini-chat.js?v=20261115-full-chat1"></script>
+</body>
+</html>
