@@ -732,3 +732,8 @@ create policy "Admins can review regiment requests"
 on public.empire_regiment_creation_requests for update to authenticated
 using (exists(select 1 from public.empire_profiles p where p.id=auth.uid() and p.is_admin=true))
 with check (exists(select 1 from public.empire_profiles p where p.id=auth.uid() and p.is_admin=true));
+
+-- A user may have only one pending regiment creation request at a time.
+create unique index if not exists empire_regiment_one_pending_request_per_user
+  on public.empire_regiment_creation_requests(user_id)
+  where status='pending';
