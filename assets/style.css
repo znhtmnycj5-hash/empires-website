@@ -4326,3 +4326,27 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
   .mini-chat-emote-choice img{width:47px;height:47px}
   .mini-chat-emote{width:22px;height:22px}
 }
+
+/* Napoleonic emote sprite */
+.mini-chat-emote{
+  display:inline-block;width:24px;height:24px;vertical-align:middle;
+  background-image:url("emotes/napoleonic-emotes.png");
+  background-repeat:no-repeat;background-size:192px 192px;
+}
+.mini-chat-emote-choice .mini-chat-emote{width:48px;height:48px;background-size:192px 192px}
+.mini-chat-emote-angry{background-position:0 0}
+.mini-chat-emote-austrian_salute{background-position:-48px 0}
+.mini-chat-emote-british_guard{background-position:-96px 0}
+.mini-chat-emote-bugler{background-position:-144px 0}
+.mini-chat-emote-commander_salute{background-position:0 -48px}
+.mini-chat-emote-drummer_laugh{background-position:-48px -48px}
+.mini-chat-emote-french_wink{background-position:-96px -48px}
+.mini-chat-emote-grenadier_stern{background-position:-144px -48px}
+.mini-chat-emote-marshal{background-position:0 -96px}
+.mini-chat-emote-napoleon{background-position:-48px -96px}
+.mini-chat-emote-officer_thumbsup{background-position:-96px -96px}
+.mini-chat-emote-officer_wink{background-position:-144px -96px}
+.mini-chat-emote-prussian_wink{background-position:0 -144px}
+.mini-chat-emote-russian_smile{background-position:-48px -144px}
+.mini-chat-emote-surprised{background-position:-96px -144px}
+.mini-chat-emote-victory{background-position:-144px -144px}
