@@ -82,7 +82,6 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none}
 </main>
 <audio id="windAudio" preload="none" loop src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Joseph_SARDIN_-_Vent.ogg"></audio>
 <audio id="fireAudio" preload="none" loop src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Campfire_sound_ambience.ogg"></audio>
-<audio id="horseAudio" preload="none" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Horse_sound_effect.wav"></audio>
 <audio id="wagonAudio" preload="none" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/G18-16-Horse_and_Wagon.wav"></audio>
 <audio id="murmurAudio" preload="none" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/R16-17-Men_Murmuring.wav"></audio>
 <audio id="drumAudio" preload="none" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Militarydrumbeat.ogg"></audio>
@@ -100,19 +99,17 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none}
 </section>
 <script>
 const tracks={wind:document.getElementById('windAudio'),fire:document.getElementById('fireAudio')};
-const sceneTracks={horse:document.getElementById('horseAudio'),wagon:document.getElementById('wagonAudio'),murmur:document.getElementById('murmurAudio'),drum:document.getElementById('drumAudio')};
+const sceneTracks={wagon:document.getElementById('wagonAudio'),murmur:document.getElementById('murmurAudio'),drum:document.getElementById('drumAudio')};
 const volumes={wind:.12,fire:.10};let audioStarted=false,storyStarted=false,ambienceTimers=[];
 Object.keys(tracks).forEach(k=>{tracks[k].volume=volumes[k]});
-sceneTracks.horse.volume=.06;sceneTracks.wagon.volume=.18;sceneTracks.murmur.volume=.045;sceneTracks.drum.volume=.04;
+sceneTracks.wagon.volume=.18;sceneTracks.murmur.volume=.045;sceneTracks.drum.volume=.04;
 function playOnce(el){el.currentTime=0;const p=el.play();if(p&&p.catch)p.catch(()=>{})}
 function stopSceneSounds(){Object.values(sceneTracks).forEach(el=>{el.pause();el.currentTime=0});ambienceTimers.forEach(clearTimeout);ambienceTimers=[]}
 function startCampAmbience(){
  if(!storyStarted)return;
- playOnce(sceneTracks.horse);
  playOnce(sceneTracks.murmur);
- const h=setInterval(()=>{if(!storyStarted)playOnce(sceneTracks.horse)},55000);
- const m=setInterval(()=>{if(!storyStarted)playOnce(sceneTracks.murmur)},40000);
- ambienceTimers.push(h,m);
+ const m=setInterval(()=>{if(storyStarted)playOnce(sceneTracks.murmur)},40000);
+ ambienceTimers.push(m);
 }
 function playCampDrum(){if(storyStarted)playOnce(sceneTracks.drum)}
 function playWagon(){if(storyStarted)playOnce(sceneTracks.wagon)}
