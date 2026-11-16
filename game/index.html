@@ -82,6 +82,10 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none}
 </main>
 <audio id="windAudio" preload="none" loop src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Joseph_SARDIN_-_Vent.ogg"></audio>
 <audio id="fireAudio" preload="none" loop src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Campfire_sound_ambience.ogg"></audio>
+<audio id="horseAudio" preload="none" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Horse_sound_effect.wav"></audio>
+<audio id="wagonAudio" preload="none" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/G18-16-Horse_and_Wagon.wav"></audio>
+<audio id="murmurAudio" preload="none" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/R16-17-Men_Murmuring.wav"></audio>
+<audio id="drumAudio" preload="none" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Militarydrumbeat.ogg"></audio>
 <div class="transition" id="transition">За несколько лет до этого…</div>
 <section class="story" id="story" aria-live="polite">
  <header class="story-top"><div class="story-brand">Последнее письмо</div><div class="chapter">Глава I · 1809 год</div></header>
@@ -96,11 +100,25 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none}
 </section>
 <script>
 const tracks={wind:document.getElementById('windAudio'),fire:document.getElementById('fireAudio')};
-const volumes={wind:.12,fire:.10};let audioStarted=false,storyStarted=false;
+const sceneTracks={horse:document.getElementById('horseAudio'),wagon:document.getElementById('wagonAudio'),murmur:document.getElementById('murmurAudio'),drum:document.getElementById('drumAudio')};
+const volumes={wind:.12,fire:.10};let audioStarted=false,storyStarted=false,ambienceTimers=[];
 Object.keys(tracks).forEach(k=>{tracks[k].volume=volumes[k]});
+sceneTracks.horse.volume=.035;sceneTracks.wagon.volume=.12;sceneTracks.murmur.volume=.025;sceneTracks.drum.volume=.025;
+function playOnce(el){el.currentTime=0;el.play().catch(()=>{})}
+function stopSceneSounds(){Object.values(sceneTracks).forEach(el=>{el.pause();el.currentTime=0});ambienceTimers.forEach(clearTimeout);ambienceTimers=[]}
+function startCampAmbience(){
+ if(storyStarted)return;
+ playOnce(sceneTracks.horse);
+ playOnce(sceneTracks.murmur);
+ const h=setInterval(()=>{if(!storyStarted)playOnce(sceneTracks.horse)},55000);
+ const m=setInterval(()=>{if(!storyStarted)playOnce(sceneTracks.murmur)},40000);
+ ambienceTimers.push(h,m);
+}
+function playCampDrum(){if(!storyStarted)playOnce(sceneTracks.drum)}
+function playWagon(){if(!storyStarted)playOnce(sceneTracks.wagon)}
 function startAudio(){if(audioStarted||storyStarted)return;audioStarted=true;Object.keys(tracks).forEach(k=>{const el=tracks[k];if(document.getElementById(k+'Toggle')?.checked)el.play().catch(()=>{audioStarted=false})})}
 function setTrack(name,on){const el=tracks[name];if(on){if(!storyStarted){if(!audioStarted)startAudio();el.play().catch(()=>{})}}else el.pause()}
-function fadeOutAudio(){storyStarted=true;Object.values(tracks).forEach(el=>{const start=el.volume;const steps=20;let n=0;const timer=setInterval(()=>{n++;el.volume=Math.max(0,start*(1-n/steps));if(n>=steps){clearInterval(timer);el.pause();el.currentTime=0;el.volume=start}},100)})}
+function fadeOutAudio(){storyStarted=true;stopSceneSounds();Object.values(tracks).forEach(el=>{const start=el.volume;const steps=20;let n=0;const timer=setInterval(()=>{n++;el.volume=Math.max(0,start*(1-n/steps));if(n>=steps){clearInterval(timer);el.pause();el.currentTime=0;el.volume=start}},100)})}
 function panel(id){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('show'));document.getElementById(id).classList.add('show')}
 function hide(){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('show'))}
 const scenes=[
@@ -122,13 +140,14 @@ const scenes=[
 ];
 let sceneIndex=0,choiceKey='';
 function renderScene(){
- const s=scenes[sceneIndex];document.getElementById('sceneLabel').textContent=s.label;document.getElementById('storyTitle').textContent=s.title;document.getElementById('speaker').textContent=s.speaker;document.getElementById('dialogue').textContent=s.text;document.getElementById('stepLabel').textContent='Сцена '+(sceneIndex+1)+' из '+scenes.length;document.getElementById('progressBar').style.width=((sceneIndex+1)/scenes.length*100)+'%';
+ const s=scenes[sceneIndex];
+ if(sceneIndex===1)playWagon();document.getElementById('sceneLabel').textContent=s.label;document.getElementById('storyTitle').textContent=s.title;document.getElementById('speaker').textContent=s.speaker;document.getElementById('dialogue').textContent=s.text;document.getElementById('stepLabel').textContent='Сцена '+(sceneIndex+1)+' из '+scenes.length;document.getElementById('progressBar').style.width=((sceneIndex+1)/scenes.length*100)+'%';
  const box=document.getElementById('choices');box.innerHTML='';
  if(s.choices){document.getElementById('nextButton').style.display='none';s.choices.forEach(c=>{const b=document.createElement('button');b.className='choice';b.textContent=c.text;b.onclick=()=>{choiceKey=c.key;document.getElementById('speaker').textContent='Марсель Жирар';document.getElementById('dialogue').textContent=c.reaction;box.innerHTML='';const n=document.createElement('button');n.className='choice';n.textContent='Продолжить';n.onclick=()=>{sceneIndex++;renderScene()};box.appendChild(n)};box.appendChild(b)})}
  else{document.getElementById('nextButton').style.display='block';document.getElementById('nextButton').textContent=s.next||'Далее'}
 }
 function nextScene(){if(sceneIndex<scenes.length-1){sceneIndex++;renderScene()}else{document.getElementById('speaker').textContent='Конец главы';document.getElementById('dialogue').textContent='Первая глава завершена. История Этьена и Пьера только начинается.\n\nСледующая глава будет посвящена первым испытаниям молодого солдата.';document.getElementById('choices').innerHTML='';document.getElementById('nextButton').textContent='Вернуться в меню';document.getElementById('nextButton').onclick=()=>location.reload();document.getElementById('stepLabel').textContent='Глава I завершена'}}
-function beginStory(){hide();fadeOutAudio();document.getElementById('scene').classList.add('zoom');document.getElementById('menu').classList.add('fade');setTimeout(()=>{document.getElementById('transition').classList.add('show');setTimeout(()=>{document.getElementById('transition').classList.remove('show');document.getElementById('story').classList.add('show');renderScene()},2200)},1700)}
+function beginStory(){hide();fadeOutAudio();document.getElementById('scene').classList.add('zoom');document.getElementById('menu').classList.add('fade');setTimeout(()=>{document.getElementById('transition').classList.add('show');setTimeout(()=>{document.getElementById('transition').classList.remove('show');document.getElementById('story').classList.add('show');renderScene();startCampAmbience();setTimeout(playCampDrum,7000)},2200)},1700)}
 document.addEventListener('pointerdown',startAudio,{once:true});
 </script>
 </body>
