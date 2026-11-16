@@ -25,6 +25,24 @@
 
 <script>
 (async()=>{
+  const regimentCacheKey='clanwars_regiment_v3_'+encodeURIComponent((new URLSearchParams(location.search).get('name')||'').toLowerCase());
+  const readRegimentCache=()=>{try{return JSON.parse(localStorage.getItem(regimentCacheKey)||'null');}catch(e){return null;}};
+  const writeRegimentCache=data=>{try{localStorage.setItem(regimentCacheKey,JSON.stringify({at:Date.now(),data}));}catch(e){}};
+  const cachedRegiment=readRegimentCache()?.data;
+  if(cachedRegiment){
+    const set=(id,v)=>{const e=document.getElementById(id);if(e&&v!=null)e.textContent=v;};
+    set('detailName',cachedRegiment.name);set('detailFaction',cachedRegiment.faction||'—');set('detailFactionMobile',cachedRegiment.faction||'—');
+    set('detailRating',cachedRegiment.rating);set('detailRatingMobile',cachedRegiment.rating);set('detailCount',cachedRegiment.count);set('detailCountMobile',cachedRegiment.count);set('detailCommander',cachedRegiment.commanderName||'Пока не назначен');
+    const av=document.getElementById('detailAvatar');if(av&&cachedRegiment.logo){av.src=cachedRegiment.logo;av.alt='Логотип '+cachedRegiment.name;}
+    const ca=document.getElementById('commanderAvatar');if(ca&&cachedRegiment.commanderAvatar){ca.src=cachedRegiment.commanderAvatar;}
+    const cl=document.getElementById('commanderProfileLink');if(cl&&cachedRegiment.commanderId)cl.href='profile.html?user='+encodeURIComponent(cachedRegiment.commanderId);
+    if(cachedRegiment.officersHtml){document.getElementById('officersGrid').innerHTML=cachedRegiment.officersHtml;}
+    if(cachedRegiment.soldiersHtml){document.getElementById('soldiersGrid').innerHTML=cachedRegiment.soldiersHtml;}
+    document.getElementById('battleWins').textContent=cachedRegiment.wins??'0';
+    document.getElementById('battleLosses').textContent=cachedRegiment.losses??'0';
+    document.getElementById('battleDraws').textContent=cachedRegiment.draws??'0';
+    if(cachedRegiment.battleHistoryHtml)document.getElementById('battleHistoryList').innerHTML=cachedRegiment.battleHistoryHtml;
+  }
   try{
     await window.EMPIRE_AUTH.init();
     const client=window.EMPIRE_AUTH.client;
@@ -80,6 +98,13 @@
       });
     };
     renderDbMembers('officersGrid',officers);renderDbMembers('soldiersGrid',soldiers);
+    writeRegimentCache({
+      name:r.name,faction:r.faction,logo, rating:regimentRating,count:active.length,
+      commanderName,commanderId:commanderProfile?.id||'',commanderAvatar:commanderProfile?.avatar_url||'assets/default-soldier.jpg',
+      officersHtml:document.getElementById('officersGrid').innerHTML,
+      soldiersHtml:document.getElementById('soldiersGrid').innerHTML,
+      wins:0,losses:0,draws:0,battleHistoryHtml:'<p class="empty-note">Полк пока не участвовал в сражениях.</p>'
+    });
     // Очищаем статические данные до/сразу после получения данных из Supabase,
     // чтобы удалённые записи не проскакивали при обновлении страницы.
     document.getElementById('battleHistoryList').replaceChildren();
