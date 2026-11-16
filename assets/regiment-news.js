@@ -4,7 +4,7 @@
  try{
   await window.EMPIRE_AUTH.init();
   const auth=window.EMPIRE_AUTH,client=auth.client,user=auth.user;
-  const name=new URLSearchParams(location.search).get('name')||'1st Regiment';
+  const name=new URLSearchParams(location.search).get('name')||'';
   const {data:reg,error:regError}=await client.from('empire_regiments').select('id,name').eq('name',name).maybeSingle();
   if(regError||!reg)return;
   const {data:membership,error}=user?await client.from('empire_regiment_members').select('role').eq('regiment_id',reg.id).eq('user_id',user.id).is('left_at',null).maybeSingle():{data:null,error:null};
