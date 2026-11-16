@@ -18,8 +18,8 @@ function makePicker(button, target, opts){
       const sel=getSelection();
       let range=sel&&sel.rangeCount?sel.getRangeAt(0):null;
       if(!range||!target.contains(range.commonAncestorContainer)){range=document.createRange();range.selectNodeContents(target);range.collapse(false);}
-      const token=document.createTextNode(token);
-      range.deleteContents();range.insertNode(token);range.setStartAfter(token);range.collapse(true);
+      const textNode=document.createTextNode(token);
+      range.deleteContents();range.insertNode(textNode);range.setStartAfter(textNode);range.collapse(true);
       sel.removeAllRanges();sel.addRange(range);
       target.dispatchEvent(new Event('input',{bubbles:true}));
     }else{
@@ -31,8 +31,30 @@ function makePicker(button, target, opts){
     picker.classList.remove('show');
   };
   picker.addEventListener('click',e=>{const b=e.target.closest('[data-smile-key]');if(b)insertKey(b.dataset.smileKey);});
-  button.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const open=!picker.classList.contains('show');picker.classList.toggle('show');if(open){const r=button.getBoundingClientRect();const w=Math.min(240,window.innerWidth-16);picker.style.position='fixed';picker.style.width=w+'px';picker.style.left=Math.max(8,Math.min(r.left,window.innerWidth-w-8))+'px';picker.style.top=Math.max(8,r.top-picker.offsetHeight-8)+'px';}});
-  document.addEventListener('click',e=>{if(!wrap.contains(e.target))picker.classList.remove('show');});
+  button.addEventListener('click',e=>{
+    e.preventDefault();e.stopPropagation();
+    const open=!picker.classList.contains('show');
+    if(open){
+      if(picker.parentNode!==document.body)document.body.appendChild(picker);
+      picker.classList.add('show');
+      picker.style.setProperty('position','fixed','important');
+      picker.style.setProperty('z-index','2147483647','important');
+      picker.style.setProperty('display','grid','important');
+      picker.style.setProperty('width',Math.min(240,window.innerWidth-16)+'px','important');
+      const r=button.getBoundingClientRect(),h=picker.getBoundingClientRect().height,w=picker.getBoundingClientRect().width;
+      const left=Math.max(8,Math.min(r.left,window.innerWidth-w-8));
+      const top=r.top-h-8>=8?r.top-h-8:Math.min(window.innerHeight-h-8,r.bottom+8);
+      picker.style.setProperty('left',left+'px','important');
+      picker.style.setProperty('top',Math.max(8,top)+'px','important');
+      picker.style.setProperty('right','auto','important');
+      picker.style.setProperty('bottom','auto','important');
+    }else{
+      picker.classList.remove('show');
+      picker.style.removeProperty('display');
+      wrap.appendChild(picker);
+    }
+  });
+  document.addEventListener('click',e=>{if(!wrap.contains(e.target)&&!picker.contains(e.target)){picker.classList.remove('show');picker.style.removeProperty('display');wrap.appendChild(picker);}});
   return {wrap,picker,insertKey};
 }
 window.CLANWARS_SMILES={items,renderText,makePicker};
