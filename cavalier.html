@@ -19,6 +19,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
 .help{position:absolute;z-index:4;left:16px;bottom:17px;color:#f4e8c6;background:#16130fbb;border:1px solid #b08a3c;border-radius:9px;padding:7px 10px;font-size:12px}
 #message{position:absolute;z-index:6;left:50%;top:47%;transform:translate(-50%,-50%);color:#fff5d6;text-align:center;text-shadow:0 3px 6px #000;font-size:34px;font-weight:bold;opacity:0;transition:.15s;pointer-events:none;white-space:nowrap}#message.show{opacity:1}
 #start{position:fixed;z-index:20;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(#09080688,#090806cc)}.card{width:min(520px,90vw);padding:28px;border:2px solid #b08a3c;border-radius:18px;background:linear-gradient(145deg,#211d18,#0d0c0b);box-shadow:0 18px 60px #000b;color:#f6e7bd;text-align:center}.card h1{font-size:42px;margin:0 0 6px}.card p{color:#dbcda9;line-height:1.45}.startbtn{margin-top:12px;padding:15px 32px;border:2px solid #d5ad57;border-radius:12px;background:#292218;color:#f7e7bc;font:700 20px Georgia}
+.fullbtn{margin:10px 0 0;padding:11px 22px;border:1px solid #b08a3c;border-radius:10px;background:#17130f;color:#e8d8b0;font:700 14px Georgia}
 @media(max-width:700px){.buttons{display:flex!important;position:fixed!important;z-index:30!important;bottom:max(16px,env(safe-area-inset-bottom))!important;right:8px!important;left:8px!important;justify-content:space-between!important}.panel{min-width:88px;padding:6px 9px}.panel b{font-size:15px}.center{min-width:120px}.buttons{right:10px;bottom:10px;gap:7px}.btn{width:92px;height:70px;font-size:14px}.btn span{font-size:26px}.help{display:none}.card h1{font-size:32px}}
 </style>
 </head>
@@ -28,7 +29,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
 <div class="hud"><div class="panel"><b>⚔ <span id="score">0</span></b><small>ОЧКИ</small></div><div class="panel center"><small>ФРАНЦУЗСКАЯ КАВАЛЕРИЯ</small><div class="bar"><div id="progress" class="fill"></div></div></div><div class="panel"><b>🏆 <span id="best">0</span></b><small>РЕКОРД</small></div></div>
 <div id="message"></div><div class="help">ПК: ЛКМ — удар · ПКМ — блок · SPACE — прыжок</div>
 <div class="buttons"><button class="btn" data-act="attack"><span>⚔️</span>БИТЬ</button><button class="btn" data-act="block"><span>🛡️</span>БЛОК</button><button class="btn" data-act="jump"><span>⬆️</span>ПРЫЖОК</button></div>
-<div id="start"><div class="card"><h1>КАВАЛЕРИСТ</h1><p>Французский драгун мчится через поле Наполеоновской битвы. Уничтожай британских солдат, блокируй удары всадников и перепрыгивай препятствия.</p><button class="startbtn" id="startBtn">НАЧАТЬ АТАКУ</button></div></div>
+<div id="start"><div class="card"><h1>КАВАЛЕРИСТ</h1><p>Французский драгун мчится через поле Наполеоновской битвы. Уничтожай британских солдат, блокируй удары всадников и перепрыгивай препятствия.</p><button class="startbtn" id="startBtn">НАЧАТЬ АТАКУ</button><br><button class="fullbtn" id="fullBtn">⛶ ПОЛНЫЙ ЭКРАН</button></div></div>
 </div>
 <script>
 const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');let W,H,dpr,playing=false,last=0,score=0,best=+localStorage.cavBest||0,speed=330,distance=0,spawn=0,bg=0,obstacles=[],dust=[];
@@ -37,10 +38,20 @@ function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight
 function checkOrientation(){const portrait=innerHeight>innerWidth;document.getElementById('rotateNotice').style.display=portrait?'flex':'none';if(!portrait&&screen.orientation&&screen.orientation.unlock){try{screen.orientation.unlock()}catch(e){}}}
 addEventListener('resize',checkOrientation);addEventListener('orientationchange',checkOrientation);checkOrientation();
 async function requestLandscape(){try{if(screen.orientation&&screen.orientation.lock){await screen.orientation.lock('landscape')}}catch(e){}checkOrientation()}
+async function enterFullscreen(){
+  try{
+    const el=document.documentElement;
+    if(!document.fullscreenElement && el.requestFullscreen){await el.requestFullscreen({navigationUI:'hide'});}
+    else if(!document.fullscreenElement && el.webkitRequestFullscreen){el.webkitRequestFullscreen();}
+  }catch(e){}
+  await requestLandscape();
+}
+document.getElementById('fullBtn').onclick=enterFullscreen;
+document.addEventListener('fullscreenchange',()=>{setTimeout(resize,50);setTimeout(checkOrientation,50)});
 function action(a){if(a==='jump'&&player.onGround){player.vy=-720;player.onGround=false}if(a==='attack')player.attack=.22;if(a==='block')player.block=.28}
 document.querySelectorAll('.btn').forEach(b=>{const a=b.dataset.act;const d=e=>{e.preventDefault();b.classList.add('active');action(a)},u=e=>{e.preventDefault();b.classList.remove('active')};b.addEventListener('pointerdown',d);b.addEventListener('pointerup',u);b.addEventListener('pointercancel',u)});
 addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();action('jump')}});canvas.addEventListener('mousedown',e=>{if(e.button===0)action('attack');if(e.button===2)action('block')});canvas.addEventListener('contextmenu',e=>e.preventDefault());
-document.getElementById('startBtn').onclick=async()=>{await requestLandscape();document.getElementById('start').style.display='none';startGame()};
+document.getElementById('startBtn').onclick=async()=>{await enterFullscreen();document.getElementById('start').style.display='none';startGame()};
 function startGame(){playing=true;score=0;distance=0;spawn=.5;speed=330;obstacles=[];player.y=0;player.vy=0;player.onGround=true;last=performance.now();requestAnimationFrame(loop)}
 function say(t){const m=document.getElementById('message');m.textContent=t;m.classList.add('show');setTimeout(()=>m.classList.remove('show'),450)}
 function rand(a,b){return a+Math.random()*(b-a)}
