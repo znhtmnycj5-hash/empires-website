@@ -40,6 +40,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
 const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');let W,H,dpr,playing=false,last=0,score=0,best=+localStorage.cavBest||0,speed=330,distance=0,spawn=0,bg=0,obstacles=[],dust=[],effects=[],cannonTimer=2.4,combo=1,comboTimer=0,shotFlash=0,animTime=0,shake=0;
 const troops=Array.from({length:16},(_,i)=>({x:i*150+80,y:0,phase:i*.8,flag:i%2}));
 
+const cavalrySprite=new Image();let cavalrySpriteReady=false;cavalrySprite.onload=()=>cavalrySpriteReady=true;cavalrySprite.src='cavalier-sprites.svg';
 const player={y:0,vy:0,onGround:true,attack:0,block:0};document.getElementById('best').textContent=best;
 function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
 function checkOrientation(){const portrait=innerHeight>innerWidth;document.getElementById('rotateNotice').style.display=portrait?'flex':'none';if(!portrait&&screen.orientation&&screen.orientation.unlock){try{screen.orientation.unlock()}catch(e){}}}
@@ -92,6 +93,7 @@ function drawBackground(){const h=H*.53;
 }
 function drawHorse(x,y){
   ctx.save();
+  if(cavalrySpriteReady){const frame=player.attack>0?1:(player.block>0?3:(!player.onGround?2:Math.floor(animTime*8)%2));const sw=240,sh=240,scale=.62;ctx.imageSmoothingEnabled=true;ctx.drawImage(cavalrySprite,frame*sw,0,sw,sh,x-74,y-84,sw*scale,sh*scale);ctx.restore();return;}
   // painterly silhouette halo keeps the cavalry readable against smoke
   ctx.globalAlpha=.12;ctx.fillStyle='#f2dfb0';ctx.beginPath();ctx.ellipse(8,-28,70,78,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
   const t=animTime*7, gallop=Math.sin(t)*5, stride=Math.sin(t*1.7)*10, breath=Math.sin(animTime*3.2)*1.5;
