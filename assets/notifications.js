@@ -16,6 +16,8 @@
       .cw-notification-wrap{position:relative;display:inline-flex;align-items:center;gap:8px;margin-left:8px}
       .cw-notification-button{position:relative;width:46px;height:42px;border:1px solid #9b7744;background:linear-gradient(#382a1b,#211810);color:#e1c27e;cursor:pointer;font-size:20px;line-height:1;border-radius:2px}
       .cw-notification-button:hover{background:linear-gradient(#4a3520,#281c12)}
+      .cw-notification-button.cw-notification-pulse{animation:cwNotificationPulse .7s ease}
+      @keyframes cwNotificationPulse{0%{transform:scale(1)}35%{transform:scale(1.12);box-shadow:0 0 0 5px rgba(185,149,89,.18)}100%{transform:scale(1)}}
       .cw-notification-badge{position:absolute;top:-7px;right:-7px;min-width:20px;height:20px;padding:0 5px;box-sizing:border-box;border-radius:999px;background:#a94237;color:#fff;font:700 11px/20px Arial,sans-serif;border:2px solid #17130f;display:none}
       .cw-notification-badge.visible{display:block}
       .cw-notification-panel{position:absolute;z-index:1000;right:0;top:50px;width:min(390px,calc(100vw - 34px));border:1px solid #765a35;background:#17130f;box-shadow:0 14px 35px rgba(0,0,0,.55);display:none;color:#d9c49a}
@@ -49,6 +51,8 @@
     const panel=document.getElementById('cwNotificationPanel');
     const list=document.getElementById('cwNotificationList');
     let rows=[];
+    let realtimeChannel=null;
+    let refreshTimer=null;
 
     const escape=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const iconFor=type=>({private_message:'✉',battle:'⚔',profile_rating:'★',regiment_created:'♜',regiment_application:'♙',regiment_member_left:'⚑'}[type]||'•');
@@ -125,9 +129,60 @@
       }
     });
 
+    const startRealtime=()=>{
+      if(realtimeChannel)return;
+      try{
+        realtimeChannel=client
+          .channel('clanwars-notifications-'+auth.user.id)
+          .on('postgres_changes',{
+            event:'INSERT',
+            schema:'public',
+            table:'empire_notifications',
+            filter:'recipient_id=eq.'+auth.user.id
+          },payload=>{
+            const n=payload.new;
+            if(!n)return;
+            if(!rows.some(x=>x.id===n.id)){
+              rows.unshift(n);
+              rows=rows.slice(0,30);
+              render();
+              button.classList.remove('cw-notification-pulse');
+              void button.offsetWidth;
+              button.classList.add('cw-notification-pulse');
+              if(n.type==='private_message' && panel.classList.contains('open')) load();
+            }
+          })
+          .subscribe(status=>{
+            if(status==='CHANNEL_ERROR' || status==='TIMED_OUT'){
+              setTimeout(()=>{
+                try{client.removeChannel(realtimeChannel);}catch(e){}
+                realtimeChannel=null;
+                startRealtime();
+              },5000);
+            }
+          });
+      }catch(error){
+        console.warn('Realtime уведомлений Clanwars:',error);
+      }
+    };
+
     await load();
-    setInterval(load,30000);
-    document.addEventListener('visibilitychange',()=>{if(!document.hidden)load();});
+    startRealtime();
+
+    refreshTimer=setInterval(load,300000);
+    document.addEventListener('visibilitychange',()=>{
+      if(!document.hidden){
+        load();
+        startRealtime();
+      }
+    });
+
+    window.addEventListener('beforeunload',()=>{
+      if(realtimeChannel){
+        try{client.removeChannel(realtimeChannel);}catch(e){}
+      }
+      if(refreshTimer)clearInterval(refreshTimer);
+    });
   }catch(error){
     console.warn('Не удалось запустить уведомления Clanwars:',error);
   }
