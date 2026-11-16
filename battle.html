@@ -298,6 +298,7 @@ if(!battle){
     $("leftRegiment").classList.add(participantClass(battle.left.name));
     $("rightRegiment").classList.add(participantClass(battle.right.name));
   };
+  const escapeCommentHtml=value=>String(value??"").replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]));
   const battleVoteSection=$("battleVoteSection");
   const battleVoteContent=$("battleVoteContent");
   let battleVotes=[];
@@ -432,7 +433,6 @@ if(!battle){
  const storageKey="empire-battle-comments-"+battleId;
   const demoShot="https://games-cdn.softpedia.com/screenshots/Mount-and-Blade-Napoleonic-Wars_4.jpg";
   const demoComments=[];
-  const escapeCommentHtml=value=>String(value??"").replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]));
   const sanitizeCommentHtml=html=>{
     const doc=new DOMParser().parseFromString(String(html||""),"text/html");
     const allowedTags=new Set(["B","STRONG","I","EM","U","BLOCKQUOTE","BR","SPAN","IMG","VIDEO","AUDIO","DETAILS","SUMMARY"]);
