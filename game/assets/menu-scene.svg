@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+<defs>
+ <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#55402f"/><stop offset="1" stop-color="#211710"/></linearGradient>
+ <linearGradient id="floor" x2="0" y2="1"><stop stop-color="#593a25"/><stop offset="1" stop-color="#170f0b"/></linearGradient>
+ <linearGradient id="window" x2="0" y2="1"><stop stop-color="#9eb1a8"/><stop offset=".5" stop-color="#d4c39c"/><stop offset="1" stop-color="#6a735e"/></linearGradient>
+ <radialGradient id="flame"><stop stop-color="#ffe39a"/><stop offset=".28" stop-color="#e98a36"/><stop offset="1" stop-color="#24100a"/></radialGradient>
+ <linearGradient id="gold" x2="0" y2="1"><stop stop-color="#f2d99a"/><stop offset=".5" stop-color="#9a6d34"/><stop offset="1" stop-color="#e6c17b"/></linearGradient>
+ <filter id="shadow"><feGaussianBlur stdDeviation="16"/></filter>
+</defs>
+<rect width="1600" height="900" fill="url(#wall)"/>
+<path d="M0 0H1600V900H0Z" fill="#100b08" opacity=".24"/>
+<!-- panelled walls -->
+<g fill="none" stroke="#987344" stroke-width="7" opacity=".55"><path d="M35 40H1565V710H35Z"/><path d="M470 40V710M1090 40V710M35 380H1565"/></g>
+<!-- window and curtains -->
+<rect x="70" y="70" width="345" height="470" rx="3" fill="#24170f" stroke="url(#gold)" stroke-width="18"/>
+<rect x="91" y="91" width="303" height="428" fill="url(#window)"/>
+<path d="M242 91V519M91 305H394" stroke="#46301d" stroke-width="15"/>
+<path d="M55 45Q120 75 135 150L120 600Q75 560 45 530Z M425 45Q365 80 355 150L375 600Q420 555 445 525Z" fill="#172433" stroke="#9a784c" stroke-width="8"/>
+<path d="M65 65Q110 130 105 250M420 65Q375 130 380 250" fill="none" stroke="#b28b58" stroke-width="4" opacity=".7"/>
+<!-- portrait -->
+<rect x="600" y="55" width="350" height="315" fill="#24170e" stroke="url(#gold)" stroke-width="20"/>
+<rect x="622" y="77" width="306" height="271" fill="#715238"/>
+<rect x="645" y="100" width="260" height="225" fill="#59402c"/>
+<ellipse cx="775" cy="168" rx="52" ry="65" fill="#d2a77f"/>
+<path d="M724 159Q725 92 780 97Q834 100 827 171Q810 130 780 129Q749 130 724 159" fill="#3b261a"/>
+<path d="M685 306Q688 211 775 219Q867 215 875 306Z" fill="#26384a" stroke="#b18b55" stroke-width="5"/>
+<path d="M744 221L775 280L808 221" fill="#e8d8bb"/>
+<path d="M775 280V307" stroke="#b02e25" stroke-width="12"/>
+<!-- fireplace -->
+<rect x="1085" y="385" width="430" height="365" fill="#2c1b12" stroke="url(#gold)" stroke-width="20"/>
+<rect x="1120" y="425" width="360" height="280" fill="#0b0806"/>
+<ellipse cx="1300" cy="625" rx="160" ry="95" fill="url(#flame)"/>
+<path d="M1190 680Q1160 595 1235 530Q1225 605 1285 645Q1285 555 1350 500Q1330 605 1415 665Z" fill="#d75b20"/>
+<path d="M1250 680Q1225 615 1290 565Q1280 640 1335 670Z" fill="#ffd47b"/>
+<path d="M1050 385H1550M1050 755H1550" stroke="#d4b071" stroke-width="22"/>
+<!-- wall sconce -->
+<g stroke="url(#gold)" stroke-width="7" fill="none"><path d="M1010 160V280M975 280H1045M990 280L1010 245L1030 280"/></g>
+<path d="M995 230Q975 190 1010 155Q1045 190 1025 230Z" fill="#f6b84f" opacity=".8"/>
+<!-- uniform on stand -->
+<path d="M1335 105L1390 80L1445 105L1490 210L1450 235L1435 190V365H1345V190L1325 235L1285 210Z" fill="#17283a" stroke="#b78c4d" stroke-width="9"/>
+<path d="M1390 82L1390 365M1345 190L1435 190" stroke="#c7a36a" stroke-width="7"/>
+<path d="M1360 135H1420M1360 170H1420M1360 205H1420M1360 240H1420" stroke="#d8b56f" stroke-width="9"/>
+<path d="M1375 80L1390 112L1405 80" fill="#eee0c7"/>
+<!-- floor -->
+<path d="M0 700L1600 700V900H0Z" fill="url(#floor)"/>
+<path d="M0 740L1600 740M0 820L1600 820" stroke="#a17a49" stroke-width="5" opacity=".4"/>
+<!-- desk -->
+<path d="M280 700L1210 700L1510 850L80 850Z" fill="#4b2e1d" stroke="#b28a50" stroke-width="12"/>
+<path d="M120 850L1450 850L1420 900H160Z" fill="#28180f"/>
+<path d="M360 710L1150 710L1360 820L190 820Z" fill="#70492c"/>
+<!-- letter -->
+<path d="M590 715L930 690L1090 785L720 820Z" fill="#e6d5ad" stroke="#a77b43" stroke-width="5"/>
+<path d="M650 740L895 723M675 758L930 741M710 778L900 765" stroke="#9d7950" stroke-width="4" opacity=".8"/>
+<circle cx="915" cy="777" r="24" fill="#8d2720" stroke="#d1a45c" stroke-width="4"/>
+<path d="M903 777L927 777M915 765V789" stroke="#e5c17b" stroke-width="3"/>
+<!-- inkwell, quill, books -->
+<path d="M1040 705L1065 630L1100 630L1120 705Z" fill="#171d24" stroke="#c29a58" stroke-width="6"/>
+<path d="M1080 640Q1110 520 1200 485Q1160 570 1090 650Z" fill="#e9dfc6" stroke="#9d835c" stroke-width="4"/>
+<path d="M430 740L560 720L620 750L490 770Z" fill="#251a14" stroke="#c19a5a" stroke-width="5"/>
+<path d="M450 720L580 700L620 730L490 750Z" fill="#3b2830" stroke="#b58b53" stroke-width="4"/>
+<!-- candle -->
+<rect x="1180" y="600" width="28" height="115" fill="#e6d9bd"/>
+<path d="M1194 602Q1175 575 1194 545Q1213 575 1194 602Z" fill="#ffce68"/>
+<path d="M1194 602V585" stroke="#382316" stroke-width="4"/>
+<!-- ambient shadows -->
+<ellipse cx="790" cy="865" rx="690" ry="55" fill="#090604" opacity=".55" filter="url(#shadow)"/>
+<rect width="1600" height="900" fill="none" stroke="#b58b4c" stroke-width="10" opacity=".65"/>
+</svg>
