@@ -41,7 +41,7 @@ const $=id=>document.getElementById(id);
 const read=(key,fallback)=>{try{const v=JSON.parse(localStorage.getItem(key)||'null');return v==null?fallback:v;}catch(e){return fallback;}};
 const write=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
 const hasCurrentUser=!!read('empire_current_user',null);
-let user=(()=>{const v=read('empire_current_user',null);return v&&typeof v==='object'?{name:String(v.name||'Пользователь'),regiment:String(v.regiment||''),role:String(v.role||'user')}:{name:'Kalashnikov',regiment:'1st Regiment',role:'user'};})();
+let user=(()=>{const v=read('empire_current_user',null);return v&&typeof v==='object'?{name:String(v.name||'Пользователь'),regiment:String(v.regiment||''),role:String(v.role||'user')}:{name:'Kalashnikov',regiment:'',role:'user'};})();
 let role=user.role.toLowerCase();
 let canPublish=['admin','administrator','moderator','commander','officer'].includes(role);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
