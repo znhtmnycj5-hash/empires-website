@@ -64,6 +64,7 @@
     })();
     try{return await ratingsPromise;}finally{ratingsPromise=null;}
   };
+  window.refreshRegimentRatings=async()=>refreshRatings();
   window.calculateRegimentRatings=async(force=false)=>{
     const now=Date.now();
     if(ratingsCache&&now-ratingsCacheAt<30000)return ratingsCache;
