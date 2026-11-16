@@ -19,12 +19,7 @@
     '#regimentMessages',
     '#onlineUsersStrip',
     '#searchResultsBody',
-    '#profileContent',
-    '#regimentContent',
-    '#battleContent',
-    '#campaignDetail',
     '#siteNewsList',
-    '#siteNewsArticle',
     '#newsList'
   ];
 
