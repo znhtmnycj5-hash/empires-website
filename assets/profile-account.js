@@ -71,8 +71,7 @@ try{
   }
 
   // Сохраняем основные данные сразу после их получения; следующий вход отрисует их до сети.
-  const cachePayload={profile,regiment,activeMembership};
-  writeProfileCache(cachePayload);
+  writeProfileCache({profile,regiment});
   const isOwn=!!auth.user&&auth.user.id===profile.id;
   const online=isOwn||(profile.last_seen_at&&Date.now()-new Date(profile.last_seen_at).getTime()<180000);
   if(isOwn){auth.touchPresence();setInterval(()=>auth.touchPresence(),60000);}
