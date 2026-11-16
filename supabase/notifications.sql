@@ -266,3 +266,23 @@ after update on public.empire_regiment_creation_requests
 for each row execute procedure public.empire_notify_regiment_created();
 
 grant select, update on public.empire_notifications to authenticated;
+
+
+-- ============================================
+-- SUPABASE REALTIME
+-- ============================================
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_publication_tables
+    where pubname = 'supabase_realtime'
+      and schemaname = 'public'
+      and tablename = 'empire_notifications'
+  ) then
+    alter publication supabase_realtime
+      add table public.empire_notifications;
+  end if;
+end
+$$;
