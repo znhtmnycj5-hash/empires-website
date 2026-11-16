@@ -2828,8 +2828,9 @@ nav a,.btn{font-family:"Roboto Slab",serif}
     grid-row:2!important;
     width:100%!important;
     min-width:0!important;
-    padding:9px 10px!important;
-    font-size:9px!important;
+    padding:12px 8px!important;
+    font-size:11px!important;
+    line-height:1.2!important;
     white-space:nowrap!important;
     text-align:center!important;
   }
