@@ -39,7 +39,7 @@
       ]);
       if(regimentError)throw regimentError;
       if(memberError)throw memberError;
-      if(userVotesError)throw userVotesError;
+      if(userVotesError)console.warn('Не удалось получить оценки участников полков:',userVotesError);
       const userScores={};
       (userVotes||[]).forEach(v=>{userScores[v.target_user_id]=(userScores[v.target_user_id]||0)+Number(v.value||0);});
       const ratings={};
