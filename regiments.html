@@ -6,7 +6,6 @@
 <title>Полки — Clanwars</title>
 <link rel="stylesheet" href="assets/style.css?v=20261115-mobile-nav-fix">
 <script src="assets/rating.js?v=20261115-member-battle-rating"></script>
-<script defer src="assets/page-cache.js?v=20261116-page-cache1"></script>
 </head>
 <body>
 <header class="inner-header">
@@ -38,6 +37,17 @@
   </div>
 
   <section class="regiments-list" aria-live="polite"><p class="empty-note">Загрузка полков…</p></section>
+<script>
+(function(){
+  try{
+    const cached=JSON.parse(localStorage.getItem('clanwars_regiments_html_v1')||'null');
+    if(cached?.html && Date.now()-Number(cached.at||0)<30*60*1000){
+      const list=document.querySelector('.regiments-list');
+      if(list)list.innerHTML=cached.html;
+    }
+  }catch(e){}
+})();
+</script>
 
 
 </main>
@@ -82,7 +92,7 @@
   };
   const writeCache=data=>{
     if(!data?.regiments?.length)return;
-    try{localStorage.setItem(CACHE_KEY,JSON.stringify({at:Date.now(),data}));}catch(e){}
+    try{localStorage.setItem(CACHE_KEY,JSON.stringify({at:Date.now(),data}));const list=document.querySelector('.regiments-list');if(list&&list.innerHTML&&!list.innerHTML.includes('Загрузка'))localStorage.setItem('clanwars_regiments_html_v1',JSON.stringify({at:Date.now(),html:list.innerHTML}));}catch(e){}
   };
 
   const render=(payload)=>{
