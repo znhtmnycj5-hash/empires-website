@@ -5137,3 +5137,5 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
     max-width:calc(100vw - 16px)!important;
   }
 }
+.battle-vote-grid{position:relative}
+.battle-vote-vs{align-self:center;justify-self:center;width:28px;height:28px;margin:0 -14px;z-index:3;border:1px solid #765832;border-radius:50%;background:#17130f;color:#c9a866;font:700 8px/26px "Roboto Slab",serif;text-align:center;box-shadow:0 0 0 4px rgba(15,13,10,.95)}
