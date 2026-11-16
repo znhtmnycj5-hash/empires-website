@@ -61,8 +61,7 @@ begin
 end;
 $$;
 
-revoke all on function public.empire_add_notification(uuid,text,text,text,text) from public,anon;
-grant execute on function public.empire_add_notification(uuid,text,text,text,text) to authenticated;
+revoke all on function public.empire_add_notification(uuid,text,text,text,text) from public,anon,authenticated;
 
 -- New private message.
 create or replace function public.empire_notify_private_message()
