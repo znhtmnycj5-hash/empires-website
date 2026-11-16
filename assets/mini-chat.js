@@ -4,7 +4,8 @@
   const $=id=>document.getElementById(id);
   const general=$('generalMessages'),regiment=$('regimentMessages'),input=$('chatInput'),send=$('sendChat'),emoteBtn=$('chatEmoteButton'),emotePicker=$('chatEmotePicker');
   if(!general||!regiment||!input||!send)return;
-  let room='general',memberRegiment=null,profile=null,client=null,user=null,busy=false;\n  const fullChat=!!document.getElementById('fullChat');
+  let room='general',memberRegiment=null,profile=null,client=null,user=null,busy=false;
+  const fullChat=!!document.getElementById('fullChat');
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const EMOTES=window.CLANWARS_SMILES?.items||[];
   const emoteHtml=s=>window.CLANWARS_SMILES?.renderText(s)||esc(s);
