@@ -103,10 +103,17 @@ async function loadBattleFromSupabase(id){
   if(!id||!window.EMPIRE_AUTH)return null;
   const client=await window.EMPIRE_AUTH.init();
   if(!client)return null;
-  const {data:row,error}=await client.from('empire_public_battles')
+  let {data:row,error}=await client.from('empire_public_battles')
     .select('id,challenger_regiment_id,target_regiment_id,battle_type,player_count,allies_allowed,ally_limit,scheduled_at,server,status,created_at')
     .eq('id',id).eq('status','accepted').maybeSingle();
-  if(error)throw error;
+  if(error)console.warn('Публичное сражение:',error);
+  if(!row){
+    const fallback=await client.from('empire_battle_challenges')
+      .select('id,challenger_regiment_id,target_regiment_id,battle_type,player_count,allies_allowed,ally_limit,scheduled_at,server,status,created_at')
+      .eq('id',id).eq('status','accepted').maybeSingle();
+    if(fallback.error)throw fallback.error;
+    row=fallback.data||null;
+  }
   if(!row)return null;
   const ids=[row.challenger_regiment_id,row.target_regiment_id].filter(Boolean);
   const q=await client.from('empire_regiments').select('id,name,faction,logo_url').in('id',ids);
@@ -488,6 +495,9 @@ if(!battle){
     commentEditor.innerHTML="";
   });
   renderComments();
+  document.addEventListener('empire:comments-synced',e=>{
+    if(e.detail?.type==='battle'&&String(e.detail?.id)===String(battleId))renderComments();
+  });
 }
 })();
 </script>
