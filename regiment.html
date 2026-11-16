@@ -28,7 +28,8 @@
   try{
     await window.EMPIRE_AUTH.init();
     const client=window.EMPIRE_AUTH.client;
-    const regimentName=new URLSearchParams(location.search).get('name')||'1st Regiment';
+    const regimentName=new URLSearchParams(location.search).get('name')||'';
+    if(!regimentName){window.location.replace('regiments.html');return;}
     const {data:r,error}=await client.from('empire_regiments').select('id,name,faction,logo_url,commander_id').eq('name',regimentName).maybeSingle();
     if(error)throw error;
     if(!r){document.getElementById('regimentMainInfo').insertAdjacentHTML('afterend','<p class="empty-note" role="status">Не удалось найти этот полк в базе данных.</p>');return;}

@@ -34,7 +34,7 @@
       const client=await getClient();
       const [{data:regiments,error:regimentError},{data:members,error:memberError},{data:userVotes,error:userVotesError}]=await Promise.all([
         client.from('empire_regiments').select('id,name,faction,logo_url,commander_id,created_at').order('created_at',{ascending:true}),
-        client.from('empire_regiment_members').select('regiment_id,user_id,role,left_at'),
+        client.from('empire_regiment_members').select('regiment_id,user_id').is('left_at',null),
         client.from('empire_user_ratings').select('target_user_id,value')
       ]);
       if(regimentError)throw regimentError;
@@ -44,7 +44,7 @@
       (userVotes||[]).forEach(v=>{userScores[v.target_user_id]=(userScores[v.target_user_id]||0)+Number(v.value||0);});
       const ratings={};
       (regiments||[]).forEach(r=>{
-        const active=(members||[]).filter(m=>m.regiment_id===r.id&&!m.left_at);
+        const active=(members||[]).filter(m=>m.regiment_id===r.id);
         const memberScore=active.reduce((sum,m)=>sum+(userScores[m.user_id]||0),0);
         ratings[r.name]={id:r.id,name:r.name,faction:r.faction,logo:r.logo_url,logo_url:r.logo_url,count:active.length,score:memberScore,memberScore,wins:0,losses:0,draws:0};
       });

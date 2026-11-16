@@ -1,8 +1,6 @@
 (function(){
   const KEY='empire_alliances_v1';
-  const defaultRegiments={
-    "1st Regiment":{rating:1840,members:42,img:"assets/1st.jpg"}
-  };
+  const defaultRegiments={};
   const seeds=[];
   const clone=o=>JSON.parse(JSON.stringify(o));
   function read(){try{const v=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(v)?v.filter(a=>!['alliance-001','alliance-002','alliance-003'].includes(a.id)):[]}catch(e){return []}}

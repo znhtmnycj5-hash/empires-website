@@ -3,7 +3,7 @@
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const factions=['Австрийская Империя','Французская Империя','Российская Империя','Британская Империя','Пруссия','Рейнский Союз'];
-const params=new URLSearchParams(location.search), requestedName=params.get('name')||'1st Regiment';
+const params=new URLSearchParams(location.search), requestedName=params.get('name')||'';
 const controls=$('albumCommanderControls'), grid=$('albumGrid');
 try{
  await window.EMPIRE_AUTH.init();

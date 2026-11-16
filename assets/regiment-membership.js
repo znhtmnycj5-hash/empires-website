@@ -4,7 +4,7 @@ try{
   await window.EMPIRE_AUTH.init();
   const auth=window.EMPIRE_AUTH;
   const params=new URLSearchParams(location.search);
-  const name=params.get('name')||'1st Regiment';
+  const name=params.get('name')||'';
   const {data:reg,error:regError}=await auth.client.from('empire_regiments').select('id,name,faction,logo_url,commander_id').eq('name',name).maybeSingle();
   if(regError)throw regError;
   if(!reg)return;

@@ -19,7 +19,7 @@ document.head.appendChild(style);
   await window.EMPIRE_AUTH.init();
   const auth=window.EMPIRE_AUTH,client=auth.client;
   const {data:{user}}=await client.auth.getUser();
-  const name=new URLSearchParams(location.search).get('name')||'1st Regiment';
+  const name=new URLSearchParams(location.search).get('name')||'';
   const {data:target,error}=await client.from('empire_regiments').select('id,name,commander_id').eq('name',name).maybeSingle();
   if(error||!target)return;
 

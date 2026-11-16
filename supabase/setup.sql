@@ -307,66 +307,7 @@ create index if not exists empire_private_messages_pair_idx
 create index if not exists empire_private_messages_recipient_idx
   on public.empire_private_messages(recipient_id,created_at);
 
--- Seed the 15 existing EMPIRE regiments into the shared database.
-insert into public.empire_regiments(name,faction,logo_url)
-values
- ('1st Regiment','Французская Империя','assets/1st.jpg'),
- ('95th Rifles','Британская Империя','assets/95.webp'),
- ('84e Régiment','Французская Империя','assets/84e.png'),
- ('Preobrazhensky','Российская Империя','assets/preobraz.webp'),
- ('7th Hussars','Британская Империя','assets/hussars.png'),
- ('13e Léger','Французская Империя','assets/1st.jpg'),
- ('33e Ligne','Британская Империя','assets/95.webp'),
- ('92nd Gordon Highlanders','Британская Империя','assets/84e.png'),
- ('Semenovsky','Российская Империя','assets/preobraz.webp'),
- ('King''s German Legion','Британская Империя','assets/kgr.png'),
- ('6e Hussards','Французская Империя','assets/1st.jpg'),
- ('Royal Scots','Британская Империя','assets/95.webp'),
- ('Баварский Полк','Рейнский Союз','assets/Bav.jpg'),
- ('Totenkopf','Пруссия','assets/avatar-prussia.png'),
- ('Mangust','Австрийская Империя','assets/mangust.webp')
-on conflict(name) do update
-set faction=excluded.faction, logo_url=excluded.logo_url;
-
--- Existing profile.regiment values become the initial service history.
-insert into public.empire_regiment_members(regiment_id,user_id,role,joined_at)
-select r.id,p.id,
-       case when r.commander_id=p.id then 'commander' else 'soldier' end,
-       coalesce(p.created_at,now())
-from public.empire_profiles p
-join public.empire_regiments r on lower(r.name)=lower(trim(p.regiment))
-where trim(coalesce(p.regiment,'')) <> ''
-  and not exists (
-    select 1 from public.empire_regiment_members m
-    where m.regiment_id=r.id and m.user_id=p.id and m.left_at is null
-  );
-
--- Known test commanders from the existing site data.
-update public.empire_regiments r
-set commander_id=p.id
-from public.empire_profiles p
-where lower(p.display_name)=lower(
-  case r.name
-    when '1st Regiment' then 'Commander'
-    when '95th Rifles' then 'Richard Hawthorne'
-    when '84e Régiment' then 'Pierre Delacroix'
-    when 'Preobrazhensky' then 'Алексей Воронцов'
-    when '7th Hussars' then 'William Harrington'
-    when '13e Léger' then 'Étienne Morel'
-    when '33e Ligne' then 'Thomas Clarke'
-    when '92nd Gordon Highlanders' then 'Alexander MacLeod'
-    when 'Semenovsky' then 'Николай Орлов'
-    when 'King''s German Legion' then 'Friedrich von Keller'
-    when '6e Hussards' then 'Louis Beaumont'
-    when 'Royal Scots' then 'James Campbell'
-    when 'Баварский Полк' then 'Maximilian von Bayern'
-    when 'Totenkopf' then 'Friedrich Adler'
-    when 'Mangust' then 'Johann von Habsburg'
-  end
-)
-and r.commander_id is null;
-
-alter table public.empire_regiments enable row level security;
+-- No demo regiments are seeded here. Real regiments are created through the site.\n\nalter table public.empire_regiments enable row level security;
 alter table public.empire_regiment_members enable row level security;
 alter table public.empire_regiment_applications enable row level security;
 alter table public.empire_private_messages enable row level security;
