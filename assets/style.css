@@ -607,6 +607,34 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
 .battle-access-notice{margin-top:12px;color:#a99a80;font-size:10px;line-height:1.5}
 .access-ok{color:#83c78a}
 .access-locked{color:#d1a16f}
+.battle-vote-card{min-width:0;margin-bottom:14px;padding:18px 20px}
+.battle-vote-card .card-title{margin:-18px -20px 14px;padding:13px 18px}
+.battle-vote-intro{padding:11px 12px;border:1px solid #493823;background:rgba(15,13,10,.45);color:#a99a80;font-size:10px;line-height:1.5}
+.battle-vote-intro p{margin:0 0 5px}
+.battle-vote-intro strong{color:#dfc17f;font:600 11px "Roboto Slab",serif}
+.battle-vote-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.battle-vote-side{min-width:0;padding:12px;border:1px solid #493823;background:rgba(15,13,10,.55)}
+.battle-vote-side-head{display:flex;align-items:center;gap:9px;min-width:0}
+.battle-vote-side-head img{width:42px;height:42px;min-width:42px;object-fit:contain;border:1px solid #87663b;background:#251d15}
+.battle-vote-side-head>div{display:flex;min-width:0;flex-direction:column;gap:3px}
+.battle-vote-side-head strong{color:#dfc17f;font:600 12px "Roboto Slab",serif;overflow-wrap:anywhere}
+.battle-vote-side-head span{color:#9e917b;font-size:9px}
+.battle-vote-bar{height:9px;margin-top:11px;border:1px solid #493823;background:#0e0d0b;overflow:hidden}
+.battle-vote-bar span{display:block;height:100%;background:#8f6a3c;transition:width .25s ease}
+.battle-vote-percent{margin-top:5px;color:#e0c17f;font:700 18px "Roboto Slab",serif;text-align:right}
+.battle-vote-button{width:100%;min-height:36px;margin-top:8px;padding:8px 10px;border:1px solid #8b6739;background:#641e1b;color:#ead19c;font:600 9px "Roboto Slab",serif;cursor:pointer}
+.battle-vote-button:hover:not(:disabled){background:#7b2923;border-color:#d5a95f}
+.battle-vote-button:disabled{cursor:default;opacity:.72}
+.battle-vote-button.is-selected{border-color:#4f925b;background:rgba(45,100,54,.22);color:#9bd09e}
+.battle-voters{margin-top:10px;padding-top:8px;border-top:1px solid rgba(90,70,45,.45);color:#8f8069;font-size:9px;line-height:1.55}
+.battle-voters b{display:block;margin-bottom:3px;color:#a99a80;font-size:9px}
+.battle-voters a{color:#c8aa70;text-decoration:none}
+.battle-voters a:hover{color:#f0d18b;text-decoration:underline}
+.battle-voter-separator{color:#6f604d;margin:0 2px}
+.battle-voter-empty{color:#756753}
+.battle-vote-note{margin-top:10px;padding:9px 11px;border:1px dashed #51432f;color:#98886e;font-size:9px;line-height:1.5}
+.battle-vote-note strong{color:#dfc17f}
+.battle-vote-loading,.battle-vote-unavailable{padding:14px;text-align:center;color:#93836a;font-size:10px}
 .battle-final-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .battle-winner-result{color:#83c78a}
 .battle-draw-result{color:#bbb}
@@ -640,6 +668,12 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  .battle-result-box>b{font-size:19px}
  .battle-result-box>span{font-size:9px}
  .battle-open-link{font-size:9px}
+ .battle-vote-card{padding:14px}
+ .battle-vote-card .card-title{margin:-14px -14px 12px;padding:12px 14px}
+ .battle-vote-grid{grid-template-columns:1fr;gap:7px}
+ .battle-vote-side{padding:10px}
+ .battle-vote-side-head img{width:36px;height:36px;min-width:36px}
+ .battle-vote-percent{font-size:16px}
  .battle-page{padding-top:14px}
  .battle-hero-card,.battle-info-card,.battle-result-card,.battle-comments-card{padding:14px}
  .battle-hero-card h1{font-size:20px}
