@@ -7,7 +7,7 @@ async function init(){
     const client=await window.EMPIRE_AUTH.init();
     const user=window.EMPIRE_AUTH.user;
     if(!client||!user)return;
-    const name=new URLSearchParams(location.search).get('name')||'1st Regiment';
+    const name=new URLSearchParams(location.search).get('name')||'';
     const {data:r,error:re}=await client.from('empire_regiments').select('id,name,commander_id').eq('name',name).maybeSingle();
     if(re||!r||String(r.commander_id)!==String(user.id))return;
     const {data:rows,error}=await client.from('empire_battle_challenges')
