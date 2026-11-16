@@ -5,7 +5,7 @@ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname='empire_regiments_faction_check') THEN
     ALTER TABLE public.empire_regiments
       ADD CONSTRAINT empire_regiments_faction_check
-      CHECK (faction IN ('Австрийская Империя','Французская Империя','Российская Империя','Британская Империя','Пруссия'))
+      CHECK (faction IN ('Австрийская Империя','Французская Империя','Российская Империя','Британская Империя','Пруссия','Рейнский Союз'))
       NOT VALID;
   END IF;
 END $$;
