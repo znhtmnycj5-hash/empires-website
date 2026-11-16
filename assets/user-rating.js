@@ -95,5 +95,5 @@ try{
   writeHomeCache(rows);
   homeRoot.innerHTML=rows.length?rows.slice(0,5).map((x,i)=>'<tr class="home-user-rating-row"><td class="pos">'+(i+1)+'.</td><td><a class="home-user-rating-link" href="profile.html?user='+encodeURIComponent(x.display_name)+'"><img src="'+esc(x.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png')+'" alt="">'+esc(x.display_name)+'</a></td><td class="points"><b class="'+(x.score>0?'positive':x.score<0?'negative':'')+'">'+Math.abs(x.score)+'</b></td></tr>').join(''):'<tr><td colspan="3" class="empty-note">Пока нет участников.</td></tr>';
  }
-}catch(e){console.warn('User ratings:',e);const roots=['profileUserRating','homeUserRating','ratingUsers'];roots.forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='<p class="empty-note">Рейтинг временно недоступен.</p>';});}
+}catch(e){console.warn('User ratings:',e);const roots=['profileUserRating','homeUserRating','ratingUsers'];roots.forEach(id=>{const el=document.getElementById(id);if(el && !el.innerHTML.trim())el.innerHTML='<p class="empty-note">Рейтинг временно недоступен.</p>';});}
 })();
