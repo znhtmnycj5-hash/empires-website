@@ -21,7 +21,7 @@ async function render(){
           '<div class="battle-result-box planned-result"><b>VS</b><span>'+esc(row.battle_type||'Полковой бой')+' · '+esc(String(row.player_count||''))+' игроков</span><div class="battle-countdown" data-start="'+esc(row.scheduled_at)+'"></div></div>'+
           '<a class="battle-side" href="regiment.html?name='+encodeURIComponent(right.name)+'"><img src="'+esc(right.logo_url||'assets/default-soldier.jpg')+'" alt=""><strong>'+esc(right.name)+'</strong><small>'+esc(right.faction||'')+'</small></a>'+
         '</div>'+
-        '<div class="battle-open-link"><a href="battle.html?id='+encodeURIComponent(row.id)+'">Открыть сражение →</a></div>'+
+        '<a class="battle-open-link" href="battle.html?id='+encodeURIComponent(row.id)+'">Открыть сражение →</a>'+
       '</article>';
     }).join('');
     updateFilters([...list.querySelectorAll('.battle-record')]);
