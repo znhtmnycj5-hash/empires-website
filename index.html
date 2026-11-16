@@ -88,7 +88,7 @@
 
   <div class="home-rankings-stack">
   <section class="card ranking" id="ranking">
-    <div class="card-title">🏆 &nbsp; Рейтинг полков <a href="#">Полный рейтинг →</a></div>
+    <div class="card-title">🏆 &nbsp; Рейтинг полков <a href="rating.html">Полный рейтинг →</a></div>
     <table>
       <tr><td class="pos">#</td><td>Полк</td><td class="points">Очки</td></tr>
 
@@ -168,7 +168,8 @@ const loadUpcomingBattles=async()=>{
   if(!window.CLANWARS_BATTLES){setTimeout(loadUpcomingBattles,100);return;}
   try{
     const rows=await window.CLANWARS_BATTLES.loadAccepted();
-    const upcoming=rows.filter(row=>['accepted','ongoing','awaiting_confirmation'].includes(window.CLANWARS_BATTLES.status(row)))
+    const renderUpcoming=(rows)=>{
+      const upcoming=rows.filter(row=>['accepted','ongoing','awaiting_confirmation'].includes(window.CLANWARS_BATTLES.status(row)))
       .sort((a,b)=>new Date(a.scheduled_at)-new Date(b.scheduled_at)).slice(0,8);
     const counter=document.querySelector('[data-site-count="battles"]');
     if(counter)counter.textContent=String(rows.length);
@@ -194,6 +195,11 @@ const loadUpcomingBattles=async()=>{
       if(event.target.closest('a'))return;
       window.location.href=row.dataset.battleUrl;
     }));
+    };
+    renderUpcoming(rows);
+    window.CLANWARS_BATTLES.refresh().then(fresh=>{
+      renderUpcoming(fresh);
+    }).catch(()=>{});
   }catch(error){
     console.warn('Предстоящие сражения:',error);
     box.innerHTML='<div class="battle"><div class="home-battles-empty">Не удалось загрузить сражения. <a href="battles.html">Открыть список</a></div></div>';
