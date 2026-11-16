@@ -10,13 +10,12 @@ const api={
     return await window.EMPIRE_AUTH.init();
   },
   async loadAccepted(){
-    const cached=readCache(), now=Date.now();
-    if(cached?.data?.length && now-(cached.at||0)<CACHE_TTL){
+    const cached=readCache();
+    if(cached&&Array.isArray(cached.data)){
       api._refreshAccepted().catch(()=>{});
       return cached.data;
     }
-    if(cached?.data?.length) api._staleAccepted=cached.data;
-    try{return await api._refreshAccepted();}catch(error){if(cached?.data?.length)return cached.data;throw error;}
+    return await api._refreshAccepted();
   },
   async _refreshAccepted(){
     const client=await api.client();
