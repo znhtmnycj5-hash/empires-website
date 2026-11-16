@@ -32,16 +32,22 @@
     if(ratingsPromise)return ratingsPromise;
     ratingsPromise=(async()=>{
       const client=await getClient();
-      const [{data:regiments,error:regimentError},{data:members,error:memberError},{data:userVotes,error:userVotesError}]=await Promise.all([
+      const results=await Promise.allSettled([
         client.from('empire_regiments').select('id,name,faction,logo_url,commander_id,created_at').order('created_at',{ascending:true}),
         client.from('empire_regiment_members').select('regiment_id,user_id').is('left_at',null),
         client.from('empire_user_ratings').select('target_user_id,value')
       ]);
-      if(regimentError)throw regimentError;
-      if(memberError)throw memberError;
-      if(userVotesError)console.warn('Не удалось получить оценки участников полков:',userVotesError);
+      const regimentsResult=results[0].status==='fulfilled'?results[0].value:{data:null,error:results[0].reason};
+      const membersResult=results[1].status==='fulfilled'?results[1].value:{data:null,error:results[1].reason};
+      const userVotesResult=results[2].status==='fulfilled'?results[2].value:{data:null,error:results[2].reason};
+      const regiments=regimentsResult.data||[];
+      const members=membersResult.data||[];
+      const userVotes=userVotesResult.data||[];
+      if(regimentsResult.error)throw regimentsResult.error;
+      if(membersResult.error)throw membersResult.error;
+      if(userVotesResult.error)console.warn('Не удалось получить оценки участников полков:',userVotesResult.error);
       const userScores={};
-      (userVotes||[]).forEach(v=>{userScores[v.target_user_id]=(userScores[v.target_user_id]||0)+Number(v.value||0);});
+      userVotes.forEach(v=>{userScores[v.target_user_id]=(userScores[v.target_user_id]||0)+Number(v.value||0);});
       const ratings={};
       (regiments||[]).forEach(r=>{
         const active=(members||[]).filter(m=>m.regiment_id===r.id);
