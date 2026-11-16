@@ -69,28 +69,17 @@
 (async()=>{
   const list=document.querySelector('.regiments-list');
   if(!list||!window.EMPIRE_AUTH)return;
-  try{
-    await window.EMPIRE_AUTH.init();
-    const client=window.EMPIRE_AUTH.client;
-    const {data:regiments,error:regimentError}=await client.from('empire_regiments')
-      .select('id,name,faction,logo_url,created_at').order('created_at',{ascending:true});
-    if(regimentError)throw regimentError;
-    if(!regiments?.length){list.innerHTML='<p class="empty-note">В базе пока нет полков.</p>';return;}
-    let members=[];
-    try{
-      const response=await client.from('empire_regiment_members')
-        .select('regiment_id,user_id,role,left_at');
-      if(response.error)throw response.error;
-      members=response.data||[];
-    }catch(memberError){console.error('Не удалось загрузить состав полков:',memberError);}
-    let ratings=[];
-    try{ratings=await calculateRegimentRatings(true);}
-    catch(ratingError){console.error('Не удалось загрузить рейтинг полков:',ratingError);}
-    const ratingByName=new Map((ratings||[]).map(x=>[x.name,x]));
+  const CACHE_KEY='clanwars_regiments_page_v2';
+  const CACHE_TTL=5*60*1000;
+  const readCache=()=>{try{return JSON.parse(localStorage.getItem(CACHE_KEY)||'null');}catch(e){return null;}};
+  const writeCache=data=>{try{localStorage.setItem(CACHE_KEY,JSON.stringify({at:Date.now(),data}));}catch(e){}};
+
+  const render=(payload)=>{
+    const regiments=payload?.regiments||[],members=payload?.members||[],ratings=payload?.ratings||[];
+    if(!regiments.length){list.innerHTML='<p class="empty-note">В базе пока нет полков.</p>';return;}
+    const ratingByName=new Map(ratings.map(x=>[x.name,x]));
     const activeCount=new Map();
-    (members||[]).forEach(m=>{
-      if(!m.left_at)activeCount.set(m.regiment_id,(activeCount.get(m.regiment_id)||0)+1);
-    });
+    members.forEach(m=>{if(!m.left_at){const id=String(m.regiment_id);activeCount.set(id,(activeCount.get(id)||0)+1);}});
     const sorted=[...regiments].sort((a,b)=>{
       const sa=ratingByName.get(a.name)?.score,sb=ratingByName.get(b.name)?.score;
       if(Number.isFinite(sb)&&Number.isFinite(sa)&&sb!==sa)return sb-sa;
@@ -100,32 +89,46 @@
     });
     list.innerHTML='';
     sorted.forEach(r=>{
-      const tile=document.createElement('a');
-      tile.className='regiment-tile regiment-link';
-      tile.dataset.regimentName=r.name;tile.dataset.regimentId=r.id;
-      tile.href='regiment.html?name='+encodeURIComponent(r.name);
-      const img=document.createElement('img');
-      img.src=r.logo_url||'assets/default-soldier.jpg';img.alt='Флаг '+r.name;
-      img.loading='lazy';img.decoding='async';
+      const tile=document.createElement('a');tile.className='regiment-tile regiment-link';
+      tile.dataset.regimentName=r.name;tile.dataset.regimentId=r.id;tile.href='regiment.html?name='+encodeURIComponent(r.name);
+      const img=document.createElement('img');img.src=r.logo_url||'assets/default-soldier.jpg';img.alt='Флаг '+r.name;img.loading='lazy';img.decoding='async';
       img.onerror=()=>{img.onerror=null;img.src='assets/default-soldier.jpg';};
       const info=document.createElement('div');info.className='regiment-info';
       const title=document.createElement('h2');title.textContent=r.name;
       const meta=document.createElement('div');meta.className='regiment-meta';
       const rating=document.createElement('span');rating.textContent='Рейтинг ';
-      const points=document.createElement('b');
-      const ratingRow=ratingByName.get(r.name);
-      points.textContent=ratingRow?String(ratingRow.score):'—';
-      rating.append(points);
-      const count=document.createElement('span');
-      count.textContent=members.length?String(activeCount.get(r.id)||0)+' человек':'Состав недоступен';
+      const points=document.createElement('b'),ratingRow=ratingByName.get(r.name);points.textContent=ratingRow?String(ratingRow.score):'—';rating.append(points);
+      const count=document.createElement('span');count.textContent=members.length?String(activeCount.get(String(r.id))||0)+' человек':'Состав недоступен';
       meta.append(rating,count);info.append(title,meta);tile.append(img,info);list.append(tile);
     });
-  }catch(error){
-    console.error('Загрузка полков из Supabase:',error);
-    list.innerHTML='<p class="empty-note">Не удалось загрузить список полков. Обновите страницу или попробуйте позже.</p>';
+  };
+
+  async function fetchFresh(){
+    const client=await window.EMPIRE_AUTH.init();
+    const {data:regiments,error}=await client.from('empire_regiments').select('id,name,faction,logo_url,created_at').order('created_at',{ascending:true});
+    if(error)throw error;
+    let members=[];
+    try{
+      const response=await client.from('empire_regiment_members').select('regiment_id,user_id,role,left_at');
+      if(response.error)throw response.error;
+      members=response.data||[];
+    }catch(e){console.warn('Не удалось загрузить состав полков:',e);}
+    let ratings=[];
+    try{ratings=await calculateRegimentRatings(true);}catch(e){console.warn('Не удалось загрузить рейтинг полков:',e);}
+    const payload={regiments:regiments||[],members:members||[],ratings:ratings||[]};
+    writeCache(payload);render(payload);return payload;
+  }
+
+  const cached=readCache();
+  if(cached?.data){
+    render(cached.data);
+    fetchFresh().catch(e=>console.warn('Обновление списка полков:',e));
+  }else{
+    try{await fetchFresh();}
+    catch(e){console.error('Загрузка полков из Supabase:',e);list.innerHTML='<p class="empty-note">Не удалось загрузить список полков. Обновите страницу или попробуйте позже.</p>';}
   }
 })();
-</script>
+</script>cript>
 <script src="assets/regiments-challenge.js?v=20261115-2"></script>
 
 <script>
