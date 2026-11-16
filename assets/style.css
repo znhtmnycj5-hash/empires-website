@@ -5210,3 +5210,20 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
   .battle-comment-presence{font-size:7px!important}
   .battle-comment-presence i{width:5px!important;height:5px!important}
 }
+
+/* Smile picker is portalled to body so it is never clipped by comment editor */
+body>.clanwars-smile-picker{
+  position:fixed!important;
+  z-index:2147483647!important;
+  display:none;
+  max-height:min(360px,calc(100vh - 16px))!important;
+  overflow-y:auto!important;
+  box-sizing:border-box!important;
+}
+body>.clanwars-smile-picker.show{display:grid!important}
+@media(max-width:600px){
+  body>.clanwars-smile-picker{
+    width:min(190px,calc(100vw - 16px))!important;
+    grid-template-columns:repeat(4,40px)!important;
+  }
+}
