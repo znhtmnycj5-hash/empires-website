@@ -192,9 +192,8 @@
       const children=all.filter(x=>String(x.parentId||'')===id);
       const likes=readLikes(id);
       const own=String(c._authorId||c.author_id||'')===String(window.EMPIRE_AUTH?.user?.id||'') || (c.name||c.author)===((window.EMPIRE_AUTH?.profile?.display_name)||'');
-      const lastSeen=c._lastSeenAt?new Date(c._lastSeenAt).getTime():0;
-      const online=lastSeen && (Date.now()-lastSeen)<5*60*1000;
-      const regiment=String(c.author_regiment||c.regiment||'').trim();
+      const online=!!c.online;
+      const regiment=String(c.regiment||c.author_regiment||'').trim();
       const textHtml=c.html||escape(c.text||'').replace(/\n/g,'<br>');
       const likePreview=likes.slice(0,2).map(escape).join(', ');
       const likeHtml='<div class="comment-reactions"><button class="comment-like-button'+(likes.includes(window.EMPIRE_AUTH?.profile?.display_name)?' is-liked':'')+'" type="button" data-recovery-like="'+escape(id)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+likePreview+'</span><button type="button" class="comment-like-all" data-recovery-likes="'+escape(id)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(x=>'<a href="'+profileUrl(x)+'">'+escape(x)+'</a>').join(' · ')+'</div></div>':'')+'</div>';
@@ -219,14 +218,6 @@
     const sync=async()=>{
       const remote=await window.EMPIRE_COMMENTS.list('battle',ctx.id);
       comments=remote||[];
-      const authorIds=[...new Set(comments.map(x=>x.author_id||x._authorId).filter(Boolean).map(String))];
-      if(authorIds.length){
-        try{
-          const {data:profiles}=await ctx.client.from('empire_profiles').select('id,last_seen_at').in('id',authorIds);
-          const presence=new Map((profiles||[]).map(p=>[String(p.id),p.last_seen_at]));
-          comments=comments.map(x=>({...x,_authorId:x.author_id||x._authorId,_lastSeenAt:presence.get(String(x.author_id||x._authorId))||null}));
-        }catch(e){console.warn('Battle comment presence:',e);}
-      }
       try{localStorage.setItem(commentsKey(ctx.id),JSON.stringify(comments));}catch(e){}
       renderBattleComments(ctx,comments);
     };
