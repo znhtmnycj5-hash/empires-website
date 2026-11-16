@@ -46,9 +46,41 @@ let role=user.role.toLowerCase();
 let canPublish=['admin','administrator','moderator','commander','officer'].includes(role);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const avatar=name=>window.empireUserAvatar?window.empireUserAvatar(name):'assets/default-soldier.jpg';
-const commentRegiments={"Commander":"1st Regiment","Kalash":"1st Regiment","Kalashnikov":"1st Regiment"};
-const commentPresence=()=>{try{const value=JSON.parse(localStorage.getItem('empire_profile_presence_v1')||'{}');return value&&typeof value==='object'?value:{}}catch(e){return {}}};
-const commentAuthorMeta=name=>{const regiment=commentRegiments[name]||'Без полка',last=commentPresence()[name],online=typeof last==='number'&&Date.now()-last<5*60*1000;return {regiment,online};};
+const commentAuthorMeta=name=>({regiment:'Без полка',online:false});
+async function refreshSiteNewsCommentPresence(news){
+ try{
+  if(!news||!window.EMPIRE_AUTH?.init)return;
+  const auth=await window.EMPIRE_AUTH.init(),client=auth?.client;
+  if(!client)return;
+  const map=getComments(),arr=Array.isArray(map[news.id])?map[news.id]:[];
+  if(!arr.length)return;
+  const ids=[...new Set(arr.map(c=>c._authorId).filter(Boolean).map(String))];
+  const names=[...new Set(arr.filter(c=>!c._authorId).map(c=>String(c.author||'').trim()).filter(Boolean))];
+  let profiles=[];
+  if(ids.length){
+   const q=await client.from('empire_profiles').select('id,display_name,regiment,last_seen_at').in('id',ids);
+   if(q.error)throw q.error;
+   profiles.push(...(q.data||[]));
+  }
+  if(names.length){
+   const q=await client.from('empire_profiles').select('id,display_name,regiment,last_seen_at').in('display_name',names);
+   if(q.error)throw q.error;
+   const known=new Set(profiles.map(p=>String(p.id)));
+   profiles.push(...(q.data||[]).filter(p=>!known.has(String(p.id))));
+  }
+  const byId=new Map(profiles.map(p=>[String(p.id),p]));
+  const byName=new Map(profiles.map(p=>[String(p.display_name||'').trim().toLowerCase(),p]));
+  const cutoff=Date.now()-5*60*1000;
+  let changed=false;
+  arr.forEach(c=>{
+   const p=c._authorId?byId.get(String(c._authorId)):byName.get(String(c.author||'').trim().toLowerCase());
+   const online=!!p?.last_seen_at&&Date.parse(p.last_seen_at)>=cutoff;
+   const regiment=String(p?.regiment||c.regiment||'Без полка');
+   if(c.online!==online||String(c.regiment||'')!==regiment){c.online=online;c.regiment=regiment;changed=true;}
+  });
+  if(changed){map[news.id]=arr;write(COMMENTS_KEY,map);renderComments(news);}
+ }catch(e){console.warn('Site news comment presence:',e);}
+}
 const profile=name=>window.empireProfileUrl?window.empireProfileUrl(name):'profile.html?user='+encodeURIComponent(name);
 const LEGACY_TEST_NEWS_IDS=['site-news-001','site-news-002','site-news-003'];
 const getNews=()=>{let v=read(NEWS_KEY,null);if(!Array.isArray(v))v=[];v=v.filter(x=>x&&x.id&&!/^site-news-test-/.test(String(x.id))&&!LEGACY_TEST_NEWS_IDS.includes(String(x.id)));write(NEWS_KEY,v);const deleted=read(DELETED_KEY,[]);return v.filter(x=>x&&x.id&&!deleted.includes(x.id)).sort((a,b)=>(Number(b.created)||0)-(Number(a.created)||0));};
@@ -233,6 +265,8 @@ function renderComments(n){
   else if(b.dataset.deleteComment){const target=arr.find(x=>String(x.id)===b.dataset.deleteComment);if(target&&target.author===user.name&&confirm('Удалить этот комментарий?')){const next=arr.filter(x=>String(x.id)!==b.dataset.deleteComment);next.forEach(x=>{if(x.parentId===b.dataset.deleteComment)delete x.parentId;});const latest=getComments();latest[n.id]=next;write(COMMENTS_KEY,latest);renderComments(n);}}}
  });
  list.addEventListener('submit',e=>{const f=e.target.closest('.battle-reply-form');if(!f)return;e.preventDefault();const input=f.querySelector('input'),value=input.value.trim();if(value)save({id:'comment-'+Date.now()+'-'+Math.random().toString(36).slice(2,6),parentId:f.dataset.parentId,author:user.name,avatar:avatar(user.name),date:new Date().toLocaleString('ru-RU'),text:value});});
+ refreshSiteNewsCommentPresence(n);
+ if(!window.__siteNewsPresenceTimer){window.__siteNewsPresenceTimer=setInterval(()=>refreshSiteNewsCommentPresence(n),60000);}
  const cancelEdit=$('siteNewsCommentCancelEdit');
  cancelEdit?.addEventListener('click',()=>resetCommentEditor());
  form.addEventListener('submit',e=>{
