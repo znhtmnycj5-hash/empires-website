@@ -215,6 +215,7 @@ try{
     }else serviceBox.innerHTML='<p class="empty-note">Не служил.</p>';
     const currentCache=readProfileCache()?.data||{};
     writeProfileCache({...currentCache,profile,regiment,activeMembership,service:service||[]});
+  }
 
   // Record the latest visit once per visitor/profile pair and show unique recent guests.
   const guestsBox=document.getElementById('profileGuests');
