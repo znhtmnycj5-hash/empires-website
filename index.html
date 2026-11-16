@@ -168,7 +168,7 @@ const loadUpcomingBattles=async()=>{
   }
 };
 const escHome=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-loadUpcomingBattles();
+window.addEventListener('load',loadUpcomingBattles);
 
 const updateHomeRanking=async()=>{
   try{
@@ -184,7 +184,7 @@ const updateHomeRanking=async()=>{
     table.innerHTML=header+body;
   }catch(error){console.warn('Рейтинг полков:',error);}
 }
-updateHomeRanking();
+window.addEventListener('load',updateHomeRanking);
 setInterval(loadUpcomingBattles,60000);
 
 
