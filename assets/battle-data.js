@@ -53,5 +53,6 @@ const api={
     return 'awaiting_confirmation';
   }
 };
+api.refresh=api._refreshAccepted;
 window.CLANWARS_BATTLES=api;
 })();
