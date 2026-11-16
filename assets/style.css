@@ -4906,3 +4906,15 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
   box-shadow:inset 0 1px rgba(255,255,255,.04);
 }
 #chat .full-chat-link:active{transform:none}
+
+
+/* ClanWars mobile navigation — full menu without horizontal scrolling */
+@media(max-width:760px){
+  nav.site-nav{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;width:100%!important;min-height:0!important;height:auto!important;padding:4px!important;gap:2px!important;overflow:visible!important;white-space:normal!important}
+  nav.site-nav>a,nav.site-nav>.dropdown,nav.site-nav>.dropdown>a{display:flex!important;flex:0 0 auto!important;width:100%!important;min-width:0!important;min-height:46px!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;padding:0 14px!important;margin:0!important;border-right:0!important;border-left:0!important;border-bottom:1px solid rgba(104,79,48,.42)!important;font-size:12px!important;line-height:1.2!important;white-space:normal!important;text-align:center!important}
+  nav.site-nav>a:last-child,nav.site-nav>.dropdown:last-child>a{border-bottom:0!important}
+  nav.site-nav>a.login{width:100%!important;min-height:48px!important;margin:2px 0 0!important;border-top:1px solid rgba(104,79,48,.42)!important;border-left:0!important;border-bottom:0!important}
+  nav.site-nav>a:not(.login):after,nav.site-nav>.dropdown>a:after{left:25%!important;right:25%!important;bottom:4px!important}
+  nav.site-nav>.dropdown{flex-direction:column!important;align-items:stretch!important}
+  nav.site-nav>.dropdown .dropdown-menu{position:static!important;width:100%!important;min-width:0!important;margin:0!important;padding:0!important;box-shadow:none!important;border-left:0!important;border-right:0!important;border-bottom:1px solid rgba(104,79,48,.42)!important}
+}
