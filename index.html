@@ -214,12 +214,13 @@ const updateHomeRanking=async()=>{
     const table=document.querySelector('#ranking table');
     if(!table)return;
     const header='<tr><td class="pos">#</td><td>Полк</td><td class="points">Очки</td></tr>';
-    const body=ratings.slice(0,5).map((item,index)=>{
+    const renderRegimentRanking=(ratings)=>{ const table=document.querySelector('#ranking table'); if(!table)return; const header='<tr><td class="pos">#</td><td>Полк</td><td class="points">Очки</td></tr>'; const body=ratings.slice(0,5).map((item,index)=>{
       const href='regiment.html?name='+encodeURIComponent(item.name);
       const logo=String(item.logo||'assets/default-soldier.jpg').replace(/"/g,'%22');
       return '<tr class="rank-row" data-regiment-name="'+item.name.replace(/"/g,'&quot;')+'"><td class="pos">'+(index+1)+'.</td><td><a class="ranking-regiment-link" href="'+href+'"><img class="rank-flag" src="'+logo+'" alt="" loading="lazy" decoding="async">'+item.name.replace(/</g,'&lt;')+'</a></td><td class="points">'+item.score+'</td></tr>';
-    }).join('');
-    table.innerHTML=header+body;
+    }).join(''); table.innerHTML=header+body; };
+    renderRegimentRanking(ratings);
+    if(window.refreshRegimentRatings) window.refreshRegimentRatings().then(fresh=>renderRegimentRanking(fresh)).catch(()=>{});
   }catch(error){console.warn('Рейтинг полков:',error);}
 }
 updateHomeRanking();
