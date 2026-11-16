@@ -2802,11 +2802,11 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   #onlineUsers .online-user-name{font-size:7px}
 }
 
-/* Mobile homepage cabinet: profile button and notification bell on a lower row */
+/* Mobile homepage cabinet: text beside avatar, controls on a lower row */
 @media(max-width:600px){
   #personalCabinet{
     display:grid!important;
-    grid-template-columns:minmax(0,1fr) 50px!important;
+    grid-template-columns:52px minmax(0,1fr)!important;
     grid-template-rows:auto auto!important;
     align-items:center!important;
     gap:12px!important;
@@ -2815,11 +2815,13 @@ nav a,.btn{font-family:"Roboto Slab",serif}
   #personalCabinet .cabinet-avatar{
     grid-column:1!important;
     grid-row:1!important;
+    align-self:center!important;
   }
   #personalCabinet .cabinet-copy{
     grid-column:2!important;
     grid-row:1!important;
     min-width:0!important;
+    align-self:center!important;
   }
   #personalCabinet #cabinetProfileLink{
     grid-column:1!important;
@@ -2836,7 +2838,7 @@ nav a,.btn{font-family:"Roboto Slab",serif}
     grid-row:2!important;
     display:flex!important;
     align-items:center!important;
-    justify-content:center!important;
+    justify-content:flex-start!important;
     margin-left:0!important;
     gap:0!important;
   }
