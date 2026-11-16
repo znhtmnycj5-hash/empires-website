@@ -298,37 +298,6 @@ if(!battle){
     $("leftRegiment").classList.add(participantClass(battle.left.name));
     $("rightRegiment").classList.add(participantClass(battle.right.name));
   };
-  renderBattleState();
-  loadBattleVotes();
-  setInterval(()=>{
-    renderBattleState();
-    if(battleVoteLoaded)loadBattleVotes();
-  },10000);
-
-  if(battleVoteContent){
-    battleVoteContent.addEventListener("click",async e=>{
-      const button=e.target.closest("[data-vote-regiment]");
-      if(!button||button.disabled)return;
-      if(!window.EMPIRE_AUTH?.user){
-        document.querySelector("a.login")?.click();
-        alert("Для голосования войдите в аккаунт.");
-        return;
-      }
-      button.disabled=true;
-      try{
-        const {error}=await window.EMPIRE_AUTH.client.rpc("empire_vote_battle",{
-          p_battle_id:battleId,
-          p_voted_regiment_id:button.dataset.voteRegiment
-        });
-        if(error)throw error;
-        await loadBattleVotes();
-      }catch(error){
-        alert(error.message||"Не удалось сохранить голос.");
-        await loadBattleVotes();
-      }
-    });
-  }
-
   const battleVoteSection=$("battleVoteSection");
   const battleVoteContent=$("battleVoteContent");
   let battleVotes=[];
@@ -421,7 +390,46 @@ if(!battle){
     return "голосов";
   };
 
-  const storageKey="empire-battle-comments-"+battleId;
+ 
+  renderBattleState();
+  (async()=>{
+    try{
+      await window.EMPIRE_AUTH?.init();
+      await loadBattleVotes();
+    }catch(error){
+      console.warn("Голосование: не удалось инициализировать авторизацию",error);
+    }
+  })();
+  setInterval(()=>{
+    renderBattleState();
+    if(battleVoteLoaded)loadBattleVotes();
+  },10000);
+
+  if(battleVoteContent){
+    battleVoteContent.addEventListener("click",async e=>{
+      const button=e.target.closest("[data-vote-regiment]");
+      if(!button||button.disabled)return;
+      if(!window.EMPIRE_AUTH?.user){
+        document.querySelector("a.login")?.click();
+        alert("Для голосования войдите в аккаунт.");
+        return;
+      }
+      button.disabled=true;
+      try{
+        const {error}=await window.EMPIRE_AUTH.client.rpc("empire_vote_battle",{
+          p_battle_id:battleId,
+          p_voted_regiment_id:button.dataset.voteRegiment
+        });
+        if(error)throw error;
+        await loadBattleVotes();
+      }catch(error){
+        alert(error.message||"Не удалось сохранить голос.");
+        await loadBattleVotes();
+      }
+    });
+  }
+
+ const storageKey="empire-battle-comments-"+battleId;
   const demoShot="https://games-cdn.softpedia.com/screenshots/Mount-and-Blade-Napoleonic-Wars_4.jpg";
   const demoComments=[];
   const escapeCommentHtml=value=>String(value??"").replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]));
