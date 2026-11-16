@@ -6,6 +6,10 @@
   if(!general||!regiment||!input||!send)return;
   let room='general',memberRegiment=null,profile=null,client=null,user=null,busy=false;
   const fullChat=!!document.getElementById('fullChat');
+  const CHAT_CACHE_TTL=5*60*1000;
+  const chatCacheKey=()=>room==='regiment'&&memberRegiment?'clanwars_chat_regiment_'+memberRegiment:'clanwars_chat_general';
+  const readChatCache=()=>{try{return JSON.parse(localStorage.getItem(chatCacheKey())||'null');}catch(e){return null;}};
+  const writeChatCache=rows=>{try{localStorage.setItem(chatCacheKey(),JSON.stringify({at:Date.now(),rows}));}catch(e){}};
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const EMOTES=window.CLANWARS_SMILES?.items||[];
   const emoteHtml=s=>window.CLANWARS_SMILES?.renderText(s)||esc(s);
@@ -39,6 +43,8 @@
   async function loadMessages(){
     const box=room==='regiment'?regiment:general;
     if(room==='regiment'&&!memberRegiment){empty(box,'Вы не состоите в полку.');return;}
+    const cached=readChatCache();
+    if(cached?.rows?.length){render(box,cached.rows);}
     const query=client.from('empire_chat_messages').select('id,author_id,regiment_id,content,created_at,empire_profiles(display_name,avatar_url,regiment)')
       .order('created_at',{ascending:true}).limit(fullChat?1000:100);
     if(room==='regiment')query.eq('regiment_id',memberRegiment);else query.is('regiment_id',null);
@@ -53,6 +59,7 @@
     }
     rows.forEach(m=>{if(m.empire_profiles)m.empire_profiles._regimentFaction=factions[m.empire_profiles.regiment]||'';});
     render(box,rows);
+    writeChatCache(rows);
   }
   async function loadOnline(){
     const box=$('miniChatOnlineList'),count=$('miniChatOnlineCount');if(!box||!count)return;
