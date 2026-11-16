@@ -4,7 +4,7 @@
   const $=id=>document.getElementById(id);
   const general=$('generalMessages'),regiment=$('regimentMessages'),input=$('chatInput'),send=$('sendChat'),emoteBtn=$('chatEmoteButton'),emotePicker=$('chatEmotePicker');
   if(!general||!regiment||!input||!send)return;
-  let room='general',memberRegiment=null,profile=null,client=null,user=null,busy=false;
+  let room='general',memberRegiment=null,profile=null,client=null,user=null,busy=false,loadingMessages=false;
   const fullChat=!!document.getElementById('fullChat');
   const CHAT_CACHE_TTL=5*60*1000;
   const chatCacheKey=()=>room==='regiment'&&memberRegiment?'clanwars_chat_regiment_'+memberRegiment:'clanwars_chat_general';
@@ -41,25 +41,33 @@
     box.scrollTop=box.scrollHeight;
   }
   async function loadMessages(){
+    if(loadingMessages||!client)return;
     const box=room==='regiment'?regiment:general;
     if(room==='regiment'&&!memberRegiment){empty(box,'Вы не состоите в полку.');return;}
     const cached=readChatCache();
-    if(cached?.rows?.length){render(box,cached.rows);}
-    const query=client.from('empire_chat_messages').select('id,author_id,regiment_id,content,created_at,empire_profiles(display_name,avatar_url,regiment)')
-      .order('created_at',{ascending:true}).limit(fullChat?1000:100);
-    if(room==='regiment')query.eq('regiment_id',memberRegiment);else query.is('regiment_id',null);
-    const {data,error}=await query;
-    if(error){empty(box,'Не удалось загрузить сообщения.');console.warn('Mini chat:',error);return;}
-    const rows=data||[];
-    const names=[...new Set(rows.map(m=>String(m.empire_profiles?.regiment||'').trim()).filter(Boolean))];
-    let factions={};
-    if(names.length){
-      const rq=await client.from('empire_regiments').select('name,faction').in('name',names);
-      if(!rq.error)factions=Object.fromEntries((rq.data||[]).map(r=>[r.name,r.faction||'']));
-    }
-    rows.forEach(m=>{if(m.empire_profiles)m.empire_profiles._regimentFaction=factions[m.empire_profiles.regiment]||'';});
-    render(box,rows);
-    writeChatCache(rows);
+    if(cached&&Array.isArray(cached.rows))render(box,cached.rows);
+    loadingMessages=true;
+    try{
+      const query=client.from('empire_chat_messages').select('id,author_id,regiment_id,content,created_at,empire_profiles(display_name,avatar_url,regiment)')
+        .order('created_at',{ascending:true}).limit(fullChat?1000:100);
+      if(room==='regiment')query.eq('regiment_id',memberRegiment);else query.is('regiment_id',null);
+      const result=await Promise.race([query,new Promise((_,reject)=>setTimeout(()=>reject(new Error('Тайм-аут загрузки чата')),8000))]);
+      const {data,error}=result;
+      if(error)throw error;
+      const rows=data||[];
+      const names=[...new Set(rows.map(m=>String(m.empire_profiles?.regiment||'').trim()).filter(Boolean))];
+      let factions={};
+      if(names.length){
+        const rq=await client.from('empire_regiments').select('name,faction').in('name',names);
+        if(!rq.error)factions=Object.fromEntries((rq.data||[]).map(r=>[r.name,r.faction||'']));
+      }
+      rows.forEach(m=>{if(m.empire_profiles)m.empire_profiles._regimentFaction=factions[m.empire_profiles.regiment]||'';});
+      render(box,rows);
+      writeChatCache(rows);
+    }catch(error){
+      console.warn('Mini chat:',error);
+      if(!(cached&&Array.isArray(cached.rows)))empty(box,'Не удалось загрузить сообщения. Попробуйте обновить страницу.');
+    }finally{loadingMessages=false;}
   }
   async function loadOnline(){
     const box=$('miniChatOnlineList'),count=$('miniChatOnlineCount');if(!box||!count)return;
