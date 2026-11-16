@@ -4995,3 +4995,105 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
   nav.site-nav>.dropdown{flex-direction:column!important;align-items:stretch!important}
   nav.site-nav>.dropdown .dropdown-menu{position:static!important;width:100%!important;min-width:0!important;margin:0!important;padding:0!important;box-shadow:none!important;border-left:0!important;border-right:0!important;border-bottom:1px solid rgba(104,79,48,.42)!important}
 }
+
+/* Battle comment toolbar: mobile-safe attachment and smile pickers */
+.battle-comment-toolbar > .empire-comment-extra{
+  display:inline-flex!important;
+  flex:0 0 auto!important;
+  width:auto!important;
+  min-width:34px!important;
+  height:34px!important;
+  align-items:center!important;
+  position:relative!important;
+}
+.battle-comment-toolbar > .empire-comment-extra > button{
+  flex:0 0 34px!important;
+  width:34px!important;
+  min-width:34px!important;
+  max-width:34px!important;
+  height:34px!important;
+  min-height:34px!important;
+  padding:0!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.battle-comment-toolbar .empire-attach-menu{
+  width:160px!important;
+  min-width:160px!important;
+  max-width:160px!important;
+  padding:7px!important;
+  gap:6px!important;
+  box-sizing:border-box!important;
+  flex-direction:column!important;
+  overflow:visible!important;
+}
+.battle-comment-toolbar .empire-attach-menu button{
+  flex:0 0 36px!important;
+  width:100%!important;
+  min-width:100%!important;
+  max-width:100%!important;
+  height:36px!important;
+  min-height:36px!important;
+  padding:0 10px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+  white-space:nowrap!important;
+}
+.battle-comment-toolbar > .clanwars-smile-wrap{
+  display:inline-flex!important;
+  flex:0 0 auto!important;
+  width:34px!important;
+  min-width:34px!important;
+  height:34px!important;
+  align-items:center!important;
+  position:relative!important;
+}
+.battle-comment-toolbar > .clanwars-smile-wrap > button{
+  flex:0 0 34px!important;
+  width:34px!important;
+  min-width:34px!important;
+  max-width:34px!important;
+  height:34px!important;
+  min-height:34px!important;
+}
+.battle-comment-toolbar .clanwars-smile-picker{
+  width:min(240px,calc(100vw - 16px))!important;
+  max-width:calc(100vw - 16px)!important;
+  max-height:min(360px,calc(100vh - 110px))!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  grid-template-columns:repeat(5,40px)!important;
+  box-sizing:border-box!important;
+  padding:8px!important;
+  gap:6px!important;
+}
+.battle-comment-toolbar .clanwars-smile-picker button{
+  flex:0 0 40px!important;
+  width:40px!important;
+  min-width:40px!important;
+  max-width:40px!important;
+  height:40px!important;
+  min-height:40px!important;
+  max-height:40px!important;
+  padding:4px!important;
+}
+@media(max-width:600px){
+  .battle-comment-toolbar{
+    min-height:38px!important;
+    padding:4px 6px!important;
+    overflow-x:auto!important;
+    overflow-y:visible!important;
+  }
+  .battle-comment-toolbar .clanwars-smile-picker{
+    grid-template-columns:repeat(4,40px)!important;
+    width:min(190px,calc(100vw - 16px))!important;
+  }
+  .battle-comment-toolbar .empire-attach-menu{
+    width:min(160px,calc(100vw - 16px))!important;
+    min-width:min(160px,calc(100vw - 16px))!important;
+    max-width:calc(100vw - 16px)!important;
+  }
+}
