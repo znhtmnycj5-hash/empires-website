@@ -1,4 +1,4 @@
-const CACHE_NAME='clanwars-images-v1';
+const CACHE_NAME='clanwars-images-v2';
 
 self.addEventListener('install',event=>{
   self.skipWaiting();

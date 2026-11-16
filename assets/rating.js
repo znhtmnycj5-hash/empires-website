@@ -68,7 +68,7 @@
     const now=Date.now();
     if(ratingsCache&&now-ratingsCacheAt<30000)return ratingsCache;
     const cached=readCache();
-    if(cached&&Array.isArray(cached.data)&&cached.data.length){
+    if(cached&&Array.isArray(cached.data)&&cached.data.length&&Date.now()-Number(cached.at||0)<CACHE_TTL){
       ratingsCache=cached.data;ratingsCacheAt=Number(cached.at)||now;
       refreshRatings().catch(()=>{});
       return cached.data;

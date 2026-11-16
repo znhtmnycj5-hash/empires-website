@@ -11,7 +11,7 @@ const api={
   },
   async loadAccepted(){
     const cached=readCache();
-    if(cached&&Array.isArray(cached.data)&&cached.data.length){
+    if(cached&&Array.isArray(cached.data)&&cached.data.length&&Date.now()-Number(cached.at||0)<CACHE_TTL){
       api._refreshAccepted().catch(()=>{});
       return cached.data;
     }

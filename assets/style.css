@@ -96,6 +96,13 @@ footer{border-top:1px solid #4f3d28;padding:25px 0;color:#80745f;font-size:11px}
 @media(max-width:1050px){.grid{grid-template-columns:1fr 1.6fr}.grid>.profile{grid-column:1/-1}.full{grid-template-columns:1fr}.hero-copy{width:60%}}
 @media(max-width:760px){.logo{font-size:32px}.brand{padding:22px 0}.eagle{font-size:40px}nav{overflow:auto}nav a{padding:15px 14px;white-space:nowrap}.hero-copy{width:100%;padding:40px 20px;background:rgba(5,4,3,.5)}h1{font-size:48px}.stats{gap:15px}.grid,.full{grid-template-columns:1fr}.news-item{grid-template-columns:95px 1fr}.community-grid{grid-template-columns:repeat(2,1fr);gap:20px}.community-grid div:nth-child(2){border:0}.footer-inner{gap:15px;flex-direction:column}}
 
+.inner-header{min-height:0!important;height:auto!important;overflow:visible!important;background:transparent!important;border-bottom:0!important}
+.inner-header .container{padding-top:0}
+.inner-header .brand{min-height:0!important;height:auto!important;padding:18px 0 0!important;justify-content:flex-start!important}
+.inner-header .brand-title{font-size:30px}
+.inner-header .brand-title span{font-size:16px}
+@media(max-width:760px){.inner-header .brand{padding:12px 0 0!important}.inner-header .brand-title{font-size:25px}.inner-header .brand-title span{font-size:13px}}
+
 html{scroll-behavior:smooth}
 a,button{transition:all .18s ease}
 nav a{position:relative}

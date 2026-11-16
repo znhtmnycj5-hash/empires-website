@@ -105,7 +105,7 @@ begin
   if length(trim(coalesce(p_name,'')))<2 or length(trim(p_name))>60 then
     raise exception 'Название должно содержать от 2 до 60 символов';
   end if;
-  if p_faction not in ('Австрийская Империя','Французская Империя','Российская Империя','Британская Империя','Пруссия','Рейнский Союз') then
+  if p_faction not in ('Австрийская Империя','Французская Империя','Российская Империя','Британская Империя' ,'Пруссия') then
     raise exception 'Недопустимая фракция';
   end if;
   select name into v_old_name from public.empire_regiments where id=p_regiment_id;
