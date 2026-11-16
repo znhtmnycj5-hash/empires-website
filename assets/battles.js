@@ -14,16 +14,14 @@ async function render(){
       const status=window.CLANWARS_BATTLES.status(row);
       const date=window.CLANWARS_BATTLES.formatDate(row.scheduled_at);
       const left=row.left,right=row.right;
-      return '<article class="battle-record" id="'+esc(row.id)+'" data-status="'+status+'" data-battle-id="'+esc(row.id)+'">'+
-        '<div class="battle-record-top"><span>'+esc(statusLabel(status))+'</span><span>'+esc(date)+'</span></div>'+
+      return '<article class="battle-record card" id="'+esc(row.id)+'" data-status="'+status+'" data-battle-id="'+esc(row.id)+'">'+
+        '<div class="battle-record-top"><span class="battle-status '+esc(status)+'">'+esc(statusLabel(status))+'</span><span>'+esc(date)+'</span></div>'+
         '<div class="battle-record-main">'+
           '<a class="battle-side" href="regiment.html?name='+encodeURIComponent(left.name)+'"><img src="'+esc(left.logo_url||'assets/default-soldier.jpg')+'" alt=""><strong>'+esc(left.name)+'</strong><small>'+esc(left.faction||'')+'</small></a>'+
-          '<div class="battle-vs">VS</div>'+
+          '<div class="battle-result-box planned-result"><b>VS</b><span>'+esc(row.battle_type||'Полковой бой')+' · '+esc(String(row.player_count||''))+' игроков</span><div class="battle-countdown" data-start="'+esc(row.scheduled_at)+'"></div></div>'+
           '<a class="battle-side" href="regiment.html?name='+encodeURIComponent(right.name)+'"><img src="'+esc(right.logo_url||'assets/default-soldier.jpg')+'" alt=""><strong>'+esc(right.name)+'</strong><small>'+esc(right.faction||'')+'</small></a>'+
         '</div>'+
-        '<div class="battle-record-bottom"><span>'+esc(row.battle_type)+' · '+esc(String(row.player_count))+' на '+esc(String(row.player_count))+'</span><span>'+ (row.allies_allowed?'Союзники до '+esc(String(row.ally_limit)):'Союзники запрещены') +'</span></div>'+
-        '<div class="battle-countdown" data-start="'+esc(row.scheduled_at)+'"></div>'+
-        '<a class="battle-open-link" href="battle.html?id='+encodeURIComponent(row.id)+'">Открыть сражение →</a>'+
+        '<div class="battle-open-link"><a href="battle.html?id='+encodeURIComponent(row.id)+'">Открыть сражение →</a></div>'+
       '</article>';
     }).join('');
     updateFilters([...list.querySelectorAll('.battle-record')]);
@@ -40,7 +38,7 @@ function updateFilters(records){
     const status=window.CLANWARS_BATTLES.status({scheduled_at:r.querySelector('.battle-countdown')?.dataset.start||''});
     r.dataset.dynamicStatus=status;
     counts[status]=(counts[status]||0)+1;
-    const badge=r.querySelector('.battle-record-top span');
+    const badge=r.querySelector('.battle-status');
     if(badge)badge.textContent=statusLabel(status);
   });
   Object.keys(counts).forEach(k=>{const el=document.getElementById('count-'+k);if(el)el.textContent=counts[k];});
