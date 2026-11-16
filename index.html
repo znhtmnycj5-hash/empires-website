@@ -7,5 +7,258 @@
 <link rel="preconnect" href="https://pbaojidktzjnpavtdcga.supabase.co" crossorigin>
 <link rel="stylesheet" href="assets/style.css?v=20261115-smiles3">
   <script defer src="assets/comment-counts.js?v=20261108-1"></script>
-<script src="assets/rating.js?v=20261116-mobile-optimized"></script>
+<script defer src="assets/rating.js?v=20261116-mobile-optimized"></script>
 </head>
+<body>
+<header>
+  <div class="container brand">
+    <div class="brand-title">Clanwars <span>Mount&amp;Blade</span></div>
+    <div class="header-copy">
+      <div class="buttons"><a class="btn primary" href="register.html">Войти в сообщество</a><a class="btn" href="regiments.html">Найти полк</a></div>
+      <div class="stats">
+        <div class="stat"><strong data-site-count="regiments">15</strong><span>полков</span></div>
+        <div class="stat"><strong data-site-count="users">0</strong><span>пользователей</span></div>
+        <div class="stat"><strong data-site-count="battles">16</strong><span>сражений</span></div>
+        <div class="stat"><strong data-site-count="campaigns">3</strong><span>кампаний</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+<nav class="site-nav">
+  <a class="active" href="index.html">Главная</a>
+  <a href="regiments.html">Полки</a>
+  <a href="battles.html">Сражения</a>
+  <a href="campaigns.html">Кампании</a>
+  
+  <a href="alliances.html">Союзы</a>
+  <a href="search.html">Поиск</a>
+  <a class="login" href="index.html#openLogin">♙ &nbsp; Войти</a>
+</nav>
+
+<main id="home">
+<section class="card personal-cabinet" id="personalCabinet" hidden><div class="cabinet-avatar"><img id="cabinetAvatar" src="assets/aea32583-9230-496e-af65-c2e33f73ff79.png" alt=""></div><div class="cabinet-copy"><div class="page-kicker">ЛИЧНЫЙ КАБИНЕТ</div><strong id="cabinetName">Пользователь</strong><span>Добро пожаловать в сообщество Clanwars</span></div><a class="btn primary" id="cabinetProfileLink" href="profile.html">Перейти в профиль</a></section>
+<div class="grid">
+  <section class="card chat" id="chat">
+  <div class="card-title">💬 &nbsp; Мини-чат <span style="font:10px 'Roboto Slab';color:#6db86d">● Онлайн</span></div>
+  <div class="chat-tabs">
+    <button class="chat-tab active" data-tab="general">Общий чат</button>
+    <button class="chat-tab" data-tab="regiments-chat">Полковой чат</button>
+  </div>
+
+  <div id="general" class="chat-panel active">
+    <div class="messages" id="generalMessages" style="height:480px;max-height:480px;overflow-y:auto;overflow-x:hidden"><p class="empty-note">Загрузка сообщений…</p></div>
+  </div>
+
+  <div id="regiments-chat" class="chat-panel">
+    <div class="regiment-chat-status" id="regimentChatStatus"></div>
+    <div class="messages" id="regimentMessages" style="height:480px;max-height:480px;overflow-y:auto;overflow-x:hidden"><p class="empty-note">Загрузка сообщений…</p></div>
+    <div class="regiment-chat-locked" id="regimentChatLocked">
+      <div class="lock-icon">🔒</div>
+      <strong>Полковой чат заблокирован</strong>
+      <p>Вы не состоите ни в одном полку. Вступите в полк, чтобы получить доступ к полковому чату.</p>
+      <a class="btn" href="regiments.html">Найти полк</a>
+    </div>
+  </div>
+
+
+  <div class="chat-input" id="chatInputWrap"><input id="chatInput" name="empire-mini-chat-message" type="text" maxlength="2000" autocomplete="off" autocapitalize="sentences" spellcheck="true" placeholder="Войдите, чтобы написать сообщение..." disabled><div class="mini-chat-emote-wrap"><button type="button" class="mini-chat-emote-button" id="chatEmoteButton" title="Выбрать смайл" aria-label="Выбрать смайл">☺</button><div class="mini-chat-emote-picker" id="chatEmotePicker" aria-label="Смайлы"></div></div><button id="sendChat">➤</button></div><a class="full-chat-link" href="chat.html">Открыть полный чат →</a>
+</section>
+
+<section class="card" id="news">
+    <div class="card-title">📰 &nbsp; Новости сайта <a href="site-news.html">Все новости →</a></div>
+    <div id="homeNewsPreview"></div>
+    <div id="homeSiteNewsActions"></div>
+  </section>
+
+  <aside class="card profile">
+  <section class="card online-users-home" id="onlineUsers">
+    <div class="card-title">👥 &nbsp; Пользователи в сети <span id="onlineUsersCount" class="online-users-count">0</span></div>
+    <div id="onlineUsersStrip" class="online-users-strip" aria-label="Пользователи в сети" style="display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-auto-rows:74px;gap:8px;width:100%;max-height:314px;overflow-y:auto!important;overflow-x:hidden!important;box-sizing:border-box;padding:6px 3px 8px;"></div>
+  </section>
+</aside>
+</div>
+
+<div class="full">
+  <section class="card">
+    <div class="card-title">⚔ &nbsp; Предстоящие полковые сражения <a href="battles.html">Все сражения →</a></div>
+    <div id="upcomingBattlesHome"></div>
+  </section>
+
+  <div class="home-rankings-stack">
+  <section class="card ranking" id="ranking">
+    <div class="card-title">🏆 &nbsp; Рейтинг полков <a href="rating.html">Полный рейтинг →</a></div>
+    <table>
+      <tr><td class="pos">#</td><td>Полк</td><td class="points">Очки</td></tr>
+
+    </table>
+  </section>
+
+  <section class="card ranking" id="homeUserRankingCard">
+    <div class="card-title">⭐ &nbsp; Рейтинг участников <a href="rating.html">Полный рейтинг →</a></div>
+    <table>
+      <tr><td class="pos">#</td><td>Участник</td><td class="points">Очки</td></tr>
+      <tbody id="homeUserRating"></tbody>
+    </table>
+  </section>
+  </div>
+</div>
+
+</main>
+</div>
+
+<footer>
+  <div class="container footer-inner">
+    <div><strong style="font:700 22px Cinzel;color:#b99559">Clanwars</strong><br>Сообщество Mount &amp; Blade</div>
+    <div>Главная &nbsp;|&nbsp; Полки &nbsp;|&nbsp; Кампании  &nbsp;|&nbsp; Союзы</div><div class="motto">Vive l’Empire!</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script>
+(() => {
+  const esc=v=>String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  try {
+    const userCache=JSON.parse(localStorage.getItem('clanwars_home_user_rating_v2')||'null');
+    const users=Array.isArray(userCache?.data)?userCache.data:[];
+    const userRoot=document.getElementById('homeUserRating');
+    if(userRoot && users.length){
+      userRoot.innerHTML=users.slice(0,5).map((x,i)=>'<tr class="home-user-rating-row"><td class="pos">'+(i+1)+'.</td><td><a class="home-user-rating-link" href="profile.html?user='+encodeURIComponent(x.display_name||'')+'"><img src="'+esc(x.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png')+'" alt="" decoding="async">'+esc(x.display_name||'')+'</a></td><td class="points"><b class="'+(x.score>0?'positive':x.score<0?'negative':'')+'">'+Math.abs(Number(x.score||0))+'</b></td></tr>').join('');
+    }
+
+    const regimentCache=JSON.parse(localStorage.getItem('clanwars_regiment_ratings_v2')||'null');
+    const regiments=Array.isArray(regimentCache?.data)?regimentCache.data:[];
+    const ranking=document.querySelector('#ranking table');
+    if(ranking && regiments.length){
+      const body=regiments.slice(0,5).map((x,i)=>'<tr class="rank-row"><td class="pos">'+(i+1)+'.</td><td><a class="ranking-regiment-link" href="regiment.html?name='+encodeURIComponent(x.name||'')+'"><img class="rank-flag" src="'+esc(x.logo_url||x.logo||'assets/default-soldier.jpg')+'" alt="" loading="lazy" decoding="async">'+esc(x.name||'')+'</a></td><td class="points"><b class="'+(Number(x.score||0)>0?'positive':Number(x.score||0)<0?'negative':'')+'">'+Number(x.score||0)+'</b></td></tr>').join('');
+      ranking.innerHTML='<tr><td class="pos">#</td><td>Полк</td><td class="points">Очки</td></tr>'+body;
+    }
+
+    const battleCache=JSON.parse(localStorage.getItem('clanwars_accepted_battles_v2')||'null');
+    const battles=Array.isArray(battleCache?.data)?battleCache.data:[];
+    const battleBox=document.getElementById('upcomingBattlesHome');
+    if(battleBox && battles.length){
+      const statusLabels={accepted:'ВЫЗОВ ПРИНЯТ',ongoing:'ИДЁТ БОЙ',awaiting_confirmation:'ОЖИДАЕТ ПОДТВЕРЖДЕНИЯ'};
+      const upcoming=battles.filter(x=>x&&x.left&&x.right).sort((a,b)=>new Date(a.scheduled_at)-new Date(b.scheduled_at)).slice(0,8);
+      battleBox.innerHTML=upcoming.map((row,index)=>{
+        const dt=new Date(row.scheduled_at),day=String(dt.getDate()).padStart(2,'0'),month=dt.toLocaleString('ru-RU',{month:'long'}).toUpperCase(),time=dt.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
+        const url='battle.html?id='+encodeURIComponent(row.id);
+        return '<div class="battle home-battle-link" data-battle-url="'+url+'"'+(index?' style="border-top:1px solid #332b21"':'')+'><div><a class="team regiment-link" href="'+url+'"><img class="battle-flag" src="'+esc(row.left.logo_url||'assets/default-soldier.jpg')+'" alt="">'+esc(row.left.name)+'</a></div><div class="vs">VS</div><div><a class="team regiment-link" href="'+url+'"><img class="battle-flag" src="'+esc(row.right.logo_url||'assets/default-soldier.jpg')+'" alt="">'+esc(row.right.name)+'</a></div><div class="battle-meta"><div class="datebox">'+day+'<br><small>'+month+'<br>'+time+'</small><span class="battle-type">'+statusLabels.accepted+'</span></div></div></div>';
+      }).join('');
+    }
+  } catch(e) {}
+
+  // The homepage must not depend on a previously populated local cache.
+  // Load the current regiment rating directly and refresh the cache in background.
+  (async()=>{
+    try{
+      if(!window.calculateRegimentRatings)return;
+      const current=await window.calculateRegimentRatings();
+      const rows=Array.isArray(current)?current:[];
+      const ranking=document.querySelector('#ranking table');
+      if(!ranking)return;
+      const esc2=v=>String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+      const body=rows.slice(0,5).map((x,i)=>'<tr class="rank-row"><td class="pos">'+(i+1)+'.</td><td><a class="ranking-regiment-link" href="regiment.html?name='+encodeURIComponent(x.name||'')+'"><img class="rank-flag" src="'+esc2(x.logo_url||x.logo||'assets/default-soldier.jpg')+'" alt="" loading="lazy" decoding="async">'+esc2(x.name||'')+'</a></td><td class="points"><b class="'+(Number(x.score||0)>0?'positive':Number(x.score||0)<0?'negative':'')+'">'+Number(x.score||0)+'</b></td></tr>').join('');
+      ranking.innerHTML='<tr><td class="pos">#</td><td>Полк</td><td class="points">Очки</td></tr>'+body;
+    }catch(e){
+      console.warn('Не удалось загрузить рейтинг полков на главной:',e);
+    }
+  })();
+})();
+</script>
+<script>
+(() => {
+const toast=(msg)=>{const e=document.getElementById('toast');if(!e)return;e.textContent=msg;e.classList.add('show');clearTimeout(window.__t);window.__t=setTimeout(()=>e.classList.remove('show'),2400)};
+const siteCounters={regiments:15,battles:16,users:0};
+const applySiteCounters=()=>{
+  Object.entries(siteCounters).forEach(([key,value])=>{
+    document.querySelectorAll('[data-site-count="'+key+'"]').forEach(el=>el.textContent=value);
+  });
+};
+applySiteCounters();
+let homeBattleFilter='accepted';
+let homeBattleRecords=[];
+const loadUpcomingBattles=async()=>{
+  const box=document.getElementById('upcomingBattlesHome');
+  if(!box)return;
+  if(!window.CLANWARS_BATTLES){setTimeout(loadUpcomingBattles,100);return;}
+  try{
+    const rows=await window.CLANWARS_BATTLES.loadAccepted();
+    const renderUpcoming=(rows)=>{
+      const upcoming=rows.filter(row=>['accepted','ongoing','awaiting_confirmation'].includes(window.CLANWARS_BATTLES.status(row)))
+      .sort((a,b)=>new Date(a.scheduled_at)-new Date(b.scheduled_at)).slice(0,8);
+    const counter=document.querySelector('[data-site-count="battles"]');
+    if(counter)counter.textContent=String(rows.length);
+    if(!upcoming.length){
+      box.innerHTML='<div class="battle"><div class="home-battles-empty">Предстоящих сражений пока нет.</div></div>';
+      return;
+    }
+    const statusLabels={accepted:'ВЫЗОВ ПРИНЯТ',ongoing:'ИДЁТ БОЙ',awaiting_confirmation:'ОЖИДАЕТ ПОДТВЕРЖДЕНИЯ'};
+    box.innerHTML=upcoming.map((row,index)=>{
+      const left=row.left,right=row.right,status=window.CLANWARS_BATTLES.status(row);
+      const dt=new Date(row.scheduled_at),day=String(dt.getDate()).padStart(2,'0');
+      const month=dt.toLocaleString('ru-RU',{month:'long'}).toUpperCase();
+      const time=dt.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
+      const battleUrl='battle.html?id='+encodeURIComponent(row.id);
+      return '<div class="battle home-battle-link" data-battle-url="'+battleUrl+'"'+(index?' style="border-top:1px solid #332b21"':'')+'>'+
+        '<div><a class="team regiment-link" href="'+battleUrl+'"><img class="battle-flag" src="'+escHome(left.logo_url||'assets/default-soldier.jpg')+'" alt="">'+escHome(left.name)+'</a></div>'+
+        '<div class="vs">VS</div>'+
+        '<div><a class="team regiment-link" href="'+battleUrl+'"><img class="battle-flag" src="'+escHome(right.logo_url||'assets/default-soldier.jpg')+'" alt="">'+escHome(right.name)+'</a></div>'+
+        '<div class="battle-meta"><div class="datebox">'+day+'<br><small>'+month+'<br>'+time+'</small><span class="battle-type">'+statusLabels[status]+'</span></div></div>'+
+      '</div>';
+    }).join('');
+    box.querySelectorAll('.home-battle-link').forEach(row=>row.addEventListener('click',event=>{
+      if(event.target.closest('a'))return;
+      window.location.href=row.dataset.battleUrl;
+    }));
+    };
+    renderUpcoming(rows);
+    window.CLANWARS_BATTLES.refresh().then(fresh=>{
+      renderUpcoming(fresh);
+    }).catch(()=>{});
+  }catch(error){
+    console.warn('Предстоящие сражения:',error);
+    box.innerHTML='<div class="battle"><div class="home-battles-empty">Не удалось загрузить сражения. <a href="battles.html">Открыть список</a></div></div>';
+  }
+};
+const escHome=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+loadUpcomingBattles();
+
+const updateHomeRanking=async()=>{
+  try{
+    const ratings=await calculateRegimentRatings(true);
+    const table=document.querySelector('#ranking table');
+    if(!table)return;
+    const header='<tr><td class="pos">#</td><td>Полк</td><td class="points">Очки</td></tr>';
+    const renderRegimentRanking=(ratings)=>{ const table=document.querySelector('#ranking table'); if(!table)return; const header='<tr><td class="pos">#</td><td>Полк</td><td class="points">Очки</td></tr>'; const body=ratings.slice(0,5).map((item,index)=>{
+      const href='regiment.html?name='+encodeURIComponent(item.name);
+      const logo=String(item.logo||'assets/default-soldier.jpg').replace(/"/g,'%22');
+      return '<tr class="rank-row" data-regiment-name="'+item.name.replace(/"/g,'&quot;')+'"><td class="pos">'+(index+1)+'.</td><td><a class="ranking-regiment-link" href="'+href+'"><img class="rank-flag" src="'+logo+'" alt="" loading="lazy" decoding="async">'+item.name.replace(/</g,'&lt;')+'</a></td><td class="points"><b class="'+(Number(item.score)>0?'positive':Number(item.score)<0?'negative':'')+'">'+Number(item.score)+'</b></td></tr>';
+    }).join(''); table.innerHTML=header+body; };
+    renderRegimentRanking(ratings);
+    if(window.refreshRegimentRatings) window.refreshRegimentRatings().then(fresh=>renderRegimentRanking(fresh)).catch(()=>{});
+  }catch(error){console.warn('Рейтинг полков:',error);}
+}
+updateHomeRanking();
+setInterval(loadUpcomingBattles,60000);
+
+
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.onclick=e=>{const id=a.getAttribute('href');if(id.length>1&&document.querySelector(id)){e.preventDefault();document.querySelector(id).scrollIntoView({behavior:'smooth',block:'start'})}});
+})();
+</script>
+
+<script src="assets/user-avatars.js?v=20261115-faction1"></script>
+<script src="assets/online-users.js?v=20261115-performance1"></script>
+<script src="assets/site-news.js?v=20261115-news-recovery9"></script>
+<script src="assets/supabase-auth.js?v=20261115-image-cache1"></script>
+<script src="assets/notifications.js?v=20261116-1"></script>
+<script src="assets/battle-data.js?v=20261115-1"></script>
+<script src="assets/site-news-permissions.js?v=20261115-1"></script>
+<script src="assets/empire-comments.js?v=20261115-smiles3"></script>
+<script src="assets/community.js?v=20261115-performance1"></script>
+<script src="assets/smile.js?v=20261115-1"></script>
+<script src="assets/mini-chat.js?v=20261115-performance1"></script>
+<script src="assets/user-rating.js?v=20261115-real-ratings"></script>
+</body>
+</html>
