@@ -83,7 +83,6 @@ try{
     .is('left_at',null)
     .limit(1)
     .maybeSingle();
-  // Ошибка/несколько старых записей членства не должны блокировать весь профиль.
   if(membershipError)console.warn('Не удалось определить текущую должность:',membershipError);
 
   document.title=profile.display_name+' — Clanwars';
@@ -201,26 +200,21 @@ try{
 
   const serviceBox=document.getElementById('serviceList');
   if(serviceBox){
-    try{
-      const {data:service,error}=await auth.client
-        .from('empire_regiment_members')
-        .select('joined_at,left_at,role,empire_regiments(name)')
-        .eq('user_id',profile.id)
-        .order('joined_at',{ascending:true});
-      if(error)throw error;
-      if(service?.length){
-        serviceBox.innerHTML=service.map(row=>{
-          const from=new Date(row.joined_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
-          const to=row.left_at?new Date(row.left_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'по настоящее время';
-          return '<div class="service-item"><div class="service-regiment">'+esc(row.empire_regiments?.name||'Полк')+'</div><div class="service-dates"><span>С '+from+'</span><span>'+to+'</span></div></div>';
-        }).join('');
-      }else serviceBox.innerHTML='<p class="empty-note">Не служил.</p>';
-      const currentCache=readProfileCache()?.data||{};
-      writeProfileCache({...currentCache,profile,regiment,activeMembership,service:service||[]});
-    }catch(serviceError){
-      console.warn('Не удалось загрузить послужной список:',serviceError);
-      serviceBox.innerHTML='<p class="empty-note">Послужной список пока недоступен.</p>';
-    }
+    const {data:service,error}=await auth.client
+      .from('empire_regiment_members')
+      .select('joined_at,left_at,role,empire_regiments(name)')
+      .eq('user_id',profile.id)
+      .order('joined_at',{ascending:true});
+    if(error)throw error;
+    if(service?.length){
+      serviceBox.innerHTML=service.map(row=>{
+        const from=new Date(row.joined_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+        const to=row.left_at?new Date(row.left_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'по настоящее время';
+        return '<div class="service-item"><div class="service-regiment">'+esc(row.empire_regiments?.name||'Полк')+'</div><div class="service-dates"><span>С '+from+'</span><span>'+to+'</span></div></div>';
+      }).join('');
+    }else serviceBox.innerHTML='<p class="empty-note">Не служил.</p>';
+    const currentCache=readProfileCache()?.data||{};
+    writeProfileCache({...currentCache,profile,regiment,activeMembership,service:service||[]});
 
   // Record the latest visit once per visitor/profile pair and show unique recent guests.
   const guestsBox=document.getElementById('profileGuests');
@@ -262,7 +256,6 @@ try{
 
   const messageArea=document.getElementById('messageArea');
   const renderMessages=async contact=>{
-    try{
     if(!messageArea)return;
     if(!auth.user){messageArea.innerHTML='<div class="no-conversation"><p>Войдите в сообщество, чтобы пользоваться перепиской.</p><a class="btn primary" href="register.html">Войти</a></div>';return;}
     if(!contact){
@@ -348,12 +341,6 @@ try{
     if(privateSmileButton&&window.CLANWARS_SMILES)window.CLANWARS_SMILES.makePicker(privateSmileButton,document.getElementById('privateMessageInput'));
     document.getElementById('privateMessageSend').onclick=send;
     document.getElementById('privateMessageInput').onkeydown=e=>{if(e.key==='Enter')send();};
-  };
-
-    }catch(messageError){
-      console.warn('Не удалось загрузить переписку:',messageError);
-      messageArea.innerHTML='<div class="no-conversation"><p>Переписка временно недоступна. Попробуйте обновить страницу.</p></div>';
-    }
   };
 
   if(auth.user){
