@@ -60,8 +60,21 @@ document.addEventListener('fullscreenchange',()=>{setTimeout(resize,50);setTimeo
 function action(a){if(a==='jump'&&player.onGround){player.vy=-720;player.onGround=false}if(a==='attack')player.attack=.22;if(a==='block')player.block=.28}
 document.querySelectorAll('.btn').forEach(b=>{const a=b.dataset.act;const d=e=>{e.preventDefault();b.classList.add('active');action(a)},u=e=>{e.preventDefault();b.classList.remove('active')};b.addEventListener('pointerdown',d);b.addEventListener('pointerup',u);b.addEventListener('pointercancel',u)});
 addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();action('jump')}});canvas.addEventListener('mousedown',e=>{if(e.button===0)action('attack');if(e.button===2)action('block')});canvas.addEventListener('contextmenu',e=>e.preventDefault());
-const startBtn=document.getElementById('startBtn');startBtn.addEventListener('click',async e=>{e.preventDefault();await enterFullscreen();startGame()});startBtn.addEventListener('touchend',async e=>{e.preventDefault();await enterFullscreen();startGame()},{passive:false});
-function startGame(){if(playing)return;playing=true;document.getElementById('start').style.display='none';requestLandscape();score=0;distance=0;spawn=.5;speed=330;obstacles=[];player.y=0;player.vy=0;player.onGround=true;last=performance.now();requestAnimationFrame(loop)}
+const startBtn=document.getElementById('startBtn');
+let startTouchLock=false;
+function launchFromStart(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  if(startTouchLock)return;
+  startTouchLock=true;
+  startGame();
+  enterFullscreen().catch(()=>{});
+  setTimeout(()=>startTouchLock=false,500);
+}
+startBtn.addEventListener('click',launchFromStart);
+startBtn.addEventListener('touchend',launchFromStart,{passive:false});
+startBtn.addEventListener('pointerup',launchFromStart,{passive:false});
+
+function startGame(){if(playing)return;playing=true;document.getElementById('start').style.display='none';document.getElementById('start').style.pointerEvents='none';requestLandscape();score=0;distance=0;spawn=.5;speed=330;obstacles=[];player.y=0;player.vy=0;player.onGround=true;last=performance.now();requestAnimationFrame(loop)}
 function say(t){const m=document.getElementById('message');m.textContent=t;m.classList.add('show');setTimeout(()=>m.classList.remove('show'),450)}
 function comboHit(points){score+=points*combo;combo=Math.min(5,combo+1);comboTimer=1.8;const el=document.getElementById('combo');el.textContent='КОМБО ×'+combo;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),500)}
 function combatFlash(kind){shake=kind==='hit'?5:3;const f=document.getElementById('message');f.style.textShadow=kind==='block'?'0 0 18px #8ec5ff,0 3px 6px #000':'0 0 18px #ffe18a,0 3px 6px #000';setTimeout(()=>f.style.textShadow='0 3px 6px #000',220)}
@@ -228,7 +241,7 @@ function drawEnemy(o){
   }
   ctx.restore();
 }
-function loop(now){if(!playing)return;const dt=Math.min((now-last)/1000,.033);last=now;animTime+=dt;shake=Math.max(0,shake-dt*18);distance+=speed*dt;bg+=speed*dt;speed+=dt*2;player.vy+=1900*dt;player.y+=player.vy*dt;if(player.y>=0){player.y=0;player.vy=0;player.onGround=true}player.attack=Math.max(0,player.attack-dt);player.block=Math.max(0,player.block-dt);spawn-=dt;comboTimer-=dt;if(comboTimer<=0)combo=1;cannonTimer-=dt;if(cannonTimer<=0){cannonTimer=rand(2.5,5.5);burst(rand(W*.55,W*.95),H*.5,'dust');spawnCannonball()}updateBattle(dt)if(spawn<=0){addObstacle();spawn=rand(.75,1.45)-Math.min(.35,(speed-330)/900)}for(const d of dust){d.x-=speed*dt;d.life-=dt}dust=dust.filter(d=>d.life>0);if(Math.random()<dt*18)dust.push({x:W*.22+rand(-20,30),y:H*.72+rand(-4,10),life:.5});for(const o of obstacles){o.x-=speed*dt;const px=W*.25;if(!o.hit&&Math.abs(o.x-px)<48){if(o.type==='soldier'&&player.attack>0){o.hit=true;comboHit(100);say('+'+(100*(combo-1)));combatFlash('hit');burst(o.x,H*.64,'hit')}else if(o.type==='rider'&&player.block>0){o.hit=true;comboHit(150);say('БЛОК! +'+(150*(combo-1)));combatFlash('block');burst(o.x,H*.64,'hit')}else if((o.type==='fence'||o.type==='rock'||o.type==='cliff')&&player.y<-35){o.hit=true;score+=100}else if(o.type==='rider'&&player.attack>0){o.hit=true;comboHit(120);say('+'+(120*(combo-1)));combatFlash('hit');burst(o.x,H*.64,'hit')}else if(!o.hit){gameOver();return}}}obstacles=obstacles.filter(o=>o.x>-120&&!o.hit);document.getElementById('score').textContent=score;document.getElementById('progress').style.width=(12+(distance/3000)*76)%100+'%';drawEffects(dt);draw();requestAnimationFrame(loop)}
+function loop(now){if(!playing)return;const dt=Math.min((now-last)/1000,.033);last=now;animTime+=dt;shake=Math.max(0,shake-dt*18);distance+=speed*dt;bg+=speed*dt;speed+=dt*2;player.vy+=1900*dt;player.y+=player.vy*dt;if(player.y>=0){player.y=0;player.vy=0;player.onGround=true}player.attack=Math.max(0,player.attack-dt);player.block=Math.max(0,player.block-dt);spawn-=dt;comboTimer-=dt;if(comboTimer<=0)combo=1;cannonTimer-=dt;if(cannonTimer<=0){cannonTimer=rand(2.5,5.5);burst(rand(W*.55,W*.95),H*.5,'dust');spawnCannonball()}updateBattle(dt);if(spawn<=0){addObstacle();spawn=rand(.75,1.45)-Math.min(.35,(speed-330)/900)}for(const d of dust){d.x-=speed*dt;d.life-=dt}dust=dust.filter(d=>d.life>0);if(Math.random()<dt*18)dust.push({x:W*.22+rand(-20,30),y:H*.72+rand(-4,10),life:.5});for(const o of obstacles){o.x-=speed*dt;const px=W*.25;if(!o.hit&&Math.abs(o.x-px)<48){if(o.type==='soldier'&&player.attack>0){o.hit=true;comboHit(100);say('+'+(100*(combo-1)));combatFlash('hit');burst(o.x,H*.64,'hit')}else if(o.type==='rider'&&player.block>0){o.hit=true;comboHit(150);say('БЛОК! +'+(150*(combo-1)));combatFlash('block');burst(o.x,H*.64,'hit')}else if((o.type==='fence'||o.type==='rock'||o.type==='cliff')&&player.y<-35){o.hit=true;score+=100}else if(o.type==='rider'&&player.attack>0){o.hit=true;comboHit(120);say('+'+(120*(combo-1)));combatFlash('hit');burst(o.x,H*.64,'hit')}else if(!o.hit){gameOver();return}}}obstacles=obstacles.filter(o=>o.x>-120&&!o.hit);document.getElementById('score').textContent=score;document.getElementById('progress').style.width=(12+(distance/3000)*76)%100+'%';drawEffects(dt);draw();requestAnimationFrame(loop)}
 function draw(){ctx.save();if(shake>0)ctx.translate((Math.random()-.5)*shake,(Math.random()-.5)*shake);drawBackground();
   // cinematic foreground depth strips
   const groundY=H*.82;ctx.fillStyle='#3d463055';ctx.fillRect(0,groundY,W,H-groundY);
