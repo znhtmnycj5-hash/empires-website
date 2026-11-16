@@ -161,66 +161,113 @@
     setInterval(() => load().catch(() => {}), 10000);
   }
 
-  function simpleCommentCard(comment) {
-    const name = comment.name || comment.author || 'Пользователь';
-    const text = comment.html || escapeHtml(comment.text || '');
-    return '<article class="battle-thread-item" data-comment-id="' + escapeHtml(comment.id) + '">' +
-      '<div class="battle-comment">' +
-        '<div class="battle-comment-author">' +
-          '<a class="battle-comment-avatar-link" href="' + profileUrl(name) + '">' +
-            '<img class="battle-comment-avatar" src="' + escapeHtml(comment.avatar || 'assets/default-soldier.jpg') + '" alt="' + escapeHtml(name) + '">' +
-          '</a>' +
-          '<div class="battle-comment-identity">' +
-            '<div class="battle-comment-head"><a href="' + profileUrl(name) + '"><strong>' + escapeHtml(name) + '</strong></a></div>' +
-            '<span class="battle-comment-time">' + escapeHtml(comment.time || '') + '</span>' +
-          '</div>' +
-        '</div>' +
-        '<div class="battle-comment-content"><div class="battle-comment-text">' + text + '</div></div>' +
-      '</div>' +
-    '</article>';
+  const commentsKey = battleId => 'empire-battle-comments-' + battleId;
+  const likesKey = id => 'battle:' + id;
+  const readLikes = id => {
+    try{
+      const map=JSON.parse(localStorage.getItem('empire-comment-likes-v1')||'{}');
+      return Array.isArray(map[likesKey(id)]) ? map[likesKey(id)] : [];
+    }catch(e){return [];}
+  };
+  const toggleLike = id => {
+    let map={};
+    try{map=JSON.parse(localStorage.getItem('empire-comment-likes-v1')||'{}')||{};}catch(e){}
+    const list=Array.isArray(map[likesKey(id)])?map[likesKey(id)]:[];
+    const name=window.EMPIRE_AUTH?.profile?.display_name||window.EMPIRE_AUTH?.user?.email||'Пользователь';
+    const i=list.indexOf(name);
+    if(i>=0)list.splice(i,1);else list.push(name);
+    map[likesKey(id)]=list;
+    localStorage.setItem('empire-comment-likes-v1',JSON.stringify(map));
+  };
+
+  function renderBattleComments(ctx, comments){
+    const list=document.getElementById('commentList');
+    const count=document.getElementById('commentCount');
+    if(!list)return;
+    const all=Array.isArray(comments)?comments:[];
+    const escape=escapeHtml;
+    const profileUrl=name=>'profile.html?user='+encodeURIComponent(String(name||''));
+    const card=(c,depth=0)=>{
+      const id=String(c.id||''), name=String(c.name||c.author||'Пользователь');
+      const children=all.filter(x=>String(x.parentId||'')===id);
+      const likes=readLikes(id);
+      const own=String(c._authorId||'')===String(window.EMPIRE_AUTH?.user?.id||'') || (c.name||c.author)===((window.EMPIRE_AUTH?.profile?.display_name)||'');
+      const textHtml=c.html||escape(c.text||'').replace(/\n/g,'<br>');
+      const likePreview=likes.slice(0,2).map(escape).join(', ');
+      const likeHtml='<div class="comment-reactions"><button class="comment-like-button'+(likes.includes(window.EMPIRE_AUTH?.profile?.display_name)?' is-liked':'')+'" type="button" data-recovery-like="'+escape(id)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+likePreview+'</span><button type="button" class="comment-like-all" data-recovery-likes="'+escape(id)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(x=>'<a href="'+profileUrl(x)+'">'+escape(x)+'</a>').join(' · ')+'</div></div>':'')+'</div>';
+      const actions=(own?'<button class="comment-edit-button" type="button" data-recovery-edit="'+escape(id)+'">Изменить</button><button class="comment-delete-button" type="button" data-recovery-delete="'+escape(id)+'">Удалить</button>':'')+
+        '<button class="comment-report-button" type="button" data-recovery-report="'+escape(id)+'">⚑ Пожаловаться</button>'+
+        '<button class="battle-reply-button" type="button" data-recovery-reply="'+escape(id)+'">Ответить</button>'+
+        '<form class="battle-reply-form" data-recovery-parent="'+escape(id)+'" hidden><input type="text" maxlength="500" placeholder="Ответить '+escape(name)+'…" required><button type="submit">Ответить</button></form>';
+      return '<article class="battle-thread-item'+(depth?' is-reply':'')+'" data-comment-id="'+escape(id)+'"><div class="battle-comment"><div class="battle-comment-author"><a class="battle-comment-avatar-link" href="'+profileUrl(name)+'"><img class="battle-comment-avatar" src="'+escape(c.avatar||'assets/default-soldier.jpg')+'" alt="'+escape(name)+'" loading="lazy"></a><div class="battle-comment-identity"><div class="battle-comment-head"><a href="'+profileUrl(name)+'"><strong>'+escape(name)+'</strong></a></div><span class="battle-comment-time">'+escape(c.date||c.time||'')+'</span></div></div><div class="battle-comment-content"><div class="battle-comment-text">'+textHtml+'</div>'+likeHtml+actions+'</div></div>'+(children.length?'<div class="battle-thread-replies">'+children.map(x=>card(x,depth+1)).join('')+'</div>':'')+'</article>';
+    };
+    const roots=all.filter(c=>!c.parentId||!all.some(p=>String(p.id)===String(c.parentId)));
+    list.innerHTML=roots.length?roots.map(c=>card(c)).join(''):'<div class="battle-comments-empty">Комментариев пока нет.</div>';
+    if(count)count.textContent=String(all.length);
   }
 
-  async function initCommentRecovery(ctx) {
-    const button = document.getElementById('commentSubmitButton');
-    const editor = document.getElementById('commentInput');
-    const list = document.getElementById('commentList');
-    if (!button || !editor || !list || !window.EMPIRE_COMMENTS) return;
+  async function initCommentRecovery(ctx){
+    const list=document.getElementById('commentList');
+    const button=document.getElementById('commentSubmitButton');
+    const editor=document.getElementById('commentInput');
+    if(!list||!button||!editor||!window.EMPIRE_COMMENTS)return;
 
-    button.addEventListener('click', async event => {
-      event.preventDefault();
-      event.stopImmediatePropagation();
+    let comments=[];
+    const sync=async()=>{
+      const remote=await window.EMPIRE_COMMENTS.list('battle',ctx.id);
+      comments=remote||[];
+      try{localStorage.setItem(commentsKey(ctx.id),JSON.stringify(comments));}catch(e){}
+      renderBattleComments(ctx,comments);
+    };
 
-      const text = editor.textContent.trim();
-      const html = editor.innerHTML.trim();
-      if (!text && !html.replace(/<[^>]*>/g, '').trim() && !html.includes('<img ')) return;
+    try{await sync();}catch(error){console.warn('Battle comments load:',error);}
 
-      if (!window.EMPIRE_AUTH?.user) {
-        document.querySelector('a.login')?.click();
-        alert('Для отправки комментария войдите в аккаунт.');
+    button.addEventListener('click',async event=>{
+      event.preventDefault();event.stopImmediatePropagation();
+      const text=editor.textContent.trim(),html=editor.innerHTML.trim();
+      if(!text&&!html.replace(/<[^>]*>/g,'').trim()&&!html.includes('<img '))return;
+      if(!window.EMPIRE_AUTH?.user){document.querySelector('a.login')?.click();alert('Для отправки комментария войдите в аккаунт.');return;}
+      button.disabled=true;
+      try{
+        await window.EMPIRE_COMMENTS.create('battle',ctx.id,{text,html,image:'',parentId:null});
+        editor.innerHTML='';
+        await sync();
+      }catch(error){alert(error.message||'Не удалось сохранить комментарий.');}
+      finally{button.disabled=false;}
+    },true);
+
+    list.addEventListener('click',async event=>{
+      const edit=event.target.closest('[data-recovery-edit]');
+      if(edit){
+        event.preventDefault();event.stopImmediatePropagation();
+        const item=comments.find(x=>String(x.id)===String(edit.dataset.recoveryEdit));if(!item)return;
+        const next=prompt('Изменить комментарий:',item.text||item.html?.replace(/<[^>]*>/g,'')||'');if(next===null)return;
+        try{await window.EMPIRE_COMMENTS.update(item.id,{text:next,html:escapeHtml(next)});await sync();}catch(e){alert(e.message||'Не удалось изменить комментарий.');}
         return;
       }
-
-      button.disabled = true;
-      try {
-        const remote = await window.EMPIRE_COMMENTS.create('battle', ctx.id, {
-          text,
-          html,
-          image: '',
-          parentId: null
-        });
-
-        const empty = list.querySelector('.battle-comments-empty');
-        if (empty) empty.remove();
-        list.insertAdjacentHTML('beforeend', simpleCommentCard(remote));
-        const count = document.getElementById('commentCount');
-        if (count) count.textContent = String(list.querySelectorAll('.battle-thread-item').length);
-        editor.innerHTML = '';
-      } catch (error) {
-        alert(error.message || 'Не удалось сохранить комментарий.');
-      } finally {
-        button.disabled = false;
+      const del=event.target.closest('[data-recovery-delete]');
+      if(del){
+        event.preventDefault();event.stopImmediatePropagation();
+        if(!confirm('Удалить этот комментарий?'))return;
+        try{await window.EMPIRE_COMMENTS.remove(del.dataset.recoveryDelete);await sync();}catch(e){alert(e.message||'Не удалось удалить комментарий.');}
+        return;
       }
-    }, true);
+      const like=event.target.closest('[data-recovery-like]');
+      if(like){event.preventDefault();toggleLike(like.dataset.recoveryLike);renderBattleComments(ctx,comments);return;}
+      const likes=event.target.closest('[data-recovery-likes]');
+      if(likes){const panel=likes.parentElement.querySelector('.comment-like-full');if(panel)panel.hidden=!panel.hidden;return;}
+      const report=event.target.closest('[data-recovery-report]');
+      if(report){event.preventDefault();alert('Жалоба отправлена модераторам.');return;}
+      const reply=event.target.closest('[data-recovery-reply]');
+      if(reply){event.preventDefault();const form=reply.closest('.battle-thread-item')?.querySelector(':scope > .battle-comment .battle-reply-form');if(form){form.hidden=!form.hidden;form.style.display=form.hidden?'none':'flex';if(!form.hidden)form.querySelector('input')?.focus();}return;}
+    },true);
+
+    list.addEventListener('submit',async event=>{
+      const form=event.target.closest('[data-recovery-parent]');if(!form)return;
+      event.preventDefault();event.stopImmediatePropagation();
+      const input=form.querySelector('input'),text=input?.value.trim();if(!text)return;
+      try{await window.EMPIRE_COMMENTS.create('battle',ctx.id,{text,html:escapeHtml(text),image:'',parentId:form.dataset.recoveryParent});await sync();}catch(e){alert(e.message||'Не удалось сохранить ответ.');}
+    },true);
   }
 
   async function start() {
