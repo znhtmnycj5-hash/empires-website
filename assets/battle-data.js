@@ -11,7 +11,7 @@ const api={
   },
   async loadAccepted(){
     const cached=readCache();
-    if(cached&&Array.isArray(cached.data)){
+    if(cached&&Array.isArray(cached.data)&&cached.data.length){
       api._refreshAccepted().catch(()=>{});
       return cached.data;
     }
@@ -38,7 +38,8 @@ const api={
       left:byId.get(String(x.challenger_regiment_id))||null,
       right:byId.get(String(x.target_regiment_id))||null
     })).filter(x=>x.left&&x.right);
-    writeCache(result);
+    if(result.length)writeCache(result);
+    else localStorage.removeItem(CACHE_KEY);
     return result;
   },
   formatDate(value){
