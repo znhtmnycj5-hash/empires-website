@@ -18,9 +18,10 @@ function makePicker(button, target, opts){
       const sel=getSelection();
       let range=sel&&sel.rangeCount?sel.getRangeAt(0):null;
       if(!range||!target.contains(range.commonAncestorContainer)){range=document.createRange();range.selectNodeContents(target);range.collapse(false);}
-      const img=document.createElement('img');img.className='clanwars-smile';img.src='assets/smile/'+n+'.png';img.alt='Смайл '+n;img.title='Смайл '+n;img.dataset.smile=key;
-      range.deleteContents();range.insertNode(img);range.setStartAfter(img);range.collapse(true);
+      const token=document.createTextNode(token);
+      range.deleteContents();range.insertNode(token);range.setStartAfter(token);range.collapse(true);
       sel.removeAllRanges();sel.addRange(range);
+      target.dispatchEvent(new Event('input',{bubbles:true}));
     }else{
       const start=target.selectionStart??target.value.length,end=target.selectionEnd??start;
       target.value=target.value.slice(0,start)+token+target.value.slice(end);
