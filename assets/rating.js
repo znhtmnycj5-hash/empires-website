@@ -3,6 +3,10 @@
   const SUPABASE_URL='https://pbaojidktzjnpavtdcga.supabase.co';
   const SUPABASE_KEY='sb_publishable_XVsmd-U_ZF5eD-UcxMw31g_Yv9rUdVk';
   let clientPromise=null,ratingsPromise=null,ratingsCache=null,ratingsCacheAt=0;
+  const CACHE_KEY='clanwars_regiment_ratings_v2';
+  const CACHE_TTL=10*60*1000;
+  const readCache=()=>{try{const x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');if(x?.data?.length)return x;}catch(e){}return null;};
+  const writeCache=data=>{try{localStorage.setItem(CACHE_KEY,JSON.stringify({at:Date.now(),data}));}catch(e){}};
   async function getClient(){
     if(window.EMPIRE_AUTH){await window.EMPIRE_AUTH.init();return window.EMPIRE_AUTH.client;}
     if(window.supabase?.createClient)return window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
@@ -58,7 +62,7 @@
         }
       }catch(e){}
       const result=Object.values(ratings).sort((a,b)=>b.score-a.score||a.name.localeCompare(b.name));
-      ratingsCache=result;ratingsCacheAt=Date.now();return result;
+      ratingsCache=result;ratingsCacheAt=Date.now();writeCache(result);return result;
     })();
     try{return await ratingsPromise;}finally{ratingsPromise=null;}
   };
