@@ -33,11 +33,11 @@ async function render(){
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function statusLabel(s){return {accepted:'ВЫЗОВ ПРИНЯТ',ongoing:'ИДЁТ БОЙ',awaiting_confirmation:'ОЖИДАЕТ ПОДТВЕРЖДЕНИЯ'}[s]||'ВЫЗОВ ПРИНЯТ';}
 function updateFilters(records){
-  const counts={all:records.length,challenged:0,accepted:0,ongoing:0,awaiting_confirmation:0,completed:0};
+  const counts={all:records.length,accepted:0,ongoing:0,awaiting_confirmation:0};
   records.forEach(r=>{
     const status=window.CLANWARS_BATTLES.status({scheduled_at:r.querySelector('.battle-countdown')?.dataset.start||''});
     r.dataset.dynamicStatus=status;
-    counts[status]=(counts[status]||0)+1;
+    if(status in counts)counts[status]++;
     const badge=r.querySelector('.battle-status');
     if(badge)badge.textContent=statusLabel(status);
   });
