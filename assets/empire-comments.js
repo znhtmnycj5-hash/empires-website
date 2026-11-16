@@ -69,7 +69,10 @@ async function hydrateCurrentPage(){
    remote.forEach(x=>{const old=arr.find(v=>String(v.id)===String(x.id));if(old)Object.assign(old,x);else arr.push(x);});map[id]=arr;
    raw=before!==JSON.stringify(arr);localStorage.setItem(storageKey,JSON.stringify(map));
   }
-  sessionStorage.setItem(marker,stamp);if(raw)location.reload();
+  sessionStorage.setItem(marker,stamp);
+  if(raw){
+    document.dispatchEvent(new CustomEvent('empire:comments-synced',{detail:{type,id}}));
+  }
  }catch(e){console.warn('Empire comments sync:',e);}
 }
 waitAuth().then(hydrateCurrentPage).catch(()=>{});
