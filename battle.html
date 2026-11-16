@@ -82,7 +82,7 @@
         <div class="battle-comment-toolbar" role="toolbar" aria-label="Комментарий"></div>
         <div id="commentInput" class="battle-comment-input" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Написать комментарий…"></div>
       </div>
-      <button type="submit">Отправить</button>
+      <button type="button" id="commentSubmitButton">Отправить</button>
     </form>
   </section>
 </main>
@@ -486,13 +486,20 @@ if(!battle){
       if(url&&/^https?:\/\//i.test(url.trim()))insertEditorHtml('<video src="'+escapeCommentHtml(url.trim())+'" controls preload="metadata"></video>');
     }
   });
-  $("commentForm").addEventListener("submit",e=>{
-    e.preventDefault();
+  const submitComment=()=>{
     const html=sanitizeCommentHtml(commentEditor.innerHTML);
     const text=commentEditor.textContent.trim();
     if(!text&&!html.replace(/<[^>]*>/g,"").trim()&&!html.includes('<img '))return;
     saveComment({id:"comment-"+Date.now()+"-"+Math.random().toString(36).slice(2,7),parentId:null,name:currentUser.name,avatar:empireUserAvatar(currentUser.name),html,text,time:nowLabel()});
     commentEditor.innerHTML="";
+  };
+  $("commentSubmitButton").addEventListener("click",e=>{
+    e.preventDefault();
+    submitComment();
+  });
+  $("commentForm").addEventListener("submit",e=>{
+    e.preventDefault();
+    submitComment();
   });
   renderComments();
   document.addEventListener('empire:comments-synced',e=>{
