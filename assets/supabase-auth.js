@@ -3,7 +3,7 @@
   if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(()=>{});}
   const SUPABASE_URL='https://pbaojidktzjnpavtdcga.supabase.co';
   const SUPABASE_KEY='sb_publishable_XVsmd-U_ZF5eD-UcxMw31g_Yv9rUdVk';
-  let client=null, ready=null, currentUser=null, currentProfile=null;
+  let client=null, ready=null, currentUser=null, currentProfile=null, presenceTimer=null;
   const load=()=>new Promise((resolve,reject)=>{
     if(window.supabase&&window.supabase.createClient)return resolve();
     const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
@@ -43,6 +43,14 @@
         }
       }catch(e){}
     }
+    if(currentUser){
+      try{
+        const seenAt=new Date().toISOString();
+        const {error:presenceError}=await client.from('empire_profiles').update({last_seen_at:seenAt}).eq('id',currentUser.id);
+        if(!presenceError&&currentProfile)currentProfile={...currentProfile,last_seen_at:seenAt};
+      }catch(e){console.warn('Presence:',e.message||e);}
+      if(!presenceTimer)presenceTimer=setInterval(()=>touchPresence(),60000);
+    }else if(presenceTimer){clearInterval(presenceTimer);presenceTimer=null;}
     if(currentUser){try{const pending=localStorage.getItem('empire_pending_avatar_v1');if(pending&&pending.startsWith('data:image/')){const blob=await (await fetch(pending)).blob();const ext=(blob.type.split('/')[1]||'png').replace('jpeg','jpg');const path=currentUser.id+'/'+Date.now()+'.'+ext;const uploaded=await client.storage.from('profile-avatars').upload(path,blob,{contentType:blob.type,upsert:true});if(!uploaded.error){const url=client.storage.from('profile-avatars').getPublicUrl(path).data.publicUrl;await client.from('empire_profiles').update({avatar_url:url}).eq('id',currentUser.id);currentProfile={...currentProfile,avatar_url:url};localStorage.removeItem('empire_pending_avatar_v1');}}}catch(e){console.warn('Не удалось загрузить отложенный аватар:',e);}}
     window.EMPIRE_AUTH_STATE={user:currentUser,profile:currentProfile,client};
     document.dispatchEvent(new CustomEvent('empire:auth-changed',{detail:window.EMPIRE_AUTH_STATE}));
