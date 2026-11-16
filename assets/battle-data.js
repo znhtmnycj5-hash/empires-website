@@ -34,7 +34,7 @@ const api={
       regiments=q.data||[];
     }
     const byId=new Map(regiments.map(x=>[String(x.id),x]));
-    return rows.map(x=>({
+    const result=rows.map(x=>({
       ...x,
       left:byId.get(String(x.challenger_regiment_id))||null,
       right:byId.get(String(x.target_regiment_id))||null
