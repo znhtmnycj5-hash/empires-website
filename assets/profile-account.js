@@ -13,7 +13,30 @@ try{
     return;
   }
 
-  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));  const profileCacheKey='clanwars_profile_v3_'+encodeURIComponent(requestedName.toLowerCase());
+  const readProfileCache=()=>{try{return JSON.parse(localStorage.getItem(profileCacheKey)||'null');}catch(e){return null;}};
+  const writeProfileCache=data=>{try{localStorage.setItem(profileCacheKey,JSON.stringify({at:Date.now(),data}));}catch(e){}};
+  const cachedProfile=readProfileCache();
+  const hydrateCachedProfile=payload=>{
+    if(!payload)return;
+    const p=payload.profile||{},r=payload.regiment||null,m=payload.activeMembership||null;
+    const setCached=(id,value)=>{const el=document.getElementById(id);if(el&&value!=null)el.textContent=value;};
+    if(p.display_name)setCached('profileName',p.display_name);
+    setCached('profileRegiment',p.regiment||'Без полка');
+    setCached('profileRole',r?.commander_id===p.id?'Глава полка':m?.role==='officer'?'Офицер':m?.role==='soldier'?'Солдат':'Не состоит в полку');
+    if(p.avatar_url){const a=document.getElementById('profileAvatar');if(a){a.src=p.avatar_url;a.style.visibility='visible';}}
+    const rl=document.getElementById('profileRegimentLink'),lg=document.getElementById('profileRegimentLogo');
+    if(rl&&r){rl.href='regiment.html?name='+encodeURIComponent(r.name);if(lg)lg.src=r.logo_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png';}
+    const serviceBox=document.getElementById('serviceList');
+    if(serviceBox&&Array.isArray(payload.service)){
+      serviceBox.innerHTML=payload.service.length?payload.service.map(row=>{
+        const from=new Date(row.joined_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+        const to=row.left_at?new Date(row.left_at).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'по настоящее время';
+        return '<div class="service-item"><div class="service-regiment">'+esc(row.empire_regiments?.name||'Полк')+'</div><div class="service-dates"><span>С '+from+'</span><span>'+to+'</span></div></div>';
+      }).join(''):'<p class="empty-note">Не служил.</p>';
+    }
+  };
+  hydrateCachedProfile(cachedProfile?.data);
   const avatarFallback=(name,regiment)=>{
     const map={
       'Французская Империя':'assets/f88263f8-b7d4-40a2-83c7-13e4e9cc4442.png',
@@ -47,6 +70,9 @@ try{
     regiment=q.data||null;
   }
 
+  // Сохраняем основные данные сразу после их получения; следующий вход отрисует их до сети.
+  const cachePayload={profile,regiment,activeMembership};
+  writeProfileCache(cachePayload);
   const isOwn=!!auth.user&&auth.user.id===profile.id;
   const online=isOwn||(profile.last_seen_at&&Date.now()-new Date(profile.last_seen_at).getTime()<180000);
   if(isOwn){auth.touchPresence();setInterval(()=>auth.touchPresence(),60000);}
@@ -187,7 +213,8 @@ try{
         return '<div class="service-item"><div class="service-regiment">'+esc(row.empire_regiments?.name||'Полк')+'</div><div class="service-dates"><span>С '+from+'</span><span>'+to+'</span></div></div>';
       }).join('');
     }else serviceBox.innerHTML='<p class="empty-note">Не служил.</p>';
-  }
+    const currentCache=readProfileCache()?.data||{};
+    writeProfileCache({...currentCache,profile,regiment,activeMembership,service:service||[]});
 
   // Record the latest visit once per visitor/profile pair and show unique recent guests.
   const guestsBox=document.getElementById('profileGuests');
@@ -219,6 +246,8 @@ try{
         const avatarUrl=person.avatar_url||avatarFallback(person.display_name,{faction:''});
         return '<a class="profile-friend profile-guest" href="profile.html?user='+encodeURIComponent(person.display_name)+'" title="'+esc('Последнее посещение: '+visited)+'" aria-label="'+esc(person.display_name+'. Последнее посещение: '+visited)+'"><img src="'+esc(avatarUrl)+'" alt="'+esc(person.display_name)+'"><span>'+esc(person.display_name)+'</span><small>'+esc(visited)+'</small></a>';
       }).join(''):'<p class="empty-note">Посетителей пока нет.</p>';
+      const currentCache=readProfileCache()?.data||{};
+      writeProfileCache({...currentCache,guests:guests||[]});
     }catch(guestError){
       console.warn('Не удалось загрузить гостей профиля:',guestError);
       guestsBox.innerHTML='<p class="empty-note">История посещений пока недоступна.</p>';
