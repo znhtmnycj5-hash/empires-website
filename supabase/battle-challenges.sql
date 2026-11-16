@@ -110,3 +110,7 @@ using (
       and m.left_at is null
   )
 );
+
+
+-- Public view must not depend on the private RLS rules of the challenge table.
+alter view public.empire_public_battles set (security_invoker = false);
