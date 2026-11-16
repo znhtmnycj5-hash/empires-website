@@ -262,6 +262,14 @@ create table if not exists public.empire_regiments (
   created_at timestamptz not null default now()
 );
 
+do $
+begin
+  if not exists (select 1 from pg_constraint where conname='empire_regiments_faction_check') then
+    alter table public.empire_regiments
+      add constraint empire_regiments_faction_check check (faction in ('Австрийская Империя','Французская Империя','Российская Империя','Британская Империя','Пруссия')) not valid;
+  end if;
+end $;
+
 create table if not exists public.empire_regiment_members (
   id uuid primary key default gen_random_uuid(),
   regiment_id uuid not null references public.empire_regiments(id) on delete cascade,
