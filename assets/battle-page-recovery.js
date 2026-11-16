@@ -191,7 +191,10 @@
       const id=String(c.id||''), name=String(c.name||c.author||'Пользователь');
       const children=all.filter(x=>String(x.parentId||'')===id);
       const likes=readLikes(id);
-      const own=String(c._authorId||'')===String(window.EMPIRE_AUTH?.user?.id||'') || (c.name||c.author)===((window.EMPIRE_AUTH?.profile?.display_name)||'');
+      const own=String(c._authorId||c.author_id||'')===String(window.EMPIRE_AUTH?.user?.id||'') || (c.name||c.author)===((window.EMPIRE_AUTH?.profile?.display_name)||'');
+      const lastSeen=c._lastSeenAt?new Date(c._lastSeenAt).getTime():0;
+      const online=lastSeen && (Date.now()-lastSeen)<5*60*1000;
+      const regiment=String(c.author_regiment||c.regiment||'').trim();
       const textHtml=c.html||escape(c.text||'').replace(/\n/g,'<br>');
       const likePreview=likes.slice(0,2).map(escape).join(', ');
       const likeHtml='<div class="comment-reactions"><button class="comment-like-button'+(likes.includes(window.EMPIRE_AUTH?.profile?.display_name)?' is-liked':'')+'" type="button" data-recovery-like="'+escape(id)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+likePreview+'</span><button type="button" class="comment-like-all" data-recovery-likes="'+escape(id)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(x=>'<a href="'+profileUrl(x)+'">'+escape(x)+'</a>').join(' · ')+'</div></div>':'')+'</div>';
@@ -199,7 +202,7 @@
         '<button class="comment-report-button" type="button" data-recovery-report="'+escape(id)+'">⚑ Пожаловаться</button>'+
         '<button class="battle-reply-button" type="button" data-recovery-reply="'+escape(id)+'">Ответить</button>'+
         '<form class="battle-reply-form" data-recovery-parent="'+escape(id)+'" hidden><input type="text" maxlength="500" placeholder="Ответить '+escape(name)+'…" required><button type="submit">Ответить</button></form>';
-      return '<article class="battle-thread-item'+(depth?' is-reply':'')+'" data-comment-id="'+escape(id)+'"><div class="battle-comment"><div class="battle-comment-author"><a class="battle-comment-avatar-link" href="'+profileUrl(name)+'"><img class="battle-comment-avatar" src="'+escape(c.avatar||'assets/default-soldier.jpg')+'" alt="'+escape(name)+'" loading="lazy"></a><div class="battle-comment-identity"><div class="battle-comment-head"><a href="'+profileUrl(name)+'"><strong>'+escape(name)+'</strong></a></div><span class="battle-comment-time">'+escape(c.date||c.time||'')+'</span></div></div><div class="battle-comment-content"><div class="battle-comment-text">'+textHtml+'</div>'+likeHtml+actions+'</div></div>'+(children.length?'<div class="battle-thread-replies">'+children.map(x=>card(x,depth+1)).join('')+'</div>':'')+'</article>';
+      return '<article class="battle-thread-item'+(depth?' is-reply':'')+'" data-comment-id="'+escape(id)+'"><div class="battle-comment"><div class="battle-comment-author"><a class="battle-comment-avatar-link" href="'+profileUrl(name)+'"><img class="battle-comment-avatar" src="'+escape(c.avatar||'assets/default-soldier.jpg')+'" alt="'+escape(name)+'" loading="lazy"></a><div class="battle-comment-identity"><div class="battle-comment-head"><a href="'+profileUrl(name)+'"><strong>'+escape(name)+'</strong></a></div>'+(regiment?'<div class="battle-comment-regiment">'+escape(regiment)+'</div>':'')+'<span class="battle-comment-presence '+(online?'is-online':'is-offline')+'"><i></i>'+(online?'В сети':'Не в сети')+'</span></div></div><div class="battle-comment-content"><div class="battle-comment-text">'+textHtml+'</div>'+likeHtml+actions+'</div></div>'+(children.length?'<div class="battle-thread-replies">'+children.map(x=>card(x,depth+1)).join('')+'</div>':'')+'</article>';
     };
     const roots=all.filter(c=>!c.parentId||!all.some(p=>String(p.id)===String(c.parentId)));
     list.innerHTML=roots.length?roots.map(c=>card(c)).join(''):'<div class="battle-comments-empty">Комментариев пока нет.</div>';
@@ -216,6 +219,14 @@
     const sync=async()=>{
       const remote=await window.EMPIRE_COMMENTS.list('battle',ctx.id);
       comments=remote||[];
+      const authorIds=[...new Set(comments.map(x=>x.author_id||x._authorId).filter(Boolean).map(String))];
+      if(authorIds.length){
+        try{
+          const {data:profiles}=await ctx.client.from('empire_profiles').select('id,last_seen_at').in('id',authorIds);
+          const presence=new Map((profiles||[]).map(p=>[String(p.id),p.last_seen_at]));
+          comments=comments.map(x=>({...x,_authorId:x.author_id||x._authorId,_lastSeenAt:presence.get(String(x.author_id||x._authorId))||null}));
+        }catch(e){console.warn('Battle comment presence:',e);}
+      }
       try{localStorage.setItem(commentsKey(ctx.id),JSON.stringify(comments));}catch(e){}
       renderBattleComments(ctx,comments);
     };
