@@ -28,9 +28,7 @@
     if(loss)return{type:'win',winner:sides.find(n=>n!==loss[1].trim())||'',loser:loss[1].trim()};
     return null;
   };
-  window.calculateRegimentRatings=async(force=false)=>{
-    const now=Date.now();
-    if(!force&&ratingsCache&&now-ratingsCacheAt<30000)return ratingsCache;
+  const refreshRatings=async()=>{
     if(ratingsPromise)return ratingsPromise;
     ratingsPromise=(async()=>{
       const client=await getClient();
@@ -65,5 +63,16 @@
       ratingsCache=result;ratingsCacheAt=Date.now();writeCache(result);return result;
     })();
     try{return await ratingsPromise;}finally{ratingsPromise=null;}
+  };
+  window.calculateRegimentRatings=async(force=false)=>{
+    const now=Date.now();
+    if(ratingsCache&&now-ratingsCacheAt<30000)return ratingsCache;
+    const cached=readCache();
+    if(cached&&Array.isArray(cached.data)&&cached.data.length){
+      ratingsCache=cached.data;ratingsCacheAt=Number(cached.at)||now;
+      refreshRatings().catch(()=>{});
+      return cached.data;
+    }
+    return await refreshRatings();
   };
 })();
