@@ -5,6 +5,14 @@ const HOME_CACHE_TTL=10*60*1000;
 const readHomeCache=()=>{try{return JSON.parse(localStorage.getItem(HOME_CACHE_KEY)||'null');}catch(e){return null;}};
 const writeHomeCache=data=>{try{localStorage.setItem(HOME_CACHE_KEY,JSON.stringify({at:Date.now(),data}));}catch(e){}};
 try{
+ const homeRoot=document.getElementById('homeUserRating');
+ if(homeRoot){
+  const cachedHome=readHomeCache();
+  if(cachedHome?.data?.length){
+   const esc0=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+   homeRoot.innerHTML=cachedHome.data.slice(0,5).map((x,i)=>'<tr class="home-user-rating-row"><td class="pos">'+(i+1)+'.</td><td><a class="home-user-rating-link" href="profile.html?user='+encodeURIComponent(x.display_name)+'"><img src="'+esc0(x.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png')+'" alt="">'+esc0(x.display_name)+'</a></td><td class="points"><b class="'+(x.score>0?'positive':x.score<0?'negative':'')+'">'+Math.abs(x.score)+'</b></td></tr>').join('');
+  }
+ }
  await window.EMPIRE_AUTH.init();
  const auth=window.EMPIRE_AUTH, client=auth.client;
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
