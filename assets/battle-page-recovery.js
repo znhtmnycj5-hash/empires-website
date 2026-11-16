@@ -194,7 +194,9 @@
       const own=String(c._authorId||c.author_id||'')===String(window.EMPIRE_AUTH?.user?.id||'') || (c.name||c.author)===((window.EMPIRE_AUTH?.profile?.display_name)||'');
       const online=!!c.online;
       const regiment=String(c.regiment||c.author_regiment||'').trim();
-      const textHtml=c.html||escape(c.text||'').replace(/\n/g,'<br>');
+      const textHtml=c.html
+        ? c.html
+        : escape(c.text||'').replace(/:smile(1[0-9]|20|[1-9]):/gi,(m,n)=>'<img class="clanwars-smile" src="assets/smile/'+n+'.png" alt="Смайл '+n+'">').replace(/\n/g,'<br>');
       const likePreview=likes.slice(0,2).map(escape).join(', ');
       const likeHtml='<div class="comment-reactions"><button class="comment-like-button'+(likes.includes(window.EMPIRE_AUTH?.profile?.display_name)?' is-liked':'')+'" type="button" data-recovery-like="'+escape(id)+'">♥ <span>Нравится</span> <b>'+likes.length+'</b></button>'+(likes.length?'<div class="comment-like-popover"><span class="comment-like-preview">'+likePreview+'</span><button type="button" class="comment-like-all" data-recovery-likes="'+escape(id)+'">Посмотреть всех</button><div class="comment-like-full" hidden>'+likes.map(x=>'<a href="'+profileUrl(x)+'">'+escape(x)+'</a>').join(' · ')+'</div></div>':'')+'</div>';
       const actions=(own?'<button class="comment-edit-button" type="button" data-recovery-edit="'+escape(id)+'">Изменить</button><button class="comment-delete-button" type="button" data-recovery-delete="'+escape(id)+'">Удалить</button>':'')+
