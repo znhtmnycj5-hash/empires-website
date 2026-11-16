@@ -51,6 +51,15 @@ try{
 
  const rankingRoot=document.getElementById('ratingUsers');
  if(rankingRoot){
+  const cachedRanking=readHomeCache();
+  if(cachedRanking?.data?.length){
+   const cachedRows=cachedRanking.data;
+   const avatar=p=>esc(p.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png');
+   const score=p=>'<span class="rating-row-score user-rating-row-score '+(p.score>0?'positive':p.score<0?'negative':'')+'">'+(p.score>0?'+':'')+p.score+'</span>';
+   const podium=cachedRows.slice(0,3).map((p,i)=>'<a class="podium-card '+(i===0?'gold':i===1?'silver':'bronze')+'" href="profile.html?user='+encodeURIComponent(p.display_name)+'"><div class="place">'+(i+1)+' МЕСТО</div><img class="podium-avatar" src="'+avatar(p)+'" alt="" decoding="async"><div class="podium-name">'+esc(p.display_name)+'</div><div class="podium-score">'+(p.score>0?'+':'')+p.score+' баллов</div></a>').join('');
+   const list=cachedRows.map((p,i)=>'<a class="rating-row user-rating-row" href="profile.html?user='+encodeURIComponent(p.display_name)+'"><span class="rating-place">'+(i+1)+'</span><img class="rating-row-avatar" src="'+avatar(p)+'" alt="" decoding="async"><span class="rating-row-name">'+esc(p.display_name)+'<small class="rating-row-sub">Рейтинг участника</small></span>'+score(p)+'</a>').join('');
+   rankingRoot.innerHTML='<div class="podium">'+podium+'</div><div class="rating-list">'+list+'</div>';
+  }
   const [profiles,votes]=await Promise.all([
    client.from('empire_profiles').select('id,display_name,avatar_url'),
    client.from('empire_user_ratings').select('target_user_id,value')
@@ -59,6 +68,7 @@ try{
   const totals=scoreMap(votes.data);
   const rows=(profiles.data||[]).map(p=>({...p,score:totals[p.id]||0}))
    .sort((a,b)=>b.score-a.score||a.display_name.localeCompare(b.display_name));
+  writeHomeCache(rows.slice(0,50));
   const avatar=p=>esc(p.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png');
   const score=p=>'<span class="rating-row-score user-rating-row-score '+(p.score>0?'positive':p.score<0?'negative':'')+'">'+(p.score>0?'+':'')+p.score+'</span>';
   const podium=rows.slice(0,3).map((p,i)=>{
