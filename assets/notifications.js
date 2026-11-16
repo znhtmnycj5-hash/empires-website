@@ -41,7 +41,7 @@
 
     const wrap=document.createElement('div');
     wrap.className='cw-notification-wrap';
-    wrap.innerHTML='<button type="button" class="cw-notification-button" id="cwNotificationButton" aria-label="Уведомления" aria-expanded="false">♧<span class="cw-notification-badge" id="cwNotificationBadge">0</span></button><div class="cw-notification-panel" id="cwNotificationPanel" aria-hidden="true"><div class="cw-notification-head"><strong>Уведомления</strong><button type="button" class="cw-notification-readall" id="cwNotificationReadAll">Прочитать все</button></div><div class="cw-notification-list" id="cwNotificationList"><div class="cw-notification-empty">Загрузка уведомлений…</div></div></div>';
+    wrap.innerHTML='<button type="button" class="cw-notification-button" id="cwNotificationButton" aria-label="Уведомления" aria-expanded="false">🔔<span class="cw-notification-badge" id="cwNotificationBadge">0</span></button><div class="cw-notification-panel" id="cwNotificationPanel" aria-hidden="true"><div class="cw-notification-head"><strong>Уведомления</strong><button type="button" class="cw-notification-readall" id="cwNotificationReadAll">Прочитать все</button></div><div class="cw-notification-list" id="cwNotificationList"><div class="cw-notification-empty">Загрузка уведомлений…</div></div></div>';
     profileLink.insertAdjacentElement('afterend',wrap);
 
     const button=document.getElementById('cwNotificationButton');
