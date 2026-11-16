@@ -149,9 +149,8 @@
     }
   } catch(e) {}
 
-  // The homepage must not depend on a previously populated local cache.
-  // Load the current regiment rating directly and refresh the cache in background.
-  (async()=>{
+  // rating.js is loaded with defer, so wait until deferred scripts are ready.
+  const loadHomeRegimentRating=async()=>{
     try{
       if(!window.calculateRegimentRatings)return;
       const current=await window.calculateRegimentRatings();
@@ -164,7 +163,9 @@
     }catch(e){
       console.warn('Не удалось загрузить рейтинг полков на главной:',e);
     }
-  })();
+  };
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',loadHomeRegimentRating,{once:true});
+  else loadHomeRegimentRating();
 })();
 </script>
 <script>
@@ -240,7 +241,8 @@ const updateHomeRanking=async()=>{
     if(window.refreshRegimentRatings) window.refreshRegimentRatings().then(fresh=>renderRegimentRanking(fresh)).catch(()=>{});
   }catch(error){console.warn('Рейтинг полков:',error);}
 }
-updateHomeRanking();
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',updateHomeRanking,{once:true});
+else updateHomeRanking();
 setInterval(loadUpcomingBattles,60000);
 
 
