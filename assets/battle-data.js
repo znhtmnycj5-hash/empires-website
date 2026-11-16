@@ -11,7 +11,8 @@ const api={
   },
   async loadAccepted(){
     const cached=readCache();
-    if(cached&&Array.isArray(cached.data)&&cached.data.length&&Date.now()-Number(cached.at||0)<CACHE_TTL){
+    if(cached&&Array.isArray(cached.data)&&cached.data.length){
+      // Показываем последнюю известную версию сразу, а актуальные данные обновляем в фоне.
       api._refreshAccepted().catch(()=>{});
       return cached.data;
     }
