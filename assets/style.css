@@ -676,10 +676,26 @@ img.commander-avatar{width:104px;height:104px;object-fit:cover}
  .battle-open-link{font-size:9px}
  .battle-vote-card{padding:14px}
  .battle-vote-card .card-title{margin:-14px -14px 12px;padding:12px 14px}
- .battle-vote-grid{grid-template-columns:1fr;gap:7px}
- .battle-vote-side{padding:10px}
- .battle-vote-side-head img{width:36px;height:36px;min-width:36px}
- .battle-vote-percent{font-size:16px}
+ .battle-vote-card{padding:10px!important;margin-bottom:10px}
+ .battle-vote-card .card-title{margin:-10px -10px 9px;padding:10px 11px;font-size:11px}
+ .battle-vote-intro{padding:9px 8px;font-size:8px;line-height:1.4}
+ .battle-vote-intro p{margin-bottom:4px}
+ .battle-vote-intro strong{font-size:9px}
+ .battle-vote-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5px;margin-top:7px}
+ .battle-vote-vs{display:none}
+ .battle-vote-grid:before{display:none}
+ .battle-vote-side{padding:7px 6px}
+ .battle-vote-side-head{gap:5px}
+ .battle-vote-side-head img{width:30px;height:30px;min-width:30px;padding:2px}
+ .battle-vote-side-head strong{font-size:9px;line-height:1.15}
+ .battle-vote-side-head span{font-size:7px}
+ .battle-vote-bar{height:7px;margin-top:7px}
+ .battle-vote-percent{font-size:15px;margin-top:3px}
+ .battle-vote-button{min-height:34px;margin-top:5px;padding:6px 4px;font-size:7px;line-height:1.2}
+ .battle-voters{margin-top:6px;padding-top:5px;font-size:7px;line-height:1.4}
+ .battle-voters b{font-size:7px;margin-bottom:2px}
+ .battle-vote-note{margin-top:7px;padding:7px 6px;font-size:7px}
+ .battle-vote-loading,.battle-vote-unavailable{padding:10px;font-size:8px}
  .battle-page{padding-top:14px}
  .battle-hero-card,.battle-info-card,.battle-result-card,.battle-comments-card{padding:14px}
  .battle-hero-card h1{font-size:20px}
