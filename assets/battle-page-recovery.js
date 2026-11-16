@@ -196,8 +196,8 @@
       const regiment=String(c.regiment||c.author_regiment||'').trim();
       const smileHtml=value=>String(value||'')
         .replace(/:smile(1[0-9]|20|[1-9]):/gi,(m,n)=>'<img class="clanwars-smile" src="/empires-website/assets/smile/'+n+'.png" alt="Смайл '+n+'" title="Смайл '+n+'">')
-        .replace(/(<img\\b[^>]*\\bsrc=["'])(?:\\.\\.\\/|\\.\\/)?(?:empires-website\\/)?assets\\/smile\\/(1[0-9]|20|[1-9])\\.png(["'][^>]*>)/gi,'$1/empires-website/assets/smile/$2.png$3')
-        .replace(/(<img\\b[^>]*\\bsrc=["'])\\/assets\\/smile\\/(1[0-9]|20|[1-9])\\.png(["'][^>]*>)/gi,'$1/empires-website/assets/smile/$2.png$3');
+        .replace(/(<img\b[^>]*\bsrc=["'])(?:\.\.\/|\.\/)?(?:empires-website\/)?assets\/smile\/(1[0-9]|20|[1-9])\.png(["'][^>]*>)/gi,'$1/empires-website/assets/smile/$2.png$3')
+        .replace(/(<img\b[^>]*\bsrc=["'])\/assets\/smile\/(1[0-9]|20|[1-9])\.png(["'][^>]*>)/gi,'$1/empires-website/assets/smile/$2.png$3');
       const sourceHtml=c.html||c.text||'';
       const textHtml=smileHtml(c.html?sourceHtml:escape(sourceHtml)).replace(/\\n/g,'<br>');
       const likePreview=likes.slice(0,2).map(escape).join(', ');
