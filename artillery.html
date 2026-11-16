@@ -8,7 +8,8 @@
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#17130f;color:#f0e2c4;font-family:Georgia,serif;touch-action:none}
 body{display:flex;flex-direction:column}.top{height:62px;flex:0 0 62px;background:#17130f;border-bottom:1px solid #856a3d;display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:5}
 .brand{text-align:center;font-weight:700;letter-spacing:2px;color:#d7b66f;font-size:18px}.brand small{display:block;color:#99876a;font-size:8px;letter-spacing:3px;margin-top:2px}
-.back{color:#d7b66f;text-decoration:none;border:1px solid #695434;padding:7px 10px;font-size:10px;letter-spacing:1px}.stats{display:flex;gap:18px;text-align:center;color:#aa9b80;font-size:9px}.stats b{display:block;color:#ead08e;font-size:17px}
+.back{color:#d7b66f;text-decoration:none;border:1px solid #695434;padding:7px 10px;font-size:10px;letter-spacing:1px}.stats{display:flex;gap:18px;text-align:center;color:#aa9b80;font-size:9px}.stats b{display:block;color:#ead08e;font-size:17px}.stats button{background:none;color:#d7b66f;border:1px solid #695434;width:32px;height:32px;font-family:Georgia,serif;font-size:14px}.stats button:hover{background:#2b2117}
+.pause{position:absolute;inset:0;background:rgba(12,9,6,.72);display:none;align-items:center;justify-content:center;z-index:4}.pause .box{background:#17110d;border:1px solid #c49b58;padding:24px 34px;text-align:center}.pause h2{color:#e7c77e;margin:0 0 8px}.pause p{font-size:11px;color:#cdbf9f;margin:0}
 #wrap{position:relative;flex:1;min-height:0;background:#b79868}canvas{width:100%;height:100%;display:block;cursor:crosshair}
 .hud{position:absolute;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}.panel{background:rgba(24,18,13,.78);border:1px solid #a6844e;padding:8px 11px;box-shadow:0 4px 16px #0004}.hint{font-size:11px;color:#e6d9bd;max-width:330px}.enemy{font-size:11px}.enemy b{color:#e8c978}
 .message{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(360px,86vw);background:rgba(23,17,12,.95);border:1px solid #c49b58;padding:24px;text-align:center;box-shadow:0 10px 45px #000b;display:none}.message h2{margin:0 0 8px;color:#e7c77e;font-size:24px}.message p{margin:0 0 16px;color:#d7c9ad;font-size:13px;line-height:1.5}.message button{background:#731e18;color:#f4e7c9;border:1px solid #c49b58;padding:10px 18px;font-family:Georgia,serif}
@@ -20,7 +21,7 @@ body{display:flex;flex-direction:column}.top{height:62px;flex:0 0 62px;backgroun
 <header class="top">
 <a class="back" href="index.html">← CLANWARS</a>
 <div class="brand">АРТИЛЛЕРИСТ<small>NAPOLEON BONAPARTE</small></div>
-<div class="stats"><div>ОЧКИ<b id="score">0</b></div><div>ЯДРА<b id="shots">6</b></div><div>УРОВЕНЬ<b id="level">1</b></div></div>
+<div class="stats"><div>ОЧКИ<b id="score">0</b></div><div>ЯДРА<b id="shots">6</b></div><div>УРОВЕНЬ<b id="level">1</b></div><button id="pauseBtn" aria-label="Пауза">Ⅱ</button></div>
 </header>
 <div id="wrap">
 <canvas id="game"></canvas>
@@ -29,12 +30,12 @@ body{display:flex;flex-direction:column}.top{height:62px;flex:0 0 62px;backgroun
 <div class="panel enemy"><b id="enemyCount">6</b> солдат</div>
 </div>
 <div class="tip">💥 Попадание по бочке или ящику вызывает дополнительный взрыв</div>
-<div class="message" id="message"><h2 id="messageTitle"></h2><p id="messageText"></p><button id="messageBtn">Продолжить</button></div>
+<div class="pause" id="pause"><div class="box"><h2>Пауза</h2><p>Сражение приостановлено</p></div></div><div class="message" id="message"><h2 id="messageTitle"></h2><p id="messageText"></p><button id="messageBtn">Продолжить</button></div>
 </div>
 <script>
 (()=> {
 const c=document.getElementById('game'),ctx=c.getContext('2d'),wrap=document.getElementById('wrap');
-let W=0,H=0,dpr=1,drag=null,ball=null,particles=[],smoke=[],score=0,shots=6,level=1,finished=false,audio=null;
+let W=0,H=0,dpr=1,drag=null,ball=null,particles=[],smoke=[],score=Number(localStorage.getItem('clanwars_artillery_score')||0),shots=6,level=1,finished=false,paused=false,audio=null;
 const enemies=[],objects=[];
 const levels=[
  {nation:'Британская армия',count:6,uniform:'#8e201d',facings:'#d6d0b9',hat:'#191817'},
@@ -44,14 +45,17 @@ const levels=[
 ];
 function resize(){dpr=Math.min(devicePixelRatio||1,2);W=wrap.clientWidth;H=wrap.clientHeight;c.width=W*dpr;c.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);draw()}
 addEventListener('resize',resize);
-function setup(){enemies.length=0;objects.length=0;ball=null;particles=[];smoke=[];shots=6;finished=false;
+function setup(){enemies.length=0;objects.length=0;ball=null;particles=[];smoke=[];shots=6;finished=false;paused=false;document.getElementById('pause').style.display='none';
  const L=levels[(level-1)%levels.length], n=L.count, cols=Math.min(5,Math.ceil(Math.sqrt(n))), sx=W*.64, sy=H-104, dx=Math.min(62,W*.082), dy=52;
  // regiment-style national standard
  objects.push({x:W*.93,y:H-112,w:4,h:64,type:'flagpole',hp:1});
  for(let i=0;i<n;i++){let col=i%cols,row=Math.floor(i/cols);enemies.push({x:sx+col*dx,y:sy-row*dy,r:16,alive:true})}
  objects.push({x:W*.58,y:H-76,w:44,h:36,type:'crate',hp:1},{x:W*.84,y:H-70,w:38,h:48,type:'barrel',hp:1});
- document.getElementById('shots').textContent=shots;document.getElementById('level').textContent=level;document.getElementById('enemyCount').textContent=n;document.getElementById('message').style.display='none';document.getElementById('hint').textContent='Потяните от пушки назад и отпустите.';draw()}
+ document.getElementById('shots').textContent=shots;document.getElementById('level').textContent=level;document.getElementById('score').textContent=score;document.getElementById('enemyCount').textContent=n;document.getElementById('message').style.display='none';document.getElementById('hint').textContent='Потяните от пушки назад и отпустите.';draw()}
 function cannon(){return{x:Math.max(78,W*.13),y:H-86}}
+function saveScore(){localStorage.setItem('clanwars_artillery_score',String(score))}
+function togglePause(){if(finished)return;paused=!paused;document.getElementById('pause').style.display=paused?'flex':'none';drag=null}
+document.getElementById('pauseBtn').onclick=togglePause;
 function ground(){return H-48}
 function rect(x,y,w,h,fill,stroke){ctx.fillStyle=fill;ctx.fillRect(x,y,w,h);if(stroke){ctx.strokeStyle=stroke;ctx.strokeRect(x+.5,y+.5,w-1,h-1)}}
 function drawSky(){let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#506b7a');g.addColorStop(.48,'#9caeaa');g.addColorStop(1,'#d0b47b');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
@@ -89,18 +93,18 @@ function boom(x,y,big=false){for(let i=0;i<(big?36:20);i++)particles.push({x,y,v
 function sound(kind){try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.connect(g);g.connect(audio.destination);o.type=kind==='shot'?'sawtooth':'sine';o.frequency.value=kind==='shot'?90:180;g.gain.setValueAtTime(.045,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+(kind==='shot'?.18:.08));o.start();o.stop(audio.currentTime+(kind==='shot'?.18:.08))}catch(e){}}
 function fire(target){if(ball||shots<=0||finished)return;const p=cannon(),dx=p.x-target.x,dy=p.y-target.y,len=Math.max(30,Math.hypot(dx,dy)),power=Math.min(900,len*7);ball={x:p.x,y:p.y,vx:dx/len*power,vy:dy/len*power};shots--;document.getElementById('shots').textContent=shots;drag=null;sound('shot');smoke.push({x:p.x+48,y:p.y-10,size:18,life:1});document.getElementById('hint').textContent='Выстрел!'}
 function hit(){const b=ball;if(!b)return;
- for(const o of objects){if(o.hp&&Math.abs(b.x-o.x)<o.w/2+8&&Math.abs(b.y-(o.y+o.h/2))<o.h/2+8){o.hp=0;boom(o.x,o.y+o.h/2,true);score+=50;document.getElementById('score').textContent=score;ball=null;afterShot();return}}
- for(const e of enemies){if(e.alive&&Math.hypot(b.x-e.x,b.y-e.y)<24){e.alive=false;score+=100;document.getElementById('score').textContent=score;boom(e.x,e.y);sound('hit');ball=null;afterShot();return}}}
+ for(const o of objects){if(o.hp&&Math.abs(b.x-o.x)<o.w/2+8&&Math.abs(b.y-(o.y+o.h/2))<o.h/2+8){o.hp=0;boom(o.x,o.y+o.h/2,true);score+=50;document.getElementById('score').textContent=score;saveScore();ball=null;afterShot();return}}
+ for(const e of enemies){if(e.alive&&Math.hypot(b.x-e.x,b.y-e.y)<24){e.alive=false;score+=100;document.getElementById('score').textContent=score;saveScore();boom(e.x,e.y);sound('hit');ball=null;afterShot();return}}}
 function afterShot(){const left=enemies.filter(e=>e.alive).length;document.getElementById('enemyCount').textContent=left;if(left===0){finished=true;show('Позиция взята','Артиллерия Великой армии уничтожила противника.','Следующий уровень')}else if(shots===0){finished=true;show('Боезапас исчерпан','Вражеские солдаты удержали позицию.','Повторить уровень')}else document.getElementById('hint').textContent='Прицел готов. Следующий выстрел.'}
 function show(t,p,b){document.getElementById('messageTitle').textContent=t;document.getElementById('messageText').textContent=p;document.getElementById('messageBtn').textContent=b;document.getElementById('message').style.display='block'}
 function point(e){const r=c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
-function down(e){if(finished||ball)return;const p=point(e),q=cannon();if(Math.hypot(p.x-q.x,p.y-q.y)<95){drag={x:p.x,y:p.y};c.setPointerCapture?.(e.pointerId);e.preventDefault()}}
-function move(e){if(!drag)return;const p=point(e);drag.x=p.x;drag.y=p.y;e.preventDefault();draw()}
+function down(e){if(finished||ball||paused)return;const p=point(e),q=cannon();if(Math.hypot(p.x-q.x,p.y-q.y)<95){drag={x:p.x,y:p.y};c.setPointerCapture?.(e.pointerId);e.preventDefault()}}
+function move(e){if(!drag||paused)return;const p=point(e);drag.x=p.x;drag.y=p.y;e.preventDefault();draw()}
 function up(e){if(!drag)return;const p=point(e);fire(p);drag=null;e.preventDefault()}
 c.addEventListener('pointerdown',down,{passive:false});c.addEventListener('pointermove',move,{passive:false});c.addEventListener('pointerup',up,{passive:false});c.addEventListener('pointercancel',up,{passive:false});
 document.getElementById('messageBtn').onclick=()=>{if(document.getElementById('messageBtn').textContent==='Следующий уровень')level++;setup()};
-function loop(){if(ball){ball.x+=ball.vx/60;ball.y+=ball.vy/60;ball.vy+=490/60;hit();if(ball&& (ball.y>ground()||ball.x>W+60||ball.x<-60)){boom(ball.x,Math.min(ball.y,ground()));ball=null;afterShot()}}
- particles=particles.filter(p=>(p.x+=p.vx,p.y+=p.vy,p.vy+=.12,p.life-=.025,p.life>0));smoke=smoke.filter(s=>(s.size+=.15,s.life-=.012,s.life>0));draw();requestAnimationFrame(loop)}
+function loop(){if(!paused&&ball){ball.x+=ball.vx/60;ball.y+=ball.vy/60;ball.vy+=490/60;hit();if(ball&& (ball.y>ground()||ball.x>W+60||ball.x<-60)){boom(ball.x,Math.min(ball.y,ground()));ball=null;afterShot()}}
+ if(!paused){particles=particles.filter(p=>(p.x+=p.vx,p.y+=p.vy,p.vy+=.12,p.life-=.025,p.life>0));smoke=smoke.filter(s=>(s.size+=.15,s.life-=.012,s.life>0));}draw();requestAnimationFrame(loop)}
 resize();setup();loop();
 })();
 </script>
