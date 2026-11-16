@@ -83,9 +83,7 @@
 <div class="full">
   <section class="card">
     <div class="card-title">⚔ &nbsp; Предстоящие полковые сражения <a href="battles.html">Все сражения →</a></div>
-    <div id="upcomingBattlesHome">
-      <div class="battle"><div style="padding:12px;text-align:center;color:#8f8068;font-size:11px;width:100%">Загрузка предстоящих сражений…</div></div>
-    </div>
+    <div id="upcomingBattlesHome"></div>
   </section>
 
   <div class="home-rankings-stack">
@@ -101,7 +99,7 @@
     <div class="card-title">⭐ &nbsp; Рейтинг участников <a href="rating.html">Полный рейтинг →</a></div>
     <table>
       <tr><td class="pos">#</td><td>Участник</td><td class="points">Очки</td></tr>
-      <tbody id="homeUserRating"><tr><td colspan="3" class="empty-note">Загрузка рейтинга участников…</td></tr></tbody>
+      <tbody id="homeUserRating"></tbody>
     </table>
   </section>
   </div>
@@ -118,6 +116,19 @@
 </footer>
 
 <div class="toast" id="toast"></div>
+<script>
+(() => {
+  try {
+    const key='clanwars_home_user_rating_v2';
+    const cached=JSON.parse(localStorage.getItem(key)||'null');
+    const rows=Array.isArray(cached?.data)?cached.data:[];
+    const root=document.getElementById('homeUserRating');
+    if(root && rows.length){
+      root.innerHTML=rows.slice(0,5).map((x,i)=>'<tr class="home-user-rating-row"><td class="pos">'+(i+1)+'.</td><td><a class="home-user-rating-link" href="profile.html?user='+encodeURIComponent(x.display_name||'')+'"><img src="'+String(x.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png').replace(/"/g,'&quot;')+'" alt="" decoding="async">'+String(x.display_name||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))+'</a></td><td class="points"><b class="'+(x.score>0?'positive':x.score<0?'negative':'')+'">'+Math.abs(Number(x.score||0))+'</b></td></tr>').join('');
+    }
+  } catch(e) {}
+})();
+</script>
 <script>
 (() => {
 const toast=(msg)=>{const e=document.getElementById('toast');if(!e)return;e.textContent=msg;e.classList.add('show');clearTimeout(window.__t);window.__t=setTimeout(()=>e.classList.remove('show'),2400)};
@@ -168,7 +179,7 @@ const loadUpcomingBattles=async()=>{
   }
 };
 const escHome=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-window.addEventListener('load',loadUpcomingBattles);
+loadUpcomingBattles();
 
 const updateHomeRanking=async()=>{
   try{
@@ -184,7 +195,7 @@ const updateHomeRanking=async()=>{
     table.innerHTML=header+body;
   }catch(error){console.warn('Рейтинг полков:',error);}
 }
-window.addEventListener('load',updateHomeRanking);
+updateHomeRanking();
 setInterval(loadUpcomingBattles,60000);
 
 
