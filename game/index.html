@@ -72,19 +72,11 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none}
   <button onclick="panel('settings')">Настройки</button><button onclick="panel('exit')">Выход</button>
   <div class="note">ФРАНЦИЯ · 1809</div>
   <div id="settings" class="panel">
-   <label class="settings-row"><input id="windToggle" type="checkbox" checked onchange="setTrack('wind',this.checked)"> Ветер за окном</label>
-   <label class="settings-row"><input id="fireToggle" type="checkbox" checked onchange="setTrack('fire',this.checked)"> Потрескивание камина</label>
-   <p style="font-size:11px;color:#c8b894">Звук начнёт воспроизводиться после первого нажатия.</p>
-   <p style="font-size:9px;color:#a99a7e">Источники: Joseph SARDIN (CC0), Glaneur de sons (CC BY 3.0).</p><button onclick="hide()">Готово</button>
+   <p style="font-size:11px;color:#c8b894">Звуки и музыка будут добавлены на финальном этапе разработки.</p><button onclick="hide()">Готово</button>
   </div>
   <div id="exit" class="panel">Это браузерная версия меню. Закройте вкладку, чтобы выйти.<button onclick="hide()">Вернуться</button></div>
  </section>
 </main>
-<audio id="windAudio" preload="auto" crossorigin="anonymous" loop src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Joseph_SARDIN_-_Vent.ogg"></audio>
-<audio id="fireAudio" preload="auto" crossorigin="anonymous" loop src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Campfire_sound_ambience.ogg"></audio>
-<audio id="wagonAudio" preload="auto" crossorigin="anonymous" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/G18-16-Horse_and_Wagon.wav"></audio>
-<audio id="murmurAudio" preload="auto" crossorigin="anonymous" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/R16-17-Men_Murmuring.wav"></audio>
-<audio id="drumAudio" preload="auto" crossorigin="anonymous" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Militarydrumbeat.ogg"></audio>
 <div class="transition" id="transition">За несколько лет до этого…</div>
 <section class="story" id="story" aria-live="polite">
  <header class="story-top"><div class="story-brand">Последнее письмо</div><div class="chapter">Глава I · 1809 год</div></header>
@@ -98,24 +90,6 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none}
  </main>
 </section>
 <script>
-const tracks={wind:document.getElementById('windAudio'),fire:document.getElementById('fireAudio')};
-const sceneTracks={wagon:document.getElementById('wagonAudio'),murmur:document.getElementById('murmurAudio'),drum:document.getElementById('drumAudio')};
-const volumes={wind:.12,fire:.10};let audioStarted=false,storyStarted=false,ambienceTimers=[];
-Object.keys(tracks).forEach(k=>{tracks[k].volume=volumes[k]});
-sceneTracks.wagon.volume=.18;sceneTracks.murmur.volume=.045;sceneTracks.drum.volume=.04;
-function playOnce(el){try{el.currentTime=0}catch(e){} const p=el.play(); if(p&&p.catch)p.catch(()=>{})}
-function stopSceneSounds(){Object.values(sceneTracks).forEach(el=>{el.pause();el.currentTime=0});ambienceTimers.forEach(clearTimeout);ambienceTimers=[]}
-function startCampAmbience(){
- if(!storyStarted)return;
- playOnce(sceneTracks.murmur);
- const m=setInterval(()=>{if(storyStarted)playOnce(sceneTracks.murmur)},40000);
- ambienceTimers.push(m);
-}
-function playCampDrum(){if(storyStarted)playOnce(sceneTracks.drum)}
-function playWagon(){if(storyStarted)playOnce(sceneTracks.wagon)}
-function startAudio(){if(audioStarted||storyStarted)return;audioStarted=true;Object.keys(tracks).forEach(k=>{const el=tracks[k];if(document.getElementById(k+'Toggle')?.checked){const p=el.play();if(p&&p.catch)p.catch(()=>{})}})}
-function setTrack(name,on){const el=tracks[name];if(on){if(!storyStarted){if(!audioStarted)startAudio();el.play().catch(()=>{})}}else el.pause()}
-function fadeOutAudio(){storyStarted=true;stopSceneSounds();Object.values(tracks).forEach(el=>{const start=el.volume;const steps=20;let n=0;const timer=setInterval(()=>{n++;el.volume=Math.max(0,start*(1-n/steps));if(n>=steps){clearInterval(timer);el.pause();el.currentTime=0;el.volume=start}},100)})}
 function panel(id){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('show'));document.getElementById(id).classList.add('show')}
 function hide(){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('show'))}
 const scenes=[
@@ -144,8 +118,7 @@ function renderScene(){
  else{document.getElementById('nextButton').style.display='block';document.getElementById('nextButton').textContent=s.next||'Далее'}
 }
 function nextScene(){if(sceneIndex<scenes.length-1){sceneIndex++;renderScene()}else{document.getElementById('speaker').textContent='Конец главы';document.getElementById('dialogue').textContent='Первая глава завершена. История Этьена и Пьера только начинается.\n\nСледующая глава будет посвящена первым испытаниям молодого солдата.';document.getElementById('choices').innerHTML='';document.getElementById('nextButton').textContent='Вернуться в меню';document.getElementById('nextButton').onclick=()=>location.reload();document.getElementById('stepLabel').textContent='Глава I завершена'}}
-function beginStory(){hide();fadeOutAudio();startCampAmbience();playOnce(sceneTracks.murmur);document.getElementById('scene').classList.add('zoom');document.getElementById('menu').classList.add('fade');setTimeout(()=>{document.getElementById('transition').classList.add('show');setTimeout(()=>{document.getElementById('transition').classList.remove('show');document.getElementById('story').classList.add('show');renderScene();setTimeout(playCampDrum,7000)},2200)},1700)}
-document.addEventListener('pointerdown',startAudio,{once:true});
+function beginStory(){hide();document.getElementById('scene').classList.add('zoom');document.getElementById('menu').classList.add('fade');setTimeout(()=>{document.getElementById('transition').classList.add('show');setTimeout(()=>{document.getElementById('transition').classList.remove('show');document.getElementById('story').classList.add('show');renderScene()},2200)},1700)}
 </script>
 </body>
 </html>
