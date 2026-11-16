@@ -5,65 +5,95 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Clanwars — Артиллерист Наполеона</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#17130f;color:#f2e6c9;font-family:Georgia,serif;touch-action:none}
-body{display:flex;flex-direction:column}
-.top{height:64px;flex:0 0 64px;background:#17130f;border-bottom:1px solid #806538;display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:relative;z-index:5}
-.brand{font-family:Georgia,serif;font-weight:700;letter-spacing:2px;font-size:18px;color:#d4b16a}.brand small{display:block;font-size:9px;letter-spacing:3px;color:#9e8c70;margin-top:2px}
-.stats{display:flex;gap:18px;text-align:center;font-size:11px;color:#bcae92}.stats b{display:block;color:#e8cf93;font-size:18px}
-.back{color:#d4b16a;text-decoration:none;border:1px solid #6f5937;padding:7px 11px;font-size:11px;text-transform:uppercase;letter-spacing:1px}
-#wrap{position:relative;flex:1;min-height:0;background:#b99d73}
-canvas{display:block;width:100%;height:100%;cursor:crosshair}
-.hud{position:absolute;left:14px;top:14px;right:14px;display:flex;justify-content:space-between;pointer-events:none}
-.panel{background:rgba(27,20,14,.82);border:1px solid rgba(212,177,106,.65);padding:9px 12px;box-shadow:0 3px 12px rgba(0,0,0,.25)}
-.panel strong{color:#e6c77f}.hint{font-size:12px;color:#e8dcc1;max-width:310px}
-.message{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);min-width:260px;text-align:center;background:rgba(25,18,12,.92);border:1px solid #c29c5c;padding:22px;display:none;box-shadow:0 8px 30px #0008}
-.message h2{margin:0 0 8px;color:#e8c77e}.message p{margin:5px 0 14px;font-size:13px;color:#d9ccb1}
-button{background:#6d1f18;color:#f5e7c8;border:1px solid #c59b58;padding:10px 18px;font-family:Georgia,serif;cursor:pointer}
-@media(max-width:650px){.top{height:52px;flex-basis:52px;padding:0 10px}.brand{font-size:14px}.brand small{font-size:7px}.stats{gap:8px;font-size:9px}.stats b{font-size:14px}.back{font-size:9px;padding:6px}.hud{top:8px;left:8px;right:8px}.panel{padding:7px 9px}.hint{font-size:10px;max-width:220px}}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#17130f;color:#f0e2c4;font-family:Georgia,serif;touch-action:none}
+body{display:flex;flex-direction:column}.top{height:62px;flex:0 0 62px;background:#17130f;border-bottom:1px solid #856a3d;display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:5}
+.brand{text-align:center;font-weight:700;letter-spacing:2px;color:#d7b66f;font-size:18px}.brand small{display:block;color:#99876a;font-size:8px;letter-spacing:3px;margin-top:2px}
+.back{color:#d7b66f;text-decoration:none;border:1px solid #695434;padding:7px 10px;font-size:10px;letter-spacing:1px}.stats{display:flex;gap:18px;text-align:center;color:#aa9b80;font-size:9px}.stats b{display:block;color:#ead08e;font-size:17px}
+#wrap{position:relative;flex:1;min-height:0;background:#b79868}canvas{width:100%;height:100%;display:block;cursor:crosshair}
+.hud{position:absolute;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}.panel{background:rgba(24,18,13,.78);border:1px solid #a6844e;padding:8px 11px;box-shadow:0 4px 16px #0004}.hint{font-size:11px;color:#e6d9bd;max-width:330px}.enemy{font-size:11px}.enemy b{color:#e8c978}
+.message{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(360px,86vw);background:rgba(23,17,12,.95);border:1px solid #c49b58;padding:24px;text-align:center;box-shadow:0 10px 45px #000b;display:none}.message h2{margin:0 0 8px;color:#e7c77e;font-size:24px}.message p{margin:0 0 16px;color:#d7c9ad;font-size:13px;line-height:1.5}.message button{background:#731e18;color:#f4e7c9;border:1px solid #c49b58;padding:10px 18px;font-family:Georgia,serif}
+.tip{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-size:10px;color:#efe1c5;background:#17120dcc;border:1px solid #8b7047;padding:6px 10px;pointer-events:none;white-space:nowrap}
+@media(max-width:650px){.top{height:52px;flex-basis:52px;padding:0 8px}.brand{font-size:13px}.brand small{font-size:6px}.stats{gap:7px}.stats b{font-size:14px}.back{font-size:8px;padding:6px}.hud{top:7px;left:7px;right:7px}.panel{padding:6px 8px}.hint{font-size:9px;max-width:205px}.tip{bottom:8px;font-size:9px}}
 </style>
 </head>
 <body>
 <header class="top">
-  <a class="back" href="index.html">← Clanwars</a>
-  <div class="brand">АРТИЛЛЕРИСТ <small>NAPOLEON BONAPARTE</small></div>
-  <div class="stats"><div>ОЧКИ<b id="score">0</b></div><div>ЯДРА<b id="shots">6</b></div><div>УРОВЕНЬ<b id="level">1</b></div></div>
+<a class="back" href="index.html">← CLANWARS</a>
+<div class="brand">АРТИЛЛЕРИСТ<small>NAPOLEON BONAPARTE</small></div>
+<div class="stats"><div>ОЧКИ<b id="score">0</b></div><div>ЯДРА<b id="shots">6</b></div><div>УРОВЕНЬ<b id="level">1</b></div></div>
 </header>
 <div id="wrap">
 <canvas id="game"></canvas>
-<div class="hud"><div class="panel hint" id="hint">Потяните пальцем от пушки назад и отпустите. На ПК — зажмите мышь и отведите курсор.</div><div class="panel"><strong id="enemyCount">6</strong> противников</div></div>
+<div class="hud">
+<div class="panel hint" id="hint">Потяните от пушки назад и отпустите. На телефоне — пальцем.</div>
+<div class="panel enemy"><b id="enemyCount">6</b> солдат</div>
+</div>
+<div class="tip">💥 Попадание по бочке или ящику вызывает дополнительный взрыв</div>
 <div class="message" id="message"><h2 id="messageTitle"></h2><p id="messageText"></p><button id="messageBtn">Продолжить</button></div>
 </div>
 <script>
 (()=> {
 const c=document.getElementById('game'),ctx=c.getContext('2d'),wrap=document.getElementById('wrap');
-let W=0,H=0,dpr=1,drag=null,ball=null,particles=[],score=0,shots=6,level=1,gameOver=false;
-const enemies=[];
+let W=0,H=0,dpr=1,drag=null,ball=null,particles=[],smoke=[],score=0,shots=6,level=1,finished=false,audio=null;
+const enemies=[],objects=[];
 const levels=[
- {nation:'Британская армия',count:6,color:'#8e211d',uniform:'#b22a22',hat:'#151515'},
- {nation:'Русская армия',count:8,color:'#2d4f31',uniform:'#4f714c',hat:'#d8d0b8'},
- {nation:'Прусская армия',count:9,color:'#202d49',uniform:'#283b61',hat:'#222'}
+ {nation:'Британская армия',count:6,uniform:'#8e201d',facings:'#d6d0b9',hat:'#191817'},
+ {nation:'Русская армия',count:8,uniform:'#536a48',facings:'#d7d0bb',hat:'#c8c1aa'},
+ {nation:'Прусская армия',count:9,uniform:'#273b61',facings:'#c8c3ae',hat:'#171717'},
+ {nation:'Австрийская армия',count:10,uniform:'#f0eee2',facings:'#20201e',hat:'#171717'}
 ];
 function resize(){dpr=Math.min(devicePixelRatio||1,2);W=wrap.clientWidth;H=wrap.clientHeight;c.width=W*dpr;c.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);draw()}
-window.addEventListener('resize',resize);
-function cannon(){return{x:Math.max(75,W*.13),y:H-90}}
-function setup(){enemies.length=0;ball=null;particles=[];shots=6;gameOver=false;const L=levels[(level-1)%levels.length];const cols=Math.ceil(Math.sqrt(L.count));const rows=Math.ceil(L.count/cols);const sx=W*.67, sy=H-105, dx=Math.min(68,W*.09),dy=55;for(let i=0;i<L.count;i++){const col=i%cols,row=Math.floor(i/cols);enemies.push({x:sx+col*dx,y:sy-row*dy,r:16,hp:1,alive:true})}document.getElementById('shots').textContent=shots;document.getElementById('level').textContent=level;document.getElementById('enemyCount').textContent=L.count;document.getElementById('message').style.display='none';draw()}
-function terrain(){ctx.fillStyle='#7d674b';ctx.fillRect(0,H-55,W,55);ctx.fillStyle='#68563f';for(let x=0;x<W;x+=22){ctx.fillRect(x,H-55,14,2)}}
-function napoleon(){const p=cannon();ctx.save();ctx.translate(p.x-5,p.y-25);ctx.fillStyle='#3b4148';ctx.fillRect(-13,-37,25,36);ctx.fillStyle='#d6c4a0';ctx.beginPath();ctx.arc(0,-49,10,0,Math.PI*2);ctx.fill();ctx.fillStyle='#171717';ctx.fillRect(-12,-61,24,5);ctx.fillRect(-7,-66,14,6);ctx.fillStyle='#242b31';ctx.fillRect(-18,-5,10,28);ctx.fillRect(8,-5,10,28);ctx.fillStyle='#171717';ctx.fillRect(-24,20,14,4);ctx.fillRect(10,20,14,4);ctx.fillStyle='#c9a24f';ctx.fillRect(-12,-32,24,3);ctx.restore()}
-function cannonDraw(){const p=cannon();ctx.save();ctx.translate(p.x,p.y);ctx.fillStyle='#302b26';ctx.beginPath();ctx.arc(-24,14,13,0,Math.PI*2);ctx.arc(25,14,13,0,Math.PI*2);ctx.fill();ctx.fillStyle='#5b3f27';ctx.fillRect(-35,0,70,11);let ang=drag?Math.atan2(drag.startY-drag.y,drag.startX-drag.x):-0.35;ctx.rotate(ang);ctx.fillStyle='#292522';ctx.fillRect(0,-7,62,14);ctx.fillStyle='#4d4033';ctx.fillRect(18,-4,39,8);ctx.restore()}
-function soldier(e){const L=levels[(level-1)%levels.length];ctx.save();ctx.translate(e.x,e.y);ctx.fillStyle=L.uniform;ctx.fillRect(-9,-5,18,25);ctx.fillStyle='#d9b28c';ctx.beginPath();ctx.arc(0,-14,8,0,Math.PI*2);ctx.fill();ctx.fillStyle=L.hat;ctx.fillRect(-9,-22,18,5);ctx.fillRect(-5,-27,10,6);ctx.strokeStyle='#211b16';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-4,20);ctx.lineTo(-5,30);ctx.moveTo(4,20);ctx.lineTo(5,30);ctx.stroke();ctx.strokeStyle='#3b2b1e';ctx.beginPath();ctx.moveTo(8,-3);ctx.lineTo(20,16);ctx.stroke();ctx.restore()}
-function drawAim(){if(!drag)return;const p=cannon();ctx.save();ctx.strokeStyle='#e7c477';ctx.setLineDash([5,7]);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(drag.x,drag.y);ctx.stroke();ctx.setLineDash([]);const dx=p.x-drag.x,dy=p.y-drag.y,len=Math.hypot(dx,dy),pow=Math.min(900,len*7);const vx=dx/len*pow,vy=dy/len*pow;ctx.fillStyle='rgba(240,220,170,.65)';for(let t=.18;t<1.5;t+=.18){const x=p.x+vx*t,y=p.y+vy*t+490*t*t/2;ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fill()}ctx.restore()}
-function draw(){ctx.clearRect(0,0,W,H);const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#7894a3');g.addColorStop(.65,'#c7ad7c');g.addColorStop(1,'#9a7c55');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);ctx.fillStyle='rgba(255,245,210,.18)';ctx.beginPath();ctx.arc(W*.78,H*.2,65,0,Math.PI*2);ctx.fill();for(let i=0;i<4;i++){ctx.fillStyle='#4d6347';ctx.beginPath();ctx.arc(W*(.2+i*.22),H-55,75,Math.PI,Math.PI*2);ctx.fill()}terrain();enemies.filter(e=>e.alive).forEach(soldier);if(ball){ctx.fillStyle='#181716';ctx.beginPath();ctx.arc(ball.x,ball.y,8,0,Math.PI*2);ctx.fill();}cannonDraw();napoleon();drawAim();particles.forEach(q=>{ctx.globalAlpha=q.life;q.x+=q.vx;q.y+=q.vy;q.vy+=.12;ctx.fillStyle=q.color;ctx.fillRect(q.x,q.y,3,3);q.life-=.025});ctx.globalAlpha=1}
-function fire(target){if(ball||shots<=0||gameOver)return;const p=cannon(),dx=p.x-target.x,dy=p.y-target.y,len=Math.max(20,Math.hypot(dx,dy));const power=Math.min(900,len*7);ball={x:p.x,y:p.y,vx:dx/len*power,vy:dy/len*power};shots--;document.getElementById('shots').textContent=shots;drag=null;document.getElementById('hint').textContent='Ядро летит…';}
-function loop(){if(ball){ball.x+=ball.vx/60;ball.y+=ball.vy/60;ball.vy+=490/60;if(ball.y>H-55||ball.x>W+40||ball.x<-40){ball=null;afterShot()}else{for(const e of enemies){if(e.alive&&Math.hypot(ball.x-e.x,ball.y-e.y)<24){e.alive=false;score+=100;document.getElementById('score').textContent=score;for(let i=0;i<16;i++)particles.push({x:e.x,y:e.y,vx:(Math.random()-.5)*4,vy:(Math.random()-.8)*4,life:1,color:'#d6b36c'});ball=null;afterShot();break}}}}draw();requestAnimationFrame(loop)}
-function afterShot(){const left=enemies.filter(e=>e.alive).length;document.getElementById('enemyCount').textContent=left;if(left===0){gameOver=true;show('Позиция взята','Все вражеские солдаты уничтожены.','Следующий уровень')}else if(shots===0){gameOver=true;show('Боезапас исчерпан','Некоторые солдаты остались на поле.','Повторить уровень')}else document.getElementById('hint').textContent='Потяните от пушки назад и отпустите.';
+addEventListener('resize',resize);
+function setup(){enemies.length=0;objects.length=0;ball=null;particles=[];smoke=[];shots=6;finished=false;
+ const L=levels[(level-1)%levels.length], n=L.count, cols=Math.min(5,Math.ceil(Math.sqrt(n))), sx=W*.67, sy=H-104, dx=Math.min(62,W*.082), dy=52;
+ for(let i=0;i<n;i++){let col=i%cols,row=Math.floor(i/cols);enemies.push({x:sx+col*dx,y:sy-row*dy,r:16,alive:true})}
+ objects.push({x:W*.58,y:H-76,w:44,h:36,type:'crate',hp:1},{x:W*.84,y:H-70,w:38,h:48,type:'barrel',hp:1});
+ document.getElementById('shots').textContent=shots;document.getElementById('level').textContent=level;document.getElementById('enemyCount').textContent=n;document.getElementById('message').style.display='none';document.getElementById('hint').textContent='Потяните от пушки назад и отпустите.';draw()}
+function cannon(){return{x:Math.max(78,W*.13),y:H-86}}
+function ground(){return H-48}
+function rect(x,y,w,h,fill,stroke){ctx.fillStyle=fill;ctx.fillRect(x,y,w,h);if(stroke){ctx.strokeStyle=stroke;ctx.strokeRect(x+.5,y+.5,w-1,h-1)}}
+function drawSky(){let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#718b99');g.addColorStop(.55,'#b8aa85');g.addColorStop(1,'#c7aa73');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+ ctx.fillStyle='#e6d39a33';ctx.beginPath();ctx.arc(W*.78,H*.22,55,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#5b6749';for(let i=0;i<5;i++){ctx.beginPath();ctx.arc(W*(.05+i*.24),ground()+18,72,Math.PI,Math.PI*2);ctx.fill()}
 }
-function show(title,text,button){document.getElementById('messageTitle').textContent=title;document.getElementById('messageText').textContent=text;document.getElementById('messageBtn').textContent=button;document.getElementById('message').style.display='block'}
+function terrain(){rect(0,ground(),W,H-ground(),'#6f583e');ctx.fillStyle='#574633';for(let x=0;x<W;x+=25){ctx.fillRect(x,ground()+5,14,2);ctx.fillRect(x+7,ground()+20,9,2)}}
+function napoleon(){const p=cannon();ctx.save();ctx.translate(p.x-5,p.y-23);
+ ctx.fillStyle='#3c4248';ctx.beginPath();ctx.roundRect(-15,-39,30,42,3);ctx.fill();
+ ctx.fillStyle='#d4b28d';ctx.beginPath();ctx.arc(0,-50,10,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#1b1b1b';ctx.fillRect(-14,-62,28,5);ctx.fillRect(-8,-68,16,7);
+ ctx.fillStyle='#c9a552';ctx.fillRect(-13,-32,26,3);ctx.fillRect(-11,-24,4,13);ctx.fillRect(7,-24,4,13);
+ ctx.fillStyle='#25292c';ctx.fillRect(-19,2,12,24);ctx.fillRect(7,2,12,24);ctx.fillStyle='#171717';ctx.fillRect(-23,25,16,4);ctx.fillRect(7,25,16,4);
+ ctx.restore()}
+function cannonDraw(){const p=cannon();let ang=drag?Math.atan2(p.y-drag.y,p.x-drag.x):-.35;ctx.save();ctx.translate(p.x,p.y);ctx.fillStyle='#2b2926';ctx.beginPath();ctx.arc(-25,14,14,0,Math.PI*2);ctx.arc(25,14,14,0,Math.PI*2);ctx.fill();ctx.fillStyle='#594027';ctx.fillRect(-37,0,74,11);ctx.rotate(ang);ctx.fillStyle='#272522';ctx.fillRect(-2,-8,66,16);ctx.fillStyle='#544638';ctx.fillRect(17,-4,43,8);ctx.fillStyle='#c09a51';ctx.fillRect(5,-9,4,18);ctx.restore()}
+function soldier(e){const L=levels[(level-1)%levels.length];ctx.save();ctx.translate(e.x,e.y);
+ ctx.fillStyle=L.uniform;ctx.beginPath();ctx.roundRect(-10,-5,20,27,3);ctx.fill();
+ ctx.fillStyle=L.facings;ctx.fillRect(-7,-1,14,4);ctx.fillStyle='#d5ae88';ctx.beginPath();ctx.arc(0,-15,8,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle=L.hat;ctx.fillRect(-10,-23,20,5);ctx.fillRect(-6,-28,12,6);
+ ctx.strokeStyle='#27221d';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-4,21);ctx.lineTo(-5,31);ctx.moveTo(4,21);ctx.lineTo(5,31);ctx.stroke();
+ ctx.strokeStyle='#3b2b1e';ctx.beginPath();ctx.moveTo(8,-3);ctx.lineTo(20,17);ctx.stroke();ctx.restore()}
+function objectDraw(o){ctx.save();ctx.translate(o.x,o.y);if(o.type==='crate'){rect(-o.w/2,0,o.w,o.h,'#76502d','#3d2a1c');ctx.strokeStyle='#3d2a1c';ctx.beginPath();ctx.moveTo(-o.w/2,0);ctx.lineTo(o.w/2,o.h);ctx.moveTo(o.w/2,0);ctx.lineTo(-o.w/2,o.h);ctx.stroke()}else{ctx.fillStyle='#70432a';ctx.beginPath();ctx.ellipse(0,0,o.w/2,o.h/2,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#3c2619';ctx.stroke();ctx.fillStyle='#c59b57';ctx.fillRect(-o.w/2,-o.h*.22,o.w,4);ctx.fillRect(-o.w/2,o.h*.16,o.w,4)}ctx.restore()}
+function aim(){if(!drag)return;const p=cannon(),dx=p.x-drag.x,dy=p.y-drag.y,len=Math.max(1,Math.hypot(dx,dy)),power=Math.min(900,len*7),vx=dx/len*power,vy=dy/len*power;
+ ctx.save();ctx.strokeStyle='#ead28d';ctx.setLineDash([5,7]);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(drag.x,drag.y);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#ead28d99';
+ for(let t=.15;t<1.7;t+=.15){let x=p.x+vx*t,y=p.y+vy*t+490*t*t/2;if(y<ground()){ctx.beginPath();ctx.arc(x,y,2.6,0,Math.PI*2);ctx.fill()}}ctx.restore()}
+function draw(){drawSky();terrain();objects.forEach(objectDraw);enemies.filter(e=>e.alive).forEach(soldier);if(ball){ctx.fillStyle='#171615';ctx.beginPath();ctx.arc(ball.x,ball.y,8,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#7d6b55';ctx.stroke()}cannonDraw();napoleon();aim();
+ smoke.forEach(s=>{ctx.globalAlpha=s.life*.22;ctx.fillStyle='#ddd6c7';ctx.beginPath();ctx.arc(s.x,s.y,s.size,0,Math.PI*2);ctx.fill()});ctx.globalAlpha=1;
+ particles.forEach(p=>{ctx.globalAlpha=p.life;ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,p.size,p.size);});ctx.globalAlpha=1}
+function boom(x,y,big=false){for(let i=0;i<(big?36:20);i++)particles.push({x,y,vx:(Math.random()-.5)*(big?7:4),vy:(Math.random()-.8)*(big?7:4),life:1,size:Math.random()*4+2,color:i%3?'#b78b4b':'#e5d0a1'});for(let i=0;i<5;i++)smoke.push({x:x+(Math.random()-.5)*15,y:y+(Math.random()-.5)*15,size:12+Math.random()*15,life:1})}
+function sound(kind){try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.connect(g);g.connect(audio.destination);o.type=kind==='shot'?'sawtooth':'sine';o.frequency.value=kind==='shot'?90:180;g.gain.setValueAtTime(.045,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+(kind==='shot'?.18:.08));o.start();o.stop(audio.currentTime+(kind==='shot'?.18:.08))}catch(e){}}
+function fire(target){if(ball||shots<=0||finished)return;const p=cannon(),dx=p.x-target.x,dy=p.y-target.y,len=Math.max(30,Math.hypot(dx,dy)),power=Math.min(900,len*7);ball={x:p.x,y:p.y,vx:dx/len*power,vy:dy/len*power};shots--;document.getElementById('shots').textContent=shots;drag=null;sound('shot');smoke.push({x:p.x+48,y:p.y-10,size:18,life:1});document.getElementById('hint').textContent='Выстрел!'}
+function hit(){const b=ball;if(!b)return;
+ for(const o of objects){if(o.hp&&Math.abs(b.x-o.x)<o.w/2+8&&Math.abs(b.y-(o.y+o.h/2))<o.h/2+8){o.hp=0;boom(o.x,o.y+o.h/2,true);score+=50;document.getElementById('score').textContent=score;ball=null;afterShot();return}}
+ for(const e of enemies){if(e.alive&&Math.hypot(b.x-e.x,b.y-e.y)<24){e.alive=false;score+=100;document.getElementById('score').textContent=score;boom(e.x,e.y);sound('hit');ball=null;afterShot();return}}}
+function afterShot(){const left=enemies.filter(e=>e.alive).length;document.getElementById('enemyCount').textContent=left;if(left===0){finished=true;show('Позиция взята','Артиллерия Великой армии уничтожила противника.','Следующий уровень')}else if(shots===0){finished=true;show('Боезапас исчерпан','Вражеские солдаты удержали позицию.','Повторить уровень')}else document.getElementById('hint').textContent='Прицел готов. Следующий выстрел.'}
+function show(t,p,b){document.getElementById('messageTitle').textContent=t;document.getElementById('messageText').textContent=p;document.getElementById('messageBtn').textContent=b;document.getElementById('message').style.display='block'}
 function point(e){const r=c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
-function down(e){if(gameOver||ball)return;const p=point(e),c0=cannon();if(Math.hypot(p.x-c0.x,p.y-c0.y)<85){drag={startX:p.x,startY:p.y,x:p.x,y:p.y};e.preventDefault()}}
+function down(e){if(finished||ball)return;const p=point(e),q=cannon();if(Math.hypot(p.x-q.x,p.y-q.y)<95){drag={x:p.x,y:p.y};c.setPointerCapture?.(e.pointerId);e.preventDefault()}}
 function move(e){if(!drag)return;const p=point(e);drag.x=p.x;drag.y=p.y;e.preventDefault();draw()}
-function up(e){if(!drag)return;const p=point(e);fire(p);e.preventDefault()}
+function up(e){if(!drag)return;const p=point(e);fire(p);drag=null;e.preventDefault()}
 c.addEventListener('pointerdown',down,{passive:false});c.addEventListener('pointermove',move,{passive:false});c.addEventListener('pointerup',up,{passive:false});c.addEventListener('pointercancel',up,{passive:false});
-document.getElementById('messageBtn').onclick=()=>{if(document.getElementById('messageBtn').textContent==='Следующий уровень')level++;score=score;setup()};
+document.getElementById('messageBtn').onclick=()=>{if(document.getElementById('messageBtn').textContent==='Следующий уровень')level++;setup()};
+function loop(){if(ball){ball.x+=ball.vx/60;ball.y+=ball.vy/60;ball.vy+=490/60;hit();if(ball&& (ball.y>ground()||ball.x>W+60||ball.x<-60)){boom(ball.x,Math.min(ball.y,ground()));ball=null;afterShot()}}
+ particles=particles.filter(p=>(p.x+=p.vx,p.y+=p.vy,p.vy+=.12,p.life-=.025,p.life>0));smoke=smoke.filter(s=>(s.size+=.15,s.life-=.012,s.life>0));draw();requestAnimationFrame(loop)}
 resize();setup();loop();
 })();
 </script>
