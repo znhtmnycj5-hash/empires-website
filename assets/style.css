@@ -4442,6 +4442,28 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
   object-fit:contain;
   margin-right:12px;
 }
+
+/* Homepage regiment ranking: logo and regiment name stay on the same row */
+.home-rankings-stack .ranking .ranking-regiment-link{
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  width:100%!important;
+  min-width:0!important;
+  line-height:1.35!important;
+}
+.home-rankings-stack .ranking .ranking-regiment-link .rank-flag{
+  flex:0 0 58px!important;
+  margin-right:0!important;
+}
+.home-rankings-stack .ranking .ranking-regiment-link{
+  overflow-wrap:anywhere;
+}
+@media(max-width:760px){
+  .home-rankings-stack .ranking .ranking-regiment-link{
+    gap:10px!important;
+  }
+}
 .home-rankings-stack .home-user-rating-link img{
   width:52px;
   height:52px;
