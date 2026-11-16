@@ -7,6 +7,11 @@
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#172015}body{touch-action:none;font-family:Georgia,serif}
 #game{position:relative;width:100vw;height:100vh;overflow:hidden;background:#8faec1}
+#rotateNotice{display:none;position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 50% 40%,#2a241c,#090807 72%);color:#f6e7bd;align-items:center;justify-content:center;text-align:center;padding:28px}
+.rotate-card{max-width:420px;border:2px solid #b08a3c;border-radius:18px;padding:28px 24px;background:linear-gradient(145deg,#211d18,#0d0c0b);box-shadow:0 18px 60px #000b}
+.rotate-icon{font-size:64px;line-height:1;margin-bottom:14px;animation:turnphone 1.8s ease-in-out infinite}
+.rotate-card h2{margin:0 0 8px;font-size:28px}.rotate-card p{margin:0;color:#dbcda9;line-height:1.5}
+@keyframes turnphone{0%,100%{transform:rotate(0)}50%{transform:rotate(90deg)}}
 canvas{position:absolute;inset:0;width:100%;height:100%}
 .hud{position:absolute;top:12px;left:14px;right:14px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;z-index:4}
 .panel{color:#f6e7bd;background:linear-gradient(#24201b,#11100e);border:2px solid #b08a3c;box-shadow:0 2px 10px #0008;border-radius:10px;padding:8px 13px;min-width:120px;text-shadow:0 2px 3px #000}.panel b{font-size:19px}.panel small{display:block;color:#d8c89f;font-size:11px;margin-top:2px}.center{min-width:180px;text-align:center}.bar{height:13px;border:2px solid #b08a3c;background:#17130f;border-radius:9px;overflow:hidden;margin-top:4px}.fill{height:100%;width:12%;background:linear-gradient(90deg,#172c88,#dce8ff,#b51e27)}
@@ -18,6 +23,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
 </style>
 </head>
 <body>
+<div id="rotateNotice"><div class="rotate-card"><div class="rotate-icon">📱↻</div><h2>Поверните телефон</h2><p>«Кавалерист» рассчитан на игру в горизонтальном режиме. Поверните телефон боком — и начинайте атаку.</p></div></div>
 <div id="game"><canvas id="c"></canvas>
 <div class="hud"><div class="panel"><b>⚔ <span id="score">0</span></b><small>ОЧКИ</small></div><div class="panel center"><small>ФРАНЦУЗСКАЯ КАВАЛЕРИЯ</small><div class="bar"><div id="progress" class="fill"></div></div></div><div class="panel"><b>🏆 <span id="best">0</span></b><small>РЕКОРД</small></div></div>
 <div id="message"></div><div class="help">ПК: ЛКМ — удар · ПКМ — блок · SPACE — прыжок</div>
@@ -28,10 +34,13 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
 const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');let W,H,dpr,playing=false,last=0,score=0,best=+localStorage.cavBest||0,speed=330,distance=0,spawn=0,bg=0,obstacles=[],dust=[];
 const player={y:0,vy:0,onGround:true,attack:0,block:0};document.getElementById('best').textContent=best;
 function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
+function checkOrientation(){const portrait=innerHeight>innerWidth;document.getElementById('rotateNotice').style.display=portrait?'flex':'none';if(!portrait&&screen.orientation&&screen.orientation.unlock){try{screen.orientation.unlock()}catch(e){}}}
+addEventListener('resize',checkOrientation);addEventListener('orientationchange',checkOrientation);checkOrientation();
+async function requestLandscape(){try{if(screen.orientation&&screen.orientation.lock){await screen.orientation.lock('landscape')}}catch(e){}checkOrientation()}
 function action(a){if(a==='jump'&&player.onGround){player.vy=-720;player.onGround=false}if(a==='attack')player.attack=.22;if(a==='block')player.block=.28}
 document.querySelectorAll('.btn').forEach(b=>{const a=b.dataset.act;const d=e=>{e.preventDefault();b.classList.add('active');action(a)},u=e=>{e.preventDefault();b.classList.remove('active')};b.addEventListener('pointerdown',d);b.addEventListener('pointerup',u);b.addEventListener('pointercancel',u)});
 addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();action('jump')}});canvas.addEventListener('mousedown',e=>{if(e.button===0)action('attack');if(e.button===2)action('block')});canvas.addEventListener('contextmenu',e=>e.preventDefault());
-document.getElementById('startBtn').onclick=()=>{document.getElementById('start').style.display='none';startGame()};
+document.getElementById('startBtn').onclick=async()=>{await requestLandscape();document.getElementById('start').style.display='none';startGame()};
 function startGame(){playing=true;score=0;distance=0;spawn=.5;speed=330;obstacles=[];player.y=0;player.vy=0;player.onGround=true;last=performance.now();requestAnimationFrame(loop)}
 function say(t){const m=document.getElementById('message');m.textContent=t;m.classList.add('show');setTimeout(()=>m.classList.remove('show'),450)}
 function rand(a,b){return a+Math.random()*(b-a)}
