@@ -131,7 +131,7 @@
     const regiments=Array.isArray(regimentCache?.data)?regimentCache.data:[];
     const ranking=document.querySelector('#ranking table');
     if(ranking && regiments.length){
-      const body=regiments.slice(0,5).map((x,i)=>'<tr class="rank-row"><td class="pos">'+(i+1)+'.</td><td><a class="ranking-regiment-link" href="regiment.html?name='+encodeURIComponent(x.name||'')+'"><img class="rank-flag" src="'+esc(x.logo_url||x.logo||'assets/default-soldier.jpg')+'" alt="" loading="lazy" decoding="async">'+esc(x.name||'')+'</a></td><td class="points">'+Number(x.score||0)+'</td></tr>').join('');
+      const body=regiments.slice(0,5).map((x,i)=>'<tr class="rank-row"><td class="pos">'+(i+1)+'.</td><td><a class="ranking-regiment-link" href="regiment.html?name='+encodeURIComponent(x.name||'')+'"><img class="rank-flag" src="'+esc(x.logo_url||x.logo||'assets/default-soldier.jpg')+'" alt="" loading="lazy" decoding="async">'+esc(x.name||'')+'</a></td><td class="points"><b class="'+(Number(x.score||0)>0?'positive':Number(x.score||0)<0?'negative':'')+'">'+Number(x.score||0)+'</b></td></tr>').join('');
       ranking.innerHTML='<tr><td class="pos">#</td><td>Полк</td><td class="points">Очки</td></tr>'+body;
     }
 
