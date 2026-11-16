@@ -69,7 +69,8 @@ const newsTemplates={
 
 const params=new URLSearchParams(location.search);
 const newsPage=Math.max(1,parseInt(params.get('page')||'1',10)||1);
-const regiment=params.get('regiment')||'1st Regiment';
+const regiment=params.get('regiment')||'';
+ if(!regiment){window.location.replace('regiments.html');return;}
 const id=params.get('id')||'';
 const approvedNewsRegiment=(()=>{try{return (JSON.parse(localStorage.getItem('empire_approved_regiments_v1')||'[]')||[]).find(x=>String(x.name)===String(regiment));}catch(e){return null;}})();
 const d=regimentData[regiment]||{avatar:approvedNewsRegiment?.logo||'assets/default-soldier.jpg',commander:approvedNewsRegiment?.commander||approvedNewsRegiment?.user||'',faction:approvedNewsRegiment?.faction||'',officers:[]};
