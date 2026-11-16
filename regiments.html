@@ -70,7 +70,7 @@
   const list=document.querySelector('.regiments-list');
   if(!list||!window.EMPIRE_AUTH)return;
   const CACHE_KEY='clanwars_regiments_page_v2';
-  const CACHE_TTL=5*60*1000;
+  const CACHE_TTL=30*60*1000;
   const readCache=()=>{try{return JSON.parse(localStorage.getItem(CACHE_KEY)||'null');}catch(e){return null;}};
   const writeCache=data=>{try{localStorage.setItem(CACHE_KEY,JSON.stringify({at:Date.now(),data}));}catch(e){}};
 
