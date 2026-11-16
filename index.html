@@ -148,6 +148,23 @@
       }).join('');
     }
   } catch(e) {}
+
+  // The homepage must not depend on a previously populated local cache.
+  // Load the current regiment rating directly and refresh the cache in background.
+  (async()=>{
+    try{
+      if(!window.calculateRegimentRatings)return;
+      const current=await window.calculateRegimentRatings();
+      const rows=Array.isArray(current)?current:[];
+      const ranking=document.querySelector('#ranking table');
+      if(!ranking)return;
+      const esc2=v=>String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+      const body=rows.slice(0,5).map((x,i)=>'<tr class="rank-row"><td class="pos">'+(i+1)+'.</td><td><a class="ranking-regiment-link" href="regiment.html?name='+encodeURIComponent(x.name||'')+'"><img class="rank-flag" src="'+esc2(x.logo_url||x.logo||'assets/default-soldier.jpg')+'" alt="" loading="lazy" decoding="async">'+esc2(x.name||'')+'</a></td><td class="points"><b class="'+(Number(x.score||0)>0?'positive':Number(x.score||0)<0?'negative':'')+'">'+Number(x.score||0)+'</b></td></tr>').join('');
+      ranking.innerHTML='<tr><td class="pos">#</td><td>Полк</td><td class="points">Очки</td></tr>'+body;
+    }catch(e){
+      console.warn('Не удалось загрузить рейтинг полков на главной:',e);
+    }
+  })();
 })();
 </script>
 <script>
