@@ -65,6 +65,11 @@
     <div id="accessNotice" class="battle-access-notice"></div>
   </section>
 
+  <section class="card battle-vote-card" id="battleVoteSection">
+    <div class="card-title">🗳️ &nbsp; Кто победит?</div>
+    <div id="battleVoteContent"></div>
+  </section>
+
   <section class="card battle-result-card" id="resultSection">
     <div class="card-title">🏆 &nbsp; Итог сражения</div>
     <div class="battle-final-grid">
@@ -150,7 +155,9 @@ async function loadBattleFromSupabase(id){
     confirmedRight:false,
     winner:'',
     score:'',
-    media:[]
+    media:[],
+    _leftId:String(row.challenger_regiment_id),
+    _rightId:String(row.target_regiment_id)
   };
 }
 
@@ -292,7 +299,127 @@ if(!battle){
     $("rightRegiment").classList.add(participantClass(battle.right.name));
   };
   renderBattleState();
-  setInterval(renderBattleState,1000);
+  loadBattleVotes();
+  setInterval(()=>{
+    renderBattleState();
+    if(battleVoteLoaded)loadBattleVotes();
+  },10000);
+
+  if(battleVoteContent){
+    battleVoteContent.addEventListener("click",async e=>{
+      const button=e.target.closest("[data-vote-regiment]");
+      if(!button||button.disabled)return;
+      if(!window.EMPIRE_AUTH?.user){
+        document.querySelector("a.login")?.click();
+        alert("Для голосования войдите в аккаунт.");
+        return;
+      }
+      button.disabled=true;
+      try{
+        const {error}=await window.EMPIRE_AUTH.client.rpc("empire_vote_battle",{
+          p_battle_id:battleId,
+          p_voted_regiment_id:button.dataset.voteRegiment
+        });
+        if(error)throw error;
+        await loadBattleVotes();
+      }catch(error){
+        alert(error.message||"Не удалось сохранить голос.");
+        await loadBattleVotes();
+      }
+    });
+  }
+
+  const battleVoteSection=$("battleVoteSection");
+  const battleVoteContent=$("battleVoteContent");
+  let battleVotes=[];
+  let battleVoteLoaded=false;
+
+  const loadBattleVotes=async()=>{
+    if(!battleVoteContent||!battleId||!window.EMPIRE_AUTH?.client)return;
+    try{
+      const {data,error}=await window.EMPIRE_AUTH.client
+        .from("empire_public_battle_votes")
+        .select("battle_id,user_id,voted_regiment_id,display_name,created_at")
+        .eq("battle_id",battleId)
+        .order("created_at",{ascending:true});
+      if(error)throw error;
+      battleVotes=Array.isArray(data)?data:[];
+      battleVoteLoaded=true;
+      renderBattleVotes();
+    }catch(error){
+      console.warn("Голосование за победителя:",error);
+      battleVoteContent.innerHTML='<div class="battle-vote-unavailable">Голосование пока недоступно.</div>';
+    }
+  };
+
+  const renderBattleVotes=()=>{
+    if(!battleVoteContent)return;
+    const start=new Date(battle.start).getTime();
+    const beforeStart=Date.now()<start&&battle.status==="accepted";
+    const leftVotes=battleVotes.filter(v=>String(v.voted_regiment_id)===String(getRegimentId(battle.left))).length;
+    const rightVotes=battleVotes.filter(v=>String(v.voted_regiment_id)===String(getRegimentId(battle.right))).length;
+    const total=leftVotes+rightVotes;
+    const leftPct=total?Math.round(leftVotes/total*100):0;
+    const rightPct=total?100-leftPct:0;
+    const userId=window.EMPIRE_AUTH?.user?.id;
+    const myVote=battleVotes.find(v=>String(v.user_id)===String(userId));
+    const votedFor=myVote?String(myVote.voted_regiment_id):"";
+    const leftId=getRegimentId(battle.left),rightId=getRegimentId(battle.right);
+    const pctText=total?leftPct+"% против "+rightPct+"%":"Пока нет голосов";
+
+    if(!battleVoteLoaded){
+      battleVoteContent.innerHTML='<div class="battle-vote-loading">Загрузка голосования…</div>';
+      return;
+    }
+
+    const voterList=(regimentId)=>{
+      const names=battleVotes.filter(v=>String(v.voted_regiment_id)===String(regimentId)).map(v=>String(v.display_name||"Пользователь"));
+      if(!names.length)return '<span class="battle-voter-empty">Пока никто не проголосовал</span>';
+      return names.map(name=>'<a href="profile.html?user='+encodeURIComponent(name)+'">'+escapeCommentHtml(name)+'</a>').join('<span class="battle-voter-separator"> · </span>');
+    };
+
+    const button=(regiment,id)=>{
+      const disabled=!beforeStart||!!myVote;
+      const selected=String(votedFor)===String(id);
+      return '<button type="button" class="battle-vote-button'+(selected?' is-selected':'')+'" data-vote-regiment="'+escapeCommentHtml(id)+'" '+(disabled?'disabled':'')+'>'+(
+        selected?'✓ Вы выбрали этот полк':beforeStart?'Голосовать за '+escapeCommentHtml(regiment.name):'Голосование завершено'
+      )+'</button>';
+    };
+
+    battleVoteContent.innerHTML=
+      '<div class="battle-vote-intro">'+
+        '<p>До начала сражения каждый пользователь может один раз выбрать, какой полк, по его мнению, победит.</p>'+
+        '<strong>'+(total?('Мнение пользователей: '+pctText):'Мнение пользователей пока не сформировано')+'</strong>'+
+      '</div>'+
+      '<div class="battle-vote-grid">'+
+        '<div class="battle-vote-side">'+
+          '<div class="battle-vote-side-head"><img src="'+escapeCommentHtml(battle.left.avatar)+'" alt=""><div><strong>'+escapeCommentHtml(battle.left.name)+'</strong><span>'+leftVotes+' '+voteWord(leftVotes)+'</span></div></div>'+
+          '<div class="battle-vote-bar"><span style="width:'+leftPct+'%"></span></div>'+
+          '<div class="battle-vote-percent">'+leftPct+'%</div>'+
+          button(battle.left,leftId)+
+          '<div class="battle-voters"><b>Кто голосовал:</b><div>'+voterList(leftId)+'</div></div>'+
+        '</div>'+
+        '<div class="battle-vote-side">'+
+          '<div class="battle-vote-side-head"><img src="'+escapeCommentHtml(battle.right.avatar)+'" alt=""><div><strong>'+escapeCommentHtml(battle.right.name)+'</strong><span>'+rightVotes+' '+voteWord(rightVotes)+'</span></div></div>'+
+          '<div class="battle-vote-bar"><span style="width:'+rightPct+'%"></span></div>'+
+          '<div class="battle-vote-percent">'+rightPct+'%</div>'+
+          button(battle.right,rightId)+
+          '<div class="battle-voters"><b>Кто голосовал:</b><div>'+voterList(rightId)+'</div></div>'+
+        '</div>'+
+      '</div>'+
+      (myVote?'<div class="battle-vote-note">✓ Ваш голос: <strong>'+escapeCommentHtml(myVote.display_name? (String(myVote.voted_regiment_id)===leftId?battle.left.name:battle.right.name) : '')+'</strong>. Изменить голос нельзя.</div>':beforeStart?'<div class="battle-vote-note">Голосовать можно только один раз. Участники самого сражения тоже могут голосовать.</div>':'<div class="battle-vote-note">Голосование завершено с началом сражения.</div>');
+  };
+
+  const getRegimentId=side=>{
+    if(side===battle.left)return String(battle._leftId||"");
+    if(side===battle.right)return String(battle._rightId||"");
+    return "";
+  };
+  const voteWord=n=>{
+    if(n%10===1&&n%100!==11)return "голос";
+    if([2,3,4].includes(n%10)&&![12,13,14].includes(n%100))return "голоса";
+    return "голосов";
+  };
 
   const storageKey="empire-battle-comments-"+battleId;
   const demoShot="https://games-cdn.softpedia.com/screenshots/Mount-and-Blade-Napoleonic-Wars_4.jpg";
