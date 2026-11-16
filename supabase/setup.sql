@@ -266,7 +266,7 @@ do $
 begin
   if not exists (select 1 from pg_constraint where conname='empire_regiments_faction_check') then
     alter table public.empire_regiments
-      add constraint empire_regiments_faction_check check (faction in ('Австрийская Империя','Французская Империя','Российская Империя','Британская Империя','Пруссия')) not valid;
+      add constraint empire_regiments_faction_check check (faction in ('Австрийская Империя','Французская Империя','Российская Империя','Британская Империя','Пруссия','Рейнский Союз')) not valid;
   end if;
 end $;
 
