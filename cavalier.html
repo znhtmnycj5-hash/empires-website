@@ -41,6 +41,7 @@ const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');let W,H,dp
 const troops=Array.from({length:16},(_,i)=>({x:i*150+80,y:0,phase:i*.8,flag:i%2}));
 
 const cavalrySprite=new Image();let cavalrySpriteReady=false;cavalrySprite.onload=()=>cavalrySpriteReady=true;cavalrySprite.src='cavalier-sprites.svg';
+const enemySprite=new Image();let enemySpriteReady=false;enemySprite.onload=()=>enemySpriteReady=true;enemySprite.src='cavalier-enemies.svg';
 const player={y:0,vy:0,onGround:true,attack:0,block:0};document.getElementById('best').textContent=best;
 function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
 function checkOrientation(){const portrait=innerHeight>innerWidth;document.getElementById('rotateNotice').style.display=portrait?'flex':'none';if(!portrait&&screen.orientation&&screen.orientation.unlock){try{screen.orientation.unlock()}catch(e){}}}
@@ -163,6 +164,7 @@ function drawHorse(x,y){
 }
 function drawEnemy(o){
   const x=o.x,y=H*.69;ctx.save();
+  if(enemySpriteReady){const frame=Math.floor(animTime*5+o.phase*2)%3;const sx=o.type==='soldier'?0:o.type==='rider'?720:480;const sy=0;const sw=240,sh=240;const scale=o.type==='rider'?.56:.52;ctx.drawImage(enemySprite,sx+frame*240,sy,240,240,x-62,y-66,240*scale,240*scale);ctx.restore();return;}
   // contact shadow + warm rim light makes sprites sit in the battlefield
   ctx.fillStyle='#00000033';ctx.beginPath();ctx.ellipse(0,18,o.type==='rider'?38:24,7,0,0,Math.PI*2);ctx.fill();ctx.translate(x,y+Math.sin(animTime*4+o.phase)*1.5);
   if(o.type==='soldier'){
