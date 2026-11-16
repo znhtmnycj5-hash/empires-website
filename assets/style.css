@@ -4871,3 +4871,31 @@ nav.site-nav>a.login:hover{background:rgba(111,35,31,.65)}
     vertical-align:-12px!important;
   }
 }
+
+
+/* Mini-chat full-page button */
+#chat .full-chat-link{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:42px;
+  margin:0;
+  padding:10px 14px;
+  box-sizing:border-box;
+  border:1px solid #765a34;
+  border-top:1px solid #493823;
+  background:linear-gradient(180deg,#241b14,#17120e);
+  color:#d8b86f;
+  font:700 11px "Roboto Slab",serif;
+  letter-spacing:.2px;
+  text-decoration:none;
+  text-transform:uppercase;
+}
+#chat .full-chat-link:hover{
+  background:linear-gradient(180deg,#641e1b,#3d1917);
+  border-color:#b18a51;
+  color:#f0d49a;
+  box-shadow:inset 0 1px rgba(255,255,255,.04);
+}
+#chat .full-chat-link:active{transform:none}
