@@ -38,11 +38,13 @@ canvas{position:absolute;inset:0;width:100%;height:100%}#webgl3d{z-index:2;point
 <script>
 const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
 const webgl3d=document.getElementById('webgl3d');
-const THREE3D={scene:null,camera:null,renderer:null,loader:null,models:{},mixers:[],clock:new THREE.Clock(),ready:false};
+const THREE3D={scene:null,camera:null,renderer:null,loader:null,models:{},mixers:[],enemies:[],clock:new THREE.Clock(),ready:false};
 const MODEL_PATHS={player:'assets/3d/player-russian-cavalry.glb',british:'assets/3d/british-infantry.glb',hussar:'assets/3d/hussar.glb'};
 function init3D(){
   try{
     THREE3D.scene=new THREE.Scene();
+    THREE3D.scene.add(new THREE.AmbientLight(0xffffff,2.2));
+    const sun=new THREE.DirectionalLight(0xfff1d2,3.0); sun.position.set(-4,8,10); THREE3D.scene.add(sun);
     THREE3D.camera=new THREE.OrthographicCamera(-6,6,3.6,-3.6,.1,100);
     THREE3D.camera.position.set(0,2.4,12); THREE3D.camera.lookAt(0,1,0);
     THREE3D.renderer=new THREE.WebGLRenderer({canvas:webgl3d,alpha:true,antialias:false,powerPreference:'high-performance'});
@@ -71,9 +73,28 @@ function load3DModel(key,path){
     webgl3d.style.display='block';
   },undefined,()=>{});
 }
+function sync3DEnemies(){
+  if(!THREE3D.ready)return;
+  for(const item of THREE3D.enemies){item.root.visible=false;}
+  THREE3D.enemies=[];
+  for(const o of obstacles){
+    if(o.dead||o.type==='fence'||o.type==='rock'||o.type==='cliff')continue;
+    const base=THREE3D.models[o.type==='soldier'?'british':'hussar'];
+    if(!base)continue;
+    const root=base.clone(true);
+    root.scale.setScalar(o.type==='rider'?1.15:.95);
+    root.position.x=((o.x/W)*12)-6;
+    root.position.y=-1.45;
+    root.position.z=0;
+    root.rotation.y=o.type==='rider'?Math.PI*.03:0;
+    THREE3D.scene.add(root);
+    THREE3D.enemies.push({root});
+  }
+}
 function update3D(dt){
   if(!THREE3D.renderer||!THREE3D.ready)return;
   for(const m of THREE3D.mixers)m.update(dt);
+  sync3DEnemies();
   const p=THREE3D.models.player;
   if(p){
     p.position.x=-2.65;
