@@ -57,9 +57,7 @@ if (!in_array($method, ['POST'], true)) {
 }
 
 $input = clanwars_input();
-if ($action !== 'login') {
-    clanwars_require_csrf();
-}
+clanwars_require_csrf();
 
 try {
     $db = clanwars_db();
