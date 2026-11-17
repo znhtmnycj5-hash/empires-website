@@ -146,13 +146,18 @@ async function incrementViews(id){
     }catch(_){}
   }
 }
+async function withTimeout(promise,ms,label){
+  let timer;
+  const timeout=new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error(label||'Превышено время ожидания загрузки.')),ms);});
+  try{return await Promise.race([promise,timeout]);}finally{clearTimeout(timer);}
+}
 async function render(){
   const root=$('forumRoot');
   try{
-    await initAuth();
+    await withTimeout(initAuth(),10000,'Не удалось загрузить авторизацию.');
     const id=params().get('discussion');
-    if(id){await incrementViews(id);await refreshDiscussion(id);}
-    else{renderTopicList(await loadTopics());}
+    if(id){await withTimeout(incrementViews(id),7000,'Не удалось обновить просмотры.');await withTimeout(refreshDiscussion(id),10000,'Не удалось загрузить обсуждение.');}
+    else{renderTopicList(await withTimeout(loadTopics(),12000,'Не удалось загрузить темы форума.'));}
   }catch(e){
     console.error('Forum:',e);
     root.innerHTML='<section class="card forum-error"><div class="page-kicker">ФОРУМ</div><h2>Не удалось загрузить форум</h2><p>'+esc(e.message||'Проверьте подключение к базе данных.')+'</p><a class="btn" href="index.html">Вернуться на главную</a></section>';
