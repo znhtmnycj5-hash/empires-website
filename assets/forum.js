@@ -42,7 +42,7 @@ async function loadTopics(){
 }
 function renderTopicList(topics){
   const root=$('forumRoot');
-  root.innerHTML=topics.length?topics.map(t=>'<section class="card forum-topic">'+
+  root.innerHTML=topics.length?topics.map(t=>'<section class="card forum-topic" data-topic="'+esc(t.id)+'">'+
     '<div class="forum-topic-head"><div class="forum-topic-title"><img src="'+esc(t.icon_url||topicIcon)+'" alt=""><div><h2>'+esc(t.title)+'</h2><p>'+esc(t.description||'')+'</p></div></div>'+
     (staff?'<button class="btn forum-topic-create" data-topic="'+esc(t.id)+'">＋ Создать тему</button>':'')+'</div>'+
     '<div class="forum-discussions">'+(t.discussions.length?t.discussions.map(d=>'<a class="forum-discussion-row" href="forum.html?discussion='+encodeURIComponent(d.id)+'">'+
@@ -79,9 +79,22 @@ function renderDiscussion(d,comments){
     '<div class="forum-comment-form-wrap">'+(currentUser?'<form id="forumCommentForm" class="forum-comment-form"><div class="forum-comment-toolbar"><button type="button" id="forumSmileButton" title="Выбрать смайл">☺</button></div><div id="forumCommentEditor" class="forum-comment-editor" contenteditable="true" data-placeholder="Напишите комментарий…"></div><div class="forum-form-actions"><button class="btn primary" type="submit">Опубликовать комментарий</button></div></form>':'<div class="forum-login-note">Чтобы комментировать обсуждение, <a href="register.html">войдите в аккаунт</a>.</div>')+'</div></section>';
   if(currentUser)bindCommentForm(d);
 }
+function sanitizeCommentHtml(html){
+  const doc=new DOMParser().parseFromString(String(html||''),'text/html');
+  const allowed=new Set(['B','STRONG','I','EM','U','BR','BLOCKQUOTE','IMG']);
+  const walk=node=>[...node.childNodes].forEach(ch=>{
+    if(ch.nodeType===Node.TEXT_NODE)return;
+    if(ch.nodeType!==Node.ELEMENT_NODE||!allowed.has(ch.tagName)){const p=ch.parentNode;if(p){while(ch.firstChild)p.insertBefore(ch.firstChild,ch);p.removeChild(ch);}return;}
+    const src=ch.getAttribute('src');
+    [...ch.attributes].forEach(a=>ch.removeAttribute(a.name));
+    if(ch.tagName==='IMG'){if(!src||!/^(https?:|assets\/)/i.test(src)){ch.remove();return;}ch.setAttribute('src',src);ch.setAttribute('alt','');ch.setAttribute('loading','lazy');if(/assets\/smile\//i.test(src))ch.className='clanwars-smile';}
+    walk(ch);
+  });
+  walk(doc.body);return doc.body.innerHTML;
+}
 function renderComment(c){
-  const html=c.content?.html||c.content?.text||'';
-  return '<article class="forum-comment" data-comment="'+esc(c.id)+'"><a class="forum-comment-avatar" href="'+profileUrl(c.author_name)+'"><img src="'+esc(c.content?.avatar||'assets/default-soldier.jpg')+'" alt=""></a><div class="forum-comment-body"><div class="forum-comment-head"><a href="'+profileUrl(c.author_name)+'">'+esc(c.author_name||'Пользователь')+'</a><time>'+fmt(c.created_at)+'</time></div><div class="forum-comment-text">'+html.replace(/<script[\s\S]*?<\/script>/gi,'')+'</div></div></article>';
+  const html=sanitizeCommentHtml(c.content?.html||esc(c.content?.text||''));
+  return '<article class="forum-comment" data-comment="'+esc(c.id)+'"><a class="forum-comment-avatar" href="'+profileUrl(c.author_name)+'"><img src="'+esc(c.content?.avatar||'assets/default-soldier.jpg')+'" alt=""></a><div class="forum-comment-body"><div class="forum-comment-head"><a href="'+profileUrl(c.author_name)+'">'+esc(c.author_name||'Пользователь')+'</a><time>'+fmt(c.created_at)+'</time></div><div class="forum-comment-text">'+html+'</div></div></article>';
 }
 async function loadComments(id){
   const {data,error}=await client.from('empire_comments').select('*').eq('context_type','forum_discussion').eq('context_id',String(id)).order('created_at',{ascending:true});
