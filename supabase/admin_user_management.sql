@@ -9,6 +9,7 @@ create table if not exists public.empire_admin_action_log (
   created_at timestamptz not null default now()
 );
 alter table public.empire_admin_action_log enable row level security;
+grant select on public.empire_admin_action_log to authenticated;
 drop policy if exists "Admins can read admin action log" on public.empire_admin_action_log;
 create policy "Admins can read admin action log"
 on public.empire_admin_action_log for select to authenticated
