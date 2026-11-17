@@ -131,8 +131,9 @@ function renderScene(){
  const s=scenes[sceneIndex];
  clearInterval(typingTimer);
  const story=document.getElementById('story');
- story.classList.toggle('narrator-scene',sceneIndex===0);
+ story.classList.toggle('narrator-scene',sceneIndex<=1);
  if(sceneIndex===0) story.style.backgroundImage="url('assets/scenes/1.png?v=20261117-1')";
+ else if(sceneIndex===1) story.style.backgroundImage="url('assets/scenes/2.png?v=20261117-1')";
  else story.style.backgroundImage="linear-gradient(180deg,#17130fe8,#17130ff5),url('assets/IMG_2803.png?v=20261116-2')";
  if(sceneIndex===1)playWagon();document.getElementById('sceneLabel').textContent=s.label;document.getElementById('storyTitle').textContent=s.title;document.getElementById('speaker').textContent=s.speaker;document.getElementById('dialogue').textContent='';document.getElementById('stepLabel').textContent='Сцена '+(sceneIndex+1)+' из '+scenes.length;document.getElementById('progressBar').style.width=((sceneIndex+1)/scenes.length*100)+'%';
  const box=document.getElementById('choices');box.innerHTML='';
@@ -140,7 +141,7 @@ function renderScene(){
  else{document.getElementById('nextButton').style.display='block';document.getElementById('nextButton').textContent=s.next||'Далее';document.getElementById('nextButton').disabled=false;
   document.getElementById('dialogue').textContent=s.text}
 }
-function nextScene(){if(sceneIndex<scenes.length-1){sceneIndex++;renderScene()}else{document.getElementById('speaker').textContent='Конец главы';document.getElementById('dialogue').textContent='Первая глава завершена. История Этьена и Пьера только начинается.\n\nСледующая глава будет посвящена первым испытаниям молодого солдата.';document.getElementById('choices').innerHTML='';document.getElementById('nextButton').textContent='Вернуться в меню';document.getElementById('nextButton').onclick=()=>location.reload();document.getElementById('stepLabel').textContent='Глава I завершена'}}
+function nextScene(){if(sceneIndex<scenes.length-1){const t=document.getElementById('transition');t.textContent='';t.classList.add('show');setTimeout(()=>{sceneIndex++;renderScene();setTimeout(()=>t.classList.remove('show'),120)},650)}else{document.getElementById('speaker').textContent='Конец главы';document.getElementById('dialogue').textContent='Первая глава завершена. История Этьена и Пьера только начинается.\n\nСледующая глава будет посвящена первым испытаниям молодого солдата.';document.getElementById('choices').innerHTML='';document.getElementById('nextButton').textContent='Вернуться в меню';document.getElementById('nextButton').onclick=()=>location.reload();document.getElementById('stepLabel').textContent='Глава I завершена'}}
 function beginStory(){hide();document.getElementById('scene').classList.add('zoom');document.getElementById('menu').classList.add('fade');setTimeout(()=>{document.getElementById('transition').classList.add('show');setTimeout(()=>{document.getElementById('transition').classList.remove('show');document.getElementById('story').classList.add('show');renderScene()},2200)},1700)}
 </script>
 </body>
