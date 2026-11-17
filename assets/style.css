@@ -5286,3 +5286,25 @@ body>.clanwars-smile-picker.show{display:grid!important}
     margin-right:6px!important;
   }
 }
+
+/* Enlarge smile previews while choosing */
+.clanwars-smile-picker button{
+  position:relative!important;
+  transition:transform .12s ease, z-index .12s ease!important;
+  z-index:1!important;
+}
+.clanwars-smile-picker button:hover{
+  transform:scale(1.75)!important;
+  z-index:20!important;
+}
+.clanwars-smile-picker button:hover img{
+  transform:none!important;
+}
+.clanwars-smile-picker button img{
+  transition:inherit!important;
+}
+@media(max-width:600px){
+  .clanwars-smile-picker button:hover{
+    transform:scale(1.5)!important;
+  }
+}
