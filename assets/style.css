@@ -5409,3 +5409,13 @@ body>.clanwars-smile-picker.show{display:grid!important}
 .admin-log-row{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:13px 0;border-top:1px solid rgba(125,94,54,.3);font-size:11px}
 .admin-log-row strong{color:#dfc17f}.admin-log-row span{color:#b7a88f}.admin-log-row b{color:#e0bd76}
 @media(max-width:650px){.admin-user-link{flex-wrap:wrap}.admin-user-link time{margin-left:60px}.admin-user-actions{margin-left:0}.admin-user-actions .btn{flex:1 1 140px}.admin-log-row{align-items:flex-start;flex-direction:column;gap:5px}}
+
+
+/* Chief administrator panel */
+.chief-admin-note{padding:0 20px 14px;color:#a99a80;font-size:11px;line-height:1.6}
+.chief-staff-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 20px;border-top:1px solid rgba(125,94,54,.3)}
+.chief-staff-row .admin-user-actions{margin:0}
+.chief-staff-emblem{width:42px;height:42px;display:grid;place-items:center;border:1px solid #806239;background:#20180f;color:#d8b66e;font-size:22px}
+.chief-staff-row .admin-user-main strong{font-size:14px}
+.chief-staff-row .admin-user-main small{font-size:11px}
+@media(max-width:600px){.chief-staff-row{align-items:flex-start;flex-direction:column}.chief-staff-row .admin-user-actions{width:100%}.chief-staff-row .admin-user-actions .btn{width:100%}}
