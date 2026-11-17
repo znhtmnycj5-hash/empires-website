@@ -1,6 +1,17 @@
 -- Отдельные полномочия главного администратора Clanwars.
 -- Главный администратор определяется по точному нику Commander при первом выполнении.
-create table if not exists public.empire_admin_action_log (\n  id bigint generated always as identity primary key,\n  actor_id uuid, actor_name text not null, target_id uuid, target_name text not null,\n  action text not null, created_at timestamptz not null default now()\n);\n\ncreate table if not exists public.empire_super_admins (
+create table if not exists public.empire_admin_action_log (
+  id bigint generated always as identity primary key,
+  actor_id uuid, actor_name text not null, target_id uuid, target_name text not null,
+  action text not null, created_at timestamptz not null default now()
+);
+alter table public.empire_admin_action_log enable row level security;
+grant select on public.empire_admin_action_log to authenticated;
+drop policy if exists "Admins can read admin action log" on public.empire_admin_action_log;
+create policy "Admins can read admin action log" on public.empire_admin_action_log for select to authenticated
+using (exists(select 1 from public.empire_profiles p where p.id=auth.uid() and (p.is_admin=true or p.is_moderator=true)));
+
+create table if not exists public.empire_super_admins (
   user_id uuid primary key references auth.users(id) on delete cascade,
   created_at timestamptz not null default now()
 );
