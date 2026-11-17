@@ -57,12 +57,30 @@ async function loadTopics(){
 }
 function renderTopicList(topics){
   const root=$('forumRoot');
-  root.innerHTML=(staff?'<div class="forum-top-actions"><button class="btn primary" id="forumCreateTopic">＋ Создать тему</button></div>':'')+(topics.length?topics.map(t=>'<section class="card forum-topic" data-topic="'+esc(t.id)+'">'+
-    '<div class="forum-topic-head"><div class="forum-topic-title"><img src="'+esc(t.icon_url||topicIcon)+'" alt=""><div><h2>'+esc(t.title)+'</h2><p>'+esc(t.description||'')+'</p></div></div>'+
-    (currentUser?'<button class="btn forum-topic-create" data-topic="'+esc(t.id)+'">＋ Создать обсуждение</button>':'')+'</div>'+
-    '<div class="forum-discussions">'+(t.discussions.length?t.discussions.map(d=>'<a class="forum-discussion-row" href="forum.html?discussion='+encodeURIComponent(d.id)+'">'+
-      '<img src="'+discussionIcon+'" alt=""><div class="forum-discussion-main"><strong>'+esc(d.title)+'</strong><span>Автор: '+esc(d.author_name||'Пользователь')+' · '+fmt(d.updated_at||d.created_at)+'</span></div>'+
-      '<div class="forum-discussion-stats"><span>💬 '+Number(d.comment_count||0)+'</span><span>◉ '+Number(d.views||0)+'</span></div></a>').join(''):'<div class="forum-empty">В этой теме пока нет обсуждений.</div>')+'</div></section>').join(''):'<section class="card forum-empty-card"><div class="forum-empty">Тем форума пока нет.</div></section>';
+  const createTopic=staff ? '<div class="forum-top-actions"><button class="btn primary" id="forumCreateTopic">＋ Создать тему</button></div>' : '';
+  const content=(topics||[]).map(t=>{
+    const discussions=(t.discussions||[]).map(d=>`
+      <a class="forum-discussion-row" href="forum.html?discussion=${encodeURIComponent(d.id)}">
+        <img src="${discussionIcon}" alt="">
+        <div class="forum-discussion-main">
+          <strong>${esc(d.title)}</strong>
+          <span>Автор: ${esc(d.author_name||'Пользователь')} · ${fmt(d.updated_at||d.created_at)}</span>
+        </div>
+        <div class="forum-discussion-stats"><span>💬 ${Number(d.comment_count||0)}</span><span>◉ ${Number(d.views||0)}</span></div>
+      </a>`).join('');
+    return `
+      <section class="card forum-topic" data-topic="${esc(t.id)}">
+        <div class="forum-topic-head">
+          <div class="forum-topic-title">
+            <img src="${esc(t.icon_url||topicIcon)}" alt="">
+            <div><h2>${esc(t.title)}</h2><p>${esc(t.description||'')}</p></div>
+          </div>
+          ${currentUser ? `<button class="btn forum-topic-create" data-topic="${esc(t.id)}">＋ Создать обсуждение</button>` : ''}
+        </div>
+        <div class="forum-discussions">${discussions || '<div class="forum-empty">В этой теме пока нет обсуждений.</div>'}</div>
+      </section>`;
+  }).join('');
+  root.innerHTML=createTopic+(content || '<section class="card forum-empty-card"><div class="forum-empty">Тем форума пока нет.</div></section>');
   bindTopicButtons();
 }
 function bindTopicButtons(){
