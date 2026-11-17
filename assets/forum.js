@@ -1,5 +1,6 @@
 (function(){
 'use strict';
+window.__CLANWARS_FORUM_SCRIPT_LOADED__=true;
 const $=id=>document.getElementById(id);
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=v=>{try{return new Date(v).toLocaleDateString('ru-RU',{day:'2-digit',month:'long',year:'numeric'});}catch(e){return '';}};
