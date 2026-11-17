@@ -5227,3 +5227,33 @@ body>.clanwars-smile-picker.show{display:grid!important}
     grid-template-columns:repeat(4,40px)!important;
   }
 }
+
+.site-section-icon{
+  width:28px!important;
+  height:28px!important;
+  min-width:28px!important;
+  min-height:28px!important;
+  max-width:28px!important;
+  max-height:28px!important;
+  object-fit:contain!important;
+  display:inline-block!important;
+  vertical-align:middle!important;
+  margin-right:8px!important;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.45));
+}
+.card-title:has(.site-section-icon){
+  display:flex;
+  align-items:center;
+  gap:0;
+}
+.card-title:has(.site-section-icon) a{
+  margin-left:auto;
+}
+@media(max-width:600px){
+  .site-section-icon{
+    width:23px!important;height:23px!important;
+    min-width:23px!important;min-height:23px!important;
+    max-width:23px!important;max-height:23px!important;
+    margin-right:6px!important;
+  }
+}
