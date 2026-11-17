@@ -64,7 +64,7 @@ try{
    const cachedRows=cachedRanking.data;
    const avatar=p=>esc(p.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png');
    const score=p=>'<span class="rating-row-score user-rating-row-score '+(p.score>0?'positive':p.score<0?'negative':'')+'">'+(p.score>0?'+':'')+p.score+'</span>';
-   const podium=cachedRows.slice(0,3).map((p,i)=>'<a class="podium-card '+(i===0?'gold':i===1?'silver':'bronze')+'" href="profile.html?user='+encodeURIComponent(p.display_name)+'"><div class="place">'+(i+1)+' МЕСТО</div><img class="podium-avatar" src="'+avatar(p)+'" alt="" decoding="async"><div class="podium-name">'+esc(p.display_name)+'</div><div class="podium-score">'+(p.score>0?'+':'')+p.score+' баллов</div></a>').join('');
+   const podium=cachedRows.slice(0,3).map((p,i)=>'<a class="podium-card '+(i===0?'gold':i===1?'silver':'bronze')+'" href="profile.html?user='+encodeURIComponent(p.display_name)+'"><div class="place">'+(i+1)+' МЕСТО</div><span class="podium-avatar-frame"><img class="podium-avatar" src="'+avatar(p)+'" alt="" decoding="async"></span><div class="podium-name">'+esc(p.display_name)+'</div><div class="podium-score">'+(p.score>0?'+':'')+p.score+' баллов</div></a>').join('');
    const list=cachedRows.map((p,i)=>'<a class="rating-row user-rating-row" href="profile.html?user='+encodeURIComponent(p.display_name)+'"><span class="rating-place">'+(i+1)+'</span><img class="rating-row-avatar" src="'+avatar(p)+'" alt="" decoding="async"><span class="rating-row-name">'+esc(p.display_name)+'<small class="rating-row-sub">Рейтинг участника</small></span>'+score(p)+'</a>').join('');
    rankingRoot.innerHTML='<div class="podium">'+podium+'</div><div class="rating-list">'+list+'</div>';
   }
