@@ -7,24 +7,35 @@ const params=()=>new URLSearchParams(location.search);
 let auth=null, client=null, currentUser=null, currentProfile=null, staff=false;
 const topicIcon='icon/i6.png', discussionIcon='icon/i5.png';
 
+async function waitForClient(){
+  for(let i=0;i<120;i++){
+    if(window.EMPIRE_AUTH?.client)return window.EMPIRE_AUTH.client;
+    if(window.supabase?.createClient){
+      return window.supabase.createClient(
+        'https://pbaojidktzjnpavtdcga.supabase.co',
+        'sb_publishable_XVsmd-U_ZF5eD-UcxMw31g_Yv9rUdVk'
+      );
+    }
+    await new Promise(r=>setTimeout(r,100));
+  }
+  throw new Error('Supabase не загрузился.');
+}
 async function initAuth(){
-  client=await window.EMPIRE_AUTH.init();
-  currentUser=window.EMPIRE_AUTH.user;
-  currentProfile=window.EMPIRE_AUTH.profile;
+  client=await waitForClient();
+  currentUser=window.EMPIRE_AUTH?.user||null;
+  currentProfile=window.EMPIRE_AUTH?.profile||null;
   try{
     if(currentUser){
       const q=await client.from('empire_profiles').select('is_admin,is_moderator').eq('id',currentUser.id).maybeSingle();
       staff=!!q.data?.is_admin||!!q.data?.is_moderator;
     }
-  }catch(e){
-    const raw=JSON.parse(localStorage.getItem('empire_current_user')||'null');
-    const role=String(raw?.role||'').toLowerCase();
-    staff=['admin','administrator','moderator'].includes(role);
-  }
+  }catch(e){}
   if(!staff){
-    const raw=JSON.parse(localStorage.getItem('empire_current_user')||'null');
-    const role=String(raw?.role||'').toLowerCase();
-    staff=['admin','administrator','moderator'].includes(role);
+    try{
+      const raw=JSON.parse(localStorage.getItem('empire_current_user')||'null');
+      const role=String(raw?.role||'').toLowerCase();
+      staff=['admin','administrator','moderator'].includes(role);
+    }catch(e){}
   }
 }
 function profileUrl(name){return 'profile.html?user='+encodeURIComponent(name||'');}
@@ -35,11 +46,7 @@ async function loadTopics(){
   const {data:discussions,error:de}=await client.from('empire_forum_discussions').select('id,topic_id,title,created_at,updated_at,views,last_comment_at,author_name').order('updated_at',{ascending:false});
   if(de)throw de;
   const rows=discussions||[];
-  const enriched=await Promise.all(rows.map(async d=>{
-    const {count,error:ce}=await client.from('empire_comments').select('id',{count:'exact',head:true}).eq('context_type','forum_discussion').eq('context_id',String(d.id));
-    return {...d,comment_count:error?0:(count||0)};
-  }));
-  return topics.map(t=>({...t,discussions:enriched.filter(d=>String(d.topic_id)===String(t.id))}));
+  return topics.map(t=>({...t,discussions:rows.filter(d=>String(d.topic_id)===String(t.id)).map(d=>({...d,comment_count:0}))}));
 }
 function renderTopicList(topics){
   const root=$('forumRoot');
@@ -155,10 +162,20 @@ async function withTimeout(promise,ms,label){
 async function render(){
   const root=$('forumRoot');
   try{
-    await withTimeout(initAuth(),10000,'Не удалось загрузить авторизацию.');
+    client=await withTimeout(waitForClient(),8000,'Supabase не загрузился.');
     const id=params().get('discussion');
-    if(id){await withTimeout(incrementViews(id),7000,'Не удалось обновить просмотры.');await withTimeout(refreshDiscussion(id),10000,'Не удалось загрузить обсуждение.');}
-    else{renderTopicList(await withTimeout(loadTopics(),12000,'Не удалось загрузить темы форума.'));}
+    if(id){
+      await withTimeout(refreshDiscussion(id),10000,'Не удалось загрузить обсуждение.');
+      incrementViews(id).catch(()=>{});
+    }else{
+      const topics=await withTimeout(loadTopics(),10000,'Не удалось загрузить темы форума.');
+      renderTopicList(topics);
+    }
+    try{await withTimeout(initAuth(),5000);}catch(e){}
+    if(!id){
+      const topics=await loadTopics();
+      renderTopicList(topics);
+    }
   }catch(e){
     console.error('Forum:',e);
     root.innerHTML='<section class="card forum-error"><div class="page-kicker">ФОРУМ</div><h2>Не удалось загрузить форум</h2><p>'+esc(e.message||'Проверьте подключение к базе данных.')+'</p><a class="btn" href="index.html">Вернуться на главную</a></section>';
