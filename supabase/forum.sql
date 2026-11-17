@@ -108,6 +108,7 @@ $$;
 revoke execute on function private.is_forum_staff() from public;
 grant execute on function private.is_forum_staff() to authenticated;
 
+
 create or replace function public.increment_forum_discussion_views(p_discussion_id uuid)
 returns bigint
 language sql
