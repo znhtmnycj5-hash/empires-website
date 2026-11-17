@@ -8,8 +8,9 @@ let auth=null, client=null, currentUser=null, currentProfile=null, staff=false;
 const topicIcon='icon/i6.png', discussionIcon='icon/i5.png';
 
 async function initAuth(){
-  auth=await window.EMPIRE_AUTH.init();
-  client=auth.client; currentUser=auth.user; currentProfile=auth.profile;
+  client=await window.EMPIRE_AUTH.init();
+  currentUser=window.EMPIRE_AUTH.user;
+  currentProfile=window.EMPIRE_AUTH.profile;
   try{
     if(currentUser){
       const q=await client.from('empire_profiles').select('is_admin,is_moderator').eq('id',currentUser.id).maybeSingle();
