@@ -27,37 +27,56 @@ let requestLoadError='';
 const date=v=>{try{return new Date(v).toLocaleString('ru-RU')}catch(e){return String(v||'')}};
 
 function ban(key,target,reason,days,hours){const a=read(key),x={id:'ban-'+Date.now(),user:target,reason,createdAt:new Date().toISOString()};const durationMs=((Number(days)||0)*86400000)+((Number(hours)||0)*3600000);if(durationMs>0){x.until=new Date(Date.now()+durationMs).toISOString();x.days=Number(days)||0;x.hours=Number(hours)||0}a.push(x);write(key,a)}
-async function renderSiteUsers(){
+let siteUsersCache=[];
+function renderSiteUsersList(){
  const box=document.getElementById('siteUsers'),count=document.getElementById('siteUsersCount');
  if(!box||!count)return;
+ const query=String(document.getElementById('siteUsersSearch')?.value||'').trim().toLocaleLowerCase('ru');
+ const filtered=siteUsersCache.filter(u=>(u.display_name||'').toLocaleLowerCase('ru').includes(query)||(u.regiment||'').toLocaleLowerCase('ru').includes(query));
+ count.textContent=filtered.length+(query?' / '+siteUsersCache.length:'');
+ box.innerHTML=filtered.length?filtered.map(u=>{
+  const avatar=u.avatar_url||'assets/default-soldier.jpg';
+  const role=u.is_admin?'Администратор':u.is_moderator?'Модератор':'Пользователь';
+  const profile='profile.html?user='+encodeURIComponent(u.id);
+  return '<article class="admin-user-row"><a class="admin-user-link" href="'+profile+'"><img src="'+esc(avatar)+'" alt=""><div class="admin-user-main"><strong>'+esc(u.display_name)+'</strong><small>'+esc(u.regiment||'Без полка')+' · '+role+'</small></div><time>'+date(u.created_at)+'</time></a><div class="admin-user-actions"><button class="btn" data-type="site-user" data-action="admin" data-id="'+esc(u.id)+'">Назначить администратором</button><button class="btn" data-type="site-user" data-action="moderator" data-id="'+esc(u.id)+'">Назначить модератором</button><button class="btn admin-danger" data-type="site-user" data-action="delete" data-id="'+esc(u.id)+'">Удалить с сайта</button></div></article>';
+ }).join(''):'<div class="admin-empty">'+(query?'Ничего не найдено.':'Пользователей пока нет.')+'</div>';
+}
+async function renderSiteUsers(){
+ const box=document.getElementById('siteUsers');
+ if(!box)return;
  box.innerHTML='<div class="admin-empty">Загрузка пользователей…</div>';
  try{
-  await window.EMPIRE_AUTH.init();
   const client=window.EMPIRE_AUTH.client;
   let all=[],from=0;
   while(true){
-   const {data,error}=await client.from('empire_profiles')
-    .select('id,display_name,regiment,avatar_url,created_at')
-    .order('created_at',{ascending:false})
-    .range(from,from+99);
+   const {data,error}=await client.from('empire_profiles').select('id,display_name,regiment,avatar_url,created_at,is_admin,is_moderator').order('created_at',{ascending:false}).range(from,from+99);
    if(error)throw error;
    all=all.concat(data||[]);
    if(!data||data.length<100)break;
    from+=100;
   }
-  count.textContent=all.length;
-  box.innerHTML=all.length?all.map(u=>{
-   const avatar=u.avatar_url||'assets/default-soldier.jpg';
-   const regiment=u.regiment||'Без полка';
-   const profile='profile.html?user='+encodeURIComponent(u.id);
-   return '<a class="admin-user-row" href="'+profile+'"><img src="'+esc(avatar)+'" alt=""><div class="admin-user-main"><strong>'+esc(u.display_name)+'</strong><small>'+esc(regiment)+'</small></div><time>'+date(u.created_at)+'</time></a>';
-  }).join(''):'<div class="admin-empty">Пользователей пока нет.</div>';
+  siteUsersCache=all;renderSiteUsersList();
  }catch(e){
-  count.textContent='0';
-  box.innerHTML='<div class="admin-empty">Не удалось загрузить список пользователей.</div>';
+  document.getElementById('siteUsersCount').textContent='0';
+  box.innerHTML='<div class="admin-empty">Не удалось загрузить список пользователей: '+esc(e.message||'ошибка доступа')+'</div>';
   console.error('Список пользователей:',e);
  }
 }
+async function renderAdminActionLog(){
+ const box=document.getElementById('adminActionLog'),count=document.getElementById('adminActionLogCount');
+ if(!box||!count)return;
+ try{
+  const {data,error}=await auth.client.from('empire_admin_action_log').select('id,actor_name,target_name,action,created_at').order('created_at',{ascending:false}).limit(200);
+  if(error)throw error;
+  count.textContent=(data||[]).length;
+  box.innerHTML=data?.length?data.map(x=>'<div class="admin-log-row"><div><strong>'+esc(x.actor_name)+'</strong> <span>'+esc(x.action)+'</span> <b>'+esc(x.target_name)+'</b></div><time>'+date(x.created_at)+'</time></div>').join(''):'<div class="admin-empty">Действий пока нет.</div>';
+ }catch(e){
+  count.textContent='!';
+  box.innerHTML='<div class="admin-empty">Не удалось загрузить историю. Проверьте, что выполнен SQL-файл управления пользователями.</div>';
+  console.warn('История действий админов:',e);
+}
+}
+
 function render(){
  const rq=read(K.requests).filter(x=>x.status==='pending'),ur=read(K.userReports).filter(x=>x.status==='pending'),cr=read(K.commentReports).filter(x=>x.status==='pending'),pb=read(K.permanent),tb=read(K.temporary);
  document.getElementById('adminStats').innerHTML=[['Заявки',rq.length],['Жалобы на пользователей',ur.length],['Жалобы на комментарии',cr.length],['Блокировок',pb.length+tb.length]].map(x=>'<div class="admin-stat card"><strong>'+x[1]+'</strong><span>'+x[0]+'</span></div>').join('');
@@ -76,6 +95,20 @@ function render(){
  const delA=read(K.deletedAlliances),all=window.EMPIRE_ALLIANCES.getAll().filter(x=>!delA.includes(x.id));document.getElementById('alliancesCount').textContent=all.length;renderPaged('allAlliances',all,'alliances',x=>'<div class="admin-object-row"><div class="admin-object-identity"><img src="'+esc(x.avatar||'assets/empire_logo_top_right.png')+'" alt=""><strong>'+esc(x.name)+'</strong><small>'+(x.members||[]).length+' полков</small></div><button class="btn admin-danger" data-type="alliance" data-id="'+esc(x.id)+'">Удалить с сайта</button></div>');
 }
 document.addEventListener('click',async e=>{const b=e.target.closest('button[data-type]');if(!b)return;const t=b.dataset.type,id=b.dataset.id,a=b.dataset.action;if(t==='page'){const state=window.__adminPages||(window.__adminPages={});state[b.dataset.pagekey]=Number(b.dataset.page);render();return}if(t==='unban'){const key=b.dataset.key,a=read(key).filter(v=>v.id!==id);write(key,a);render();return;}
+ if(t==='site-user'){
+  const target=siteUsersCache.find(x=>x.id===id);
+  if(!target)return;
+  const labels={admin:'назначить администратором',moderator:'назначить модератором',delete:'удалить пользователя'};
+  if(!confirm('Вы действительно хотите '+labels[a]+' «'+target.display_name+'»?'))return;
+  b.disabled=true;b.textContent='Выполняется…';
+  try{
+   const {error}=await auth.client.rpc('empire_admin_manage_user',{p_target_id:id,p_action:a});
+   if(error)throw error;
+   await renderSiteUsers();await renderAdminActionLog();
+   alert(a==='delete'?'Пользователь удалён с сайта.':'Права пользователя изменены.');
+  }catch(err){console.error('Управление пользователем:',err);alert(err.message||'Не удалось выполнить действие.');b.disabled=false;b.textContent=a==='admin'?'Назначить администратором':a==='moderator'?'Назначить модератором':'Удалить с сайта';}
+  return;
+ }
  if(t==='request'){const decision=a==='approve'?'approved':'rejected';b.disabled=true;b.textContent='Обработка…';try{const {data,error}=await auth.client.rpc('empire_admin_review_regiment_creation_request',{p_request_id:id,p_decision:decision});if(error)throw error;const {data:requests,error:loadError}=await auth.client.from('empire_regiment_creation_requests').select('id,user_name,name,faction,logo,status,created_at').order('created_at',{ascending:false});if(loadError)throw loadError;write(K.requests,(requests||[]).map(r=>({id:r.id,user:r.user_name,name:r.name,faction:r.faction,logo:r.logo,status:r.status,createdAt:r.created_at})));render();if(decision==='approved')alert('Заявка принята. Полк создан в общей базе, создатель назначен командиром.');}catch(error){console.error('Обработка заявки на создание полка:',error);alert(error.message||'Не удалось обработать заявку.');b.disabled=false;b.textContent=a==='approve'?'Принять':'Отклонить';}return}
  if(t==='user-report'){const x=read(K.userReports),i=x.findIndex(v=>v.id===id);if(i<0)return;const r=x[i];if(a==='temp-ban-form'){const el=document.getElementById('temp-user-'+id);if(el)el.hidden=!el.hidden;return}if(a==='temp-ban-confirm'){const el=document.getElementById('temp-user-'+id);if(!el)return;const days=Math.max(0,Math.min(3650,Number(el.querySelector('[data-days]').value)||0)),hours=Math.max(0,Math.min(23,Number(el.querySelector('[data-hours]').value)||0));if(days===0&&hours===0){alert('Укажите срок бана.');return}ban(K.temporary,r.target,r.reason,days,hours)}if(a==='perm-ban')ban(K.permanent,r.target,r.reason,null);r.status=a==='dismiss'?'dismissed':'resolved';r.decision=a;r.processedAt=new Date().toISOString();write(K.userReports,x);render();return}
  if(t==='comment-report'){const x=read(K.commentReports),i=x.findIndex(v=>v.id===id);if(i<0)return;const r=x[i];if(a==='delete-temp-form'){const el=document.getElementById('temp-comment-'+id);if(el)el.hidden=!el.hidden;return}if(a==='delete-temp-confirm'){const el=document.getElementById('temp-comment-'+id);if(!el)return;const days=Math.max(0,Math.min(3650,Number(el.querySelector('[data-days]').value)||0)),hours=Math.max(0,Math.min(23,Number(el.querySelector('[data-hours]').value)||0));if(days===0&&hours===0){alert('Укажите срок бана.');return}ban(K.temporary,r.target,r.reason,days,hours)}if(a==='delete-perm')ban(K.permanent,r.target,r.reason,null);r.status=a==='dismiss'?'dismissed':'resolved';r.commentDeleted=a!=='dismiss';r.processedAt=new Date().toISOString();write(K.commentReports,x);render();return}
@@ -93,6 +126,8 @@ try {
  requestLoadError='Не удалось загрузить заявки из Supabase: '+(error.message||'проверьте права доступа к таблице empire_regiment_creation_requests.');
 }
 render();
+renderAdminActionLog();
+const usersSearch=document.getElementById('siteUsersSearch');if(usersSearch)usersSearch.addEventListener('input',renderSiteUsersList);
 // Загружаем полный список пользователей только когда администратор прокручивает страницу к этому разделу.
 const usersSection=document.getElementById('siteUsers');
 if(usersSection){
