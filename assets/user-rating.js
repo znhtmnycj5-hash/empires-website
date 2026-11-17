@@ -87,12 +87,12 @@ try{
   rankingRoot.innerHTML=rows.length?'<div class="podium">'+podium+'</div><div class="rating-list">'+list+'</div>':'<div class="empty">Пока нет участников.</div>';
  }
 
- const homeRoot=document.getElementById('homeUserRating');
- if(homeRoot){
+ const homeRoot2=document.getElementById('homeUserRating');
+ if(homeRoot2){
   const cachedHome=readHomeCache();
   if(cachedHome?.data?.length) {
    const cachedRows=cachedHome.data;
-   homeRoot.innerHTML=cachedRows.slice(0,5).map((x,i)=>'<tr class="home-user-rating-row"><td class="pos">'+(i+1)+'.</td><td><a class="home-user-rating-link" href="profile.html?user='+encodeURIComponent(x.display_name)+'"><img src="'+esc(x.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png')+'" alt="">'+esc(x.display_name)+'</a></td><td class="points"><b class="'+(x.score>0?'positive':x.score<0?'negative':'')+'">'+Math.abs(x.score)+'</b></td></tr>').join('');
+   homeRoot2.innerHTML=cachedRows.slice(0,5).map((x,i)=>'<tr class="home-user-rating-row"><td class="pos">'+(i+1)+'.</td><td><a class="home-user-rating-link" href="profile.html?user='+encodeURIComponent(x.display_name)+'"><img src="'+esc(x.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png')+'" alt="">'+esc(x.display_name)+'</a></td><td class="points"><b class="'+(x.score>0?'positive':x.score<0?'negative':'')+'">'+Math.abs(x.score)+'</b></td></tr>').join('');
   }
   const [p,v]=await Promise.all([
    client.from('empire_profiles').select('id,display_name,avatar_url,regiment'),
@@ -101,7 +101,7 @@ try{
   if(p.error)throw p.error;if(v.error)throw v.error;
   const scores=scoreMap(v.data), rows=(p.data||[]).map(x=>({...x,score:scores[x.id]||0})).sort((a,b)=>b.score-a.score||a.display_name.localeCompare(b.display_name)).slice(0,8);
   writeHomeCache(rows);
-  homeRoot.innerHTML=rows.length?rows.slice(0,5).map((x,i)=>'<tr class="home-user-rating-row"><td class="pos">'+(i+1)+'.</td><td><a class="home-user-rating-link" href="profile.html?user='+encodeURIComponent(x.display_name)+'"><img src="'+esc(x.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png')+'" alt="">'+esc(x.display_name)+'</a></td><td class="points"><b class="'+(x.score>0?'positive':x.score<0?'negative':'')+'">'+Math.abs(x.score)+'</b></td></tr>').join(''):'<tr><td colspan="3" class="empty-note">Пока нет участников.</td></tr>';
+  homeRoot2.innerHTML=rows.length?rows.slice(0,5).map((x,i)=>'<tr class="home-user-rating-row"><td class="pos">'+(i+1)+'.</td><td><a class="home-user-rating-link" href="profile.html?user='+encodeURIComponent(x.display_name)+'"><img src="'+esc(x.avatar_url||'assets/aea32583-9230-496e-af65-c2e33f73ff79.png')+'" alt="">'+esc(x.display_name)+'</a></td><td class="points"><b class="'+(x.score>0?'positive':x.score<0?'negative':'')+'">'+Math.abs(x.score)+'</b></td></tr>').join(''):'<tr><td colspan="3" class="empty-note">Пока нет участников.</td></tr>';
  }
 }catch(e){console.warn('User ratings:',e);const roots=['profileUserRating','homeUserRating','ratingUsers'];roots.forEach(id=>{const el=document.getElementById(id);if(el && !el.innerHTML.trim())el.innerHTML='<p class="empty-note">Рейтинг временно недоступен.</p>';});}
 })();
