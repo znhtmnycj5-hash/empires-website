@@ -5316,3 +5316,79 @@ body>.clanwars-smile-picker.show{display:grid!important}
   .rating-new .podium-card.gold .podium-avatar-frame{width:98px;height:98px;min-width:98px;min-height:98px;padding:11px}
   }
 
+
+
+/* Forum */
+.forum-page{padding:18px 0 50px;max-width:1120px;margin:0 auto}
+.forum-hero{overflow:hidden}
+.forum-hero .card-title{display:flex;align-items:center}
+.forum-hero-copy{padding:28px 30px 32px}
+.forum-hero-copy h1{font-size:34px;letter-spacing:2px;margin:5px 0 8px}
+.forum-hero-copy p{max-width:760px;color:#a99a80;font-size:13px;line-height:1.7;margin:0}
+.forum-topic{margin-top:14px;overflow:hidden}
+.forum-topic-head{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 20px;border-bottom:1px solid #493823}
+.forum-topic-title{display:flex;align-items:center;gap:14px;min-width:0}
+.forum-topic-title img{width:34px;height:34px;object-fit:contain;flex:0 0 34px}
+.forum-topic-title h2{margin:0;color:#ddc17f;font:600 20px "Roboto Slab";letter-spacing:.2px}
+.forum-topic-title p{margin:5px 0 0;color:#95866d;font-size:11px;line-height:1.5}
+.forum-discussions{padding:0}
+.forum-discussion-row{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:13px;padding:15px 20px;border-bottom:1px solid #332b21;text-decoration:none;color:inherit;transition:background .16s,transform .16s}
+.forum-discussion-row:last-child{border-bottom:0}
+.forum-discussion-row:hover{background:rgba(112,77,34,.12);transform:translateX(2px)}
+.forum-discussion-row>img{width:32px;height:32px;object-fit:contain}
+.forum-discussion-main{min-width:0;display:flex;flex-direction:column;gap:5px}
+.forum-discussion-main strong{color:#d8bf87;font-size:14px}
+.forum-discussion-main span{color:#877961;font-size:10px}
+.forum-discussion-stats{display:flex;gap:18px;color:#a79370;font-size:11px;white-space:nowrap}
+.forum-empty,.forum-loading{padding:24px;color:#887960;font-size:12px;text-align:center}
+.forum-empty-card{margin-top:14px}
+.forum-composer{margin:14px 0;padding:0;overflow:hidden}
+.forum-composer .card-title{padding:13px 16px}
+#forumDiscussionForm{padding:18px}
+#forumDiscussionForm label{display:block;color:#bda985;font-size:12px;margin-bottom:13px}
+#forumDiscussionForm input,#forumDiscussionForm textarea{display:block;width:100%;margin-top:7px;background:#0e0d0b;border:1px solid #51412d;color:#ead9b7;padding:11px;font:13px "Roboto Slab";resize:vertical}
+.forum-form-actions{display:flex;gap:9px;align-items:center;margin-top:10px}
+.forum-discussion-detail{overflow:hidden}
+.forum-detail-head{padding:28px 30px 22px;border-bottom:1px solid #493823}
+.forum-detail-head h1{font-size:34px;letter-spacing:1.5px;margin:5px 0 8px}
+.forum-detail-head p{color:#a99a80;font-size:12px;line-height:1.6;margin:0 0 9px}
+.forum-detail-meta{color:#806f55;font-size:10px}
+.forum-back{display:inline-block;margin:18px 30px 0}
+.forum-comments{padding:18px 30px 5px}
+.forum-comment{display:grid;grid-template-columns:42px minmax(0,1fr);gap:12px;padding:15px 0;border-bottom:1px solid #332b21}
+.forum-comment:last-child{border-bottom:0}
+.forum-comment-avatar img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid #765a34;background:#211d17}
+.forum-comment-body{min-width:0}
+.forum-comment-head{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.forum-comment-head a{color:#d2b06c;text-decoration:none;font-weight:700;font-size:12px}
+.forum-comment-head time{color:#766851;font-size:9px}
+.forum-comment-text{color:#c0b39b;font-size:12px;line-height:1.65;overflow-wrap:anywhere}
+.forum-comment-text img{max-width:100%;height:auto}
+.forum-comment-form-wrap{padding:12px 30px 28px}
+.forum-comment-form{border:1px solid #51412d;background:#110f0c}
+.forum-comment-toolbar{display:flex;gap:5px;padding:7px;border-bottom:1px solid #3f3325}
+.forum-comment-toolbar button{width:34px;height:32px;border:1px solid #6b5334;background:#241c14;color:#d8bc82;cursor:pointer}
+.forum-comment-editor{min-height:120px;padding:12px;color:#e0d2b8;outline:none;font-size:12px;line-height:1.6}
+.forum-comment-editor:empty:before{content:attr(data-placeholder);color:#706653}
+.forum-comment-form .forum-form-actions{padding:0 12px 12px}
+.forum-login-note{padding:16px;border:1px solid #4e3e2b;background:#17130f;color:#9f9078;font-size:12px}
+.forum-login-note a{color:#d3b474}
+.forum-error{padding:35px;text-align:center}
+.forum-error h2{color:#d8bd80}
+.forum-error p{color:#95866e;font-size:12px}
+@media(max-width:600px){
+  .forum-hero-copy{padding:22px 18px 25px}
+  .forum-hero-copy h1,.forum-detail-head h1{font-size:26px}
+  .forum-topic-head{align-items:flex-start;padding:15px 14px}
+  .forum-topic-title{gap:10px}
+  .forum-topic-title img{width:29px;height:29px;flex-basis:29px}
+  .forum-topic-title h2{font-size:16px}
+  .forum-topic-create{white-space:nowrap;padding:10px 11px}
+  .forum-discussion-row{grid-template-columns:34px minmax(0,1fr);padding:13px 14px}
+  .forum-discussion-row>img{width:28px;height:28px}
+  .forum-discussion-stats{grid-column:2;gap:12px}
+  .forum-discussion-main strong{font-size:12px}
+  .forum-comments,.forum-comment-form-wrap{padding-left:14px;padding-right:14px}
+  .forum-detail-head{padding:22px 18px 18px}
+  .forum-back{margin-left:18px}
+}
