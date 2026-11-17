@@ -23,6 +23,7 @@ if(auth.user){
  initialRequestsPromise=Promise.resolve(requestsResult);
 }
 if(!isAdmin){document.querySelector('main').innerHTML='<section class="card admin-access-denied"><div class="page-kicker">ДОСТУП ЗАПРЕЩЁН</div><h1>Панель управления</h1><p>У вашей учётной записи нет прав администратора или модератора.</p><a class="btn" href="index.html">Вернуться на главную</a></section>';return}
+try{const {data:chief}=await auth.client.rpc('empire_master_is_chief');if(chief){const host=document.querySelector('.admin-hero > div');if(host)host.insertAdjacentHTML('beforeend','<p style="margin-top:14px"><a class="btn primary" href="master-admin.html">★ Панель главного администратора</a></p>');}}catch(e){console.warn('Проверка главного администратора недоступна до выполнения SQL:',e.message||e)}
 let requestLoadError='';
 const date=v=>{try{return new Date(v).toLocaleString('ru-RU')}catch(e){return String(v||'')}};
 async function logAdminAction(target,action){try{const {error}=await auth.client.rpc('empire_admin_log_action',{p_target_name:String(target||'—'),p_action:String(action||'Действие')});if(error)throw error;await renderAdminActionLog();}catch(e){console.warn('Не удалось записать действие в журнал:',e.message||e);}}
