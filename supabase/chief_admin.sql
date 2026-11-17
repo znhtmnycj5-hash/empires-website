@@ -1,6 +1,6 @@
 -- Отдельные полномочия главного администратора Clanwars.
 -- Главный администратор определяется по точному нику Commander при первом выполнении.
-create table if not exists public.empire_super_admins (
+create table if not exists public.empire_admin_action_log (\n  id bigint generated always as identity primary key,\n  actor_id uuid, actor_name text not null, target_id uuid, target_name text not null,\n  action text not null, created_at timestamptz not null default now()\n);\n\ncreate table if not exists public.empire_super_admins (
   user_id uuid primary key references auth.users(id) on delete cascade,
   created_at timestamptz not null default now()
 );
@@ -12,7 +12,7 @@ declare
   matches_count integer;
   commander_id uuid;
 begin
-  select count(*), min(id) into matches_count, commander_id
+  select count(*), (array_agg(id))[1] into matches_count, commander_id
   from public.empire_profiles
   where lower(btrim(display_name)) = lower('Commander');
   if matches_count <> 1 then
