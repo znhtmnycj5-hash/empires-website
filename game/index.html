@@ -129,7 +129,7 @@ function panel(id){document.querySelectorAll('.panel').forEach(x=>x.classList.re
 function hide(){document.querySelectorAll('.panel').forEach(x=>x.classList.remove('show'))}
 const scenes=[
  {label:'Французский военный лагерь · утро',title:'Новый солдат',speaker:'Рассказчик',text:'Весна 1809 года.\n\nНад полями стоял сырой утренний туман. Французский лагерь уже просыпался: где-то ржали лошади, звенела посуда, сержанты перекликались между палатками.\n\nПо раскисшей дороге шёл молодой человек с вещевым мешком за плечом. Его мундир ещё не успел выцвести, сапоги были почти новыми. Это был Этьен Дюваль — двадцатилетний солдат, которому предстояло узнать, чем на самом деле является война.',next:'Продолжить'},
- {label:'Французский военный лагерь · утро',title:'Война без прикрас',speaker:'Рассказчик',text:'Этьен уже хотел было улыбнуться в ответ на крики солдат и шум лагеря, как впереди раздался тяжёлый скрип колёс.\n\nМимо него медленно прошла повозка. На ней лежали раненые — кто-то держался за окровавленную руку, кто-то лежал неподвижно, а санитар пытался перевязать одного из солдат прямо на ходу. Следом проехала другая повозка, накрытая серым полотном. По краю из-под ткани виднелся сапог.\n\nЭтьен невольно замолчал. Ещё несколько минут назад всё вокруг казалось ему почти праздничным: новые мундиры, оружие, голоса товарищей, суета лагеря. Теперь же перед глазами стояли лица людей, которые совсем недавно были такими же солдатами, как он.\n\nОн впервые ясно подумал о том, что война может оказаться совсем не такой, какой он представлял её по рассказам и газетам. Шутка, вертевшаяся на языке, так и не прозвучала.\n\nПовозки скрылись за палатками. Лагерь снова заговорил, но Этьен ещё некоторое время смотрел им вслед.',next:'Продолжить'}, {label:'У палаток · знакомство',title:'Первое знакомство',speaker:'Марсель Жирар',text:'— Эй, приятель! Ты новенький?\n\nШирокоплечий солдат с тёмными кудрями и небольшими усами подошёл к Этьену, вытирая руки о куртку. На его лице играла добродушная улыбка.\n\n— Марсель Жирар. Не стой посреди дороги, а то тебя ещё примут за обозный столб. В какой полк определили?',next:'Ответить'},
+ {label:'Французский военный лагерь · утро',title:'Война без прикрас',speaker:'Рассказчик',text:'Этьен уже хотел было улыбнуться в ответ на шум лагеря, как впереди раздался тяжёлый скрип колёс.\n\nМимо него медленно прошла повозка с ранеными. На ней лежали солдаты: один держался за окровавленную руку, другой стонал сквозь зубы, а санитар прямо на ходу пытался затянуть повязку. Лица людей были серыми от боли и усталости.\n\nЭтьен смотрел молча. Ещё минуту назад он видел вокруг только мундиры, оружие и оживлённую суету. Теперь перед ним были люди, которым война уже успела оставить свои следы.\n\nСледом показалась другая повозка. Она была накрыта серым полотном. Из-под края ткани виднелся сапог.\n\nЭтьен опустил взгляд. Шутка, вертевшаяся у него на языке, так и не прозвучала. Впервые он понял: война может оказаться совсем не такой, какой он представлял её по рассказам о славе и подвигах.',next:'Продолжить'}, {label:'У палаток · знакомство',title:'Первое знакомство',speaker:'Марсель Жирар',text:'— Эй, приятель! Ты новенький?\n\nШирокоплечий солдат с тёмными кудрями и небольшими усами подошёл к Этьену, вытирая руки о куртку. На его лице играла добродушная улыбка.\n\n— Марсель Жирар. Не стой посреди дороги, а то тебя ещё примут за обозный столб. В какой полк определили?',next:'Ответить'},
  {label:'У палаток · разговор',title:'Зачем ты здесь?',speaker:'Марсель Жирар',text:'— Пятьдесят седьмой линейный? Неплохой полк. Люди здесь разные, но голодными друг друга не оставляем.\n\nМарсель оглядел новобранца с любопытством.\n\n— Скажи, Дюваль, а зачем ты вообще пришёл в армию? Только честно. Что привело тебя сюда?',choices:[
   {text:'«За славой! Хочу отличиться и заслужить награду».',reaction:'— Вот это настрой! — рассмеялся Марсель. — Только смотри, чтобы слава не оказалась тяжелее твоего ранца. Здесь многие мечтали о наградах. Не все успели их получить.',key:'glory'},
   {text:'«Хочу повидать мир. Не всю же жизнь сидеть дома».',reaction:'— Ха! Значит, путешественник! — Марсель хлопнул Этьена по плечу. — Увидишь ты мир, приятель. Только не уверен, что он тебе понравится. Но скучать точно не придётся.',key:'world'},
@@ -151,16 +151,49 @@ function renderScene(){
  clearInterval(typingTimer);
  const story=document.getElementById('story');
  story.classList.toggle('narrator-scene',sceneIndex<=1);
- story.classList.toggle('character-scene',sceneIndex===2);
+ story.classList.toggle('character-scene',sceneIndex===2 || sceneIndex===3);
  const portrait=document.getElementById('characterPortrait');
- if(sceneIndex===2){portrait.src="assets/scenes/ea16267b-f81f-49f9-b322-de1dc92bde1c.png?v=20261117-1";portrait.style.display='block';portrait.alt='Марсель Жирар'}else{portrait.style.display='none'}
+ if(sceneIndex===2 || sceneIndex===3){portrait.src="assets/scenes/ea16267b-f81f-49f9-b322-de1dc92bde1c.png?v=20261117-1";portrait.style.display='block';portrait.alt='Марсель Жирар'}else{portrait.style.display='none'}
  if(sceneIndex===0) story.style.backgroundImage="url('assets/scenes/1.png?v=20261117-1')";
  else if(sceneIndex===1) story.style.backgroundImage="url('assets/scenes/2.png?v=20261117-1')";
  else if(sceneIndex===2) story.style.backgroundImage="url('assets/scenes/3.png?v=20261117-1')";
  else story.style.backgroundImage="linear-gradient(180deg,#17130fe8,#17130ff5),url('assets/IMG_2803.png?v=20261116-2')";
  if(sceneIndex===1)playWagon();document.getElementById('sceneLabel').textContent=s.label;document.getElementById('storyTitle').textContent=s.title;document.getElementById('speaker').textContent=s.speaker;document.getElementById('dialogue').textContent='';document.getElementById('stepLabel').textContent='Сцена '+(sceneIndex+1)+' из '+scenes.length;document.getElementById('progressBar').style.width=((sceneIndex+1)/scenes.length*100)+'%';
  const box=document.getElementById('choices');box.innerHTML='';
- if(s.choices){document.getElementById('nextButton').style.display='none';s.choices.forEach(c=>{const b=document.createElement('button');b.className='choice';b.textContent=c.text;b.onclick=()=>{choiceKey=c.key;document.getElementById('speaker').textContent='Марсель Жирар';document.getElementById('dialogue').textContent=c.reaction;box.innerHTML='';const n=document.createElement('button');n.className='choice';n.textContent='Продолжить';n.onclick=()=>{sceneIndex++;renderScene()};box.appendChild(n)};box.appendChild(b)})}
+ if(s.choices){
+ document.getElementById('nextButton').style.display='none';
+ s.choices.forEach(c=>{
+  const b=document.createElement('button');b.className='choice';b.textContent=c.text;
+  b.onclick=()=>{
+   choiceKey=c.key;
+   const portrait=document.getElementById('characterPortrait');
+   if(sceneIndex===3){
+    portrait.src="assets/scenes/4.png?v=20261117-1";portrait.alt='Этьен Дюваль';portrait.style.display='block';
+    document.getElementById('speaker').textContent='Этьен Дюваль';
+    document.getElementById('dialogue').textContent=c.text;
+    box.innerHTML='';
+    const n=document.createElement('button');n.className='choice';n.textContent='Марсель отвечает';
+    n.onclick=()=>{
+      portrait.src="assets/scenes/ea16267b-f81f-49f9-b322-de1dc92bde1c.png?v=20261117-1";portrait.alt='Марсель Жирар';
+      document.getElementById('speaker').textContent='Марсель Жирар';
+      document.getElementById('dialogue').textContent=c.reaction;
+      box.innerHTML='';
+      const next=document.createElement('button');next.className='choice';next.textContent='Продолжить';
+      next.onclick=()=>{sceneIndex++;renderScene()};
+      box.appendChild(next);
+    };
+    box.appendChild(n);
+   }else{
+    document.getElementById('speaker').textContent='Марсель Жирар';
+    document.getElementById('dialogue').textContent=c.reaction;
+    box.innerHTML='';
+    const n=document.createElement('button');n.className='choice';n.textContent='Продолжить';
+    n.onclick=()=>{sceneIndex++;renderScene()};box.appendChild(n);
+   }
+  };
+  box.appendChild(b)
+ })
+}
  else{document.getElementById('nextButton').style.display='block';document.getElementById('nextButton').textContent=s.next||'Далее';document.getElementById('nextButton').disabled=false;
   document.getElementById('dialogue').textContent=s.text}
 }
