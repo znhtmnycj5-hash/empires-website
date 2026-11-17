@@ -161,25 +161,26 @@ async function withTimeout(promise,ms,label){
 }
 async function render(){
   const root=$('forumRoot');
+  if(!root)return;
+  root.innerHTML='<div class="forum-loading">Подключение к форуму…</div>';
   try{
-    client=await withTimeout(waitForClient(),8000,'Supabase не загрузился.');
+    client=await withTimeout(waitForClient(),8000,'Supabase не загрузился. Проверьте подключение к интернету и обновите страницу.');
     const id=params().get('discussion');
     if(id){
-      await withTimeout(refreshDiscussion(id),10000,'Не удалось загрузить обсуждение.');
+      await withTimeout(refreshDiscussion(id),12000,'Не удалось загрузить обсуждение. Проверьте таблицы форума и доступ к комментариям.');
       incrementViews(id).catch(()=>{});
-    }else{
-      const topics=await withTimeout(loadTopics(),10000,'Не удалось загрузить темы форума.');
-      renderTopicList(topics);
+      initAuth().then(()=>refreshDiscussion(id)).catch(()=>{});
+      return;
     }
-    try{await withTimeout(initAuth(),5000);}catch(e){}
-    if(!id){
-      const topics=await loadTopics();
-      renderTopicList(topics);
-    }
+    const topics=await withTimeout(loadTopics(),12000,'Не удалось загрузить темы форума. Проверьте таблицы и политики доступа Supabase.');
+    renderTopicList(topics);
+    initAuth().then(()=>renderTopicList(topics)).catch(err=>console.warn('Forum auth:',err));
   }catch(e){
     console.error('Forum:',e);
-    root.innerHTML='<section class="card forum-error"><div class="page-kicker">ФОРУМ</div><h2>Не удалось загрузить форум</h2><p>'+esc(e.message||'Проверьте подключение к базе данных.')+'</p><a class="btn" href="index.html">Вернуться на главную</a></section>';
+    root.innerHTML='<section class="card forum-error"><div class="page-kicker">ФОРУМ</div><h2>Не удалось загрузить форум</h2><p>'+esc(e.message||'Проверьте подключение к базе данных.')+'</p><button class="btn" id="forumRetry">Повторить загрузку</button></section>';
+    const retry=$('forumRetry');if(retry)retry.onclick=render;
   }
 }
-document.addEventListener('DOMContentLoaded',render);
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render,{once:true});
+else render();
 })();
