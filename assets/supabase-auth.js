@@ -57,8 +57,8 @@
     updateHeader();
   }
   function updateHeader(){
-    const link=document.querySelector('a.login');
-    if(link){if(currentUser){link.textContent='♙ Выйти из профиля';link.title='Выйти из профиля';link.dataset.authSignout='1';link.href='#';}else{link.textContent='♙ Войти в сообщество';link.removeAttribute('data-auth-signout');link.href='register.html';}}
+    const authButtons=[document.querySelector('a.login'),document.getElementById('communityAuthButton')].filter(Boolean);
+    authButtons.forEach(link=>{if(currentUser){link.textContent='♙ Выйти из профиля';link.title='Выйти из профиля';link.dataset.authSignout='1';link.href='#';}else{link.textContent='♙ Войти в сообщество';link.removeAttribute('data-auth-signout');link.removeAttribute('title');link.href='register.html';}});
     const cabinet=document.getElementById('personalCabinet');
     if(cabinet){cabinet.hidden=!currentUser;if(currentUser){const name=currentProfile?.display_name||'Пользователь';const label=document.getElementById('cabinetName');if(label)label.textContent=name;const avatar=document.getElementById('cabinetAvatar');if(avatar){
         const own=currentProfile?.avatar_url||'';
