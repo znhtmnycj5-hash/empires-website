@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Рейтинг — Clanwars</title>
-<link rel="stylesheet" href="assets/style.css?v=20261117-smilehover3">
+<link rel="stylesheet" href="assets/style.css?v=20261117-ratingframe1">
 <script src="assets/rating.js?v=20261109-rating-new"></script>
 <script src="assets/supabase-auth.js?v=20261115-image-cache1"></script>
 <script>
@@ -24,6 +24,26 @@
 </script>
 <script src="assets/user-rating.js?v=20261117-rating-podium"></script>
 <style>
+/* First-place frame: participant uses the uploaded frame; regiment does not. */
+.rating-new #ratingUsers .podium-card.gold .podium-avatar-frame{
+  width:112px!important;height:112px!important;min-width:112px!important;min-height:112px!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;
+  background:url("assets/06e169b4-9aab-4379-8069-2075f18e1f20.png") center/contain no-repeat!important;
+  padding:10px!important;box-sizing:border-box!important;
+}
+.rating-new #regimentRating .podium-card.gold .podium-avatar-frame{
+  width:92px!important;height:92px!important;min-width:92px!important;min-height:92px!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;
+  background:none!important;padding:0!important;box-sizing:border-box!important;
+}
+@media(max-width:700px){
+  .rating-new #ratingUsers .podium-card.gold .podium-avatar-frame{
+    width:92px!important;height:92px!important;min-width:92px!important;min-height:92px!important;padding:10px!important;
+  }
+  .rating-new #regimentRating .podium-card.gold .podium-avatar-frame{
+    width:72px!important;height:72px!important;min-width:72px!important;min-height:72px!important;padding:0!important;
+  }
+}
 .rating-new{padding-bottom:40px}
 .rating-new .rating-intro{text-align:center;margin-bottom:22px}
 .rating-new .rating-intro h1{margin:0;color:#d8b774;font:700 30px Cinzel,serif;letter-spacing:2px}
