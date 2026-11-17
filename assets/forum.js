@@ -108,6 +108,7 @@ function bindCommentForm(d){
     const btn=form.querySelector('button[type="submit"]');btn.disabled=true;
     try{
       await window.EMPIRE_COMMENTS.create('forum_discussion',d.id,{text,html});
+      await client.from('empire_forum_discussions').update({last_comment_at:new Date().toISOString(),updated_at:new Date().toISOString()}).eq('id',d.id);
       editor.innerHTML='';await refreshDiscussion(d.id);
     }catch(err){alert(err.message||'Не удалось сохранить комментарий.');}
     finally{btn.disabled=false;}
