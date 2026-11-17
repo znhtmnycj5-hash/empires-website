@@ -5392,3 +5392,20 @@ body>.clanwars-smile-picker.show{display:grid!important}
   .forum-detail-head{padding:22px 18px 18px}
   .forum-back{margin-left:18px}
 }
+
+
+/* Admin user management and action history */
+.admin-users-toolbar{padding:14px 20px 4px}
+.admin-users-toolbar input{width:100%;padding:12px 14px;border:1px solid #51412d;background:#0e0d0b;color:#eee;font:12px "Roboto Slab",serif}
+.admin-user-row{display:block;padding:13px 0;border-top:1px solid rgba(125,94,54,.3)}
+.admin-user-link{display:flex;align-items:center;gap:12px;color:inherit;text-decoration:none;min-width:0}
+.admin-user-link img{width:48px;height:48px;object-fit:cover;border:1px solid #705632;background:#15120e}
+.admin-user-main{display:grid;gap:4px;min-width:0;flex:1}
+.admin-user-main strong{color:#dfc17f;font-size:12px}
+.admin-user-main small{color:#9e917b;font-size:10px}
+.admin-user-link time,.admin-log-row time{color:#81745f;font-size:9px}
+.admin-user-actions{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 0 60px}
+.admin-user-actions .btn{font-size:9px;padding:8px 10px}
+.admin-log-row{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:13px 0;border-top:1px solid rgba(125,94,54,.3);font-size:11px}
+.admin-log-row strong{color:#dfc17f}.admin-log-row span{color:#b7a88f}.admin-log-row b{color:#e0bd76}
+@media(max-width:650px){.admin-user-link{flex-wrap:wrap}.admin-user-link time{margin-left:60px}.admin-user-actions{margin-left:0}.admin-user-actions .btn{flex:1 1 140px}.admin-log-row{align-items:flex-start;flex-direction:column;gap:5px}}
