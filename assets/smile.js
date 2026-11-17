@@ -1,8 +1,8 @@
 (function(){
 'use strict';
-const items=Array.from({length:20},(_,i)=>({key:'smile'+(i+1),src:'assets/smile/'+(i+1)+'.png',label:'Смайл '+(i+1)}));
+const items=Array.from({length:30},(_,i)=>({key:'smile'+(i+1),src:'assets/smile/'+(i+1)+'.png',label:'Смайл '+(i+1)}));
 const escapeText=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const renderText=s=>escapeText(s).replace(/:smile([1-9]|1[0-9]|20):/gi,(m,n)=>'<img class="clanwars-smile" src="assets/smile/'+n+'.png" alt="Смайл '+n+'" title="Смайл '+n+'">');
+const renderText=s=>escapeText(s).replace(/:smile([1-9]|1[0-9]|2[0-9]|30):/gi,(m,n)=>'<img class="clanwars-smile" src="assets/smile/'+n+'.png" alt="Смайл '+n+'" title="Смайл '+n+'">');
 function makePicker(button, target, opts){
   if(!button||!target||button.dataset.smileReady)return;
   button.dataset.smileReady='1';
