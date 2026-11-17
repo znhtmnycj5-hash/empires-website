@@ -20,9 +20,9 @@ try{
  const profileRoot=document.getElementById('profileUserRating');
  if(profileRoot){
   const name=new URLSearchParams(location.search).get('user')||auth.profile?.display_name||'';
-  const q=await client.from('empire_profiles').select('id,display_name,avatar_url').ilike('display_name',name).maybeSingle();
+  const q=await client.from('empire_profiles').select('id,display_name,avatar_url').ilike('display_name',name).limit(1);
   if(q.error)throw q.error;
-  const target=q.data;
+  const target=(q.data||[])[0]||null;
   if(target){
    const load=async()=>{
     const [all,vote]=await Promise.all([
