@@ -57,20 +57,20 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .character-scene .story-top{position:relative;z-index:2;background:linear-gradient(180deg,#08060499,transparent);border-bottom-color:transparent}
 .character-scene .story-main{position:relative;width:100%;max-width:none;margin:0;padding:0 3vw 3vh;justify-content:flex-end;align-items:flex-end}
 .character-scene .scene-label,.character-scene .story-title{display:none}
-.character-scene .story-card{position:relative;width:min(72vw,1000px);margin-left:auto;margin-right:2vw;background:linear-gradient(90deg,#080604e8,#15100be8);border:1px solid #b89555;box-shadow:0 12px 40px #000b;padding:24px 30px 20px;min-height:0;color:#f0e1c5}
+.character-scene .story-card{position:relative;width:min(64vw,860px);margin-left:auto;margin-right:2.5vw;background:linear-gradient(135deg,#120e0beF,#201810eF 55%,#0d0a08eF);border:1px solid #b89555;box-shadow:0 10px 35px #000c;padding:18px 24px 16px;border-radius:2px;min-height:0;color:#f0e1c5}
 .character-scene .story-card:before{inset:7px;border-color:#8b704c99}
 .character-scene .speaker{font-family:Garamond,Georgia,serif;color:#d8b875;font-size:16px;letter-spacing:.12em;margin-bottom:9px;text-transform:none}
-.character-scene .dialogue{font-family:Garamond,Georgia,serif;font-size:clamp(17px,2vw,24px);line-height:1.5;text-shadow:0 2px 4px #000}
-.character-scene .choices{width:min(72vw,1000px);margin:10px 2vw 0 auto;position:relative;z-index:3}
+.character-scene .dialogue{font-family:Garamond,Georgia,serif;font-size:clamp(16px,1.65vw,21px);line-height:1.42;text-shadow:0 2px 4px #000;max-width:760px}
+.character-scene .choices{width:min(64vw,860px);margin:8px 2.5vw 0 auto;position:relative;z-index:3}
 .character-scene .choice{background:linear-gradient(180deg,#201a14ee,#100c09ee);border:1px solid #b89555;box-shadow:0 4px 18px #0008}
-.character-scene .story-footer{width:min(72vw,1000px);margin:10px 2vw 0 auto;position:relative;z-index:3}
-.character-scene .progress{width:min(72vw,1000px);margin:8px 2vw 0 auto}
-.character-portrait{position:absolute;left:2.5vw;bottom:2vh;width:min(330px,25vw);max-height:56vh;object-fit:contain;z-index:4;filter:drop-shadow(0 12px 20px #000b);pointer-events:none}
+.character-scene .story-footer{width:min(64vw,860px);margin:8px 2.5vw 0 auto;position:relative;z-index:3}
+.character-scene .progress{width:min(64vw,860px);margin:7px 2.5vw 0 auto}
+.character-portrait{position:absolute;left:2.5vw;bottom:2vh;width:min(285px,22vw);max-height:52vh;object-fit:contain;z-index:4;filter:drop-shadow(0 12px 20px #000b);pointer-events:none}
 @media(max-width:950px){
- .character-scene .story-main{padding:0 2vw 2vh}.character-scene .story-card{width:72vw;margin-right:2vw;padding:17px 22px 15px}.character-scene .dialogue{font-size:clamp(14px,2.5vh,19px)}.character-portrait{width:min(250px,25vw);left:2vw;bottom:1vh}.character-scene .choices,.character-scene .story-footer,.character-scene .progress{width:72vw;margin-right:2vw}
+ .character-scene .story-main{padding:0 2vw 2vh}.character-scene .story-card{width:68vw;margin-right:2vw;padding:14px 18px 12px}.character-scene .dialogue{font-size:clamp(14px,2.3vh,18px)}.character-portrait{width:min(230px,24vw);left:2vw;bottom:1vh}.character-scene .choices,.character-scene .story-footer,.character-scene .progress{width:68vw;margin-right:2vw}
 }
 @media(max-width:950px) and (orientation:landscape){
- .character-scene .story-card{padding:12px 18px}.character-scene .dialogue{font-size:14px;line-height:1.35}.character-scene .speaker{font-size:12px}.character-scene .choices{margin-top:6px}.character-scene .choice{padding:7px 10px;font-size:13px}.character-portrait{width:min(220px,23vw)}
+ .character-scene .story-card{padding:10px 14px}.character-scene .dialogue{font-size:13px;line-height:1.32}.character-scene .speaker{font-size:11px}.character-scene .choices{margin-top:6px}.character-scene .choice{padding:7px 10px;font-size:13px}.character-portrait{width:min(220px,23vw)}
 }
 .speaker{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:#775c35;margin-bottom:13px}
 .dialogue{font-size:clamp(16px,2.4vw,19px);line-height:1.75;white-space:pre-line;margin:0}
@@ -164,7 +164,26 @@ function renderScene(){
  else{document.getElementById('nextButton').style.display='block';document.getElementById('nextButton').textContent=s.next||'Далее';document.getElementById('nextButton').disabled=false;
   document.getElementById('dialogue').textContent=s.text}
 }
-function nextScene(){if(sceneIndex<scenes.length-1){const t=document.getElementById('transition');t.textContent='';t.classList.add('show');setTimeout(()=>{sceneIndex++;renderScene();setTimeout(()=>t.classList.remove('show'),120)},650)}else{document.getElementById('speaker').textContent='Конец главы';document.getElementById('dialogue').textContent='Первая глава завершена. История Этьена и Пьера только начинается.\n\nСледующая глава будет посвящена первым испытаниям молодого солдата.';document.getElementById('choices').innerHTML='';document.getElementById('nextButton').textContent='Вернуться в меню';document.getElementById('nextButton').onclick=()=>location.reload();document.getElementById('stepLabel').textContent='Глава I завершена'}}
+function nextScene(){
+ if(sceneIndex===2){
+   const box=document.getElementById('choices'), portrait=document.getElementById('characterPortrait');
+   document.getElementById('nextButton').style.display='none';
+   document.getElementById('speaker').textContent='Этьен Дюваль';
+   document.getElementById('dialogue').textContent='Этьен на мгновение задумался, затем ответил:';
+   portrait.src="assets/scenes/4.png?v=20261117-1"; portrait.alt='Этьен Дюваль'; portrait.style.display='block';
+   box.innerHTML='';
+   [
+    {text:'«Я Этьен. Из Франции.»',reaction:'— Этьен, значит! Добро пожаловать, приятель. Я Марсель Жирар.'},
+    {text:'«Меня зовут Этьен. Я пришёл ради славы.»',reaction:'— Ради славы? — усмехнулся Марсель. — Посмотрим, не передумаешь ли ты после первого марша.'},
+    {text:'«Меня зовут Этьен. Я пришёл за приключениями.»',reaction:'— За приключениями? — рассмеялся Марсель. — Тогда ты попал куда надо. Только приключения здесь бывают разные.'}
+   ].forEach(c=>{
+     const b=document.createElement('button'); b.className='choice'; b.textContent=c.text;
+     b.onclick=()=>{portrait.src="assets/scenes/ea16267b-f81f-49f9-b322-de1dc92bde1c.png?v=20261117-1";portrait.alt='Марсель Жирар';document.getElementById('speaker').textContent='Марсель Жирар';document.getElementById('dialogue').textContent=c.reaction;box.innerHTML='';const n=document.createElement('button');n.className='choice';n.textContent='Продолжить';n.onclick=()=>{sceneIndex++;renderScene()};box.appendChild(n)};
+     box.appendChild(b);
+   });
+   return;
+ }
+ if(sceneIndex<scenes.length-1){const t=document.getElementById('transition');t.textContent='';t.classList.add('show');setTimeout(()=>{sceneIndex++;renderScene();setTimeout(()=>t.classList.remove('show'),120)},650)}else{document.getElementById('speaker').textContent='Конец главы';document.getElementById('dialogue').textContent='Первая глава завершена. История Этьена и Пьера только начинается.\n\nСледующая глава будет посвящена первым испытаниям молодого солдата.';document.getElementById('choices').innerHTML='';document.getElementById('nextButton').textContent='Вернуться в меню';document.getElementById('nextButton').onclick=()=>location.reload();document.getElementById('stepLabel').textContent='Глава I завершена'}}
 function beginStory(){hide();document.getElementById('scene').classList.add('zoom');document.getElementById('menu').classList.add('fade');setTimeout(()=>{document.getElementById('transition').classList.add('show');setTimeout(()=>{document.getElementById('transition').classList.remove('show');document.getElementById('story').classList.add('show');renderScene()},2200)},1700)}
 </script>
 </body>
