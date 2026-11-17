@@ -77,6 +77,11 @@ try {
         if (!clanwars_name_available($name)) {
             clanwars_json(['success' => false, 'message' => 'Этот никнейм уже занят. Выберите другой.'], 409);
         }
+        $emailCheck = $db->prepare('SELECT id FROM users WHERE email = :email LIMIT 1');
+        $emailCheck->execute(['email' => $email]);
+        if ($emailCheck->fetchColumn()) {
+            clanwars_json(['success' => false, 'message' => 'Этот адрес электронной почты уже зарегистрирован.'], 409);
+        }
 
         $db->beginTransaction();
         try {
