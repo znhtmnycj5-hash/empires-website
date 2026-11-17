@@ -36,6 +36,14 @@
 <footer><div class="container footer-inner"><div><strong style="font:700 22px Cinzel;color:#b99559">Clanwars</strong><br>Сообщество Mount &amp; Blade</div><div class="motto">Vive l’Empire!</div></div></footer>
 <script src="assets/supabase-auth.js?v=20261117-forum1"></script>
 <script src="assets/smile.js?v=20261117-smiles30"></script>
-<script src="assets/forum.js?v=20261117-forum4"></script>
+<script src="assets/forum.js?v=20261117-forum5" onerror="document.getElementById('forumRoot').innerHTML='Не удалось загрузить скрипт форума. Проверьте адрес assets/forum.js.'"></script>
+<script>
+setTimeout(function(){
+  if(!window.__CLANWARS_FORUM_SCRIPT_LOADED__){
+    var root=document.getElementById('forumRoot');
+    if(root) root.innerHTML='<section class="card forum-error"><h2>Скрипт форума не запустился</h2><p>Браузер не выполнил assets/forum.js. Проверьте загрузку файла и ошибки JavaScript.</p></section>';
+  }
+},5000);
+</script>
 </body>
 </html>
