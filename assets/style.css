@@ -5308,3 +5308,42 @@ body>.clanwars-smile-picker.show{display:grid!important}
     transform:scale(1.5)!important;
   }
 }
+
+/* Rating: Napoleonic decoration for the first-place avatar */
+.rating-new .podium-card{position:relative}
+.rating-new .podium-avatar-frame{position:relative;display:flex;align-items:center;justify-content:center}
+.rating-new .podium-card.gold .podium-avatar-frame{
+  width:104px;height:104px;min-width:104px;min-height:104px;
+  border:2px solid #c9a24e;border-radius:50%;
+  box-shadow:0 0 0 4px rgba(201,162,78,.16),0 0 18px rgba(201,162,78,.28);
+}
+.rating-new .podium-card.gold .podium-avatar-frame:before{
+  content:"❧  ⚜  ❧";
+  position:absolute;top:-18px;left:50%;transform:translateX(-50%);
+  width:120px;color:#c9a24e;font-size:13px;line-height:1;
+  text-align:center;text-shadow:0 1px 3px #000;z-index:3;white-space:nowrap;
+}
+.rating-new .podium-card.gold .podium-avatar-frame:after{
+  content:"⚔";
+  position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
+  color:#c9a24e;font-size:22px;line-height:1;
+  text-shadow:0 1px 3px #000;z-index:3;
+}
+.rating-new .podium-card.gold .podium-avatar{border-color:#c9a24e}
+.rating-new .podium-card.silver .podium-avatar-frame,
+.rating-new .podium-card.bronze .podium-avatar-frame{
+  width:92px;height:92px;min-width:92px;min-height:92px;border:0;
+}
+.rating-new .podium-card.silver .podium-avatar-frame:before,
+.rating-new .podium-card.silver .podium-avatar-frame:after,
+.rating-new .podium-card.bronze .podium-avatar-frame:before,
+.rating-new .podium-card.bronze .podium-avatar-frame:after{display:none}
+.rating-new .podium-score.positive,
+.rating-new .rating-row-score.positive{color:#75bd68}
+.rating-new .podium-score.negative,
+.rating-new .rating-row-score.negative{color:#d56b61}
+@media(max-width:700px){
+  .rating-new .podium-card.gold .podium-avatar-frame{width:84px;height:84px;min-width:84px;min-height:84px}
+  .rating-new .podium-card.gold .podium-avatar-frame:before{top:-15px;font-size:10px;width:100px}
+  .rating-new .podium-card.gold .podium-avatar-frame:after{bottom:-15px;font-size:18px}
+}
