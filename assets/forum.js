@@ -42,9 +42,9 @@ async function loadTopics(){
 }
 function renderTopicList(topics){
   const root=$('forumRoot');
-  root.innerHTML=topics.length?topics.map(t=>'<section class="card forum-topic" data-topic="'+esc(t.id)+'">'+
+  root.innerHTML=(staff?'<div class="forum-top-actions"><button class="btn primary" id="forumCreateTopic">＋ Создать тему</button></div>':'')+(topics.length?topics.map(t=>'<section class="card forum-topic" data-topic="'+esc(t.id)+'">'+
     '<div class="forum-topic-head"><div class="forum-topic-title"><img src="'+esc(t.icon_url||topicIcon)+'" alt=""><div><h2>'+esc(t.title)+'</h2><p>'+esc(t.description||'')+'</p></div></div>'+
-    (staff?'<button class="btn forum-topic-create" data-topic="'+esc(t.id)+'">＋ Создать тему</button>':'')+'</div>'+
+    (currentUser?'<button class="btn forum-topic-create" data-topic="'+esc(t.id)+'">＋ Создать обсуждение</button>':'')+'</div>'+
     '<div class="forum-discussions">'+(t.discussions.length?t.discussions.map(d=>'<a class="forum-discussion-row" href="forum.html?discussion='+encodeURIComponent(d.id)+'">'+
       '<img src="'+discussionIcon+'" alt=""><div class="forum-discussion-main"><strong>'+esc(d.title)+'</strong><span>Автор: '+esc(d.author_name||'Пользователь')+' · '+fmt(d.updated_at||d.created_at)+'</span></div>'+
       '<div class="forum-discussion-stats"><span>💬 '+Number(d.comment_count||0)+'</span><span>◉ '+Number(d.views||0)+'</span></div></a>').join(''):'<div class="forum-empty">В этой теме пока нет обсуждений.</div>')+'</div></section>').join(''):'<section class="card forum-empty-card"><div class="forum-empty">Тем форума пока нет.</div></section>';
@@ -52,6 +52,24 @@ function renderTopicList(topics){
 }
 function bindTopicButtons(){
   document.querySelectorAll('.forum-topic-create').forEach(btn=>btn.onclick=()=>openDiscussionForm(btn.dataset.topic));
+  const topicBtn=document.getElementById('forumCreateTopic');
+  if(topicBtn)topicBtn.onclick=()=>openTopicForm();
+}
+function openTopicForm(){
+  const old=document.getElementById('forumTopicComposer');if(old)old.remove();
+  const box=document.createElement('div');box.id='forumTopicComposer';box.className='forum-composer card';
+  box.innerHTML='<div class="card-title">Новая тема форума</div><form id="forumTopicForm"><label>Название темы<input name="title" maxlength="140" required placeholder="Например: Моды для Napoleonic Wars"></label><label>Описание<textarea name="body" maxlength="500" rows="3" placeholder="Краткое описание темы"></textarea></label><div class="forum-form-actions"><button class="btn primary" type="submit">Создать тему</button><button class="btn" type="button" id="forumTopicComposerCancel">Отмена</button></div></form>';
+  $('forumRoot').prepend(box);
+  $('forumTopicComposerCancel').onclick=()=>box.remove();
+  $('forumTopicForm').onsubmit=async e=>{
+    e.preventDefault();const f=e.currentTarget,title=f.elements.title.value.trim(),body=f.elements.body.value.trim();if(!title)return;
+    try{
+      if(!currentUser||!staff)throw new Error('Создавать темы могут только администраторы и модераторы.');
+      const {data,error}=await client.from('empire_forum_topics').insert({title,description:body,icon_url:topicIcon,created_by:currentUser.id}).select('*').single();
+      if(error)throw error;
+      box.remove();renderTopicList(await loadTopics());
+    }catch(err){alert(err.message||'Не удалось создать тему.');}
+  };
 }
 function openDiscussionForm(topicId){
   const old=document.getElementById('forumDiscussionComposer');if(old)old.remove();
