@@ -13,7 +13,7 @@ grant select on public.empire_admin_action_log to authenticated;
 drop policy if exists "Admins can read admin action log" on public.empire_admin_action_log;
 create policy "Admins can read admin action log"
 on public.empire_admin_action_log for select to authenticated
-using (exists(select 1 from public.empire_profiles p where p.id=auth.uid() and p.is_admin=true));
+using (exists(select 1 from public.empire_profiles p where p.id=auth.uid() and (p.is_admin=true or p.is_moderator=true)));
 
 create or replace function public.empire_admin_manage_user(p_target_id uuid,p_action text)
 returns jsonb
@@ -59,3 +59,22 @@ end;
 $$;
 revoke execute on function public.empire_admin_manage_user(uuid,text) from public,anon;
 grant execute on function public.empire_admin_manage_user(uuid,text) to authenticated;
+
+-- Общая запись прочих действий модераторов и администраторов панели.
+create or replace function public.empire_admin_log_action(p_target_name text,p_action text)
+returns void
+language plpgsql
+security definer
+set search_path=''
+as $$
+declare actor_name text;
+begin
+  select display_name into actor_name from public.empire_profiles
+  where id=auth.uid() and (is_admin=true or is_moderator=true);
+  if actor_name is null then raise exception 'Only staff can write the action log'; end if;
+  insert into public.empire_admin_action_log(actor_id,actor_name,target_name,action)
+  values(auth.uid(),actor_name,left(coalesce(p_target_name,'—'),160),left(coalesce(p_action,'Действие'),300));
+end;
+$$;
+revoke execute on function public.empire_admin_log_action(text,text) from public,anon;
+grant execute on function public.empire_admin_log_action(text,text) to authenticated;
