@@ -53,6 +53,25 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .narrator-scene .story-footer span{display:none}
 .narrator-scene .story-footer button{background:#17120dd9;border-color:#c6a45e;box-shadow:0 4px 20px #0008}
 .narrator-scene .progress{display:none}
+.character-scene{background-position:center;background-size:cover!important;background-repeat:no-repeat!important}
+.character-scene .story-top{position:relative;z-index:2;background:linear-gradient(180deg,#08060499,transparent);border-bottom-color:transparent}
+.character-scene .story-main{position:relative;width:100%;max-width:none;margin:0;padding:0 3vw 3vh;justify-content:flex-end;align-items:flex-end}
+.character-scene .scene-label,.character-scene .story-title{display:none}
+.character-scene .story-card{position:relative;width:min(72vw,1000px);margin-left:auto;margin-right:2vw;background:linear-gradient(90deg,#080604e8,#15100be8);border:1px solid #b89555;box-shadow:0 12px 40px #000b;padding:24px 30px 20px;min-height:0;color:#f0e1c5}
+.character-scene .story-card:before{inset:7px;border-color:#8b704c99}
+.character-scene .speaker{font-family:Garamond,Georgia,serif;color:#d8b875;font-size:16px;letter-spacing:.12em;margin-bottom:9px;text-transform:none}
+.character-scene .dialogue{font-family:Garamond,Georgia,serif;font-size:clamp(17px,2vw,24px);line-height:1.5;text-shadow:0 2px 4px #000}
+.character-scene .choices{width:min(72vw,1000px);margin:10px 2vw 0 auto;position:relative;z-index:3}
+.character-scene .choice{background:linear-gradient(180deg,#201a14ee,#100c09ee);border:1px solid #b89555;box-shadow:0 4px 18px #0008}
+.character-scene .story-footer{width:min(72vw,1000px);margin:10px 2vw 0 auto;position:relative;z-index:3}
+.character-scene .progress{width:min(72vw,1000px);margin:8px 2vw 0 auto}
+.character-portrait{position:absolute;left:2.5vw;bottom:2vh;width:min(330px,25vw);max-height:56vh;object-fit:contain;z-index:4;filter:drop-shadow(0 12px 20px #000b);pointer-events:none}
+@media(max-width:950px){
+ .character-scene .story-main{padding:0 2vw 2vh}.character-scene .story-card{width:72vw;margin-right:2vw;padding:17px 22px 15px}.character-scene .dialogue{font-size:clamp(14px,2.5vh,19px)}.character-portrait{width:min(250px,25vw);left:2vw;bottom:1vh}.character-scene .choices,.character-scene .story-footer,.character-scene .progress{width:72vw;margin-right:2vw}
+}
+@media(max-width:950px) and (orientation:landscape){
+ .character-scene .story-card{padding:12px 18px}.character-scene .dialogue{font-size:14px;line-height:1.35}.character-scene .speaker{font-size:12px}.character-scene .choices{margin-top:6px}.character-scene .choice{padding:7px 10px;font-size:13px}.character-portrait{width:min(220px,23vw)}
+}
 .speaker{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:#775c35;margin-bottom:13px}
 .dialogue{font-size:clamp(16px,2.4vw,19px);line-height:1.75;white-space:pre-line;margin:0}
 .choices{display:grid;gap:10px;margin-top:20px}
@@ -99,7 +118,7 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none}
  <main class="story-main">
   <div class="scene-label" id="sceneLabel">Французский военный лагерь</div>
   <h2 class="story-title" id="storyTitle">Новый солдат</h2>
-  <article class="story-card"><div class="speaker" id="speaker">Рассказчик</div><p class="dialogue" id="dialogue"></p></article>
+  <img id="characterPortrait" class="character-portrait" alt="" style="display:none"><article class="story-card"><div class="speaker" id="speaker">Рассказчик</div><p class="dialogue" id="dialogue"></p></article>
   <div class="choices" id="choices"></div>
   <div class="story-footer"><span id="stepLabel">Сцена 1</span><button id="nextButton" onclick="nextScene()">Далее</button></div>
   <div class="progress"><span id="progressBar"></span></div>
@@ -132,8 +151,12 @@ function renderScene(){
  clearInterval(typingTimer);
  const story=document.getElementById('story');
  story.classList.toggle('narrator-scene',sceneIndex<=1);
+ story.classList.toggle('character-scene',sceneIndex===2);
+ const portrait=document.getElementById('characterPortrait');
+ if(sceneIndex===2){portrait.src="assets/scenes/ea16267b-f81f-49f9-b322-de1dc92bde1c.png?v=20261117-1";portrait.style.display='block';portrait.alt='Марсель Жирар'}else{portrait.style.display='none'}
  if(sceneIndex===0) story.style.backgroundImage="url('assets/scenes/1.png?v=20261117-1')";
  else if(sceneIndex===1) story.style.backgroundImage="url('assets/scenes/2.png?v=20261117-1')";
+ else if(sceneIndex===2) story.style.backgroundImage="url('assets/scenes/3.png?v=20261117-1')";
  else story.style.backgroundImage="linear-gradient(180deg,#17130fe8,#17130ff5),url('assets/IMG_2803.png?v=20261116-2')";
  if(sceneIndex===1)playWagon();document.getElementById('sceneLabel').textContent=s.label;document.getElementById('storyTitle').textContent=s.title;document.getElementById('speaker').textContent=s.speaker;document.getElementById('dialogue').textContent='';document.getElementById('stepLabel').textContent='Сцена '+(sceneIndex+1)+' из '+scenes.length;document.getElementById('progressBar').style.width=((sceneIndex+1)/scenes.length*100)+'%';
  const box=document.getElementById('choices');box.innerHTML='';
