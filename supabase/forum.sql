@@ -37,6 +37,27 @@ create index if not exists empire_forum_discussions_views_idx
 alter table public.empire_forum_topics enable row level security;
 alter table public.empire_forum_discussions enable row level security;
 
+create schema if not exists private;
+
+create or replace function private.is_forum_staff()
+returns boolean
+language sql
+security definer
+set search_path = ''
+stable
+as $$
+  select exists (
+    select 1
+    from public.empire_profiles p
+    where p.id = (select auth.uid())
+      and (coalesce(p.is_admin, false) or coalesce(p.is_moderator, false))
+  );
+$$;
+
+revoke execute on function private.is_forum_staff() from public;
+grant execute on function private.is_forum_staff() to authenticated;
+
+
 drop policy if exists "Forum topics are public" on public.empire_forum_topics;
 create policy "Forum topics are public"
   on public.empire_forum_topics
@@ -87,27 +108,6 @@ create policy "Authors can update discussions"
   to authenticated
   using ((select auth.uid()) = author_id or (select private.is_forum_staff()))
   with check ((select auth.uid()) = author_id or (select private.is_forum_staff()));
-
-create schema if not exists private;
-
-create or replace function private.is_forum_staff()
-returns boolean
-language sql
-security definer
-set search_path = ''
-stable
-as $$
-  select exists (
-    select 1
-    from public.empire_profiles p
-    where p.id = (select auth.uid())
-      and (coalesce(p.is_admin, false) or coalesce(p.is_moderator, false))
-  );
-$$;
-
-revoke execute on function private.is_forum_staff() from public;
-grant execute on function private.is_forum_staff() to authenticated;
-
 
 create or replace function public.increment_forum_discussion_views(p_discussion_id uuid)
 returns bigint
