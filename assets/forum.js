@@ -40,13 +40,19 @@ async function initAuth(){
 }
 function profileUrl(name){return 'profile.html?user='+encodeURIComponent(name||'');}
 async function loadTopics(){
-  const {data,error}=await client.from('empire_forum_topics').select('id,title,description,icon_url,created_at,updated_at').order('created_at',{ascending:true});
-  if(error)throw error;
-  const topics=data||[];
-  const {data:discussions,error:de}=await client.from('empire_forum_discussions').select('id,topic_id,title,created_at,updated_at,views,last_comment_at,author_name').order('updated_at',{ascending:false});
-  if(de)throw de;
-  const rows=discussions||[];
-  return topics.map(t=>({...t,discussions:rows.filter(d=>String(d.topic_id)===String(t.id)).map(d=>({...d,comment_count:0}))}));
+  const headers={apikey:'sb_publishable_XVsmd-U_ZF5eD-UcxMw31g_Yv9rUdVk',Authorization:'Bearer sb_publishable_XVsmd-U_ZF5eD-UcxMw31g_Yv9rUdVk'};
+  const base='https://pbaojidktzjnpavtdcga.supabase.co/rest/v1/';
+  const request=async(path)=>{
+    const response=await fetch(base+path,{headers,cache:'no-store'});
+    const body=await response.text();
+    if(!response.ok)throw new Error('Supabase ('+response.status+'): '+body.slice(0,350));
+    try{return JSON.parse(body);}catch(e){throw new Error('Supabase вернул некорректный ответ.');}
+  };
+  const [topics,rows]=await Promise.all([
+    request('empire_forum_topics?select=id,title,description,icon_url,created_at,updated_at&order=created_at.asc'),
+    request('empire_forum_discussions?select=id,topic_id,title,created_at,updated_at,views,last_comment_at,author_name&order=updated_at.desc')
+  ]);
+  return (topics||[]).map(t=>({...t,discussions:(rows||[]).filter(d=>String(d.topic_id)===String(t.id)).map(d=>({...d,comment_count:0}))}));
 }
 function renderTopicList(topics){
   const root=$('forumRoot');
@@ -162,22 +168,26 @@ async function withTimeout(promise,ms,label){
 async function render(){
   const root=$('forumRoot');
   if(!root)return;
-  root.innerHTML='<div class="forum-loading">Подключение к форуму…</div>';
+  const id=params().get('discussion');
+  root.innerHTML='<div class="forum-loading">Загружаем '+(id?'обсуждение':'темы форума')+'…</div>';
   try{
-    client=await withTimeout(waitForClient(),8000,'Supabase не загрузился. Проверьте подключение к интернету и обновите страницу.');
-    const id=params().get('discussion');
-    if(id){
-      await withTimeout(refreshDiscussion(id),12000,'Не удалось загрузить обсуждение. Проверьте таблицы форума и доступ к комментариям.');
-      incrementViews(id).catch(()=>{});
-      initAuth().then(()=>refreshDiscussion(id)).catch(()=>{});
+    if(!id){
+      const topics=await withTimeout(loadTopics(),15000,'Supabase не ответил за 15 секунд. Проверьте доступ к таблицам форума.');
+      renderTopicList(topics);
+      withTimeout((async()=>{
+        client=await window.EMPIRE_AUTH.init();
+        await initAuth();
+        renderTopicList(topics);
+      })(),12000,'Авторизация не загрузилась.').catch(err=>console.warn('Forum auth:',err));
       return;
     }
-    const topics=await withTimeout(loadTopics(),12000,'Не удалось загрузить темы форума. Проверьте таблицы и политики доступа Supabase.');
-    renderTopicList(topics);
-    initAuth().then(()=>renderTopicList(topics)).catch(err=>console.warn('Forum auth:',err));
+    client=await withTimeout(window.EMPIRE_AUTH.init(),12000,'Не удалось подключить авторизацию Supabase.');
+    await initAuth();
+    await withTimeout(refreshDiscussion(id),15000,'Не удалось загрузить обсуждение или комментарии.');
+    incrementViews(id).catch(()=>{});
   }catch(e){
     console.error('Forum:',e);
-    root.innerHTML='<section class="card forum-error"><div class="page-kicker">ФОРУМ</div><h2>Не удалось загрузить форум</h2><p>'+esc(e.message||'Проверьте подключение к базе данных.')+'</p><button class="btn" id="forumRetry">Повторить загрузку</button></section>';
+    root.innerHTML='<section class="card forum-error"><div class="page-kicker">ФОРУМ</div><h2>Не удалось загрузить форум</h2><p>'+esc(e.message||'Неизвестная ошибка загрузки.')+'</p><button class="btn" id="forumRetry">Повторить загрузку</button></section>';
     const retry=$('forumRetry');if(retry)retry.onclick=render;
   }
 }
