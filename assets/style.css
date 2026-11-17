@@ -5347,3 +5347,39 @@ body>.clanwars-smile-picker.show{display:grid!important}
   .rating-new .podium-card.gold .podium-avatar-frame:before{top:-15px;font-size:10px;width:100px}
   .rating-new .podium-card.gold .podium-avatar-frame:after{bottom:-15px;font-size:18px}
 }
+
+/* Global smile picker hover preview */
+.clanwars-smile-picker button{
+  position:relative!important;
+  overflow:visible!important;
+  transform:none!important;
+  transition:transform .14s ease, z-index .14s ease, filter .14s ease!important;
+  transform-origin:center!important;
+  z-index:1!important;
+}
+.clanwars-smile-picker button:hover,
+.clanwars-smile-picker button:focus-visible{
+  transform:scale(2)!important;
+  z-index:2147483646!important;
+  filter:drop-shadow(0 2px 5px rgba(0,0,0,.65))!important;
+}
+.clanwars-smile-picker button:hover img,
+.clanwars-smile-picker button:focus-visible img{
+  transform:none!important;
+  width:auto!important;
+  height:auto!important;
+  max-width:none!important;
+  max-height:none!important;
+}
+.clanwars-smile-picker button img{
+  display:block!important;
+  transform:none!important;
+  transition:none!important;
+  pointer-events:none!important;
+}
+@media(max-width:600px){
+  .clanwars-smile-picker button:hover,
+  .clanwars-smile-picker button:focus-visible{
+    transform:scale(1.65)!important;
+  }
+}
