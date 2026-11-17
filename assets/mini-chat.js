@@ -4,6 +4,9 @@
   const $=id=>document.getElementById(id);
   const general=$('generalMessages'),regiment=$('regimentMessages'),input=$('chatInput'),send=$('sendChat'),emoteBtn=$('chatEmoteButton'),emotePicker=$('chatEmotePicker');
   if(!general||!regiment||!input||!send)return;
+  const onlineStatus=document.querySelector('.chat-online-status, #chatOnlineStatus, [data-chat-online-status]');
+  if(onlineStatus)onlineStatus.remove();
+
   let room='general',memberRegiment=null,profile=null,client=null,user=null,busy=false,loadingMessages=false;
   const fullChat=!!document.getElementById('fullChat');
   const CHAT_CACHE_TTL=5*60*1000;
