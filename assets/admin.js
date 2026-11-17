@@ -40,7 +40,7 @@ function renderSiteUsersList(){
   const avatar=u.avatar_url||'assets/default-soldier.jpg';
   const role=u.is_admin?'Администратор':u.is_moderator?'Модератор':'Пользователь';
   const profile='profile.html?user='+encodeURIComponent(u.id);
-  return '<article class="admin-user-row"><a class="admin-user-link" href="'+profile+'"><img src="'+esc(avatar)+'" alt=""><div class="admin-user-main"><strong>'+esc(u.display_name)+'</strong><small>'+esc(u.regiment||'Без полка')+' · '+role+'</small></div><time>'+date(u.created_at)+'</time></a><div class="admin-user-actions"><button class="btn" data-type="site-user" data-action="admin" data-id="'+esc(u.id)+'">Назначить администратором</button><button class="btn" data-type="site-user" data-action="moderator" data-id="'+esc(u.id)+'">Назначить модератором</button><button class="btn admin-danger" data-type="site-user" data-action="delete" data-id="'+esc(u.id)+'">Удалить с сайта</button></div></article>';
+  return '<article class="admin-user-row"><a class="admin-user-link" href="'+profile+'"><img src="'+esc(avatar)+'" alt=""><div class="admin-user-main"><strong>'+esc(u.display_name)+'</strong><small>'+esc(u.regiment||'Без полка')+' · '+role+'</small></div><time>'+date(u.created_at)+'</time></a><div class="admin-user-actions"><button class="btn admin-danger" data-type="site-user" data-action="delete" data-id="'+esc(u.id)+'">Удалить с сайта</button></div></article>';
  }).join(''):'<div class="admin-empty">'+(query?'Ничего не найдено.':'Пользователей пока нет.')+'</div>';
 }
 async function renderSiteUsers(){
