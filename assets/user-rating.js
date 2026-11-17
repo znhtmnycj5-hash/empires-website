@@ -81,7 +81,7 @@ try{
   const score=p=>'<span class="rating-row-score user-rating-row-score '+(p.score>0?'positive':p.score<0?'negative':'')+'">'+(p.score>0?'+':'')+p.score+'</span>';
   const podium=rows.slice(0,3).map((p,i)=>{
    const cls=i===0?'gold':i===1?'silver':'bronze';
-   return '<a class="podium-card '+cls+'" href="profile.html?user='+encodeURIComponent(p.display_name)+'"><div class="place">'+(i+1)+' МЕСТО</div><img class="podium-avatar" src="'+avatar(p)+'" alt="" decoding="async"><div class="podium-name">'+esc(p.display_name)+'</div><div class="podium-score">'+(p.score>0?'+':'')+p.score+' баллов</div></a>';
+   return '<a class="podium-card '+cls+'" href="profile.html?user='+encodeURIComponent(p.display_name)+'"><div class="place">'+(i+1)+' МЕСТО</div><span class="podium-avatar-frame"><img class="podium-avatar" src="'+avatar(p)+'" alt="" decoding="async"></span><div class="podium-name">'+esc(p.display_name)+'</div><div class="podium-score">'+(p.score>0?'+':'')+p.score+' баллов</div></a>';
   }).join('');
   const list=rows.map((p,i)=>'<a class="rating-row user-rating-row" href="profile.html?user='+encodeURIComponent(p.display_name)+'"><span class="rating-place">'+(i+1)+'</span><img class="rating-row-avatar" src="'+avatar(p)+'" alt="" decoding="async"><span class="rating-row-name">'+esc(p.display_name)+'<small class="rating-row-sub">Рейтинг участника</small></span>'+score(p)+'</a>').join('');
   rankingRoot.innerHTML=rows.length?'<div class="podium">'+podium+'</div><div class="rating-list">'+list+'</div>':'<div class="empty">Пока нет участников.</div>';
